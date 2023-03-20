@@ -1,0 +1,35 @@
+#define N 4
+
+external calc "./calc.exe -N %{N}"
+  /**
+   * Documentation for the add method.
+   */
+  def add "ADD"
+  /**
+   * Documentation for the mult method.
+   */
+  def mult "MULT"
+end external;
+
+external pulse "./pulse.exe"
+
+external viewer "./viewer.exe"
+
+Calc_add(a:[N], b:[N], select) = out:[N]
+where
+  tmp:[N] = not[N]($calc[N](a:[N]));
+  add:[N] = $calc.add("a", "b", a:[N], b:[N]);
+  mult:[N] = $calc.mult("a", "b", a:[N], b:[N]);
+  out:[N] = mux[N](select, add:[N], mult:[N]);
+end where;
+
+Pulse() = s
+where
+  a = $pulse("a");
+  b = not($pulse[1]("b"));
+  s = and(a, b);
+
+  // Because external can often take input without returning outputs,
+  // we allow for the equal sign to be omitted.
+  $viewer(a, b, s);
+end where;

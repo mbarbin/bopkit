@@ -1,0 +1,11 @@
+// At the moment, the memory text syntax does not round-trip. It was
+// designed without auto-formatting in mind, thus it's likely this
+// needs to be adjusted.
+
+RAM r(10, 10) = text {
+  // Perhaps authorizing a form of comment and keeping only a few
+  // authorized characters in the text portion.
+  00|00|00|01|10|00|11
+  01|10|00|01|10|00|11
+  11|01|01|01|10|00|11
+}

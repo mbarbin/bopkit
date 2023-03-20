@@ -1,0 +1,6 @@
+// Example of bpp file
+input x, y
+  t = x /\ y
+  q = x + t
+  p = q - 4v
+output p

@@ -1,0 +1,8 @@
+(library
+ (name error_log)
+ (public_name bopkit.error-log)
+ (wrapped false)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core loc stdune)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

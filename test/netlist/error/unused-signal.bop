@@ -1,0 +1,4 @@
+Main(a, b) = s
+where
+  s = id(a);
+end where;

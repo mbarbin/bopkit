@@ -1,0 +1,9 @@
+A(a, b) = c
+where
+  c = and(a, b);
+end where;
+
+Main(a) = b
+where
+  b = A(a);
+end where;

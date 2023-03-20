@@ -1,0 +1,7 @@
+(library
+ (name bopkit_sleeper)
+ (public_name bopkit.sleeper)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core core_unix)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

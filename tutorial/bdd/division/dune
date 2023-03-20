@@ -1,0 +1,87 @@
+(include dune.inc)
+
+(executables
+ (names div div_opt)
+ (libraries core graphics unix threads bopkit_block)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(rule
+ (deps
+  (package bopkit)
+  div.exe)
+ (action
+  (with-stdout-to
+   div.txt.output
+   (run %{bin:bopkit} simu %{dep:generate.bop} -num-counter-cycles 1 -o))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff div.txt div.txt.output)))
+
+(rule
+ (with-stdout-to
+  div_opt.txt.output
+  (bash "%{bin:bopkit} counter -ni -c 256 -N 8 | ./%{dep:div_opt.exe} -N 4")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff div_opt.txt div_opt.txt.output)))
+
+(rule
+ (target div.bop.output)
+ (deps div.txt)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -AD 8 -WL 4 -f %{deps}))))
+
+(rule
+ (target div_opt.bop.output)
+ (deps div_opt.txt)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -AD 8 -WL 4 -f %{deps}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff div.bop div.bop.output)))
+
+(rule
+ (alias runtest)
+ (action
+  (diff div_opt.bop div_opt.bop.output)))
+
+(rule
+ (target divcheck.output.corrected)
+ (alias runtest)
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.txt)
+  div.exe)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} simu %{dep:divcheck.bop} -num-counter-cycles 1))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff divcheck.output divcheck.output.corrected)))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.txt)))
+
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.txt)))

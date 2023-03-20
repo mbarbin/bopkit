@@ -1,0 +1,5 @@
+ROM r (2, 2) = file("file-not-found.txt")
+
+Main() = ()
+where
+end where;

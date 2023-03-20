@@ -1,0 +1,11 @@
+(executables
+ (names pulse)
+ (libraries core bopkit_block bopkit_sleeper)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(install
+ (section
+  (site
+   (bopkit stdbin)))
+ (files pulse.exe))

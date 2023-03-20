@@ -1,0 +1,17 @@
+/* Checking behavior of comments placements in the presence of both constructs:
+  - [#inline]
+  - [#define]
+*/
+#include <stdlib.bop>
+
+/* Another above another [#include]. */
+#include "my-file.bop"
+
+// Some other comment above a macro.
+
+#define M "macro"
+
+/**
+ * And another one.
+ */
+#define N "nacro"

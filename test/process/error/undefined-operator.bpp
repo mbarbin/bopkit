@@ -1,0 +1,4 @@
+input x, y
+  p = x ~!~ y
+  q = x +!+ y
+output p

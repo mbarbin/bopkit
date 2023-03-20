@@ -1,0 +1,13 @@
+(executables
+ (names main)
+ (flags -w +a-40-42-44-66 -warn-error +a)
+ (libraries core core_unix.command_unix bopboard)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(install
+ (section
+  (site
+   (bopkit stdbin)))
+ (files
+  (main.exe as bopboard)))

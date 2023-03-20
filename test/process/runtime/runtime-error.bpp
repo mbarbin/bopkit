@@ -1,0 +1,3 @@
+input x, y
+  t = x + y
+output t

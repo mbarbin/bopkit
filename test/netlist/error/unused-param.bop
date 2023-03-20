@@ -1,0 +1,9 @@
+A[N](a) = b
+where
+  b = not(a);
+end where;
+
+A(a) = b
+where
+  b = A[0](a);
+end where;

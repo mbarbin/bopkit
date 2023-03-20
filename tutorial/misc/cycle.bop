@@ -1,0 +1,7 @@
+// Test de la detection de cycles
+Cycle(a, b) = s
+where
+  u = and(a, g);
+  g = or(b, id(u));
+  s = xor(g, vdd());
+end where;

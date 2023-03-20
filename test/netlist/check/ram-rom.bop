@@ -1,0 +1,12 @@
+/**
+ * RAM and ROM names do not clash, since the kind of the memory will
+ * be a prefix for the name of the primitive node to use it:
+ *
+ * rom_name VS ram_name
+ */
+ROM name (0, 5) = text { 11110 }
+RAM name (0, 5) = text { 00110 }
+
+Main() = ()
+where
+end where;

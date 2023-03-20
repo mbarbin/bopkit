@@ -1,0 +1,4 @@
+A() = b
+where
+  b = not(c);
+end where;

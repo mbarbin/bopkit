@@ -1,0 +1,45 @@
+#define MyOR "or"
+#define N 4
+
+secret<what>(a) = s
+where
+  s = id(what(a));
+end where;
+
+FoldLeft[N]<fun, wmap, base>(a:[N]) = s
+where
+  if N == 1 then
+    // Using functional arguments here. The argument wmap itself expects a
+    // functional argument.
+    s = wmap[1]<base>(a[0]);
+  else
+    // Showing an example of quoted functional arguments.
+    s = fun(FoldLeft[N - 1]<fun, wmap, "%{base}">(a:[N - 1]), a[N - 1]);
+  end if;
+end where;
+
+map[N]<what>(a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = secret<what>(a[i]);
+  end for;
+end where;
+
+// Some examples taken from <stdlib.bop>
+and[N](a:[N]) = s
+where
+  // map est définie avant
+  s = FoldLeft[N]<"and", "map", "id">(a:[N]);
+end where;
+
+or[N](a:[N]) = s
+where
+  s = FoldLeft[N]<"%{MyOR}", "map", "id">(a:[N]);
+end where;
+
+[ Main ]
+TutorielArgsFcts(a:[N]) = (u, v)
+where
+  u = and[N](a:[N]);
+  v = or[N](a:[N]);
+end where;

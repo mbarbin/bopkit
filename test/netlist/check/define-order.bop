@@ -1,0 +1,11 @@
+// Macros can be defined in any order as long as there exists a
+// topological order that makes it work.
+#define X Y
+#define Y Z
+#define V W
+#define Z W
+#define W 0
+
+Main() = ()
+where
+end where;

@@ -1,0 +1,31 @@
+#define N 4
+
+/**
+ * Comments may be documenting blocks.
+ */
+B(a:[N]) = b:[N]
+where
+  // In the body of blocks there might be comments too,
+  for i = 0 to N - 1
+    b[i] = not(a[i]);
+    // Tail comments in loops as well.
+  end for;
+
+  if N == 0 then
+    $extra();
+    // Testing if tail comments.
+  end if;
+
+  if N == 0 then
+    $extra_then();
+    // Then tail comment.
+  else
+    $extra_else();
+    // Tail comment.
+  end if;
+
+  /* Comments at the end of the body are block tail
+     comments. */
+end where;
+
+// Without forgetting comments at the end of the file.

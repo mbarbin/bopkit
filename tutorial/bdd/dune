@@ -1,0 +1,103 @@
+(include dune.inc)
+
+(rule
+ (target v4.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -AD 2 -WL 4 -f %{dep:v4.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff v4.bop v4.bop.output)))
+
+(rule
+ (target v4-tree.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -tree -AD 2 -WL 4 -f %{dep:v4.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff v4-tree.bop v4-tree.bop.output)))
+
+(rule
+ (target dec7.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -AD 4 -WL 7 -f %{dep:dec7.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dec7.bop dec7.bop.output)))
+
+(rule
+ (target dec7-tree.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -tree -AD 4 -WL 7 -f %{dep:dec7.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dec7-tree.bop dec7-tree.bop.output)))
+
+(rule
+ (alias runtest)
+ (deps
+  (package bopkit)
+  dec7.txt)
+ (action
+  (ignore-outputs
+   (run %{bin:bopkit} simu %{dep:check_dec7.bop} -n 1024))))
+
+(rule
+ (target starred.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -AD 4 -WL 7 -f %{dep:starred.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff starred.bop starred.bop.output)))
+
+(rule
+ (target starred-tree.bop.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bdd synthesize -tree -AD 4 -WL 7 -f %{dep:starred.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff starred-tree.bop starred-tree.bop.output)))
+
+(rule
+ (alias runtest)
+ (deps
+  (package bopkit)
+  starred.txt)
+ (action
+  (ignore-outputs
+   (run %{bin:bopkit} simu %{dep:check_starred.bop} -n 1024))))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.txt)))
+
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.txt)))

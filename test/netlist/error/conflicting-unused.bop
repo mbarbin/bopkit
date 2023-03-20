@@ -1,0 +1,7 @@
+A(a, b) = c
+with unused = d
+where
+  d = not(a);
+  d = not(b);
+  c = and(a, b);
+end where;

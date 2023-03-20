@@ -1,0 +1,297 @@
+/// <h2>Composants standards pour circuits digitaux synchrones bopkit</h2>
+// PROLONGEMENT des primitives, pour vecteur:[N]
+/**
+ * id[N] : branchement identité signaux à signaux
+ * @param a:[N]
+ * @return b:[N]
+ */
+id[N](a:[N]) = b:[N]
+where
+  for idi = 0 to N - 1
+    b[idi] = id(a[idi]);
+  end for;
+end where;
+
+/**
+ * mux[N] : multiplexer sur N bits
+ * @param c : enable
+ * @param d1:[N] valeur si c = vdd
+ * @param d2:[N] valeur si c = gnd
+ * @return s:[N] d1 ou d2 selon c
+ */
+mux[N](c, d1:[N], d2:[N]) = s:[N]
+where
+  for k = 0 to N - 1
+    s[k] = mux(c, d1[k], d2[k]);
+  end for;
+end where;
+
+OneOutputToVector[N]<fun>() = o:[N]
+where
+  for i = 0 to N - 1
+    o[i] = fun();
+  end for;
+end where;
+
+gnd[N]() = o:[N]
+where
+  o:[N] = OneOutputToVector[N]<gnd>();
+end where;
+
+vdd[N]() = v:[N]
+where
+  o:[N] = OneOutputToVector[N]<vdd>();
+end where;
+
+clock[N]() = v:[N]
+where
+  o:[N] = OneOutputToVector[N]<clock>();
+end where;
+
+opt[N]() = v:[N]
+where
+  o:[N] = OneOutputToVector[N]<opt>();
+end where;
+
+// La Generalisation des primitives n'est pas l'operation Bit à Bit
+// On garde une unique sortie
+and[N](a:[N]) = s
+where
+  b[0] = id(a[0]);
+  for i = 1 to N - 1
+    b[i] = and(b[i - 1], a[i]);
+  end for;
+  s = id(b[N - 1]);
+end where;
+
+or[N](a:[N]) = s
+where
+  b[0] = id(a[0]);
+  for i = 1 to N - 1
+    b[i] = or(b[i - 1], a[i]);
+  end for;
+  s = id(b[N - 1]);
+end where;
+
+not[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = not(a[i]);
+  end for;
+end where;
+
+Acc_2(a:[2], op) = b:[2]
+where
+  b[0] = or(a[0], op);
+  b[1] = or(a[1], and(a[0], op));
+end where;
+
+xor[N](a:[N]) = s
+where
+  s = mux(c[N][0], not(c[N][1]), gnd());
+  for i = 0 to N - 1
+    c[i + 1]:[2] = Acc_2(c[i]:[2], a[i]);
+  end for;
+  c[0]:[2] = gnd[2]();
+end where;
+
+reg[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = reg(a[i]);
+  end for;
+end where;
+
+Z[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = Z(a[i]);
+  end for;
+end where;
+
+regen[N](a:[N], en) = s:[N]
+where
+  for j = 0 to N - 1
+    s[j] = regen(a[j], en);
+  end for;
+end where;
+
+Zen[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = Zen(a[i]);
+  end for;
+end where;
+
+nreg[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = nreg(a[i]);
+  end for;
+end where;
+
+nZ[N](a:[N]) = s:[N]
+where
+  for i = 0 to N - 1
+    s[i] = nZ(a[i]);
+  end for;
+end where;
+
+nregen[N](a:[N], en) = s:[N]
+where
+  for j = 0 to N - 1
+    s[j] = nregen(a[j], en);
+  end for;
+end where;
+
+nZen[N](a:[N], en) = s:[N]
+where
+  for j = 0 to N - 1
+    s[j] = nZen(a[j], en);
+  end for;
+end where;
+
+// Test d'egalite sur 2 mots de N bits
+EQUALS[N](a:[N], b:[N]) = s
+where
+  q[-1] = vdd();
+  for i = 0 to N - 1
+    q[i] = and(q[i - 1], or(and(a[i], b[i]), and(not(a[i]), not(b[i]))));
+  end for;
+  s = id(q[N - 1]);
+end where;
+
+/**
+ * Arbre brut de decision binaire
+ * @param N : nombre de feuilles.
+ * @param D : nombre de bits de donnes
+ * donc logN bits de decisions
+ * @input input:[N]:[D] un arbre complet de N feuilles de longueur D
+ * @input deci:[log(N)] les bits de contrôle pour la décision
+ * @output s:[D] la valeur de la bonne feuille
+ * les bits de contrôle s'entendent poids faibles à gauche,
+ * et les feuilles sont numérotées à partir de 0.
+ */
+BDD[N][D](input:[N]:[D], deci:[log N]) = s:[D]
+where
+  for i = 0 to N - 1
+    br[0][i]:[D] = id[D](input[i]:[D]);
+  end for;
+  for i = 1 to log N
+    for j = 0 to N / 2 ^ i - 1
+      br[i][j]:[D] =
+        mux[D](deci[i - 1], br[i - 1][2 * j + 1]:[D], br[i - 1][2 * j]:[D]);
+    end for;
+  end for;
+  s:[D] = id[D](br[log N][0]:[D]);
+end where;
+
+/**
+ * Copier le signal N fois
+ * @param N
+ * @input a
+ * @return b:[N] <=> a, a, a, a, etc...
+ */
+VECTORIZE[N](a) = b:[N]
+where
+  for i = 0 to N - 1
+    b[i] = id(a);
+  end for;
+end where;
+
+FULL_ADDER(a, b, c) = (s, r)
+where
+  s = xor(xor(a, b), c);
+  r = or(or(and(a, b), and(a, c)), and(b, c));
+end where;
+
+/**
+ * Registre machine avec retard et enable
+ * @param en enable rester ou bouger
+ * @param set valeur proposee si enable
+ * @return get la valeur interne
+ */
+RegMCBit(en, set) = get
+where
+  get = id(u);
+
+  // get non disponible à droite pour la compatibilité export
+  u = Z(mux(en, set, u));
+end where;
+
+/// Registre machine version N bits
+RegMC[N](en, set:[N]) = get:[N]
+where
+  for i = 0 to N - 1
+    get[i] = RegMCBit(en, set[i]);
+  end for;
+end where;
+
+// Compteur elementaire de 1 bit
+CM2(in) = (s, r)
+where
+  s = xor(in, ro);
+  ro = reg(s);
+  r = and(in, ro);
+end where;
+
+// Compteur modulo N=2^D
+CM[D](in) = out:[D]
+with unused = r[D - 1]
+where
+  r[-1] = id(in);
+  for i = 0 to D - 1
+    out[i], r[i] = CM2(r[i - 1]);
+  end for;
+end where;
+
+// Diviseur d'horloge modulo 2^D
+DIVTIME[D](in) = out
+where
+  out = not(or[D](CM[D](in)));
+end where;
+
+// ALU
+// Addition Binaire sur AR bits, avec retenue d'entree et retenue de sortie
+ADD[N](r0:[N], r1:[N], carry_in) = (nr1:[N], carry_out)
+where
+  c[0] = id(carry_in);
+  for i = 0 to N - 1
+    nr1[i], c[i + 1] = FULL_ADDER(r0[i], r1[i], c[i]);
+  end for;
+
+  // flag de debordement
+  carry_out = id(c[N]);
+end where;
+
+// Soustraction : a - b = a + 1 + 2^AR - 1 -b = a + 1 + not(b)
+SUB[AR](a:[AR], b:[AR]) = r:[AR]
+where
+  r:[AR], _ = ADD[AR](a:[AR], not[AR](b:[AR]), vdd());
+end where;
+
+// Predecedent non optimise
+PRED[N](a:[N]) = r:[N]
+where
+  r:[N] = SUB[N](a:[N], vdd(), gnd[N - 1]());
+end where;
+
+// Successeur non optimise
+SUCC[N](a:[N]) = r:[N]
+where
+  r:[N], _ = ADD[N](a:[N], gnd[N](), vdd());
+end where;
+
+// TODO : optimisation des blocs PRED et SUCC
+// Alu partagee
+// Front montant
+Posedge(c) = en
+where
+  en = and(c, not(Z(c)));
+end where;
+
+// Front descendant
+Negedge(c) = en
+where
+  en = and(not(c), Z(c));
+end where;

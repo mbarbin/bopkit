@@ -1,0 +1,15 @@
+A(a, b) = (c, d)
+where
+  c = and(a, b);
+  d = or(a, b);
+end where;
+
+N(a) = b
+where
+  b = not(a);
+end where;
+
+B(a, b) = c
+where
+  c = N(A(a, b));
+end where;

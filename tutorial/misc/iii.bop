@@ -1,0 +1,19 @@
+#define i "and"
+#define ii 3
+
+i[i]<i>(i:[i]) = i
+where
+  for i = i - i to i - i / i
+    for i = i
+      i[i + i ^ (i - i)][i + i ^ (i - i)] = i(i[i][i], i[i]);
+    end for;
+  end for;
+  i[i - i][i - i] = vdd();
+  i = id(i[i][i]);
+end where;
+
+[ Main ]
+i(i:[ii]) = i
+where
+  i = i[ii]<"%{i}">(i:[ii]);
+end where;

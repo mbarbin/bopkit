@@ -1,0 +1,14 @@
+A<fct>(a) = b
+where
+  b = fct(a);
+end where;
+
+B<fun>(a) = b
+where
+  b = A<fun>(a);
+end where;
+
+C(a) = b
+where
+  b = B<id>(a);
+end where;

@@ -1,0 +1,11 @@
+A[N][N](a:[N]) = b:[N]
+where
+  for i = 0 to N - 1
+    b[i] = not(a[i]);
+  end for;
+end where;
+
+Main(a) = b
+where
+  b = A[1][2](a);
+end where;

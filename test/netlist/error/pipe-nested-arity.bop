@@ -1,0 +1,4 @@
+C(e, f) = out
+where
+  out = and(e, pipe("./external.exe", f));
+end where;

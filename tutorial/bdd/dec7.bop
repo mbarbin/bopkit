@@ -1,0 +1,28 @@
+// Block synthesized by bopkit from "dec7.txt"
+// Gate count: [105|31|15] (14.286 %)
+
+Bloc(a:[4]) = out:[7]
+where
+  s1 = mux(a[2], 1, a[3]);
+  s2 = mux(a[1], 0, s1);
+  s3 = mux(a[1], a[2], 1);
+  s4 = mux(a[0], s2, s3);
+  out[0] = s4;
+  s5 = not(a[2]);
+  s6 = mux(a[1], s5, s1);
+  s7 = mux(a[1], 1, s1);
+  s8 = mux(a[0], s6, s7);
+  out[1] = s8;
+  s9 = mux(a[1], 1, s5);
+  s10 = mux(a[0], 0, s9);
+  out[2] = s10;
+  s11 = mux(a[0], s6, s9);
+  out[3] = s11;
+  s12 = mux(a[0], 1, s3);
+  out[4] = s12;
+  s13 = mux(a[1], s5, 1);
+  s14 = mux(a[0], s9, s13);
+  out[5] = s14;
+  s15 = mux(a[0], s7, s9);
+  out[6] = s15;
+end where;

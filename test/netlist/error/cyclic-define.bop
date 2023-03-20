@@ -1,0 +1,5 @@
+#define X Y
+#define Y Z
+#define V W
+#define Z V
+#define V X

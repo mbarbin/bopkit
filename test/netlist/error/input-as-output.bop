@@ -1,0 +1,4 @@
+A(a) = a
+where
+  _ = id(a);
+end where;

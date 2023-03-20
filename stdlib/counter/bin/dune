@@ -1,0 +1,11 @@
+(executables
+ (names counter)
+ (libraries core_unix.command_unix bopkit_counter)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(install
+ (section
+  (site
+   (bopkit stdbin)))
+ (files counter.exe))

@@ -1,0 +1,6 @@
+A(a, b) = c
+where
+  _ = not(a);
+  _ = not(b);
+  c = and(a, b);
+end where;

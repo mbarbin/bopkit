@@ -1,0 +1,6 @@
+// Exemle de fichier bpp
+input x, y
+t = x /\ y
+q = x + t
+p = q - 4 ERROR
+output p

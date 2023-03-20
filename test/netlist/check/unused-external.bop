@@ -1,0 +1,9 @@
+// There is a warning for unused external blocks, but it is currently
+// produced after the circuit initialisation, which is at runtime,
+// thus not produced by [check].
+external ex "ex.exe"
+
+main(a) = b
+where
+  b = not(a);
+end where;

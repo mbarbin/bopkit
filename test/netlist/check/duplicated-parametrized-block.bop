@@ -1,0 +1,17 @@
+/**
+ * See: duplicated-block.bop].
+ */
+Main[N]() = c
+where
+  // There are several issues with this block, but since it is discarded,
+  // it does not raise any error or warning.
+  a = id(a);
+end where;
+
+Main[N]() = ()
+where
+end where;
+
+Main() = ()
+where
+end where;

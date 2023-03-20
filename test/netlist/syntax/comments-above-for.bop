@@ -1,0 +1,20 @@
+#define N 4
+
+// Check behavior of comments placements above loops.
+external with_loops "./with_loops.exe"
+  // Such as this one!
+  for i = 1 to 3
+    def "m%{i}" "IMPL_M%{i}"
+    // In the case of for loop, there might be tail comments.
+  end for;
+  // External blocks may have tail comments too.
+end external;
+
+B(a:[N]) = b:[N]
+where
+  // And this one too!
+  for i = 0 to N - 1
+    b[i] = not(a[i]);
+    // Hello tail commment.
+  end for;
+end where;

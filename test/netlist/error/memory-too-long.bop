@@ -1,0 +1,5 @@
+RAM r (0, 5) = text { 000|101 }
+
+Main() = ()
+where
+end where;

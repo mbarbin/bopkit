@@ -1,0 +1,33 @@
+// A first candidate: the bdd block synthesized from the complete specification.
+#include "div.bop"
+
+#define N 4
+
+// A second candidate: a ROM memory that imports the truth table directly.
+ROM div (8, 4) = file("div.txt")
+
+// An external block from which we'll use the [test] method for unit testing
+// the different means of computing the division.
+external div "./div.exe -N %{N}"
+  def test "test"
+end external;
+
+Main(a:[N], b:[N]) = (s_reference:[4], s_rom:[4], s_bdd:[4], s_bdd_star:[4])
+where
+  // The reference result coming from the OCaml block.
+  s_reference:[N] = $div(a:[N], b:[N]);
+
+  // Via the ROM memory
+  s_rom:[N] = rom_div(a:[N], b:[N]);
+
+  // Via the bdd
+  s_bdd:[N] = Bloc(a:[N], b:[N]);
+
+  // Via the bdd with partial specification
+  s_bdd_star:[N] = pipe("bopkit simu div_opt.bop -p", a:[N], b:[N]);
+
+  // We test all results with the external block method [test].
+  $div.test(a:[N], b:[N], s_rom:[N]);
+  $div.test(a:[N], b:[N], s_bdd:[N]);
+  $div.test(a:[N], b:[N], s_bdd_star:[N]);
+end where;

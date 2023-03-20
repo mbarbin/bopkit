@@ -1,0 +1,40 @@
+/**
+ * Bopboard: a user interface to connect to bopkit circuits.
+ */
+external bopboard "bopboard run"
+  /**
+   * Connect to the 8 lights of the board. You may connect to all of them using
+   * a bus:
+   *
+   * |    $bopboard.light(i:[8]);
+   *
+   * Or connect to just a few of them, for example, the "0":
+   *
+   * |    $bopboard.light("0", i);
+   */
+  def light "LIGHT"
+
+  /**
+   * Connect to the 8 switch buttons of the board.
+   * Using a bus:
+   *
+   * |    p:[8] = $bopboard.switch();
+   *
+   * Or connect to just a few of them, for example, the "7":
+   *
+   * |    p = $bopboard.switch("7");
+   */
+  def switch "SWITCH"
+
+  /**
+   * Connect to the 5 push buttons of the board.
+   * Using a bus:
+   *
+   * |    p:[5] = $bopboard.push();
+   *
+   * Or connect to just a few of them, for example, the "2":
+   *
+   * |    p = $bopboard.push("2");
+   */
+  def push "PUSH"
+end external;

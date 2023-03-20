@@ -1,0 +1,6 @@
+// This is a comment
+input x, y
+  t = x /\ y
+  q = x + t
+  p = q - 4
+output p

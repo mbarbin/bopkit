@@ -1,0 +1,21 @@
+// This test shows an issue with pp (or likely the underlying fmt)
+// hvbox does not take into account the newline in its understanding
+// of what fits and what doesn't. If the comment is longer, the behavior
+// is different. I don't know how to work around it at the moment.
+
+B(___Un, ___state) = ___then___Deux
+where
+ ___then___Deux =
+    mux[1](// N'est visible que si globale.
+      vdd(), ___Un, ___state);
+end where;
+
+B(___Un, ___state) = ___then___Deux
+where
+  ___then___Deux =
+    mux[1](
+     // N'est visible que si globale. Hey now the comment is longer
+     vdd(),
+      ___Un,
+      ___state);
+end where;

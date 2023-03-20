@@ -1,0 +1,6 @@
+// The second word of the rom memory is set to 0.
+ROM r (1, 5) = text { 11000 }
+
+Main() = ()
+where
+end where;

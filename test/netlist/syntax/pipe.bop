@@ -1,0 +1,14 @@
+A(a, b) = out
+where
+  out = pipe("./external.exe", a, b);
+end where;
+
+B() = out
+where
+  out = pipe("./external.exe");
+end where;
+
+C(e, f) = out
+where
+  out = and(e, pipe[1]("./external.exe", f));
+end where;

@@ -1,0 +1,21 @@
+(ocamllex lexer)
+
+(menhir
+ (modules
+  tokens
+  arithmetic
+  conditional
+  include
+  parameter
+  memory
+  external
+  parser)
+ (merge_into parser))
+
+(library
+ (name bopkit_syntax)
+ (public_name bopkit.syntax)
+ (flags -w +a-4-40-42-44-45-66 -warn-error +a)
+ (libraries bopkit core parsing_utils)
+ (preprocess
+  (pps ppx_jane)))

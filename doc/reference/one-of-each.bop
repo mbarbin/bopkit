@@ -1,0 +1,35 @@
+/// This file makes use of the stdlib, so it has the following include line.
+#include <stdlib.bop>
+
+/// For the sake of the example, this file depends on a parameter named N.
+/// It's an integer and sets the width of the bus that this circuit works with.
+#define N 4
+
+/**
+ * This circuit makes use of a ROM memory. This specific ROM has 4 words of data
+ * of size N. So, its addresses are encoded on 2 bits, and its word width is equal
+ * to N. It is initialized in place using the [text] construct.
+ */
+ROM mem (2, N) = text { 0010 1100 1010 0101 }
+
+/**
+ * For the sake of the example, we make use of an external block here. An
+ * external block allows a circuit to depends on circuit components that are
+ * implemented by third party applications, which should read inputs from stdin,
+ * and write outputs to stdout. Here we use an external block based on the [cat]
+ * unix util, so it's an external block that returns its input bits unchanged.
+ */
+external cat "cat"
+
+/**
+ * Finally, we introduce an actual block to describe the circuit. The final
+ * block present in the file is the circuit's main block, which serves as an entry
+ * point. For this demo circuit, we implemented a block that takes 2 bits as input
+ * encoding a ROM address, reads the word that is located in its ROM memory at that
+ * address, and pipe it through its [cat] external block before returning it.
+ */
+My_block(a:[2]) = b:[N]
+where
+  data:[N] = rom_mem(a:[2]);
+  b:[N] = $cat(data:[N]);
+end where;

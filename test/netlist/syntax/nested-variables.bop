@@ -1,0 +1,51 @@
+/* Checking how nested calls and comments are handled.
+ */
+
+Bloc(a:[7], b:[10]) = out
+where
+  out =
+    // Hello nested comment.
+    mux(
+      a[0],
+      mux(
+        a[1],
+        mux(
+          a[2],
+          mux(a[3], mux(a[4], not(a[5]), vdd()), not(a[4])),
+          mux(a[3], mux(a[4], vdd(), a[5]), mux(a[4], not(a[5]), gnd()))),
+        mux(a[2], mux(a[3], vdd(), not(a[4])), a[5])),
+      mux(
+        a[1],
+        mux(
+          a[2],
+          mux(
+            a[3],
+            vdd(),
+            mux(
+              a[4],
+              not(a[5]),
+              // We can communicate a particular grouping to the printer
+              // by adding extra PARENs around the variables to group.
+              and[10](
+                (b[0], b[1]),
+                (b[2], b[3], b[4], b[5]),
+                b[6],
+                b[7],
+                b[8],
+                b[9],
+                b[10]))),
+          mux(
+            a[3],
+            mux(a[4], mux(a[5], gnd(), not(a[6])), mux(a[5], vdd(), a[6])),
+            a[4])),
+        mux(
+          a[2],
+          mux(a[3], vdd(), mux(a[4], mux(a[5], a[6], vdd()), a[5])),
+          mux(
+            /* Hey, this comment is about the a[3] that's right below.
+             * There're so many things that we could say about it.
+             */
+            a[3],
+            mux(a[4], mux(a[5], a[6], vdd()), mux(a[5], gnd(), a[6])),
+            gnd()))));
+end where;

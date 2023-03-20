@@ -1,0 +1,4 @@
+A<fun>(a) = b
+where
+  b = fun(a);
+end where;

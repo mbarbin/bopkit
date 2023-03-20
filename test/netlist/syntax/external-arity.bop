@@ -1,0 +1,9 @@
+// Specifying arity at the toplevel is in fact not permitted by the
+// syntax.
+
+#include "calc.bop"
+
+C(a, b) = out
+where
+  out = $cal.add[2](a, b);
+end where;

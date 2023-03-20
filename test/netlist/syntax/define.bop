@@ -1,0 +1,5 @@
+#define N 0
+#define p 1
+#define s "Hello"
+#define X ( N = 0 ? "x" : "y" )
+#define Z ( p + (N * 10) < 1 ? 42 : 43 )

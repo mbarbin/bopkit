@@ -1,0 +1,22 @@
+(library
+ (name bopkit_compiler)
+ (public_name bopkit.compiler)
+ (flags -w +a-4-40-41-42-44-45-66 -warn-error +a)
+ (libraries
+  appendable_list
+  bopkit
+  core
+  core_unix.command_unix
+  bit_utils
+  bopkit_cds_optimiser
+  bopkit_circuit
+  bopkit_pp
+  bopkit_sites
+  bopkit_syntax
+  bopkit_topological_sort
+  error_log
+  parsing_utils
+  graphics
+  unix)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

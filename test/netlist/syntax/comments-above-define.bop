@@ -1,0 +1,4 @@
+/* Checking behavior of comments placements in the presence of #define
+   constructs.
+*/
+#define M "macro"

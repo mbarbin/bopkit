@@ -1,0 +1,4 @@
+A(_) = b
+where
+  b = vdd();
+end where;

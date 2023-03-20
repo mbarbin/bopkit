@@ -1,0 +1,6 @@
+A(a) = c
+with unused = b
+where
+  b = not(a);
+  c = id(b);
+end where;

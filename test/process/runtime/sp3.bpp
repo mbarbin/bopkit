@@ -1,0 +1,4 @@
+// Not
+input x
+  t = 7 /\ x
+output t

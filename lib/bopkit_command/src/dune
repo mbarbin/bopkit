@@ -1,0 +1,18 @@
+(library
+ (name bopkit_command)
+ (public_name bopkit.command)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries
+  bopkit_bdd_command
+  bopkit_compiler
+  bopkit_counter
+  bopkit_pp
+  bopkit_process_command
+  bopkit_simulator
+  bopkit_sites
+  bopkit_sleeper
+  bopkit_syntax
+  core
+  seven_segment_display)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

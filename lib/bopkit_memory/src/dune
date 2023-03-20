@@ -1,0 +1,7 @@
+(library
+ (name bopkit_memory)
+ (public_name bopkit.memory)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core bit_utils graphics unix)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

@@ -1,0 +1,6 @@
+#define N 4
+
+Main() = out:[N]
+where
+  out:[N] = pipe("counter.exe -N %{N}");
+end where;

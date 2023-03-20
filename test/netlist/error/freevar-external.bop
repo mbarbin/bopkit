@@ -1,0 +1,1 @@
+external calc "./calc.exe -N %{N}"

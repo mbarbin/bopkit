@@ -1,0 +1,7 @@
+(library
+ (name bopkit_topological_sort)
+ (public_name bopkit.topological-sort)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core appendable_list error_log)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

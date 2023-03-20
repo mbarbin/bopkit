@@ -1,0 +1,23 @@
+#include <stdlib.bop>
+#include <bopboard.bop>
+
+#define N 8
+
+external board1 "bopboard run -title addr"
+
+external board2 "bopboard run -title data"
+
+Main() = ()
+where
+  data_out:[N] =
+    pipe("ram_memory.exe -addresses-len %{N} -words-len %{N}",
+      addr:[N],
+      addr:[N],
+      write_mode,
+      data_in:[N]);
+  addr:[N] = $board1.SWITCH();
+  write_mode = $board1.PUSH("0");
+  $board1.LIGHT(data_out:[N]);
+  data_in:[N] = $board2.SWITCH();
+  $board2.LIGHT(data_in:[N]);
+end where;

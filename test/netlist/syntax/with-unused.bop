@@ -1,0 +1,13 @@
+#define N 2
+
+A(a, c) = (b)
+with unused = (c)
+where
+  b = id(a);
+end where;
+
+B(a, c:[8], d) = (b)
+with unused = (d, c[1..7])
+where
+  b = and(a, c[0]);
+end where;

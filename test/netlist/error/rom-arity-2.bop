@@ -1,0 +1,6 @@
+ROM r (2, 3) = text { 110111 }
+
+write(a:[2]) = o:[2]
+where
+  o:[2] = rom_r(a:[2]);
+end where;

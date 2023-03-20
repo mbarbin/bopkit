@@ -1,0 +1,16 @@
+(library
+ (name bopboard)
+ (public_name bopkit.bopboard)
+ (flags -w +a-4-40-41-42-44-66 -warn-error +a)
+ (libraries
+  core
+  graphics
+  threads
+  core_unix.core_thread
+  core_unix.sys_unix
+  bopkit_block
+  bopkit_sites
+  tsdl
+  tsdl-image)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

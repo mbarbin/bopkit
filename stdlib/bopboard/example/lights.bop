@@ -1,0 +1,21 @@
+/**
+ * Introduction example for the bopboard.
+ *
+ * This is a simple circuit that connects the lights to the state of
+ * the switches.
+ *
+ * After having installed bopkit, you may run with:
+ *
+ * $ bopkit simu lights.bop
+ */
+#include <bopboard.bop>
+
+// The number of lights and switches.
+#define N 8
+
+[ Main ]
+LightEchoBus() = ()
+where
+  switch:[N] = $bopboard.switch();
+  $bopboard.light(switch:[N]);
+end where;

@@ -1,0 +1,5 @@
+Main(a) = b
+where
+   = pipe("bopkit simu empty-output.bop -p", a);
+  b = not(a);
+end where;

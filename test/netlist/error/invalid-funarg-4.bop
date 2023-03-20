@@ -1,0 +1,14 @@
+A<fun>(a) = b
+where
+  b = fun(a);
+end where;
+
+B<fun>(a) = b
+where
+  b = A<"%{fun}">(a);
+end where;
+
+C(a) = b
+where
+  b = B<and>(a);
+end where;

@@ -1,0 +1,11 @@
+#define N 1
+
+A<fun>(a) = b
+where
+  b = fun(a);
+end where;
+
+Main(a) = b
+where
+  b = A<"%{N}">(a);
+end where;

@@ -1,0 +1,9 @@
+A<f1, f1>(a) = b
+where
+  b = f1(a);
+end where;
+
+Main(a) = b
+where
+  b = A<id, id>(a);
+end where;

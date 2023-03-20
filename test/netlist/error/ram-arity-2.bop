@@ -1,0 +1,6 @@
+RAM r (2, 3)
+
+write(a:[2], b:[3]) = o:[2]
+where
+  o:[2] = ram_r(a:[2], a:[2], vdd(), b:[3]);
+end where;

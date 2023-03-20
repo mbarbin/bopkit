@@ -1,0 +1,19 @@
+#define N 4
+
+// Check behavior of comments placements above if statements.
+external with_loops "./with_loops.exe"
+  // Such as this one!
+  if N mod 2 == 0 then
+    def "m%{i}" "IMPL_M%{i}"
+  end if;
+end external;
+
+B(a:[N]) = b:[N]
+where
+  // And this one too!
+  if N mod 2 = 0 then
+    b[i] = not(a[i]);
+  else
+    b[i] = id(a[i]);
+  end if;
+end where;

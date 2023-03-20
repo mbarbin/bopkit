@@ -1,0 +1,6 @@
+#include "calc.bop"
+
+Calc_add(a:[N], b:[N], select) = out:[N]
+where
+  out:[N] = not[N]($calc.add[1](a:[N], b:[N]));
+end where;

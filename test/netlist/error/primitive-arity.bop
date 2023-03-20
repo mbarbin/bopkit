@@ -1,0 +1,4 @@
+A(a) = c
+where
+  c = and(a);
+end where;

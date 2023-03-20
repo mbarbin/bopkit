@@ -1,0 +1,9 @@
+P[N][M](a) = b
+where
+  b = pipe("./blah %{N} %{M}", a);
+end where;
+
+Main(a) = b
+where
+  b = P[4](a);
+end where;

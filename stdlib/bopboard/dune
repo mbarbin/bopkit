@@ -1,0 +1,22 @@
+(install
+ (section
+  (site
+   (bopkit stdlib)))
+ (files bopboard.bop))
+
+(include dune.inc)
+
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash "%{bin:bopkit} fmt gen-dune .bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))

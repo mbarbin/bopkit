@@ -1,0 +1,4 @@
+Main(s) = ()
+with unused = s
+where
+end where;

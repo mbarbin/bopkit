@@ -1,0 +1,9 @@
+// This is comment A
+input x, y // This is comment B
+  // This is comment C
+  t = x /\ y
+  q = x + t
+  // This is comment F
+  p = q - 4
+output p // This is comment G
+// This is comment H

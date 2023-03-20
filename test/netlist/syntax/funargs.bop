@@ -1,0 +1,4 @@
+and[N](a:[N]) = s
+where
+  s = FoldLeft[N]<"and", "map", "id">(a:[N]);
+end where;

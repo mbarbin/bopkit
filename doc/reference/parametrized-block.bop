@@ -1,0 +1,11 @@
+not_and[N](a:[N], b:[N]) = c:[N]
+where
+  for i = 0 to N - 1
+    c[i] = not(and(a[i], b[i]));
+  end for;
+end where;
+
+main(a:[2], b:[2]) = c:[2]
+where
+  c:[2] = not_and[2](a:[2], b:[2]);
+end where;

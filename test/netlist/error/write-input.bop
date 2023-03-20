@@ -1,0 +1,5 @@
+A(a, b) = c
+where
+  a = not(b);
+  c = id(a);
+end where;

@@ -1,0 +1,4 @@
+A(a) = b
+where
+  b = Unknown[1](a);
+end where;

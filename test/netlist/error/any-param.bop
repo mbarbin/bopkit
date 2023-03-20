@@ -1,0 +1,9 @@
+A[_](a) = b
+where
+  b = not(a);
+end where;
+
+Main(a) = b
+where
+  b = A[0](a);
+end where;

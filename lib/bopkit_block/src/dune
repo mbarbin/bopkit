@@ -1,0 +1,12 @@
+(ocamllex lexer)
+
+(menhir
+ (modules parser))
+
+(library
+ (name bopkit_block)
+ (public_name bopkit.block)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core bit_utils core_unix.command_unix)
+ (preprocess
+  (pps ppx_jane)))

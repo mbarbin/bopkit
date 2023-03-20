@@ -1,0 +1,25 @@
+(install
+ (section
+  (site
+   (bopkit bopboard)))
+ (files
+  (ladybgleft01.png as images/ladybgleft01.png)
+  (ladybgmid01.png as images/ladybgmid01.png)
+  (ladybgright01.png as images/ladybgright01.png)
+  (ladyoff01.png as images/ladyoff01.png)
+  (ladyon01.png as images/ladyon01.png)
+  (pushbg01.png as images/pushbg01.png)
+  (pushdown01.png as images/pushdown01.png)
+  (pushup01.png as images/pushup01.png)
+  (switchbg01.png as images/switchbg01.png)
+  (switchdown01.png as images/switchdown01.png)
+  (switchup01.png as images/switchup01.png)))
+
+(rule
+ (copy ../bin/main.exe bopboard))
+
+(cram
+ (deps
+  (package bopkit)
+  bopboard
+  (glob_files *.png)))

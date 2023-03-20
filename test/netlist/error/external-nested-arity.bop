@@ -1,0 +1,10 @@
+#include <stdlib.bop>
+
+#define N 4
+
+external calc "./my-calc.exe"
+
+Calc_add(a:[N], b:[N], select) = out:[N]
+where
+  out:[N] = not[N]($calc.add(a:[N], b:[N]));
+end where;

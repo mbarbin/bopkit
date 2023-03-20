@@ -1,0 +1,12 @@
+
+// Empty lines at the top
+
+// And in the middle of the file
+input x, y // Hello
+
+  // Empty lines in the body of the block
+  t = x /\ y // Here?
+output t
+
+// This is a comment
+

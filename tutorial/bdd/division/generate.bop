@@ -1,0 +1,7 @@
+#define N 4
+
+Main(a:[N], b:[N]) = s:[N]
+where
+  // We use the external block to compute the truth table of the division.
+  s:[N] = pipe("./div.exe -N %{N}", a:[N], b:[N]);
+end where;

@@ -1,0 +1,3 @@
+#define X 0
+#define Y Z
+#define Z ( COND == 0 ? 0 : 1 )

@@ -1,0 +1,465 @@
+open! Core
+
+let bits_of_string s =
+  let exception Bits_of_string in
+  match
+    Array.init (String.length s) ~f:(fun i ->
+      match s.[i] with
+      | '1' -> true
+      | '0' -> false
+      | _ -> raise Bits_of_string)
+  with
+  | t -> Some t
+  | exception Bits_of_string -> None
+;;
+
+(* Returns the decimal value encoded by the [len] bits of [src] that starts at
+   [pos], starting from the least significant bit. *)
+let decimal_of_partial_array ~src:t ~pos:offset ~len:long =
+  let len = Array.length t
+  and index_fin = offset + long in
+  if index_fin > len
+  then failwith "decimal_of_partial_array"
+  else (
+    let rec aux accu i =
+      if i < offset
+      then accu
+      else aux ((2 * accu) + if Array.unsafe_get t i then 1 else 0) (pred i)
+    in
+    aux 0 (pred index_fin))
+;;
+
+type external_process =
+  { loc : Loc.t
+  ; command : string
+  ; output_pipe : In_channel.t
+  ; input_pipe : Out_channel.t
+  }
+
+type t =
+  { error_log : Error_log.t
+  ; circuit : Bopkit_circuit.Circuit.t
+  ; mutable external_process : external_process array
+  ; regr_indexes : int array
+  ; input : Bit_array.t
+  ; output : Bit_array.t
+  }
+
+let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) ~error_log =
+  let cds = circuit.cds in
+  let external_process : external_process array = [||] in
+  let regr_indexes =
+    Array.foldi cds ~init:[] ~f:(fun index accu node ->
+      match node.gate_kind with
+      | Regr _ -> index :: accu
+      | _ -> accu)
+    |> Array.of_list
+  in
+  let input =
+    let gate = cds.(0) in
+    match gate.gate_kind with
+    | Input -> gate.output
+    | gate_kind ->
+      raise_s
+        [%sexp
+          "Expected first gate of circuit to be its input"
+          , { gate_kind : Bopkit_circuit.Gate_kind.t }]
+  in
+  let output =
+    match
+      Array.find cds ~f:(fun gate ->
+        match gate.gate_kind with
+        | Output -> true
+        | _ -> false)
+    with
+    | Some gate -> gate.input
+    | None -> failwith "No Output node found in the cds"
+  in
+  { error_log; circuit; external_process; regr_indexes; input; output }
+;;
+
+let input t = t.input
+let output t = t.output
+let cds t = t.circuit.cds
+let rom_memories t = t.circuit.rom_memories
+let external_blocks t = t.circuit.external_blocks
+let main t = t.circuit.main
+
+(* CR mbarbin: The use of the following runtime errors causes 2 issues:
+
+   1. They do not account for processes that actually exit cleanly.
+   2. They cause the process to end without cleanly closing all other processes.
+*)
+
+let pipe_error (t : t) ~loc ~command ~index question =
+  Error_log.raise
+    t.error_log
+    ~loc
+    [ Pp.textf "External process[%d] ('%s')" index command
+    ; Pp.textf "received: '%s' and exited abnormally." question
+    ]
+;;
+
+let protocole_sortie_error (t : t) ~loc ~command ~index question reponse =
+  Error_log.raise
+    t.error_log
+    ~loc
+    [ Pp.textf "External process[%d] ('%s')" index command
+    ; Pp.textf " received: '%s'" question
+    ; Pp.textf "responded: '%s'" reponse
+    ]
+;;
+
+let pipe_arite_sortie_error
+  (t : t)
+  ~loc
+  ~command
+  ~index
+  question
+  reponse
+  arite_min
+  len_sortie
+  =
+  Error_log.raise
+    t.error_log
+    ~loc
+    [ Pp.textf "External process[%d] ('%s')" index command
+    ; Pp.textf " received: '%s'" question
+    ; Pp.textf "responded: '%s'" reponse
+    ; Pp.textf "Simulation expects at least %d bits but received %d." arite_min len_sortie
+    ]
+;;
+
+let init t =
+  let () =
+    let env = Core_unix.environment () in
+    let key = "PATH" in
+    let path =
+      Array.find_map env ~f:(fun s ->
+        match String.lsplit2 s ~on:'=' with
+        | Some (path, value) -> Option.some_if (String.equal path key) value
+        | None -> None)
+      |> Option.value ~default:""
+    in
+    Core_unix.putenv
+      ~key
+      ~data:(String.concat ~sep:":" (Bopkit_sites.Sites.stdbin @ [ path ]))
+  in
+  let external_blocks_table = Hashtbl.create (module String) in
+  let q = Queue.create () in
+  let external_index = ref 0 in
+  Array.iter (cds t) ~f:(fun gate ->
+    match gate.gate_kind with
+    | External { loc; name; method_name; arguments; protocol_prefix; index } ->
+      let decl_bloc : Bopkit.Expanded_netlist.external_block =
+        match
+          Array.find
+            (external_blocks t)
+            ~f:(fun (block : Bopkit.Expanded_netlist.external_block) ->
+            String.equal block.name name)
+        with
+        | Some x -> x
+        | None ->
+          Error_log.raise
+            t.error_log
+            ~loc
+            [ Pp.textf "The external block '%s' is undefined." name ]
+            ~hints:[ Pp.text "Did you forget to include a file in which it is defined?" ]
+      in
+      let protocol_method =
+        match method_name with
+        | None -> None
+        | Some method_name ->
+          (match
+             List.find decl_bloc.methods ~f:(fun m ->
+               String.equal method_name m.method_name)
+           with
+           | Some { method_name = _; attributes = _; implementation_name } ->
+             Some implementation_name
+           | None ->
+             Error_log.warning
+               t.error_log
+               ~loc
+               [ Pp.textf
+                   "External block method '%s.%s' is not defined and will be passed to \
+                    the external process as is. Note that this will probably not be \
+                    allowed in a future version."
+                   name
+                   method_name
+               ]
+               ~hints:[ Pp.text "Declare the method in the external block definition." ];
+             Some method_name)
+      in
+      let protocol_arguments =
+        match arguments with
+        | [] -> None
+        | _ :: _ ->
+          let arguments = List.map arguments ~f:(fun arg -> sprintf "\"%s\"" arg) in
+          Some (arguments |> String.concat ~sep:" ")
+      in
+      let this_protocol_prefix =
+        match protocol_method, protocol_arguments with
+        | None, None -> ""
+        | Some m, None -> m ^ " "
+        | None, Some args -> args ^ " "
+        | Some m, Some args -> m ^ " " ^ args ^ " "
+      in
+      (match Hashtbl.find external_blocks_table name with
+       | Some bloc_index ->
+         Error_log.debug
+           t.error_log
+           ~loc
+           [ Pp.textf "External process[%d] already started." bloc_index ];
+         (* Even though this gate is unique in the cds, it is possible that its
+            gate_kind has been shared between several gates. This happens when a
+            block is called multiple times at different part of the program.
+            Given that it comes from the same syntactic place, it's index and
+            protocol prefix will be the same. *)
+         Set_once.set_if_none index [%here] bloc_index;
+         Set_once.set_if_none protocol_prefix [%here] this_protocol_prefix
+       | None ->
+         let this_index = !external_index in
+         incr external_index;
+         Error_log.debug
+           t.error_log
+           ~loc
+           [ Pp.textf "Starting external process[%d] = '%s'." this_index decl_bloc.command
+           ];
+         Hashtbl.set external_blocks_table ~key:name ~data:this_index;
+         let in_ch, out_ch = Core_unix.open_process decl_bloc.command in
+         let new_pipe =
+           { loc; command = decl_bloc.command; output_pipe = in_ch; input_pipe = out_ch }
+         in
+         Queue.enqueue q new_pipe;
+         Set_once.set_exn index [%here] this_index;
+         Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
+         List.iter decl_bloc.init_messages ~f:(fun m ->
+           try
+             Printf.fprintf new_pipe.input_pipe "%s\n" m;
+             Out_channel.flush new_pipe.input_pipe;
+             ignore (Caml.input_line new_pipe.output_pipe : string)
+           with
+           | End_of_file ->
+             pipe_error t ~loc ~command:decl_bloc.command ~index:this_index m))
+    | _ -> ());
+  Array.iter (external_blocks t) ~f:(fun { name = a; loc; _ } ->
+    (* As it stands, this warning is inconvenient. First, it is only produced at
+       runtime, and not during the [check] command. Moreover, it is based on
+       actual use, which makes some noise when some blocks are only used if
+       DEBUG=1. Perhaps a better warning would be based on looking for all
+       expressions in the netlist, and warning during [check] only for external
+       blocks define in the same file, and if they never appear, regardless of
+       parameters. Disabled for now. *)
+    if (not (Hashtbl.mem external_blocks_table a)) && false
+    then Error_log.warning t.error_log ~loc [ Pp.textf "Unused external block '%s'" a ]);
+  t.external_process <- Array.init !external_index ~f:(fun _ -> Queue.dequeue_exn q);
+  Error_log.info t.error_log [ Pp.textf " Simulation <'%s'>" (main t) ]
+;;
+
+let quit t =
+  for i = 0 to pred (Array.length t.external_process) do
+    let process = t.external_process.(i) in
+    Error_log.debug
+      t.error_log
+      ~loc:process.loc
+      [ Pp.textf "Closing external process[%d] = '%s'." i process.command ];
+    try
+      match
+        Core_unix.close_process (process.output_pipe, process.input_pipe)
+        |> Core_unix.Exit_or_signal.or_error
+      with
+      | Ok () -> ()
+      | Error e ->
+        Error_log.error
+          t.error_log
+          ~loc:process.loc
+          [ Pp.textf "Error closing external process[%d] = '%s'." i process.command
+          ; Pp.text (Error.to_string_hum e)
+          ]
+    with
+    | End_of_file ->
+      Error_log.debug
+        t.error_log
+        ~loc:process.loc
+        [ Pp.textf
+            "Closing external process[%d] = '%s'. (status : %s [%d])"
+            i
+            process.command
+            "broken pipe"
+            (-1)
+        ]
+    | e ->
+      (* CR mbarbin: This prevents other processes from being properly closed. *)
+      prerr_endline "Circuit#quit error";
+      raise e
+  done
+;;
+
+(* For each [Regr], update its matching [Regt]. Called at the end of each cycle.
+*)
+let update_registers t =
+  let cds = cds t in
+  Array.iter t.regr_indexes ~f:(fun i ->
+    let gate = cds.(i) in
+    match gate.gate_kind with
+    | Regr { index_of_regt = n } ->
+      (* The bit input.(1) of a Regr gate is its [enable] bit. *)
+      if gate.input.(1) then cds.(n).output.(0) <- gate.input.(0)
+    | _ -> ())
+;;
+
+let fct_id ~input ~output =
+  Array.unsafe_blit ~src:input ~src_pos:0 ~dst:output ~dst_pos:0 ~len:(Array.length input)
+;;
+
+let fct_not ~input ~output = Array.unsafe_set output 0 (not (Array.unsafe_get input 0))
+
+let fct_and ~input ~output =
+  Array.unsafe_set output 0 (Array.unsafe_get input 0 && Array.unsafe_get input 1)
+;;
+
+let fct_or ~input ~output =
+  Array.unsafe_set output 0 (Array.unsafe_get input 0 || Array.unsafe_get input 1)
+;;
+
+let fct_xor ~input ~output =
+  Array.unsafe_set output 0 Bool.(Array.unsafe_get input 0 <> Array.unsafe_get input 1)
+;;
+
+let fct_mux ~input ~output =
+  Array.unsafe_set
+    output
+    0
+    (if Array.unsafe_get input 0
+     then Array.unsafe_get input 1
+     else Array.unsafe_get input 2)
+;;
+
+let fct_rom t ~input ~output ~index =
+  let address = Bit_array.to_int input in
+  Array.blit
+    ~src:(rom_memories t).(index).(address)
+    ~src_pos:0
+    ~dst:output
+    ~dst_pos:0
+    ~len:(Array.length output)
+;;
+
+(* The arguments of a ram call with address width e and data width s
+   are:
+
+   {v
+     output[s] = RAM(read_address[e], write_address[e], enable, data[s])
+   v}
+*)
+let fct_ram (_ : t) ~(gate : Bopkit_circuit.Gate.t) =
+  match gate.gate_kind with
+  | Ram { loc = _; name = _; address_width; data_width; contents } ->
+    let read_address_pos = 0 in
+    let write_address_pos = read_address_pos + address_width in
+    let enable_pos = write_address_pos + address_width in
+    let data_pos = enable_pos + 1 in
+    let enable = gate.input.(enable_pos) in
+    if enable
+    then (
+      (* There was a proposal for the gate to return the value set in memory in
+         this case, but currently this breaks the micro processor visa. This
+         needs further investigation. Currently left untouched, which means it
+         will continue to return the value that was last read. *)
+      let write_adresse =
+        decimal_of_partial_array ~src:gate.input ~pos:write_address_pos ~len:address_width
+      in
+      Array.blit
+        ~src:gate.input
+        ~src_pos:data_pos
+        ~dst:(Array.unsafe_get contents write_adresse)
+        ~dst_pos:0
+        ~len:data_width)
+    else (
+      let read_adresse =
+        decimal_of_partial_array ~src:gate.input ~pos:read_address_pos ~len:address_width
+      in
+      Array.blit
+        ~src:(Array.unsafe_get contents read_adresse)
+        ~src_pos:0
+        ~dst:gate.output
+        ~dst_pos:0
+        ~len:data_width)
+  | _ -> assert false
+;;
+
+let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
+  match gate.gate_kind with
+  | External { loc; name = _; method_name = _; arguments = _; protocol_prefix; index } ->
+    let index = Set_once.get_exn index [%here] in
+    let process = t.external_process.(index) in
+    let protocol =
+      Set_once.get_exn protocol_prefix [%here] ^ Bit_array.to_string gate.input
+    in
+    (try
+       Printf.fprintf process.input_pipe "%s\n" protocol;
+       Out_channel.flush process.input_pipe;
+       let reponse =
+         match In_channel.input_line process.output_pipe with
+         | Some line -> line
+         | None -> raise End_of_file
+       in
+       let len_sortie = String.length reponse in
+       let protocole_sortie =
+         match bits_of_string reponse with
+         | Some b -> b
+         | None ->
+           protocole_sortie_error t ~loc ~command:process.command ~index protocol reponse
+       in
+       let expected_len = Array.length gate.output in
+       if len_sortie < expected_len
+       then
+         pipe_arite_sortie_error
+           t
+           ~loc
+           ~command:process.command
+           ~index
+           protocol
+           reponse
+           expected_len
+           len_sortie
+       else
+         Array.blit
+           ~src:protocole_sortie
+           ~src_pos:0
+           ~dst:gate.output
+           ~dst_pos:0
+           ~len:expected_len
+     with
+     | End_of_file -> pipe_error t ~loc ~command:process.command ~index protocol)
+  | _ -> assert false
+;;
+
+let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
+  let cds = cds t in
+  Array.iter2_exn gate.output gate.output_wires ~f:(fun output output_wires ->
+    List.iter
+      output_wires
+      ~f:(fun { Bopkit_circuit.Output_wire.gate_index; input_index } ->
+      cds.(gate_index).input.(input_index) <- output))
+;;
+
+let one_cycle t ~blit_input =
+  Array.iter
+    (cds t)
+    ~f:(fun ({ Bopkit_circuit.Gate.gate_kind; input; output; _ } as gate) ->
+    (match gate_kind with
+     | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
+     | Input -> blit_input ~dst:gate.output
+     | Id -> fct_id ~input ~output
+     | Not -> fct_not ~input ~output
+     | And -> fct_and ~input ~output
+     | Or -> fct_or ~input ~output
+     | Xor -> fct_xor ~input ~output
+     | Mux -> fct_mux ~input ~output
+     | Rom { index; _ } -> fct_rom t ~input ~output ~index
+     | Ram _ -> fct_ram t ~gate
+     | External _ -> fct_external t ~gate);
+    propagate_output t ~gate);
+  update_registers t
+;;

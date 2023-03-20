@@ -1,0 +1,43 @@
+#include <stdlib.bop>
+#include <bopboard.bop>
+#include <pulse.bop>
+
+#define N 8
+#define PULSE__CYCLES_PER_SECOND 16
+
+/**
+ * That's a bus of size N with exactly 1 bit '1' and the rest '0'.
+ * The bit that is lit shifts from left to right, until it reaches the
+ * end of the bus, and restarts at 0.
+ * @param reset set the bus to the initial state.
+ * @return bd the shifting bits.
+ */
+CyclerBD[N](reset, predBD:[N]) = bd:[N]
+where
+  bd:[N] = mux[N](reset, vdd(), gnd[N - 1](), u:[N]);
+  for i = 0 to N - 2
+    u[i + 1] = id(predBD[i]);
+  end for;
+  u[0] = id(predBD[N - 1]);
+end where;
+
+/**
+ * Same as [CyclerBD] but with a memory.
+ */
+CyclerRG[N](reset) = bd:[N]
+where
+  bd:[N] = CyclerBD[N](reset, reg[N](bd:[N]));
+end where;
+
+MainCycler(reset) = bd:[N]
+where
+  bd:[N] = CyclerRG[N](nZ(reset));
+end where;
+
+Main() = bd:[N]
+where
+  $pulse();
+  reset = $bopboard.push("0");
+  bd:[N] = MainCycler(reset);
+  $bopboard.light(bd:[N]);
+end where;

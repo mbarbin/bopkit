@@ -1,0 +1,5 @@
+#include "cyclic-include-a.bop"
+
+Main() = ()
+where
+end where;

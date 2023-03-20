@@ -1,0 +1,4 @@
+Main(a:[2]) = b
+where
+  b = or(a:[2]);
+end where;

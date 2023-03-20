@@ -1,0 +1,7 @@
+input x, y
+  // It is possible to comment lines above them
+  t = x /\ y // Or to their right
+  // But below the last line causes a syntax error.
+output t // Here is fine though
+// This is a valid trailing comment
+

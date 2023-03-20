@@ -1,0 +1,7 @@
+// Specifying arity at the toplevel is in fact not permitted by the
+// syntax.
+
+C(e, f) = out
+where
+  out = pipe[2]("./external.exe", f);
+end where;

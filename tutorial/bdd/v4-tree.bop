@@ -1,0 +1,10 @@
+// Block synthesized by bopkit from "v4.txt"
+// Gate count: [12|4] (33.333 %)
+
+Bloc(a:[2]) = out:[4]
+where
+  out[0] = mux(a[0], not(a[1]), 0);
+  out[1] = mux(a[0], a[1], 1);
+  out[2] = mux(a[0], 0, a[1]);
+  out[3] = 1;
+end where;

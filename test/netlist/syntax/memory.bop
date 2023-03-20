@@ -1,0 +1,4 @@
+#define N 4
+
+RAM myram (2, 2) = text { 00111100 }
+ROM myrom (2, N) = file("rom.bin")

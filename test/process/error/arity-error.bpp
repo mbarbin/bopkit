@@ -1,0 +1,5 @@
+input x, y
+  o = not x
+  p = /\ x
+  q = o not p
+output o, p

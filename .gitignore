@@ -1,0 +1,7 @@
+_build
+*.merlin
+bopkit.install
+.vscode
+node_modules
+build
+.docusaurus
