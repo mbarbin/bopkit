@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+ Authors: Mathieu Barbin
+ Copyright (C) 2023 Mathieu Barbin <mathieu.barbin@gmail.com>
+ Copyright (C) 2008 Mathieu Barbin <barbin@clipper.ens.fr>
+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+
+ You should have received a copy of the GNU Lesser General Public License
+ along with this library; if not, see <http://www.gnu.org/licenses/>.
+
+-->
+<language id="bopkit" name="Bopkit" version="2.0" _section="Sources">
+	<metadata>
+		<property name="mimetypes">text/x-c;text/x-csrc;image/x-xpixmap</property>
+		<property name="globs">*.bop</property>
+		<property name="line-comment-start">//</property>
+		<property name="block-comment-start">/*</property>
+		<property name="block-comment-end">*/</property>
+	</metadata>
+
+	<styles>
+		<style id="comment" name="Comment" map-to="def:comment"/>
+		<style id="error" name="Error" map-to="def:error"/>
+		<style id="string" name="String" map-to="def:string"/>
+		<style id="preprocessor" name="Preprocessor" map-to="def:preprocessor"/>
+		<style id="common-defines" name="Common Defines" map-to="def:special-constant"/>
+		<style id="included-file" name="Included File" map-to="def:string"/>
+		<style id="char" name="Character" map-to="def:character"/>
+		<style id="keyword" name="Keyword" map-to="def:keyword"/>
+		<style id="type" name="Data Type" map-to="def:type"/>
+		<style id="storage-class" name="Storage Class" map-to="def:type"/>
+		<style id="printf" name="printf Conversion" map-to="def:character"/>
+		<style id="escaped-character" name="Escaped Character" map-to="def:special-char"/>
+		<style id="floating-point" name="Floating point number" map-to="def:floating-point"/>
+		<style id="decimal" name="Decimal number" map-to="def:decimal"/>
+		<style id="octal" name="Octal number" map-to="def:base-n-integer"/>
+		<style id="hexadecimal" name="Hexadecimal number" map-to="def:base-n-integer"/>
+		<style id="boolean" name="Boolean value" map-to="def:boolean"/>
+		<style id="fonction" name="Fonction" map-to="def:identifier"/>
+	</styles>
+
+	<definitions>
+		<define-regex id="cap-ident">\b[A-Z][A-Za-z0-9_']*</define-regex>
+		<define-regex id="memory-ident">\br[oa]m_[A-Za-z][A-Za-z0-9_']*</define-regex>
+		<define-regex id="low-ident">\b[a-z][A-Za-z0-9_']*</define-regex>
+
+		<define-regex id="begin-import">\%\{</define-regex>
+		<define-regex id="end-import">\}\%</define-regex>
+
+		<define-regex id="char-esc">\\((\\|"|'|n|t|b|r)|[0-9]{3}|x[0-9a-fA-F]{2})</define-regex>
+
+		<define-regex id="escaped-character" extended="true">
+            \\(                   # leading backslash
+            [\\\"\'nrbtfav\?] |   # escaped character
+            [0-7]{1,3} |          # one, two, or three octal digits
+            x[0-9A-Fa-f]+         # 'x' followed by hex digits
+            )
+		</define-regex>
+
+		<context id="escape-seq" style-ref="escaped-character">
+			<match>\%{char-esc}</match>
+		</context>
+
+		<!-- here's the main context -->
+		<context id="bopkit">
+			<include>
+
+				<!-- Comments -->
+				<context id="bopkit-comment" style-ref="comment" end-at-line-end="true">
+					<start>//</start>
+					<include>
+						<context ref="def:in-line-comment"/>
+					</include>
+				</context>
+
+				<context id="bopkit-comment-multiline" style-ref="comment">
+					<start>/\*</start>
+					<end>\*/</end>
+					<include>
+						<context ref="def:in-comment"/>
+					</include>
+				</context>
+
+				<context id="close-comment-outside-comment" style-ref="error">
+					<match>\*/(?!\*)</match>
+				</context>
+
+				<!-- Preprocessor -->
+				<define-regex id="preproc-start">^\s*#\s*</define-regex>
+
+				<define-regex id="template-include-start">&lt;</define-regex>
+				<define-regex id="template-include-end">&gt;</define-regex>
+
+				<context id="preprocessor" style-ref="preprocessor" end-at-line-end="true">
+					<start extended="true">
+                            \%{preproc-start}
+                            (include|define)
+                            \b
+					</start>
+					<include>
+						<context ref="def:line-continue" ignore-style="true"/>
+						<context ref="bopkit-string"/>
+						<context ref="bopkit-template-include"/>
+						<context ref="bopkit-comment"/>
+						<context ref="bopkit-keywords"/>
+						<context ref="bopkit-decimal"/>
+						<context ref="bopkit-types"/>
+						<context ref="bopkit-modpath"/>
+						<context ref="bopkit-comment-multiline"/>
+					</include>
+				</context>
+
+				<context id="bopkit-string" style-ref="string">
+					<start>"</start>
+					<end>"</end>
+				</context>
+
+				<context id="bopkit-template-include" style-ref="string">
+					<start>\%{template-include-start}</start>
+					<end>\%{template-include-end}</end>
+				</context>
+
+				<context id="bopkit-decimal" style-ref="decimal">
+					<match extended="true">
+                        (?&lt;![\w\.])
+                        [0-9]+[uUlL]*
+                        (?![\w\.])
+					</match>
+				</context>
+
+				<!-- Keywords -->
+				<context id="bopkit-keywords" style-ref="keyword">
+					<keyword>ROM</keyword>
+					<keyword>RAM</keyword>
+					<keyword>text</keyword>
+					<keyword>file</keyword>
+					<keyword>end</keyword>
+					<keyword>for</keyword>
+					<keyword>do</keyword>
+					<keyword>to</keyword>
+					<keyword>if</keyword>
+					<keyword>then</keyword>
+					<keyword>else</keyword>
+					<keyword>until</keyword>
+					<keyword>where</keyword>
+					<keyword>automaton</keyword>
+					<keyword>with</keyword>
+					<keyword>unused</keyword>
+					<keyword>external</keyword>
+				</context>
+
+				<context id="bopkit-types" style-ref="type">
+					<keyword>opt</keyword>
+					<keyword>pipe</keyword>
+					<keyword>def</keyword>
+					<keyword>not</keyword>
+					<keyword>~</keyword>
+					<keyword>and</keyword>
+					<keyword>or</keyword>
+					<keyword>id</keyword>
+					<keyword>xor</keyword>
+					<keyword>mux</keyword>
+					<keyword>reg</keyword>
+					<keyword>Z</keyword>
+					<keyword>nreg</keyword>
+					<keyword>nZ</keyword>
+					<keyword>regen</keyword>
+					<keyword>Zen</keyword>
+					<keyword>nregen</keyword>
+					<keyword>nZen</keyword>
+					<keyword>clock</keyword>
+					<keyword>gnd</keyword>
+					<keyword>vdd</keyword>
+					<keyword>VlogTestBench</keyword>
+					<keyword>Main</keyword>
+					<keyword>DebugMode</keyword>
+				</context>
+
+				<context id="bopkit-common-defines" style-ref="type">
+					<keyword>log</keyword>
+					<keyword>mod</keyword>
+					<keyword>min</keyword>
+					<keyword>max</keyword>
+				</context>
+
+				<!-- C99 booleans
+                    <context id="boolean" style-ref="boolean">
+                        <keyword>true</keyword>
+                        <keyword>false</keyword>
+                    </context>
+                -->
+
+				<context id="bopkit-modpath" style-ref="fonction">
+					<match>\%{cap-ident}</match>
+				</context>
+
+				<context id="bopkit-memory" style-ref="fonction">
+					<match>\%{memory-ident}</match>
+				</context>
+
+				<context id="begin_import" style-ref="preprocessor">
+					<match>\%{begin-import}</match>
+				</context>
+
+				<context id="end_import" style-ref="preprocessor">
+					<match>\%{end-import}</match>
+				</context>
+
+
+			</include>
+		</context>
+	</definitions>
+</language>
+
+
+
+
+
+
+
+
+
+
