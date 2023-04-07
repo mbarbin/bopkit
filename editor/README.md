@@ -1,5 +1,13 @@
 # Setting up your editor
 
+<p>
+  <img
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-editor.png?raw=true"
+    width='384'
+    alt="Logo"
+  />
+</p>
+
 In this directory you'll find basic support for some editors. This includes
 syntax highlighting and autoformatting.
 

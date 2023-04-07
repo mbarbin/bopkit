@@ -1,5 +1,13 @@
 # Bopkit Language Reference
 
+<p>
+  <img
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-language-reference.png?raw=true"
+    width='384'
+    alt="Logo"
+  />
+</p>
+
 This part of the documentation describes the syntax and the semantics of the netlist language used in bopkit to describe digital synchronous circuits.
 
 :::danger
