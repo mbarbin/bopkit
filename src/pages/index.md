@@ -2,6 +2,7 @@
 
 [![CI Status](https://github.com/mbarbin/bopkit/workflows/ci/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/ci.yml)
 [![Deploy Doc Status](https://github.com/mbarbin/bopkit/workflows/deploy-doc/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/deploy-doc.yml)
+[![Build ooc Status](https://github.com/mbarbin/bopkit/workflows/build-odoc/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/build-odoc.yml)
 
 Welcome to Bopkit, an educational project that provides a description language
 for programming synchronous digital circuits.

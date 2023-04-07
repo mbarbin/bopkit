@@ -10,6 +10,7 @@
 <p align="center">
   <a href="https://github.com/mbarbin/bopkit/actions/workflows/ci.yml"><img src="https://github.com/mbarbin/bopkit/workflows/ci/badge.svg" alt="CI Status"></a>
   <a href="https://github.com/mbarbin/bopkit/actions/workflows/deploy-doc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/deploy-doc/badge.svg" alt="Deploy Doc Status"></a>
+  <a href="https://github.com/mbarbin/bopkit/actions/workflows/build-odoc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/build-odoc/badge.svg" alt="Build odoc Status"></a>
 </p>
 
 Welcome to Bopkit, an educational project that provides a description language
@@ -36,9 +37,9 @@ dune install
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Documentation
 
-We're currently working on migrating an older and deprecated French
-documentation to English. In the meantime, you can browse the examples, tests,
-and projects in this repository to discover Bopkit.
+Bopkit's documentation is published [here](https://mbarbin.github.io/bopkit). It
+is built with [docusaurus](https://docusaurus.io/), an application developed by
+Meta, Inc to create open source documentation websites.
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Tutorials
 

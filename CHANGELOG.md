@@ -2,6 +2,7 @@
 
 ## Added
 
+- Added docusaurus documentation website, publish to GitHub Pages.
 - Added changelog.
 - Added pretty-printers for all languages. Integrate it to dune-fmt.
 
