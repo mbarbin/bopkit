@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="../../../assets/image/bopboard.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopboard.png?raw=true"
     alt="Logo"
   />
 </p>

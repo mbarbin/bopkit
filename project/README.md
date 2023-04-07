@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="../../assets/image/bopkit-projects.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-projects.png?raw=true"
     width='512'
     alt="Logo"
   />
@@ -12,7 +12,7 @@
 
 <p>
   <img
-    src="../../assets/image/digital-watch.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/digital-watch.png?raw=true"
     width='258'
     alt="Logo"
   />
@@ -25,7 +25,7 @@ display of the 7-segment digits of a digital watch.
 
 <p>
   <img
-    src="../../assets/image/bopkit-visa.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-visa.png?raw=true"
     width='258'
     alt="Logo"
   />
@@ -40,7 +40,7 @@ visa-machine. The project contains an assembly code that drives the display of a
 
 <p>
   <img
-    src="../../assets/image/bopkit-subleq.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-subleq.png?raw=true"
     width='258'
     alt="Logo"
   />
@@ -54,7 +54,7 @@ doesn't loop, which we use as input tests.
 
 <p>
   <img
-    src="../../assets/image/bopkit-wml.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-wml.png?raw=true"
     width='258'
     alt="Logo"
   />

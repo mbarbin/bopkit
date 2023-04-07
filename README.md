@@ -1,7 +1,7 @@
 <h1 align="center">
   <p align="center">Bopkit</p>
   <img
-    src="../assets/image/bopkit-logo.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-logo.png?raw=true"
     width=512
     alt="Logo"
   />

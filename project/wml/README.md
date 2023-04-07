@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="../../../assets/image/bopkit-wml.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-wml.png?raw=true"
     width='512'
     alt="Logo"
   />

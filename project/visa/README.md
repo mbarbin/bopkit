@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="../../../assets/image/bopkit-visa.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-visa.png?raw=true"
     width='512'
     alt="Logo"
   />
@@ -13,7 +13,7 @@ assembly language and converting it into binary instructions for the
 visa-machine.
 
 <p>
-  <img src="../../../assets/image/digital-calendar.png?raw=true" alt="Logo"/>
+  <img src="https://github.com/mbarbin/bopkit/blob/assets/image/digital-calendar.png?raw=true" alt="Logo"/>
 </p>
 
 The project contains an assembly code that drives the display of a 7-segment

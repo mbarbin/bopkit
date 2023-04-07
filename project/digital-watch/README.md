@@ -2,7 +2,7 @@
 
 <p>
   <img
-    src="../../../assets/image/bopkit-digital-watch.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-digital-watch.png?raw=true"
     width='512'
     alt="Logo"
   />
@@ -10,7 +10,7 @@
 
 <p>
   <img
-    src="../../../assets/image/digital-watch.png?raw=true"
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/digital-watch.png?raw=true"
     alt="Logo"
   />
 </p>
