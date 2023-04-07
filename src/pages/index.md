@@ -1,8 +1,17 @@
-# Bopkit
+<h1 align="center">
+  <p align="center">Bopkit</p>
+  <img
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-logo.png?raw=true"
+    width='384'
+    alt="Logo"
+  />
+</h1>
 
-[![CI Status](https://github.com/mbarbin/bopkit/workflows/ci/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/ci.yml)
-[![Deploy Doc Status](https://github.com/mbarbin/bopkit/workflows/deploy-doc/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/deploy-doc.yml)
-[![Build ooc Status](https://github.com/mbarbin/bopkit/workflows/build-odoc/badge.svg)](https://github.com/mbarbin/bopkit/actions/workflows/build-odoc.yml)
+<p align="center">
+  <a href="https://github.com/mbarbin/bopkit/actions/workflows/ci.yml"><img src="https://github.com/mbarbin/bopkit/workflows/ci/badge.svg" alt="CI Status"/></a>
+  <a href="https://github.com/mbarbin/bopkit/actions/workflows/deploy-doc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/deploy-doc/badge.svg" alt="Deploy Doc Status"/></a>
+  <a href="https://github.com/mbarbin/bopkit/actions/workflows/build-odoc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/build-odoc/badge.svg" alt="Build odoc Status"/></a>
+</p>
 
 Welcome to Bopkit, an educational project that provides a description language
 for programming synchronous digital circuits.
