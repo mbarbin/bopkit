@@ -157,7 +157,7 @@ const config = {
         // The application ID provided by Algolia
         appId: 'JE75IL1USH',
         // Public API key: it is safe to commit it
-        apiKey: '421b4ac60fca652fb4e9b46b3ffedca8',
+        apiKey: 'eae53ef881468106c32a10489ea5cd97',
         indexName: 'bopkit',
         // Optional: see doc section below
         contextualSearch: true,
