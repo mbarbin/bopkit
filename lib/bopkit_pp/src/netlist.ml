@@ -360,7 +360,7 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
     |> Pp.hvbox ~indent:2
   | Pipe { command; output_size = arite_pipe } ->
     Pp.concat
-      [ Pp.verbatim "pipe" ++ pp_external_call_output_size arite_pipe
+      [ Pp.verbatim "external" ++ pp_external_call_output_size arite_pipe
       ; Pp.verbatim "("
       ; Pp.verbatim (string_with_vars command)
       ; Pp.concat_map inputs ~f:(fun input ->
@@ -402,17 +402,16 @@ let pp_node
       ~sep:(Pp.verbatim "," ++ Pp.space)
       ~f:(fun output -> pp_variable output)
   in
-  (* Because it is oftentimes the case that external calls do not
-     return anything (e.g. graphical components, debuging, etc.) we
-     allow for a special syntax of omitting the '=' in case of empty
-     outputs. Currently it is not generalised to all blocks. Maybe it
-     should? TBD. *)
+  (* Because it is oftentimes the case that external calls do not return
+     anything (e.g. graphical components, debugging, etc.) we allow for a special
+     syntax of omitting the '=' in case of empty outputs. Currently it is not
+     generalized to all blocks. Maybe it should? TBD. *)
   let skip_outputs =
     List.is_empty t.outputs
     &&
     match t.call with
-    | External_block _ -> true
-    | Block _ | Pipe _ -> false
+    | External_block _ | Pipe _ -> true
+    | Block _ -> false
   in
   (if (not first_in_group) && not (Bopkit.Comments.is_empty comments)
    then Pp.newline

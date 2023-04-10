@@ -10,7 +10,7 @@ external board2 "bopboard run -title data"
 Main() = ()
 where
   data_out:[N] =
-    pipe("ram_memory.exe -addresses-len %{N} -words-len %{N}",
+    external("ram_memory.exe -addresses-len %{N} -words-len %{N}",
       addr:[N],
       addr:[N],
       write_mode,

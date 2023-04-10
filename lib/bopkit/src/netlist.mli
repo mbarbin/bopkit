@@ -148,13 +148,13 @@ type external_call_output_size =
 [@@deriving equal, sexp_of]
 
 (** The different kinds of calls to another block. The block that is called can
-    be a block previously defined, and an external block, or a pipe construct.
+    be a block previously defined, and an external block, or a external construct.
     The syntax is different for all three:
 
     {v
       output = block(input);
       output = $block.method(input);
-      output = pipe("./command.exe", input);
+      output = external("./command.exe", input);
     v}
 *)
 type call =

@@ -1,11 +1,10 @@
 digital_watch_display(h10:[7], h1:[7], m10:[7], m1:[7], s10:[7], s1:[7]) = ()
 where
-   =
-    pipe("digital_watch_display.exe",
-      h10:[7],
-      h1:[7],
-      m10:[7],
-      m1:[7],
-      s10:[7],
-      s1:[7]);
+  external("digital_watch_display.exe",
+    h10:[7],
+    h1:[7],
+    m10:[7],
+    m1:[7],
+    s10:[7],
+    s1:[7]);
 end where;

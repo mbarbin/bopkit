@@ -133,15 +133,14 @@ where
   // the simulator. This is equivalent to the call above. When using the simulator
   // in external blocks, the option [-p] must be added.
   block[2]:[WL] =
-    pipe("bopkit simu starred-tree.bop -p 2>/dev/null", a:[AD]);
+    external("bopkit simu starred-tree.bop -p 2>/dev/null", a:[AD]);
 
   // Here we check the result of both blocks with the bdd checker. It would
   // raise an exception and stops the simulation in case of an invalid result.
   for i = 1 to 2
-     =
-      pipe("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
-        a:[AD],
-        block[i]:[WL]);
+    external("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
+      a:[AD],
+      block[i]:[WL]);
   end for;
 end where;
 ```

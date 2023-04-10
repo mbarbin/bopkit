@@ -34,7 +34,7 @@ external block:
 Main(a:[N], b:[N]) = s:[N]
 where
   // We use the external block to compute the truth table of the division.
-  s:[N] = pipe("./div.exe -N %{N}", a:[N], b:[N]);
+  s:[N] = external("./div.exe -N %{N}", a:[N], b:[N]);
 end where;
 ```
 
@@ -171,7 +171,7 @@ where
   s_bdd:[N] = Bloc(a:[N], b:[N]);
 
   // Via the bdd with partial specification
-  s_bdd_star:[N] = pipe("bopkit simu div_opt.bop -p", a:[N], b:[N]);
+  s_bdd_star:[N] = external("bopkit simu div_opt.bop -p", a:[N], b:[N]);
 
   // We test all results with the external block method [test].
   $div.test(a:[N], b:[N], s_rom:[N]);

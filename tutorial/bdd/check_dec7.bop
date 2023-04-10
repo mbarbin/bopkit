@@ -6,13 +6,12 @@
 
 Test() = ()
 where
-  a:[AD] = pipe("counter.exe -N %{AD}");
+  a:[AD] = external("counter.exe -N %{AD}");
   bloc[1]:[WL] = Bloc(a:[AD]);
-  bloc[2]:[WL] = pipe("bopkit simu dec7-tree.bop -p", a:[AD]);
+  bloc[2]:[WL] = external("bopkit simu dec7-tree.bop -p", a:[AD]);
   for i = 1 to 2
-     =
-      pipe("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
-        a:[AD],
-        bloc[i]:[WL]);
+    external("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
+      a:[AD],
+      bloc[i]:[WL]);
   end for;
 end where;

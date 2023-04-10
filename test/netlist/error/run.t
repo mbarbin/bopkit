@@ -191,9 +191,9 @@ parser but prior to entering its execution.
   Hint: did you mean Z, id, nZ, or or ~?
   [1]
   ================================: invalid-pipe-arity.bop
-  File "invalid-pipe-arity.bop", line 3, characters 2-45:
-  3 |   out = and(e, pipe[2]("./external.exe", f));
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "invalid-pipe-arity.bop", line 3, characters 2-49:
+  3 |   out = and(e, external[2]("./external.exe", f));
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: The primitive 'and' expects 2 inputs but is applied to 3 variables.
   [1]
   ================================: memory-file-not-found.bop
@@ -242,9 +242,9 @@ parser but prior to entering its execution.
   Error: Block 'P[_]' expects 2 parameters but is applied to 1
   [1]
   ================================: pipe-nested-arity.bop
-  File "pipe-nested-arity.bop", line 3, characters 15-40:
-  3 |   out = and(e, pipe("./external.exe", f));
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pipe-nested-arity.bop", line 3, characters 15-44:
+  3 |   out = and(e, external("./external.exe", f));
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: Bopkit won't infer the output size of a nested external call.
   Hint: You can either place this call at toplevel, or add the output size
   explicitely using the appropriate syntax:

@@ -64,7 +64,7 @@ circuits as an external block. See an example in the file `out.bop`:
 
 Main() = out:[N]
 where
-  out:[N] = pipe("counter.exe -N %{N}");
+  out:[N] = external("counter.exe -N %{N}");
 end where;
 ```
 

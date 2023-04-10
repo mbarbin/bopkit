@@ -1,6 +1,6 @@
 P[N][M](a) = b
 where
-  b = pipe("./blah %{N} %{M}", a);
+  b = external("./blah %{N} %{M}", a);
 end where;
 
 Main(a) = b

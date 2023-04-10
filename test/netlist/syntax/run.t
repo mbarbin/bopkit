@@ -300,17 +300,17 @@ monitor in tests.
   ================================: pipe.bop
   A(a, b) = out
   where
-    out = pipe("./external.exe", a, b);
+    out = external("./external.exe", a, b);
   end where;
   
   B() = out
   where
-    out = pipe("./external.exe");
+    out = external("./external.exe");
   end where;
   
   C(e, f) = out
   where
-    out = and(e, pipe[1]("./external.exe", f));
+    out = and(e, external[1]("./external.exe", f));
   end where;
   ================================: text-memory.bop
   // At the moment, the memory text syntax does not round-trip. It was

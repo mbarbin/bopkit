@@ -149,6 +149,11 @@ unused_list:
   | un_noeud liste_noeud                          { $1::$2 }
 ;
 
+token_external:
+  | TOK_PIPE  { () }
+  | EXTERNAL { () }
+;
+
 un_noeud:
 // Raccourcis pour id
   | outputs=variables_list EGAL variables=variables_list POINT_VIRG
@@ -240,7 +245,7 @@ un_noeud:
 
  // RESTE : PIPE, EXTERNAL
 
-  | outputs=variables_list _e=EGAL TOK_PIPE LPAREN STRING RPAREN POINT_VIRG
+  | outputs=variables_list _e=EGAL token_external LPAREN STRING RPAREN POINT_VIRG
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
@@ -250,13 +255,33 @@ un_noeud:
          }
       }
 
-  | outputs=variables_list _e=EGAL TOK_PIPE LPAREN STRING VIRG imbriq_list RPAREN POINT_VIRG
+  | outputs=variables_list _e=EGAL token_external LPAREN STRING VIRG imbriq_list RPAREN POINT_VIRG
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
          ; call = Pipe { command = $5; output_size = Inferred }
          ; inputs = $7
          ; outputs
+         }
+      }
+
+  | _e=token_external LPAREN command=STRING RPAREN POINT_VIRG
+      { Bopkit.Control_structure.Node
+         { loc = Loc.create $loc
+         ; comments = Comments.make ~attached_to:($startpos(_e))
+         ; call = Pipe { command; output_size = Inferred }
+         ; inputs = []
+         ; outputs = []
+         }
+      }
+
+  | _e=token_external LPAREN command=STRING VIRG inputs=imbriq_list RPAREN POINT_VIRG
+      { Bopkit.Control_structure.Node
+         { loc = Loc.create $loc
+         ; comments = Comments.make ~attached_to:($startpos(_e))
+         ; call = Pipe { command; output_size = Inferred }
+         ; inputs
+         ; outputs = []
          }
       }
 
@@ -503,7 +528,7 @@ output_size:
       }
     }
 
-  | _d=TOK_PIPE output_size=output_size LPAREN command=STRING RPAREN
+  | _d=token_external output_size=output_size LPAREN command=STRING RPAREN
     { Nested_node
        { loc = Loc.create $loc
        ; comments = Comments.make ~attached_to:($startpos(_d))
@@ -512,7 +537,7 @@ output_size:
        }
     }
 
-  | _d=TOK_PIPE output_size=output_size LPAREN command=STRING VIRG inputs=imbriq_list RPAREN
+  | _d=token_external output_size=output_size LPAREN command=STRING VIRG inputs=imbriq_list RPAREN
     { Nested_node
        { loc = Loc.create $loc
        ; comments = Comments.make ~attached_to:($startpos(_d))
