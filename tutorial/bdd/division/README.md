@@ -12,10 +12,15 @@ monitor the resulting circuits. We analyze the number of gates present in the
 circuits and compare the reduction in the number of gates when division by zero
 is left unspecified versus when it is set to 0.
 
+To see all the files of this tutorial, check out the source code on GitHub at
+https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division.
+
 ## Generating the truth tables
 
-We have defined an external block in the file `div.ml`. It's an OCaml program
-that implements the division operation between two operands on N bits.
+We have defined an external block in the file
+[div.ml](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.ml).
+It's an OCaml program that implements the division operation between two
+operands on N bits.
 
 ### Via a circuit
 
@@ -69,12 +74,17 @@ $ bopkit simu generate.bop -num-counter-cycle 1 -o | tail -n 20
 Because this circuit is really only connecting its input into the external
 block, we can pipe a counter input directly into the external block to achieve
 the same result. That's actually what we do to generate the image with the
-partial specification, implemented in the external block `div_opt.ml`.
+partial specification, implemented in the external block
+[div_opt.ml](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.ml).
+
+#### [div.txt](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.txt)
 
 ```sh
 $ bopkit counter -ni -c 256 -N 8 | ./div.exe -N 4 | wc -l
 256
 ```
+
+#### [div_opt.txt](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.txt)
 
 ```sh
 $ bopkit counter -ni -c 256 -N 8 | ./div_opt.exe -N 4 | wc -l
@@ -88,6 +98,8 @@ lengthy, so we only show the headers below. The header indicates the number of
 gates in the circuit. `div_opt.txt` is the table that has the unspecified bits
 when dividing by zero.
 
+### [div.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.bop)
+
 ```sh
 $ bopkit bdd synthesize -AD 8 -WL 4 -f div.txt | head -n 5
 // Block synthesized by bopkit from "div.txt"
@@ -96,6 +108,8 @@ $ bopkit bdd synthesize -AD 8 -WL 4 -f div.txt | head -n 5
 Bloc(a:[8]) = out:[4]
 where
 ```
+
+### [div_opt.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.bop)
 
 ```sh
 $ bopkit bdd synthesize -AD 8 -WL 4 -f div_opt.txt | head -n 5

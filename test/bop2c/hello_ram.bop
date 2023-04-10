@@ -1,0 +1,16 @@
+#include <stdlib.bop>
+
+RAM R (2, 4) = text {
+  0001
+  0010
+  0100
+  1000
+}
+
+Main(read_addr:[2], write_addr:[2], write, data:[4]) = out:[4]
+where
+  // To avoid depending on the unspecified behavior of what's returned by a RAM
+  // in [write] mode, we return 0 in this case.
+  out:[4] = mux[4](write, gnd[4](), ram_out:[4]);
+  ram_out:[4] = ram_R(read_addr:[2], write_addr:[2], write, data:[4]);
+end where;

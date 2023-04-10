@@ -22,6 +22,7 @@ let main =
   Command.group
     ~summary:"bopkit command line"
     [ "bdd", Bopkit_bdd_command.main
+    ; "bop2c", Cmd_bop2c.main
     ; "check", Cmd_check.main
     ; "counter", Bopkit_counter.Counter.main
     ; "digital-calendar", Seven_segment_display.digital_calendar
@@ -30,6 +31,7 @@ let main =
     ; "fmt", fmt_cmd
     ; "print-sites", print_sites_cmd
     ; "process", Bopkit_process_command.main
+    ; "pulse", Bopkit_pulse.Pulse.main
     ; "simu", Cmd_simu.main
     ]
 ;;

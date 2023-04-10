@@ -38,9 +38,7 @@ one of these locations, and restart `gedit` to pick it up. You should now see
 `Bopkit` in the language dropdown, and the language mode should be enabled by
 default on extension `.bop`.
 
-## Contributing to the language specification
-
-### Validating the file
+## Validating the language specification
 
 GtkSourceView's
 [lang-reference](https://gnome.pages.gitlab.gnome.org/gtksourceview/gtksourceview5/lang-reference.html).
@@ -61,6 +59,3 @@ This is done in the script `./validate-lang-file.sh`:
 $ ./validate-lang-file.sh
 ✅ Validation of bopkit.lang succeeded.
 ```
-
-To contribute, open an PR and check that your updated file passes the
-validation.

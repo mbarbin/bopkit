@@ -16,6 +16,17 @@ let pp_to_string pp =
   contents
 ;;
 
+let find_files_in_cwd_by_extensions ~extensions =
+  let ls_dir =
+    Sys_unix.readdir (Sys_unix.getcwd ())
+    |> Array.to_list
+    |> List.sort ~compare:String.compare
+  in
+  List.filter ls_dir ~f:(fun file ->
+    Sys_unix.is_file_exn ~follow_symlinks:true file
+    && List.exists extensions ~f:(fun extension -> Filename.check_suffix file extension))
+;;
+
 module type T = sig
   type t [@@deriving equal, sexp_of]
 end
@@ -107,17 +118,6 @@ struct
       result
     in
     find_fixpoint ~num_steps:0 ~filename
-  ;;
-
-  let find_files_in_cwd_by_extensions ~extensions =
-    let ls_dir =
-      Sys_unix.readdir (Sys_unix.getcwd ())
-      |> Array.to_list
-      |> List.sort ~compare:String.compare
-    in
-    List.filter ls_dir ~f:(fun file ->
-      Sys_unix.is_file_exn ~follow_symlinks:true file
-      && List.exists extensions ~f:(fun extension -> Filename.check_suffix file extension))
   ;;
 
   let test_cmd =

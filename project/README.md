@@ -3,7 +3,7 @@
 <p>
   <img
     src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-projects.png?raw=true"
-    width='512'
+    width='384'
     alt="Logo"
   />
 </p>
@@ -13,7 +13,7 @@
 <p>
   <img
     src="https://github.com/mbarbin/bopkit/blob/assets/image/digital-watch.png?raw=true"
-    width='258'
+    width='512'
     alt="Logo"
   />
 </p>

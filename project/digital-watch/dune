@@ -1,0 +1,92 @@
+(executables
+ (names remove_duplicates)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries core core_unix.command_unix graphics threads)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(rule
+ (alias digital-watch-simulation)
+ (deps
+  (package bopkit)
+  watch.bop)
+ (action
+  (bash "%{bin:bopkit} simu %{dep:main.bop}")))
+
+(rule
+ (copy
+  ./../../stdlib/7-segment/bin/generate_digital_watch_display_input.exe
+  generate_digital_watch_display_input.exe))
+
+(rule
+ (with-stdout-to
+  "watch.expected"
+  (run
+   %{dep:generate_digital_watch_display_input.exe}
+   --gen-unit-test-output)))
+
+(rule
+ (with-stdout-to
+  "watch.via-bop.output"
+  (bash
+   "%{bin:bopkit} counter -ni -N 1 -c 345600 | %{bin:bopkit} simu %{dep:watch.bop} -o | ./%{dep:remove_duplicates.exe}")))
+
+(rule
+ (target watch_in_c.c.output)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{bin:bopkit} bop2c %{dep:watch.bop} -optimise-cds false))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff watch_in_c.c watch_in_c.c.output)))
+
+(rule
+ (target watch_in_c)
+ (action
+  (run "gcc" -o %{target} %{dep:watch_in_c.c})))
+
+(rule
+ (with-stdout-to
+  "watch.via-bop2c.output"
+  (bash
+   "%{bin:bopkit} counter -ni -N 1 -c 345600 | ./%{dep:watch_in_c} 345600 | ./%{dep:remove_duplicates.exe}")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff watch.expected watch.via-bop.output)))
+
+(rule
+ (alias runtest)
+ (action
+  (diff watch.expected watch.via-bop2c.output)))
+
+(include dune.inc)
+
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash "%{bin:bopkit} fmt gen-dune .bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.bop)))
+
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.bop)))

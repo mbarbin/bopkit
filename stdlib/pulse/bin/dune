@@ -1,6 +1,6 @@
 (executables
  (names pulse)
- (libraries core bopkit_block bopkit_sleeper)
+ (libraries core_unix.command_unix bopkit_pulse)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
 

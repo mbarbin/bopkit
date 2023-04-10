@@ -1,7 +1,11 @@
 # Bopkit Stdlib
 
 <p>
-  <img src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-stdlib.png?raw=true" alt="Logo"/>
+  <img
+    src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-stdlib.png?raw=true"
+    width='384'
+    alt="Logo"
+  />
 </p>
 
 Bopkit's standard library is made of `*.bop` files that may be included in

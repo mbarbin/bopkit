@@ -1,0 +1,13 @@
+(library
+ (name bopkit_to_c)
+ (public_name bopkit.to_c)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries
+  bopkit_circuit
+  bopkit_compiler
+  core
+  core_unix.command_unix
+  parsing_utils
+  pp)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

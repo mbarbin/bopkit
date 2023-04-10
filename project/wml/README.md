@@ -3,7 +3,7 @@
 <p>
   <img
     src="https://github.com/mbarbin/bopkit/blob/assets/image/bopkit-wml.png?raw=true"
-    width='512'
+    width='384'
     alt="Logo"
   />
 </p>

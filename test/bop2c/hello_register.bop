@@ -1,0 +1,8 @@
+// Testing the 4 kinds of registers
+Main(enable) = b:[4]
+where
+  b[0] = reg(not(b[0]));
+  b[1] = nreg(not(b[1]));
+  b[2] = regen(not(b[2]), enable);
+  b[3] = nregen(not(b[3]), enable);
+end where;

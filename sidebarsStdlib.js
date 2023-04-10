@@ -11,7 +11,10 @@ const sidebars = {
       items: [
         { type: 'doc', id: 'bopboard/example/README', label: 'Examples' },
       ]
-    }
+    },
+    { type: 'doc', id: 'segment/README', label: '7-segment displays' },
+    { type: 'doc', id: 'counter/README', label: 'Counter' },
+    { type: 'doc', id: 'pulse/README', label: 'Pulse' },
   ],
 };
 

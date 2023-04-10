@@ -55,26 +55,14 @@ This is not a guideline for how to name identifiers in a circuit!!
 
 ## cycle.bop
 
-<!-- $MDX file=iii.bop -->
+<!-- $MDX file=cycle.bop -->
 ```bopkit
-#define i "and"
-#define ii 3
-
-i[i]<i>(i:[i]) = i
+// Testing the cycle detection
+Cycle(a, b) = s
 where
-  for i = i - i to i - i / i
-    for i = i
-      i[i + i ^ (i - i)][i + i ^ (i - i)] = i(i[i][i], i[i]);
-    end for;
-  end for;
-  i[i - i][i - i] = vdd();
-  i = id(i[i][i]);
-end where;
-
-[ Main ]
-i(i:[ii]) = i
-where
-  i = i[ii]<"%{i}">(i:[ii]);
+  u = and(a, g);
+  g = or(b, id(u));
+  s = xor(g, vdd());
 end where;
 ```
 

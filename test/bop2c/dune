@@ -1,0 +1,44 @@
+(include dune.inc)
+
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash "%{bin:bopkit} fmt gen-dune .bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))
+
+(rule
+ (copy gen-dune/main.exe gen-dune.exe))
+
+(include dune-bop2c.inc)
+
+(rule
+ (deps
+  gen-dune.exe
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune-bop2c.inc.gen
+   (pipe-stdout
+    (bash "./gen-dune.exe")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune-bop2c.inc dune-bop2c.inc.gen)))
+
+(cram
+ (deps
+  (package bopkit)
+  %{bin:bopkit}
+  (glob_files *.exe)
+  (glob_files *.bop)))

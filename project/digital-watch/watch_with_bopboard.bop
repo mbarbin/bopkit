@@ -1,0 +1,36 @@
+#include <stdlib.bop>
+#include <bopboard.bop>
+#include <"7_segment.bop">
+#include <pulse.bop>
+#include "watch.bop"
+
+/**
+ * For the user interface to feel more fluid, the circuit needs to run
+ * a bit faster than the original.
+ */
+#define CYCLES_PER_SECOND 2 ^ 4
+#define PULSE__CYCLES_PER_SECOND CYCLES_PER_SECOND
+
+[ Main ]
+Simulation() = ()
+with unused = push[3..4]
+where
+  // Regulating the frequency of the simulation.
+  $pulse();
+  push:[5] = $bopboard.push();
+
+  // Posedge captures the moment when the buttons were just pressed, as opposed
+  // to keeping incrementing while the button continue to be pressed down.
+  incrH = Posedge(push[0]);
+  incrM = Posedge(push[1]);
+  incrS = Posedge(push[2]);
+
+  // The Watch with the incrementable inputs.
+  s:[42] = IncrementableWatch(incrS, incrM, incrH);
+
+  // Sending the bits to the 7-segments display.
+   = digital_watch_display(s:[42]);
+
+  // For fun we connect the bits to the right of the display to the board's light.
+  $bopboard.light(s[34..41]);
+end where;

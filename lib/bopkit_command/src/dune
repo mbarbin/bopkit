@@ -4,10 +4,12 @@
  (flags -w +a-4-40-42-44-66 -warn-error +a)
  (libraries
   bopkit_bdd_command
+  bopkit_to_c
   bopkit_compiler
   bopkit_counter
   bopkit_pp
   bopkit_process_command
+  bopkit_pulse
   bopkit_simulator
   bopkit_sites
   bopkit_sleeper

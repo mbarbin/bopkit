@@ -1,4 +1,4 @@
-// Test de la detection de cycles
+// Testing the cycle detection
 Cycle(a, b) = s
 where
   u = and(a, g);

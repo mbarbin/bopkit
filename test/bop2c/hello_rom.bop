@@ -1,0 +1,11 @@
+ROM R (2, 4) = text {
+  0001
+  0010
+  0100
+  1000
+}
+
+Main(addr:[2]) = out:[4]
+where
+  out:[4] = rom_R(addr:[2]);
+end where;

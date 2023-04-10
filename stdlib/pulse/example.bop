@@ -1,0 +1,9 @@
+#include <pulse.bop>
+
+#define PULSE__CYCLES_PER_SECOND 4
+#define PULSE__AS_IF_STARTED_AT_MIDNIGHT "true"
+
+Main() = ()
+where
+  $pulse();
+end where;

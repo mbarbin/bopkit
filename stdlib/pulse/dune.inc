@@ -2,6 +2,16 @@
 
 (rule
  (with-stdout-to
+  example.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:example.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff example.bop example.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   pulse.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:pulse.bop}")))
 

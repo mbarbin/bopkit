@@ -23,3 +23,7 @@ val fmt_cmd
   -> Command.t
 
 val pp_to_string : _ Pp.t -> string
+
+(** Find all the files in the current directory that have one of the supplied
+    extensions. *)
+val find_files_in_cwd_by_extensions : extensions:string list -> string list

@@ -1,0 +1,4 @@
+Main(a, b) = s
+where
+  s = and(a, b);
+end where;
