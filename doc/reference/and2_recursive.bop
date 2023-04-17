@@ -1,0 +1,13 @@
+And2[N](e:[N]) = s
+where
+  if N == 1 then
+    s = Id(e[0]);
+  else
+    s = And(And2[N - 1](e:[N - 1]), e[N - 1]);
+  end if;
+end where;
+
+Main(e:[8]) = s
+where
+  s = And2[8](e:[8]);
+end where;

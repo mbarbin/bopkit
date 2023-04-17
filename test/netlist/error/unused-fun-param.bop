@@ -1,6 +1,6 @@
 A<N>(a) = b
 where
-  b = not(a);
+  b = Not(a);
 end where;
 
 A(a) = b

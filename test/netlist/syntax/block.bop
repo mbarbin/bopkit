@@ -1,11 +1,11 @@
 #define N 2
 
-Main(a, b[0], c:[N], d[0..N], e:[-N]) = (f:[N]:[N], g:[N][0..N-1])
+Main(a, b[0], c:[N], d[0..N], e:[-N]) = (f:[N]:[N], g:[N][0..N - 1])
 where
-  for i = 0 to N-1
-    for j = 0 to N-1
-      f[i][j] = id(c[i]);
-      g[j][i] = id(and(d[j], c[i]));
+  for i = 0 to N - 1
+    for j = 0 to N - 1
+      f[i][j] = Id(c[i]);
+      g[j][i] = Id(And(d[j], c[i]));
     end for;
   end for;
 end where;

@@ -1,0 +1,6 @@
+#include <stdlib.bop>
+
+Main(a, b, c) = (s, r)
+where
+  s, r = FullAdder(a, b, c);
+end where;

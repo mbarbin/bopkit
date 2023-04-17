@@ -5,7 +5,7 @@ Main[N]() = c
 where
   // There are several issues with this block, but since it is discarded,
   // it does not raise any error or warning.
-  a = id(a);
+  a = Id(a);
 end where;
 
 Main[N]() = ()

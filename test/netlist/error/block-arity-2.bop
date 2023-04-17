@@ -1,6 +1,6 @@
 A(a, b) = c
 where
-  c = and(a, b);
+  c = And(a, b);
 end where;
 
 Main(a, b) = (c, d)

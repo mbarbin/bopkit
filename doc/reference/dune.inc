@@ -2,6 +2,16 @@
 
 (rule
  (with-stdout-to
+  and2_recursive.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:and2_recursive.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff and2_recursive.bop and2_recursive.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   one-of-each.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:one-of-each.bop}")))
 

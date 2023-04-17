@@ -27,6 +27,17 @@ let find_files_in_cwd_by_extensions ~extensions =
     && List.exists extensions ~f:(fun extension -> Filename.check_suffix file extension))
 ;;
 
+let bopkit_force_fmt =
+  lazy
+    (let var = "BOPKIT_FORCE_FMT" in
+     match Sys.getenv var with
+     | Some "true" -> true
+     | None | Some "false" -> false
+     | Some value ->
+       raise_s
+         [%sexp "Unexpected value for env var", [%here], { var : string; value : string }])
+;;
+
 module type T = sig
   type t [@@deriving equal, sexp_of]
 end
@@ -50,16 +61,7 @@ struct
   end
 
   let pretty_print ~filename ~read_contents_from_stdin =
-    let force =
-      let var = "BOPKIT_FORCE_FMT" in
-      match Sys.getenv var with
-      | Some "true" -> true
-      | None | Some "false" -> false
-      | Some value ->
-        raise_s
-          [%sexp
-            "Unexpected value for env var", [%here], { var : string; value : string }]
-    in
+    let force = force bopkit_force_fmt in
     let stdin_contents =
       if read_contents_from_stdin then In_channel.input_all In_channel.stdin else ""
     in

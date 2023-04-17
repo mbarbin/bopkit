@@ -1,15 +1,13 @@
 #define N 4
 
 external calc "./calc.exe -N %{N}"
-external [ Attr1, Attr2] with_attr "./with_attr.exe"
+
+external [ Attr1, Attr2 ] with_attr "./with_attr.exe"
 
 external with_methods "%{PATH}/with_methods.exe -N %{N}"
   def m1 "IMPL_M1"
-
   def [ A1, A2 ] m2 "IMPL_M2"
-
   def "m3" "IMPL_M3"
-
 end external;
 
 external with_loops "./with_loops.exe"

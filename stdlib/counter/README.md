@@ -14,7 +14,7 @@ Consider the circuit `and.bop`:
 ```bopkit
 Main(a, b) = s
 where
-  s = and(a, b);
+  s = And(a, b);
 end where;
 ```
 

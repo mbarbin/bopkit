@@ -94,7 +94,7 @@ init_message_def_method:
           }
       }
 
-  | _hd=IF if_cond=expr_bool THEN
+  | _hd=IF if_condition=expr_bool THEN
       then_nodes=init_message_def_method_list
     _el=ELSE
       else_nodes=init_message_def_method_list
@@ -104,13 +104,13 @@ init_message_def_method:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.make ~attached_to:($startpos(_el))
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond
+        ; if_condition
         ; then_nodes
         ; else_nodes
         }
     }
 
-  | _hd=IF if_cond=expr_bool THEN
+  | _hd=IF if_condition=expr_bool THEN
       then_nodes=init_message_def_method_list
     END _tl=IF POINT_VIRG
     { Bopkit.Control_structure.If_then_else
@@ -118,7 +118,7 @@ init_message_def_method:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.none
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond
+        ; if_condition
         ; then_nodes
         ; else_nodes = []
         }
@@ -134,7 +134,7 @@ init_message_def_method:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.make ~attached_to:($startpos(_el))
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = CONST const
+        ; if_condition = CONST const
         ; then_nodes
         ; else_nodes
         }
@@ -148,7 +148,7 @@ init_message_def_method:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.none
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = CONST const
+        ; if_condition = CONST const
         ; then_nodes
         ; else_nodes = []
         }

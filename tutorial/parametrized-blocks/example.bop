@@ -2,12 +2,12 @@
 OR_odd[B](e:[B]) = s
 where
   if B <= 1 then
-    s = id(e[0]);
+    s = Id(e[0]);
   else
     if B mod 2 == 0 then
-      s = or(OR_odd[B - 1](e:[B - 1]), e[B - 1]);
+      s = Or(OR_odd[B - 1](e:[B - 1]), e[B - 1]);
     else
-      s = or(OR_even[B - 1](e:[B - 1]), e[B - 1]);
+      s = Or(OR_even[B - 1](e:[B - 1]), e[B - 1]);
     end if;
   end if;
 end where;
@@ -15,30 +15,30 @@ end where;
 OR_even[A](e:[A]) = s
 where
   if A <= 1 then
-    s = id(e[0]);
+    s = Id(e[0]);
   else
     if A mod 2 == 0 then
-      s = or(OR_odd[A - 1](e:[A - 1]), e[A - 1]);
+      s = Or(OR_odd[A - 1](e:[A - 1]), e[A - 1]);
     else
-      s = or(OR_even[A - 1](e:[A - 1]), e[A - 1]);
+      s = Or(OR_even[A - 1](e:[A - 1]), e[A - 1]);
     end if;
   end if;
 end where;
 
 // Recursive block and2
-and2[N](e:[N]) = s
+And2[N](e:[N]) = s
 where
   if N == 1 then
-    s = id(e[0]);
+    s = Id(e[0]);
   else
-    s = and(and2[N - 1](e:[N - 1]), e[N - 1]);
+    s = And(And2[N - 1](e:[N - 1]), e[N - 1]);
   end if;
 end where;
 
 // Example of invocation
-main(a:[5]) = (o, t, e)
+Main(a:[5]) = (o, t, e)
 where
   o = OR_odd[5](a[4..0]);
-  t = not(OR_even[5](a[4..0]));
-  e = and2[5](a:[5]);
+  t = Not(OR_even[5](a[4..0]));
+  e = And2[5](a:[5]);
 end where;

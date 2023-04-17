@@ -1,16 +1,16 @@
 open! Core
 
 type t =
-  { addresses_len : int
-  ; words_len : int
+  { address_width : int
+  ; data_width : int
   ; mem : Bopkit_memory.Ram.t
   }
 
-let init ~title ~addresses_len ~words_len =
+let init ~title ~address_width ~data_width =
   Graphics.open_graph " 670x550+100-100";
   let title = Option.value title ~default:"RAM MEMORY" in
   Graphics.set_window_title title;
-  let mem = Bopkit_memory.create ~name:"ram" ~addresses_len ~words_len ~kind:Ram () in
+  let mem = Bopkit_memory.create ~name:"ram" ~address_width ~data_width ~kind:Ram () in
   let (_ : Core_thread.t) =
     Core_thread.create
       ~on_uncaught_exn:`Kill_whole_process
@@ -18,7 +18,7 @@ let init ~title ~addresses_len ~words_len =
       ()
   in
   Bopkit_memory.draw mem;
-  { addresses_len; words_len; mem }
+  { address_width; data_width; mem }
 ;;
 
 let set_color_if_needed t ~needs_redraw ~address ~color =
@@ -36,12 +36,12 @@ let set_color_if_needed t ~needs_redraw ~address ~color =
 let write_if_needed t ~needs_redraw ~address ~data =
   let is_needed =
     let previous_data = Array.copy data in
-    Bopkit_memory.bread t.mem ~address ~dst:previous_data;
+    Bopkit_memory.read_bits t.mem ~address ~dst:previous_data;
     not (Bit_array.equal previous_data data)
   in
   if is_needed
   then (
-    Bopkit_memory.bwrite t.mem ~address ~value:data;
+    Bopkit_memory.write_bits t.mem ~address ~value:data;
     needs_redraw := true)
 ;;
 
@@ -51,7 +51,7 @@ let center_if_needed t ~needs_redraw ~on_address =
   | `Done_now_needs_to_redraw -> needs_redraw := true
 ;;
 
-let main ({ addresses_len; words_len; mem } as t) =
+let main ({ address_width; data_width; mem } as t) =
   let last_set_color_address = ref None in
   let reset_last_address_color_if_needed ~needs_redraw ~address =
     let did_reset =
@@ -70,11 +70,11 @@ let main ({ addresses_len; words_len; mem } as t) =
   Bopkit_block.Method.main
     ~input_arity:
       (Tuple_4
-         ( Bus { width = addresses_len }
-         , Bus { width = addresses_len }
+         ( Bus { width = address_width }
+         , Bus { width = address_width }
          , Signal
-         , Bus { width = words_len } ))
-    ~output_arity:(Bus { width = words_len })
+         , Bus { width = data_width } ))
+    ~output_arity:(Bus { width = data_width })
     ~f:(fun ~input:(read_addr, write_addr, write_mode, data) ~output:w_out ->
       let needs_redraw = ref false in
       if write_mode
@@ -99,22 +99,22 @@ let main ({ addresses_len; words_len; mem } as t) =
           ~needs_redraw
           ~address:(Bit_array.to_int read_addr)
           ~color:Graphics.green;
-        Bopkit_memory.bread mem ~address:read_addr ~dst:w_out);
+        Bopkit_memory.read_bits mem ~address:read_addr ~dst:w_out);
       if !needs_redraw then Bopkit_memory.draw mem)
 ;;
 
 let () =
   Bopkit_block.run
     (let open Command.Let_syntax in
-     let%map_open addresses_len =
+     let%map_open address_width =
        flag
          "addresses-len"
          ~aliases:[ "a" ]
          (required int)
          ~doc:"N number of bit of addresses"
-     and words_len =
+     and data_width =
        flag "words-len" ~aliases:[ "w" ] (required int) ~doc:"N number of bits of words"
      and title = flag "title" (optional string) ~doc:"TITLE set window title" in
-     let t = init ~title ~addresses_len ~words_len in
+     let t = init ~title ~address_width ~data_width in
      Bopkit_block.create ~name:"ram_memory" ~main:(main t) ~is_multi_threaded:true ())
 ;;

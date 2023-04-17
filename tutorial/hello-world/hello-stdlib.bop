@@ -10,5 +10,5 @@
  */
 Hello(a, b, c) = s
 where
-  s = and[3](a, b, c);
+  s = And[3](a, b, c);
 end where;

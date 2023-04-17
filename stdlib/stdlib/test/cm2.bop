@@ -1,0 +1,6 @@
+#include <stdlib.bop>
+
+Main(a, b) = (s, r)
+where
+  s, r = CM2(Or(a, b));
+end where;

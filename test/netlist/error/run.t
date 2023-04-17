@@ -124,13 +124,13 @@ parser but prior to entering its execution.
   [1]
   ================================: external-nested-arity.bop
   File "external-nested-arity.bop", line 9, characters 19-42:
-  9 |   out:[N] = not[N]($calc.add(a:[N], b:[N]));
+  9 |   out:[N] = Not[N]($calc.add(a:[N], b:[N]));
                          ^^^^^^^^^^^^^^^^^^^^^^^
   Error: Bopkit won't infer the output size of a nested external call.
-  Hint: You can either place this call at toplevel, or add the output size
-  explicitely using the appropriate syntax:
-  Pipe     =>             pipe[N](...)
-  External =>    $block.method[N](...)
+  Hint: You can either place this call at top level, or add the output size
+  explicitly using the appropriate syntax:
+  External command =>        external[N](...)
+  External block   =>   $block.method[N](...)
   [1]
   ================================: freevar-define.bop
   File "freevar-define.bop", line 3, characters 0-31:
@@ -169,7 +169,7 @@ parser but prior to entering its execution.
   5 |   b = fun(a);
         ^^^^^^^^^^^
   Error: Unknown block name '1'.
-  Hint: did you mean Z, id, nZ, or or ~?
+  Hint: did you mean Id, Or, Z, id, nZ, or or ~?
   [1]
   ================================: invalid-funarg-3.bop
   File "invalid-funarg-3.bop", line 5, characters 2-13:
@@ -188,13 +188,13 @@ parser but prior to entering its execution.
   3 |   b = fun(a);
         ^^^^^^^^^^^
   Error: Unknown block name 'N'.
-  Hint: did you mean Z, id, nZ, or or ~?
+  Hint: did you mean Id, Not, Or, Z, id, nZ, or or ~?
   [1]
   ================================: invalid-pipe-arity.bop
   File "invalid-pipe-arity.bop", line 3, characters 2-49:
-  3 |   out = and(e, external[2]("./external.exe", f));
+  3 |   out = And(e, external[2]("./external.exe", f));
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  Error: The primitive 'and' expects 2 inputs but is applied to 3 variables.
+  Error: The primitive 'And' expects 2 inputs but is applied to 3 variables.
   [1]
   ================================: memory-file-not-found.bop
   File "memory-file-not-found.bop", line 1, characters 0-41:
@@ -217,9 +217,9 @@ parser but prior to entering its execution.
   [1]
   ================================: nested-output-size.bop
   File "nested-output-size.bop", line 9, characters 2-19:
-  9 |   c = not(A(a, b));
+  9 |   c = Not(A(a, b));
         ^^^^^^^^^^^^^^^^^
-  Error: The primitive 'not' expects 1 inputs but is applied to 2 variables.
+  Error: The primitive 'Not' expects 1 inputs but is applied to 2 variables.
   [1]
   ================================: only-funparam.bop
   File "only-funparam.bop", line 1, characters 0-0:
@@ -243,29 +243,29 @@ parser but prior to entering its execution.
   [1]
   ================================: pipe-nested-arity.bop
   File "pipe-nested-arity.bop", line 3, characters 15-44:
-  3 |   out = and(e, external("./external.exe", f));
+  3 |   out = And(e, external("./external.exe", f));
                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: Bopkit won't infer the output size of a nested external call.
-  Hint: You can either place this call at toplevel, or add the output size
-  explicitely using the appropriate syntax:
-  Pipe     =>             pipe[N](...)
-  External =>    $block.method[N](...)
+  Hint: You can either place this call at top level, or add the output size
+  explicitly using the appropriate syntax:
+  External command =>        external[N](...)
+  External block   =>   $block.method[N](...)
   [1]
   ================================: primitive-arity-2.bop
   File "primitive-arity-2.bop", line 3, characters 2-19:
-  3 |   c, d = and(a, b);
+  3 |   c, d = And(a, b);
         ^^^^^^^^^^^^^^^^^
-  Error: The primitive 'and' has 1 outputs but is connected to 2 variables.
+  Error: The primitive 'And' has 1 outputs but is connected to 2 variables.
   [1]
   ================================: primitive-arity.bop
   File "primitive-arity.bop", line 3, characters 2-13:
-  3 |   c = and(a);
+  3 |   c = And(a);
         ^^^^^^^^^^^
-  Error: The primitive 'and' expects 2 inputs but is applied to 1 variables.
+  Error: The primitive 'And' expects 2 inputs but is applied to 1 variables.
   [1]
   ================================: ram-arity-2.bop
   File "ram-arity-2.bop", line 5, characters 2-44:
-  5 |   o:[2] = ram_r(a:[2], a:[2], vdd(), b:[3]);
+  5 |   o:[2] = ram_r(a:[2], a:[2], Vdd(), b:[3]);
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: The primitive 'ram_r' has 3 outputs but is connected to 2 variables.
   [1]

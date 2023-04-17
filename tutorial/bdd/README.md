@@ -58,12 +58,12 @@ $ bopkit bdd synthesize -AD 2 -WL 4 -f fct01.txt | tee my_block.bop
 
 Bloc(a:[2]) = out:[4]
 where
-  s1 = not(a[1]);
-  s2 = mux(a[0], s1, 0);
+  s1 = Not(a[1]);
+  s2 = Mux(a[0], s1, 0);
   out[0] = s2;
-  s3 = mux(a[0], a[1], 1);
+  s3 = Mux(a[0], a[1], 1);
   out[1] = s3;
-  s4 = mux(a[0], 0, a[1]);
+  s4 = Mux(a[0], 0, a[1]);
   out[2] = s4;
   out[3] = 1;
 end where;

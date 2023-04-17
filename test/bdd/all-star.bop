@@ -1,20 +1,20 @@
 // Block synthesized by bopkit from "all-star.txt"
 // Gate count: [56|0|0] (0.000 %)
 
-et () = s
+Star () = s
 where
-  s = vdd();
+  s = Vdd();
 end where;
 
 Bloc(a:[3]) = out:[8]
 with unused = a[0..2]
 where
-  out[0] = et();
-  out[1] = et();
-  out[2] = et();
+  out[0] = Star();
+  out[1] = Star();
+  out[2] = Star();
   out[3] = 1;
   out[4] = 0;
-  out[5] = et();
-  out[6] = et();
-  out[7] = et();
+  out[5] = Star();
+  out[6] = Star();
+  out[7] = Star();
 end where;

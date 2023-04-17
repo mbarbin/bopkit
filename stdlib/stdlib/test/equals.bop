@@ -1,0 +1,8 @@
+#include <stdlib.bop>
+
+#define N 3
+
+Main(a:[N], b:[N]) = s
+where
+  s = Equals[N](a:[N], b:[N]);
+end where;

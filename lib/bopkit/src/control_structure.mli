@@ -19,7 +19,7 @@ type 'a t =
       ; head_comments : Comments.t
       ; then_tail_comments : Comments.t
       ; tail_comments : Comments.t
-      ; if_cond : Conditional_expression.t
+      ; if_condition : Conditional_expression.t
       ; then_nodes : 'a t list
       ; else_nodes : 'a t list
       }

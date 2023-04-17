@@ -1,7 +1,7 @@
 open! Core
 open! Import
 
-module Topo_block :
+module Block_node :
   Bopkit_topological_sort.Node with type t = Bopkit.Netlist.block and type key = string =
 struct
   type t = Bopkit.Netlist.block
@@ -21,27 +21,26 @@ struct
       | Standard _ -> []
     in
     let rec aux_call : Bopkit.Netlist.call -> _ = function
-      | External_block _ | Pipe _ -> Appendable_list.empty
-      | Block { name; arguments = exp_list; functional_arguments = arg_list } ->
+      | External_block _ | External_command _ -> Appendable_list.empty
+      | Block { name; arguments; functional_arguments } ->
         if List.mem functional_args name ~equal:String.equal
         then Appendable_list.empty
         else
           Appendable_list.of_list
-            (match exp_list, arg_list with
+            (match arguments, functional_arguments with
              | [], [] -> [ name ]
              | _ -> [ Printf.sprintf "%s[]" name ])
     and aux_imbrication : Bopkit.Netlist.nested_inputs -> _ = function
-      | Nested_node { loc = _; comments = _; call = portee; inputs = imb_list } ->
+      | Nested_node { loc = _; comments = _; call; inputs } ->
         Appendable_list.append
-          (aux_call portee)
-          (Appendable_list.concat_map imb_list ~f:aux_imbrication)
+          (aux_call call)
+          (Appendable_list.concat_map inputs ~f:aux_imbrication)
       | Variables _ -> Appendable_list.empty
     and aux_node : Bopkit.Netlist.node Bopkit.Control_structure.t -> _ = function
-      | Node { loc = _; comments = _; call = portee; inputs = imbric_list; outputs = _ }
-        ->
+      | Node { loc = _; comments = _; call; inputs; outputs = _ } ->
         Appendable_list.append
-          (aux_call portee)
-          (Appendable_list.concat_map imbric_list ~f:aux_imbrication)
+          (aux_call call)
+          (Appendable_list.concat_map inputs ~f:aux_imbrication)
       | For_loop { nodes = node_list; _ } ->
         Appendable_list.concat_map node_list ~f:aux_node
       | If_then_else { then_nodes = node_then; else_nodes = node_else; _ } ->
@@ -54,5 +53,5 @@ struct
 end
 
 let sort blocks ~error_log =
-  Bopkit_topological_sort.sort (module Topo_block) (module String) blocks ~error_log
+  Bopkit_topological_sort.sort (module Block_node) (module String) blocks ~error_log
 ;;

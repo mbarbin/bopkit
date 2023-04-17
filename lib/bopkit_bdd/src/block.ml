@@ -39,7 +39,7 @@ let used_inputs (t : t) =
 ;;
 
 module Name = struct
-  let unspecified_bit = "et"
+  let unspecified_bit_block = "Star"
   let input = "a"
   let output = "out"
   let internal = "s"
@@ -74,12 +74,12 @@ let rec pp_muxtree muxtree =
   let open Pp.O in
   match (muxtree : Muxtree.t) with
   | Constant (Some value) -> Pp.char (if value then '1' else '0')
-  | Constant None -> Pp.textf "%s()" Name.unspecified_bit
+  | Constant None -> Pp.textf "%s()" Name.unspecified_bit_block
   | Signal i -> pp_ident i
-  | Not_signal i -> Pp.verbatim "not(" ++ pp_ident i ++ Pp.verbatim ")"
+  | Not_signal i -> Pp.verbatim "Not(" ++ pp_ident i ++ Pp.verbatim ")"
   | Mux { input; vdd; gnd } ->
     Pp.concat
-      [ Pp.verbatim "mux("
+      [ Pp.verbatim "Mux("
       ; pp_ident (Ident.Input input)
       ; Pp.verbatim "," ++ Pp.space
       ; pp_muxtree vdd
@@ -90,12 +90,16 @@ let rec pp_muxtree muxtree =
     |> Pp.hvbox ~indent:2
 ;;
 
-let et = lazy (String.strip {|
-et () = s
+let et =
+  lazy
+    (sprintf {|
+%s () = s
 where
-  s = vdd();
+  s = Vdd();
 end where;
-|})
+|} Name.unspecified_bit_block
+     |> String.strip)
+;;
 
 let pp_t (t : t) =
   let open Pp.O in

@@ -5,17 +5,17 @@
 The connectivity between the gates of a circuit is described thanks to variables that are attached to the gates' inputs and outputs.
 
 ```bopkit
-  a = and(b, c);
-  d = or(a, e);
+  a = And(b, c);
+  d = Or(a, e);
 ```
 
 Note that not all inputs and outputs are named, simply because blocks may be nested:
 
 ```bopkit
-  d = or(and(b, c), e);
+  d = Or(And(b, c), e);
 ```
 
-The output of the `and` gate below is not named. It's connectivity with the `or`'s gate is implicit.
+The output of the `And` gate below is not named. It's connectivity with the `Or`'s gate is implicit.
 
 ## Signal values
 

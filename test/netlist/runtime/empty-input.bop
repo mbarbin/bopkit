@@ -1,5 +1,5 @@
 Main() = a
 where
-  i = reg(not(i));
-  a = id(i);
+  i = Reg(Not(i));
+  a = Id(i);
 end where;

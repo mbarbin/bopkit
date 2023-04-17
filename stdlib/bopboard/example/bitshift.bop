@@ -14,11 +14,11 @@
  */
 CyclerBD[N](reset, predBD:[N]) = bd:[N]
 where
-  bd:[N] = mux[N](reset, vdd(), gnd[N - 1](), u:[N]);
+  bd:[N] = Mux[N](reset, Vdd(), Gnd[N - 1](), u:[N]);
   for i = 0 to N - 2
-    u[i + 1] = id(predBD[i]);
+    u[i + 1] = Id(predBD[i]);
   end for;
-  u[0] = id(predBD[N - 1]);
+  u[0] = Id(predBD[N - 1]);
 end where;
 
 /**
@@ -26,12 +26,12 @@ end where;
  */
 CyclerRG[N](reset) = bd:[N]
 where
-  bd:[N] = CyclerBD[N](reset, reg[N](bd:[N]));
+  bd:[N] = CyclerBD[N](reset, Reg[N](bd:[N]));
 end where;
 
 MainCycler(reset) = bd:[N]
 where
-  bd:[N] = CyclerRG[N](nZ(reset));
+  bd:[N] = CyclerRG[N](Reg1(reset));
 end where;
 
 Main() = bd:[N]

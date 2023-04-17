@@ -1,6 +1,6 @@
 A[N](a:[N]) = b:[N]
 where
   for i = 0 to N - 1
-    b[i] = id(a[i]);
+    b[i] = Id(a[i]);
   end for;
 end where;

@@ -1,5 +1,5 @@
 A(a, b) = c
 where
-  c = id(a);
-  c = not(b);
+  c = Id(a);
+  c = Not(b);
 end where;

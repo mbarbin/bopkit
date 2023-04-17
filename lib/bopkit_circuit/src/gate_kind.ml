@@ -73,3 +73,36 @@ let pp_debug = function
           | None -> ""
           | Some d -> sprintf "[%d]" d))
 ;;
+
+module Primitive = struct
+  type nonrec t =
+    { gate_kind : t
+    ; input_width : int
+    ; output_width : int
+    ; aliases : string list
+    }
+  [@@deriving sexp_of]
+
+  (* CR mbarbin: This is a transition state, I'd like for it to be a single
+     canonical representation for each primitive, and it to be pretty-printed as
+     such. In the meantime, several variations are allowed. *)
+  let all =
+    lazy
+      ([ Not, (1, 1), [ "Not"; "not"; "~" ]
+       ; And, (2, 1), [ "And"; "and" ]
+       ; Or, (2, 1), [ "Or"; "or" ]
+       ; Id, (1, 1), [ "Id"; "id" ]
+       ; Xor, (2, 1), [ "Xor"; "xor" ]
+       ; Mux, (3, 1), [ "Mux"; "mux" ]
+       ; Reg { initial_value = false }, (1, 1), [ "Reg"; "reg"; "Z" ]
+       ; Reg { initial_value = true }, (1, 1), [ "Reg1"; "nreg"; "nZ" ]
+       ; Reg { initial_value = false }, (2, 1), [ "RegEn"; "regen"; "Zen" ]
+       ; Reg { initial_value = true }, (2, 1), [ "Reg1En"; "nregen"; "nZen" ]
+       ; Clock, (0, 1), [ "Clock"; "clock" ]
+       ; Gnd, (0, 1), [ "Gnd"; "gnd" ]
+       ; Vdd, (0, 1), [ "Vdd"; "vdd" ]
+       ]
+       |> List.map ~f:(fun (gate_kind, (input_width, output_width), aliases) ->
+            { gate_kind; input_width; output_width; aliases }))
+  ;;
+end

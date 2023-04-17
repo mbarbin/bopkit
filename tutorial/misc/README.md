@@ -16,8 +16,8 @@ where
       i[i + i ^ (i - i)][i + i ^ (i - i)] = i(i[i][i], i[i]);
     end for;
   end for;
-  i[i - i][i - i] = vdd();
-  i = id(i[i][i]);
+  i[i - i][i - i] = Vdd();
+  i = Id(i[i][i]);
 end where;
 
 [ Main ]
@@ -60,9 +60,9 @@ This is not a guideline for how to name identifiers in a circuit!!
 // Testing the cycle detection
 Cycle(a, b) = s
 where
-  u = and(a, g);
-  g = or(b, id(u));
-  s = xor(g, vdd());
+  u = And(a, g);
+  g = Or(b, Id(u));
+  s = Xor(g, Vdd());
 end where;
 ```
 

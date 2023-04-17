@@ -11,9 +11,9 @@ end external;
 B(a:[N]) = b:[N]
 where
   // And this one too!
-  if N mod 2 = 0 then
-    b[i] = not(a[i]);
+  if N mod 2 == 0 then
+    b[i] = Not(a[i]);
   else
-    b[i] = id(a[i]);
+    b[i] = Id(a[i]);
   end if;
 end where;

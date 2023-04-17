@@ -3,7 +3,7 @@
 // thus not produced by [check].
 external ex "ex.exe"
 
-main(a) = b
+Main(a) = b
 where
-  b = not(a);
+  b = Not(a);
 end where;

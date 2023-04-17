@@ -8,8 +8,8 @@ where
       i[i + i ^ (i - i)][i + i ^ (i - i)] = i(i[i][i], i[i]);
     end for;
   end for;
-  i[i - i][i - i] = vdd();
-  i = id(i[i][i]);
+  i[i - i][i - i] = Vdd();
+  i = Id(i[i][i]);
 end where;
 
 [ Main ]

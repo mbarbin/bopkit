@@ -1,9 +1,9 @@
 A(a) = b
 where
-  b = not(a);
+  b = Not(a);
 end where;
 
 Main(a) = b
 where
-  b = not(a);
+  b = Not(a);
 end where;

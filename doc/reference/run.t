@@ -8,6 +8,8 @@ any analysis error. We do not check for runtime errors.
   >   code=$?
   >   echo "[${code}]"
   > done
+  ================================: and2_recursive.bop
+  [0]
   ================================: one-of-each.bop
   [0]
   ================================: parametrized-block.bop

@@ -21,9 +21,9 @@ type color = Graphics.color
 
 type _ t =
   { name : string
-  ; words : int (* Size of words in memory. *)
-  ; address : int (* Size of addresses in bits. *)
-  ; length : int (* Number of words in memory: [= 2 ^ address]. *)
+  ; data_width : int (* Size of words in memory. *)
+  ; address_width : int (* Size of addresses in bits. *)
+  ; length : int (* Number of words in memory: [= 2 ^ address_width]. *)
   ; mem : Bit_matrix.t
   ; mutable tX_and_tY : (int * int) option
   ; mutable bx : int option (* x dimension of a cell rectangle *)
@@ -33,14 +33,13 @@ type _ t =
   ; mutable coloration : (color * int) Map.M(Int).t
   ; mutable word_printing_style : Word_printing_style.t
   ; mutable offset :
-      (* Variable containing the index of cell to display at the upper
-         left corner of the view. This is used for large memory that
-         won't fit on a single page. *)
+      (* Variable containing the index of cell to display at the upper left
+         corner of the view. This is used for large memory that won't fit on a
+         single page. *)
       int
   ; mutable edit_mode :
-      (* During the main_loop the user can edit values, during which
-         case edit_mode will be true. This can be accessed by another
-         thread. *)
+      (* During the main_loop the user can edit values, during which case
+         edit_mode will be true. This can be accessed by another thread. *)
       bool
   ; mutable pause_mode : bool
   ; num_dec_char_addr : int
@@ -59,9 +58,9 @@ type _ t =
    v}
 *)
 
-(* Because we do not want to call [text_size] before any drawing
-   function, the values related to text size are mutable options, and
-   stay set to [None] until needed. *)
+(* Because we do not want to call [text_size] before any drawing function, the
+   values related to text size are mutable options, and stay set to [None] until
+   needed. *)
 
 let tX_and_tY t =
   match t.tX_and_tY with
@@ -74,7 +73,7 @@ let tX_and_tY t =
 
 let tX t = fst (tX_and_tY t)
 let tY t = snd (tX_and_tY t)
-let bx_binaire t = (t.address + 3 + t.words + 2) * tX t
+let bx_binary t = (t.address_width + 3 + t.data_width + 2) * tX t
 let bx_decimal t = (t.num_dec_char_addr + 3 + t.num_dec_char_word + 2) * tX t
 let bx_signed_decimal t = (t.num_dec_char_addr + 3 + t.num_dec_char_word + 1 + 2) * tX t
 let by_default t = tY t + (2 * 2)
@@ -83,7 +82,7 @@ let bx t =
   match t.bx with
   | Some value -> value
   | None ->
-    let value = bx_binaire t in
+    let value = bx_binary t in
     t.bx <- Some value;
     value
 ;;
@@ -108,26 +107,26 @@ end
 let create
   : type a.
     name:string
-    -> addresses_len:int
-    -> words_len:int
+    -> address_width:int
+    -> data_width:int
     -> kind:a Kind.t
     -> ?init:Bit_matrix.t
     -> unit
     -> a t
   =
- fun ~name ~addresses_len ~words_len ~kind:_ ?init () ->
-  let length = Int.pow 2 addresses_len in
-  let valeurs =
+ fun ~name ~address_width ~data_width ~kind:_ ?init () ->
+  let length = Int.pow 2 address_width in
+  let values =
     match init with
     | Some values -> values
-    | None -> Bit_matrix.init_matrix_linear ~dimx:length ~dimy:words_len ~f:(const false)
+    | None -> Bit_matrix.init_matrix_linear ~dimx:length ~dimy:data_width ~f:(const false)
   in
-  let max_value = Int.pow 2 words_len in
+  let max_value = Int.pow 2 data_width in
   let mem =
-    let t = Array.make_matrix ~dimx:length ~dimy:words_len false in
-    for i = 0 to pred (min length (Array.length valeurs)) do
-      for j = 0 to pred (min words_len (Array.length valeurs.(i))) do
-        t.(i).(j) <- valeurs.(i).(j)
+    let t = Array.make_matrix ~dimx:length ~dimy:data_width false in
+    for i = 0 to pred (min length (Array.length values)) do
+      for j = 0 to pred (min data_width (Array.length values.(i))) do
+        t.(i).(j) <- values.(i).(j)
       done
     done;
     t
@@ -135,8 +134,8 @@ let create
   let num_dec_char_addr = String.length (string_of_int length) in
   let num_dec_char_word = String.length (string_of_int max_value) in
   { name
-  ; words = words_len
-  ; address = addresses_len
+  ; data_width
+  ; address_width
   ; length
   ; mem
   ; tX_and_tY = None
@@ -160,12 +159,12 @@ let int_of_string s =
   | exception Failure _ -> None
 ;;
 
-(* Add some leading '0' to a decimal, to achieve vertical alignment.
-   For example: int_d 4 15 --> "0015" *)
+(* Add some leading '0' to a decimal, to achieve vertical alignment. For
+   example: int_d 4 15 --> "0015" *)
 let int_d d i = sprintf "%0*d" d i
 
-(* Same as [int_d] but with an additional +/- leading char. For
-   exemple: ind_d_signed 4 -15 --> "-015" *)
+(* Same as [int_d] but with an additional +/- leading char. For example:
+   ind_d_signed 4 -15 --> "-015" *)
 let int_d_signed d i = sprintf "%c%0*d" (if i < 0 then '-' else '+') (d - 1) (Int.abs i)
 
 (* The user can cycle through different colors when clicking on the cells. *)
@@ -191,12 +190,11 @@ let scale_color color p =
 ;;
 
 (* To make some colors lighter. *)
-let parametre = 2.0
+let parameter = 2.0
 
-(* Interactive read of a string in the OCaml Graphics window, at the
-   coordinate (xi, yi). This returns when the user presses <enter>.
-   This draws the string as the user types it, and allows for
-   corrections with backspace.
+(* Interactive read of a string in the OCaml Graphics window, at the coordinate
+   (xi, yi). This returns when the user presses <enter>. This draws the string
+   as the user types it, and allows for corrections with backspace.
 
    The returned doesn't contain the terminating '\n' char. *)
 let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () =
@@ -209,7 +207,7 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
     | None -> rgb 255 0 255
   in
   let fin = ref false in
-  let accu = Stack.create () in
+  let acc = Stack.create () in
   set_color background_color;
   (match length with
    | Some len -> fill_rect xi yi ((len * tX) + 2) by
@@ -222,10 +220,10 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
     match stat.key with
     | o when int_of_char o = 13 -> fin := true
     | o when int_of_char o = 8 ->
-      if Stack.is_empty accu
+      if Stack.is_empty acc
       then ()
       else (
-        ignore (Stack.pop accu : Char.t option);
+        ignore (Stack.pop acc : Char.t option);
         let x, y = current_x (), current_y () in
         set_color background_color;
         moveto (x - tX) y;
@@ -233,29 +231,29 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
         set_color black)
     | o ->
       let get_o () =
-        Stack.push accu o;
+        Stack.push acc o;
         draw_char o
       in
       (match length with
-       | Some len -> if Stack.length accu >= len then () else get_o ()
+       | Some len -> if Stack.length acc >= len then () else get_o ()
        | None -> get_o ())
   done;
-  let len = Stack.length accu in
+  let len = Stack.length acc in
   let out = Bytes.make len ' ' in
   for i = pred len downto 0 do
-    Bytes.set out i (Stack.pop_exn accu)
+    Bytes.set out i (Stack.pop_exn acc)
   done;
   Bytes.to_string out
 ;;
 
-(* Depending on the size of the currently opened graph and the current
-   settings, return the number of memory cells that can fit per line
-   and per column, and per page. *)
+(* Depending on the size of the currently opened graph and the current settings,
+   return the number of memory cells that can fit per line and per column, and
+   per page. *)
 let bx_per_line t = Graphics.size_x () / bx t
 let by_per_column t = Graphics.size_y () / by t
 let cells_per_page t = by_per_column t * bx_per_line t
 
-let clrscr t =
+let clear_screen t =
   let open Graphics in
   set_color t.gnd;
   fill_rect 0 0 (size_x ()) (size_y ())
@@ -274,9 +272,9 @@ let draw_color t =
     then ()
     else (
       let i = adr - t.offset
-      and bits_adr = Array.create ~len:t.address false in
+      and bits_adr = Array.create ~len:t.address_width false in
       moveto (0 + (bx * (i / byc))) (sY - by - (by * (i mod byc)) + 2);
-      set_color (scale_color col parametre);
+      set_color (scale_color col parameter);
       fill_rect (current_x ()) (current_y () - 2) bx by;
       set_color t.pen;
       Bit_array.blit_int ~dst:bits_adr ~src:adr;
@@ -307,13 +305,13 @@ let draw t =
   let byc = by_per_column t in
   let cpp = cells_per_page t in
   let f_iter t = if t then draw_char '1' else draw_char '0' in
-  clrscr t;
+  clear_screen t;
   set_color t.pen;
-  (* Here we draw them all without considerations for colors, and we
-     redraw the colored one at the end. *)
+  (* Here we draw them all without considerations for colors, and we redraw the
+     colored one at the end. *)
   for i = 0 to pred (min cpp (t.length - t.offset)) do
     let j = i + t.offset
-    and bits_adr = Array.create ~len:t.address false in
+    and bits_adr = Array.create ~len:t.address_width false in
     moveto (0 + (bx * (i / byc))) (sY - by - (by * (i mod byc)) + 2);
     Bit_array.blit_int ~dst:bits_adr ~src:j;
     draw_char ' ';
@@ -345,7 +343,7 @@ let set_word_printing_style t ~word_printing_style:new_type =
      t.bx <- Some (bx_signed_decimal t);
      t.by <- Some (by_default t)
    | Binary ->
-     t.bx <- Some (bx_binaire t);
+     t.bx <- Some (bx_binary t);
      t.by <- Some (by_default t));
   draw t
 ;;
@@ -356,8 +354,7 @@ let set_color t ~address:adr ~color:col =
 
 let get_color t ~address:adr = Map.find t.coloration adr |> Option.map ~f:fst
 
-(* Cycle through the background colors of cells when the user clicks
-   on them. *)
+(* Cycle through the background colors of cells when the user clicks on them. *)
 let click_color t ~address =
   if address < 0 || address >= t.length
   then ()
@@ -404,7 +401,7 @@ let center_view t ~on_address =
   else `Not_needed_did_nothing
 ;;
 
-(* Demander a l'utilisateur la valeur pour une case memoire *)
+(* Prompt the user for a new value for the memory cell at the given address. *)
 let read_user_value t ~address:addr =
   let sY = Graphics.size_y () in
   let tX = tX t in
@@ -426,16 +423,16 @@ let read_user_value t ~address:addr =
     match t.word_printing_style with
     | Binary ->
       let dx, dy =
-        (bx * (i / byc)) + (tX * (t.address + 4)), sY - by - (by * (i mod byc))
+        (bx * (i / byc)) + (tX * (t.address_width + 4)), sY - by - (by * (i mod byc))
       in
-      let s_user = read_string t ~at_coordinates:(dx - 2, dy) ~length:t.words () in
-      let btmp = Bit_array.of_01_chars_in_string s_user in
+      let s_user = read_string t ~at_coordinates:(dx - 2, dy) ~length:t.data_width () in
+      let tmp = Bit_array.of_01_chars_in_string s_user in
       Array.blit
-        ~src:btmp
+        ~src:tmp
         ~src_pos:0
         ~dst:t.mem.(addr)
         ~dst_pos:0
-        ~len:(min (Array.length btmp) t.words)
+        ~len:(min (Array.length tmp) t.data_width)
     | Decimal ->
       let dx, dy =
         (bx * (i / byc)) + (tX * (t.num_dec_char_addr + 4)), sY - by - (by * (i mod byc))
@@ -467,9 +464,9 @@ let to_text_file t ~filename =
 let load_text_file t ~filename =
   Printf.fprintf stderr "Load memory \"%s\" from \"%s\" (text file)\n" t.name filename;
   Out_channel.flush stderr;
-  let bin = Bit_matrix.of_text_file ~dimx:t.length ~dimy:t.words ~filename in
+  let bin = Bit_matrix.of_text_file ~dimx:t.length ~dimy:t.data_width ~filename in
   for i = 0 to pred t.length do
-    for j = 0 to pred t.words do
+    for j = 0 to pred t.data_width do
       t.mem.(i).(j) <- bin.(i).(j)
     done
   done
@@ -585,54 +582,54 @@ let main_loop t ?loop ?(read_only = false) () =
 
 let wait t = main_loop t ?loop:None ~read_only:false ()
 
-let read t ~address =
+let read_int t ~address =
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "Memoire %s : read out of bounds (%d)\n" t.name address;
+    Printf.fprintf stderr "Memory %s : read_int out of bounds (%d)\n" t.name address;
     Out_channel.flush stderr;
     exit 1)
   else Bit_array.to_int t.mem.(address)
 ;;
 
-let bread t ~address ~dst:where =
+let read_bits t ~address ~dst:where =
   let address = Bit_array.to_int address in
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "Memoire %s : bread out of bounds (%d)\n" t.name address;
+    Printf.fprintf stderr "Memory %s: read_bits out of bounds (%d)\n" t.name address;
     Out_channel.flush stderr;
     exit 1)
-  else if Array.length where <> t.words
+  else if Array.length where <> t.data_width
   then (
-    Printf.fprintf stderr "Memoire %s : bread invalid pointer\n" t.name;
+    Printf.fprintf stderr "Memory %s: read_bits invalid pointer\n" t.name;
     Out_channel.flush stderr;
     exit 1)
-  else Array.blit ~src:t.mem.(address) ~src_pos:0 ~dst:where ~dst_pos:0 ~len:t.words
+  else Array.blit ~src:t.mem.(address) ~src_pos:0 ~dst:where ~dst_pos:0 ~len:t.data_width
 ;;
 
-let write t ~address ~value:data =
+let write_int t ~address ~value =
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "RAM %s : write out of bounds (%d)\n" t.name address;
+    Printf.fprintf stderr "RAM %s: write_int out of bounds (%d)\n" t.name address;
     Out_channel.flush stderr;
     exit 1)
-  else Bit_array.blit_int ~dst:t.mem.(address) ~src:data
+  else Bit_array.blit_int ~dst:t.mem.(address) ~src:value
 ;;
 
-let bwrite t ~address ~value:bdata =
+let write_bits t ~address ~value =
   let address = Bit_array.to_int address in
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "RAM %s : bwrite out of bounds (%d)\n" t.name address;
+    Printf.fprintf stderr "RAM %s: write_bits out of bounds (%d)\n" t.name address;
     Out_channel.flush stderr;
     exit 1)
-  else if Array.length bdata <> t.words
+  else if Array.length value <> t.data_width
   then (
     Printf.fprintf
       stderr
-      "RAM %s : bwrite invalid bdata (%d)\n"
+      "RAM %s: write_bits invalid data (%d)\n"
       t.name
-      (Bit_array.to_int bdata);
+      (Bit_array.to_int value);
     Out_channel.flush stderr;
     exit 1)
-  else Array.blit ~src:bdata ~src_pos:0 ~dst:t.mem.(address) ~dst_pos:0 ~len:t.words
+  else Array.blit ~src:value ~src_pos:0 ~dst:t.mem.(address) ~dst_pos:0 ~len:t.data_width
 ;;

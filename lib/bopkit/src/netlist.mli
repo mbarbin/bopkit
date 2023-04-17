@@ -170,7 +170,7 @@ type call =
       ; external_arguments : string list
       ; output_size : external_call_output_size
       }
-  | Pipe of
+  | External_command of
       { command : string
       ; output_size : external_call_output_size
       }

@@ -1,0 +1,8 @@
+#include <stdlib.bop>
+
+#define N 3
+
+Main(a, b) = s
+where
+  s = ClockDivider[N](Or(a, b));
+end where;

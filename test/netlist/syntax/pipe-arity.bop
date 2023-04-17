@@ -1,5 +1,4 @@
-// Specifying arity at the toplevel is in fact not permitted by the
-// syntax.
+// Specifying arity at the top level is in fact not permitted by the syntax.
 
 C(e, f) = out
 where

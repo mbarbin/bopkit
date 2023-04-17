@@ -61,15 +61,15 @@ module Kind : sig
     | Rom : rom t
 end
 
-(** Creating a new memory of a given kind. The addresses and words length is
+(** Creating a new memory of a given kind. The addresses and words width are
     constant for a given memory. When provided, [init] should have dimensions
     at least as big as the memory to be created, that is it should verify
-    [dimx >= Int.pow 2 addresses_len] and [dimy >= words_len]. The name is
+    [dimx >= Int.pow 2 address_width] and [dimy >= data_width]. The name is
     only indicative and used during the display. *)
 val create
   :  name:string
-  -> addresses_len:int
-  -> words_len:int
+  -> address_width:int
+  -> data_width:int
   -> kind:'a Kind.t
   -> ?init:Bit_matrix.t
   -> unit
@@ -173,19 +173,19 @@ val to_text_file : _ t -> filename:string -> unit
 (** {1 Reading/Writing to the memory} *)
 
 (** Read and return the word at the address in decimal. *)
-val read : _ t -> address:int -> int
+val read_int : _ t -> address:int -> int
 
 (** Read the word at the address and blit it to [dst]. The address can be
     shorter than the number of bits of the memory, but the [dst] must have the
-    exact same length as the word size. *)
-val bread : _ t -> address:bool array -> dst:bool array -> unit
+    exact same width as the memory cells. *)
+val read_bits : _ t -> address:bool array -> dst:Bit_array.t -> unit
 
 (** Write to the supplied address the given decimal value. The binary value set
     will be done modulo the size of words, so this operation is defined even
     for negative or overflowing values. *)
-val write : ram t -> address:int -> value:int -> unit
+val write_int : ram t -> address:int -> value:int -> unit
 
 (** Write the word at the supplied address. [address] can be shorter than the
-    memory address length, but [value] must have the exact same size as the
-    word length. *)
-val bwrite : ram t -> address:bool array -> value:bool array -> unit
+    memory address width, but [value] must have the exact same width as the
+    memory cells. *)
+val write_bits : ram t -> address:bool array -> value:Bit_array.t -> unit

@@ -1,4 +1,4 @@
 C(e, f) = out
 where
-  out = and(e, external[1]("./external.exe", f));
+  out = And(e, external[1]("./external.exe", f));
 end where;

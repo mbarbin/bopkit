@@ -13,7 +13,7 @@ the bopkit simulator.
  */
 Hello(a, b) = s
 where
-  s = and(a, b);
+  s = And(a, b);
 end where;
 ```
 
@@ -102,7 +102,7 @@ Bopkit's standard library. Let's check it out:
  */
 Hello(a, b, c) = s
 where
-  s = and[3](a, b, c);
+  s = And[3](a, b, c);
 end where;
 ```
 

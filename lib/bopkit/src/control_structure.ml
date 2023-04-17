@@ -16,7 +16,7 @@ type 'a t =
       ; head_comments : Comments.t
       ; then_tail_comments : Comments.t
       ; tail_comments : Comments.t
-      ; if_cond : Conditional_expression.t
+      ; if_condition : Conditional_expression.t
       ; then_nodes : 'a t list
       ; else_nodes : 'a t list
       }
@@ -41,7 +41,7 @@ let rec map t ~f =
       ; head_comments
       ; then_tail_comments
       ; tail_comments
-      ; if_cond
+      ; if_condition
       ; then_nodes
       ; else_nodes
       } ->
@@ -50,7 +50,7 @@ let rec map t ~f =
       ; head_comments
       ; then_tail_comments
       ; tail_comments
-      ; if_cond
+      ; if_condition
       ; then_nodes = List.map then_nodes ~f:(fun node -> map node ~f)
       ; else_nodes = List.map else_nodes ~f:(fun node -> map node ~f)
       }
@@ -69,7 +69,6 @@ let expand t ~error_log ~parameters ~f =
         ; right_bound = exp_sup
         ; nodes = node_list
         } ->
-      (* capture de variables dans les boucles for *)
       Option.iter (Parameters.find parameters ~parameter_name:j) ~f:(fun previous_value ->
         Error_log.debug
           error_log
@@ -95,14 +94,13 @@ let expand t ~error_log ~parameters ~f =
         ; head_comments = _
         ; then_tail_comments = _
         ; tail_comments = _
-        ; if_cond = cond_expr
-        ; then_nodes = node_list_true
-        ; else_nodes = node_list_false
+        ; if_condition
+        ; then_nodes
+        ; else_nodes
         } ->
-      let cond_eq =
-        Conditional_expression.eval cond_expr ~parameters |> ok_eval_exn ~loc
-      in
-      (if cond_eq then node_list_true else node_list_false)
+      (if Conditional_expression.eval if_condition ~parameters |> ok_eval_exn ~loc
+       then then_nodes
+       else else_nodes)
       |> List.concat_map ~f:(aux parameters)
   in
   aux parameters t

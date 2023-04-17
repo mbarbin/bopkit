@@ -10,8 +10,8 @@ monitor in tests.
   where
     for i = 0 to N - 1
       for j = 0 to N - 1
-        f[i][j] = id(c[i]);
-        g[j][i] = id(and(d[j], c[i]));
+        f[i][j] = Id(c[i]);
+        g[j][i] = Id(And(d[j], c[i]));
       end for;
     end for;
   end where;
@@ -37,8 +37,8 @@ monitor in tests.
   where
     // And this one too!
     for i = 0 to N - 1
-      b[i] = not(a[i]);
-      // Hello tail commment.
+      b[i] = Not(a[i]);
+      // Hello tail comment.
     end for;
   end where;
   ================================: comments-above-if.bop
@@ -56,14 +56,14 @@ monitor in tests.
   where
     // And this one too!
     if N mod 2 == 0 then
-      b[i] = not(a[i]);
+      b[i] = Not(a[i]);
     else
-      b[i] = id(a[i]);
+      b[i] = Id(a[i]);
     end if;
   end where;
   ================================: comments-above-include.bop
   /* As we added support for comments in the parser+pp, we monitored
-   * with tests like this one how ocomments are picked up at different
+   * with tests like this one how comments are picked up at different
    * part of a netlist file.
    */
   // This netlist has comment before the first [#include] construct
@@ -81,7 +81,7 @@ monitor in tests.
   where
     // In the body of blocks there might be comments too,
     for i = 0 to N - 1
-      b[i] = not(a[i]);
+      b[i] = Not(a[i]);
       // Tail comments in loops as well.
     end for;
     if N == 0 then
@@ -118,7 +118,7 @@ monitor in tests.
   /**
    * And another one.
    */
-  #define N "nacro"
+  #define N "n_macro"
   ================================: define.bop
   #define N 0
   #define p 1
@@ -153,17 +153,17 @@ monitor in tests.
   
   Calc_add(a:[N], b:[N], select) = out:[N]
   where
-    tmp:[N] = not[N]($calc[N](a:[N]));
+    tmp:[N] = Not[N]($calc[N](a:[N]));
     add:[N] = $calc.add("a", "b", a:[N], b:[N]);
     mult:[N] = $calc.mult("a", "b", a:[N], b:[N]);
-    out:[N] = mux[N](select, add:[N], mult:[N]);
+    out:[N] = Mux[N](select, add:[N], mult:[N]);
   end where;
   
   Pulse() = s
   where
     a = $pulse("a");
-    b = not($pulse[1]("b"));
-    s = and(a, b);
+    b = Not($pulse[1]("b"));
+    s = And(a, b);
   
     // Because external can often take input without returning outputs,
     // we allow for the equal sign to be omitted.
@@ -203,9 +203,9 @@ monitor in tests.
     end for;
   end external;
   ================================: funargs.bop
-  and[N](a:[N]) = s
+  And[N](a:[N]) = s
   where
-    s = FoldLeft[N]<"and", "map", "id">(a:[N]);
+    s = FoldLeft[N]<"And", "Map", "Id">(a:[N]);
   end where;
   ================================: include-dash-file.bop
   File "include-dash-file.bop", line 2, characters 16-16: syntax error.
@@ -231,48 +231,47 @@ monitor in tests.
   B(___Un, ___state) = ___then___Deux
   where
     ___then___Deux =
-      mux[1](// N'est visible que si globale.
-        vdd(), ___Un, ___state);
+      Mux[1](// N is only visible if global
+        Vdd(), ___Un, ___state);
   end where;
   
   B(___Un, ___state) = ___then___Deux
   where
     ___then___Deux =
-      mux[1](
-        // N'est visible que si globale. Hey now the comment is longer
-        vdd(),
+      Mux[1](
+        // N is only visible if global. Hey now the comment is longer!
+        Vdd(),
         ___Un,
         ___state);
   end where;
   ================================: nested-variables.bop
-  /* Checking how nested calls and comments are handled.
-   */
+  // Checking how nested calls and comments are handled.
   Bloc(a:[7], b:[10]) = out
   where
     out =
-      mux(
+      Mux(
         // Hello nested comment.
         a[0],
-        mux(
+        Mux(
           a[1],
-          mux(
+          Mux(
             a[2],
-            mux(a[3], mux(a[4], not(a[5]), vdd()), not(a[4])),
-            mux(a[3], mux(a[4], vdd(), a[5]), mux(a[4], not(a[5]), gnd()))),
-          mux(a[2], mux(a[3], vdd(), not(a[4])), a[5])),
-        mux(
+            Mux(a[3], Mux(a[4], Not(a[5]), Vdd()), Not(a[4])),
+            Mux(a[3], Mux(a[4], Vdd(), a[5]), Mux(a[4], Not(a[5]), Gnd()))),
+          Mux(a[2], Mux(a[3], Vdd(), Not(a[4])), a[5])),
+        Mux(
           a[1],
-          mux(
+          Mux(
             a[2],
-            mux(
+            Mux(
               a[3],
-              vdd(),
-              mux(
+              Vdd(),
+              Mux(
                 a[4],
-                not(a[5]),
+                Not(a[5]),
                 // We can communicate a particular grouping to the printer
                 // by adding extra PARENs around the variables to group.
-                and[10](
+                And[10](
                   (b[0], b[1]),
                   (b[2], b[3], b[4], b[5]),
                   b[6],
@@ -280,23 +279,23 @@ monitor in tests.
                   b[8],
                   b[9],
                   b[10]))),
-            mux(
+            Mux(
               a[3],
-              mux(a[4], mux(a[5], gnd(), not(a[6])), mux(a[5], vdd(), a[6])),
+              Mux(a[4], Mux(a[5], Gnd(), Not(a[6])), Mux(a[5], Vdd(), a[6])),
               a[4])),
-          mux(
+          Mux(
             a[2],
-            mux(a[3], vdd(), mux(a[4], mux(a[5], a[6], vdd()), a[5])),
-            mux(
+            Mux(a[3], Vdd(), Mux(a[4], Mux(a[5], a[6], Vdd()), a[5])),
+            Mux(
               /* Hey, this comment is about the a[3] that's right below.
                * There're so many things that we could say about it.
                */
               a[3],
-              mux(a[4], mux(a[5], a[6], vdd()), mux(a[5], gnd(), a[6])),
-              gnd()))));
+              Mux(a[4], Mux(a[5], a[6], Vdd()), Mux(a[5], Gnd(), a[6])),
+              Gnd()))));
   end where;
   ================================: pipe-arity.bop
-  File "pipe-arity.bop", line 6, characters 12-12: syntax error.
+  File "pipe-arity.bop", line 5, characters 12-12: syntax error.
   ================================: pipe.bop
   A(a, b) = out
   where
@@ -310,7 +309,7 @@ monitor in tests.
   
   C(e, f) = out
   where
-    out = and(e, external[1]("./external.exe", f));
+    out = And(e, external[1]("./external.exe", f));
   end where;
   ================================: text-memory.bop
   // At the moment, the memory text syntax does not round-trip. It was
@@ -329,11 +328,11 @@ monitor in tests.
   A(a, c) = b
   with unused = c
   where
-    b = id(a);
+    b = Id(a);
   end where;
   
   B(a, c:[8], d) = b
   with unused = (d, c[1..7])
   where
-    b = and(a, c[0]);
+    b = And(a, c[0]);
   end where;

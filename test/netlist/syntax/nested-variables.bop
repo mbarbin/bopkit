@@ -1,32 +1,30 @@
-/* Checking how nested calls and comments are handled.
- */
-
+// Checking how nested calls and comments are handled.
 Bloc(a:[7], b:[10]) = out
 where
   out =
-    // Hello nested comment.
-    mux(
+    Mux(
+      // Hello nested comment.
       a[0],
-      mux(
+      Mux(
         a[1],
-        mux(
+        Mux(
           a[2],
-          mux(a[3], mux(a[4], not(a[5]), vdd()), not(a[4])),
-          mux(a[3], mux(a[4], vdd(), a[5]), mux(a[4], not(a[5]), gnd()))),
-        mux(a[2], mux(a[3], vdd(), not(a[4])), a[5])),
-      mux(
+          Mux(a[3], Mux(a[4], Not(a[5]), Vdd()), Not(a[4])),
+          Mux(a[3], Mux(a[4], Vdd(), a[5]), Mux(a[4], Not(a[5]), Gnd()))),
+        Mux(a[2], Mux(a[3], Vdd(), Not(a[4])), a[5])),
+      Mux(
         a[1],
-        mux(
+        Mux(
           a[2],
-          mux(
+          Mux(
             a[3],
-            vdd(),
-            mux(
+            Vdd(),
+            Mux(
               a[4],
-              not(a[5]),
+              Not(a[5]),
               // We can communicate a particular grouping to the printer
               // by adding extra PARENs around the variables to group.
-              and[10](
+              And[10](
                 (b[0], b[1]),
                 (b[2], b[3], b[4], b[5]),
                 b[6],
@@ -34,18 +32,18 @@ where
                 b[8],
                 b[9],
                 b[10]))),
-          mux(
+          Mux(
             a[3],
-            mux(a[4], mux(a[5], gnd(), not(a[6])), mux(a[5], vdd(), a[6])),
+            Mux(a[4], Mux(a[5], Gnd(), Not(a[6])), Mux(a[5], Vdd(), a[6])),
             a[4])),
-        mux(
+        Mux(
           a[2],
-          mux(a[3], vdd(), mux(a[4], mux(a[5], a[6], vdd()), a[5])),
-          mux(
+          Mux(a[3], Vdd(), Mux(a[4], Mux(a[5], a[6], Vdd()), a[5])),
+          Mux(
             /* Hey, this comment is about the a[3] that's right below.
              * There're so many things that we could say about it.
              */
             a[3],
-            mux(a[4], mux(a[5], a[6], vdd()), mux(a[5], gnd(), a[6])),
-            gnd()))));
+            Mux(a[4], Mux(a[5], a[6], Vdd()), Mux(a[5], Gnd(), a[6])),
+            Gnd()))));
 end where;

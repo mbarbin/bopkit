@@ -9,7 +9,7 @@
 Main() = ()
 where
   $pulse();
-  tick = clock();
+  tick = Clock();
   s:[42] = Watch(tick);
    = digital_watch_display(s:[42]);
 end where;

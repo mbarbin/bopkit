@@ -45,3 +45,15 @@ type t =
 (** A pretty printer used for debugging. Does not need to (and doesn't) produce
     concrete syntax. *)
 val pp_debug : t -> _ Pp.t
+
+module Primitive : sig
+  type nonrec t =
+    { gate_kind : t
+    ; input_width : int
+    ; output_width : int
+    ; aliases : string list
+    }
+  [@@deriving sexp_of]
+
+  val all : t list Lazy.t
+end

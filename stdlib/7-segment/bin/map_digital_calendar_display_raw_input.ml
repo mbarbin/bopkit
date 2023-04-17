@@ -11,11 +11,12 @@
 
 let expected_octets = 8
 
-let val_of_bin_array tab index long =
-  let rec aux accu i =
-    if i = index + long then accu else aux ((accu * 2) + tab.(i)) (succ i)
-  in
-  aux 0 index
+let val_of_bin_array ~src:tab ~pos:index ~len:long =
+  let res = ref 0 in
+  for i = pred (index + long) downto index do
+    res := (!res * 2) + tab.(i)
+  done;
+  !res
 ;;
 
 let unite_dizaine i = i mod 10, i / 10
@@ -69,20 +70,25 @@ let update_tabs source tab =
   let set = set_by_fct dec7 in
   let long = 8 in
   for i = 0 to 2 do
-    let u, d = unite_dizaine (val_of_bin_array source (long * i) long) in
+    let u, d = unite_dizaine (val_of_bin_array ~src:source ~pos:(long * i) ~len:long) in
     set (2 * i * 7) u;
     set (((2 * i) + 1) * 7) d
   done;
-  let jour = succ (val_of_bin_array source (long * 3) long) in
+  let jour = succ (val_of_bin_array ~src:source ~pos:(long * 3) ~len:long) in
   set_by_fct day_of_week 42 jour;
   for i = 0 to 2 do
     if i = 2
     then (
-      let u, d = unite_dizaine (val_of_bin_array source (long * (4 + i)) long) in
+      let u, d =
+        unite_dizaine (val_of_bin_array ~src:source ~pos:(long * (4 + i)) ~len:long)
+      in
       set ((2 * i * 7) + 49) u;
       set ((((2 * i) + 1) * 7) + 49) d)
     else (
-      let u, d = unite_dizaine (succ (val_of_bin_array source (long * (4 + i)) long)) in
+      let u, d =
+        unite_dizaine
+          (succ (val_of_bin_array ~src:source ~pos:(long * (4 + i)) ~len:long))
+      in
       set ((2 * i * 7) + 49) u;
       set ((((2 * i) + 1) * 7) + 49) d)
   done
@@ -97,8 +103,8 @@ let () =
     let line = input_line stdin in
     if String.length line <> length_entree
     then (
-      Printf.printf "Length : %d, expected %d.\n" (String.length line) length_entree;
-      flush stdout)
+      Printf.eprintf "Length : %d, expected %d.\n" (String.length line) length_entree;
+      flush stderr)
     else (
       for i = 0 to pred (String.length line) do
         entree.(i) <- val_of_char line.[i]

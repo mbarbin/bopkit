@@ -4,5 +4,5 @@
 
 Main(a:[X]) = s
 where
-  s = and[X](a[0..X - 1]);
+  s = And[X](a[0..X - 1]);
 end where;

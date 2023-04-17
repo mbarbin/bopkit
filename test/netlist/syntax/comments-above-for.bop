@@ -14,7 +14,7 @@ B(a:[N]) = b:[N]
 where
   // And this one too!
   for i = 0 to N - 1
-    b[i] = not(a[i]);
-    // Hello tail commment.
+    b[i] = Not(a[i]);
+    // Hello tail comment.
   end for;
 end where;

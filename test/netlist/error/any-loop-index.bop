@@ -1,6 +1,6 @@
 A(a:[5]) = b:[5]
 where
   for _ = 0 to 4
-    b[_] = not(a[_]);
+    b[_] = Not(a[_]);
   end for;
 end where;

@@ -1,4 +1,4 @@
 A(a) = a
 where
-  _ = id(a);
+  _ = Id(a);
 end where;

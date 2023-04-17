@@ -29,16 +29,16 @@ $ bopkit bdd synthesize -AD 4 -WL 7 -f starred.txt
 Bloc(a:[4]) = out:[7]
 with unused = a[2..3]
 where
-  s1 = not(a[0]);
+  s1 = Not(a[0]);
   out[0] = s1;
-  s2 = not(a[1]);
-  s3 = mux(a[0], s2, 0);
+  s2 = Not(a[1]);
+  s3 = Mux(a[0], s2, 0);
   out[1] = s3;
-  s4 = mux(a[0], a[1], 1);
+  s4 = Mux(a[0], a[1], 1);
   out[2] = s4;
-  s5 = mux(a[0], s2, 1);
+  s5 = Mux(a[0], s2, 1);
   out[3] = s5;
-  s6 = mux(a[0], 1, s2);
+  s6 = Mux(a[0], 1, s2);
   out[4] = s6;
   out[5] = 1;
   out[6] = 1;

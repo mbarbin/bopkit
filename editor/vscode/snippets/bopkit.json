@@ -1,0 +1,29 @@
+{
+    "Block body": {
+        "prefix": "where",
+        "body": [
+            "with unused = (${1:unused-signals})",
+            "where",
+            "  $0",
+            "end where;"
+        ]
+    },
+    "For loop": {
+        "prefix": "for",
+        "body":[
+            "for ${1:variable} = ${2:left-bound} to ${3:right-bound}",
+            "  $0",
+            "end for;"
+        ]
+    },
+    "If then else": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} then",
+            "  ${2:then-case}",
+            "else",
+            "  ${3:else-case}",
+            "end if;"
+        ]
+    }
+}

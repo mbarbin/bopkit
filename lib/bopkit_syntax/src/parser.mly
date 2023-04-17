@@ -155,12 +155,12 @@ token_external:
 ;
 
 un_noeud:
-// Raccourcis pour id
+// Raccourcis pour "Id"
   | outputs=variables_list EGAL variables=variables_list POINT_VIRG
     { Bopkit.Control_structure.Node
       { loc = Loc.create $loc
       ; comments = Comments.make ~attached_to:($startpos(outputs))
-      ; call = Block { name = "id"; arguments = []; functional_arguments = [] }
+      ; call = Block { name = "Id"; arguments = []; functional_arguments = [] }
       ; inputs = [ Variables
                      { loc = Loc.create $loc(variables)
                      ; comments = Comments.none
@@ -174,7 +174,7 @@ un_noeud:
     { Bopkit.Control_structure.Node
       { loc = Loc.create $loc
       ; comments = Comments.make ~attached_to:($startpos(outputs))
-      ; call = Block { name = "id"; arguments = []; functional_arguments = [] }
+      ; call = Block { name = "Id"; arguments = []; functional_arguments = [] }
       ; inputs = $3
       ; outputs
       }
@@ -249,7 +249,7 @@ un_noeud:
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
-         ; call = Pipe { command = $5; output_size = Inferred }
+         ; call = External_command { command = $5; output_size = Inferred }
          ; inputs = []
          ; outputs
          }
@@ -259,7 +259,7 @@ un_noeud:
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
-         ; call = Pipe { command = $5; output_size = Inferred }
+         ; call = External_command { command = $5; output_size = Inferred }
          ; inputs = $7
          ; outputs
          }
@@ -269,7 +269,7 @@ un_noeud:
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
-         ; call = Pipe { command; output_size = Inferred }
+         ; call = External_command { command; output_size = Inferred }
          ; inputs = []
          ; outputs = []
          }
@@ -279,7 +279,7 @@ un_noeud:
       { Bopkit.Control_structure.Node
          { loc = Loc.create $loc
          ; comments = Comments.make ~attached_to:($startpos(_e))
-         ; call = Pipe { command; output_size = Inferred }
+         ; call = External_command { command; output_size = Inferred }
          ; inputs
          ; outputs = []
          }
@@ -417,7 +417,7 @@ un_noeud:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.make ~attached_to:($startpos(_el))
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = $2
+        ; if_condition = $2
         ; then_nodes = $4
         ; else_nodes = $6
         }
@@ -429,7 +429,7 @@ un_noeud:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.none
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = $2
+        ; if_condition = $2
         ; then_nodes = $4
         ; else_nodes = []
         }
@@ -441,7 +441,7 @@ un_noeud:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.make ~attached_to:($startpos(_el))
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = CONST $2
+        ; if_condition = CONST $2
         ; then_nodes = $4
         ; else_nodes = $6
         }
@@ -453,7 +453,7 @@ un_noeud:
         ; head_comments = Comments.make ~attached_to:($startpos(_hd))
         ; then_tail_comments = Comments.none
         ; tail_comments = Comments.make ~attached_to:($startpos(_tl))
-        ; if_cond = CONST $2
+        ; if_condition = CONST $2
         ; then_nodes = $4
         ; else_nodes = []
         }
@@ -532,7 +532,7 @@ output_size:
     { Nested_node
        { loc = Loc.create $loc
        ; comments = Comments.make ~attached_to:($startpos(_d))
-       ; call = Pipe { command; output_size }
+       ; call = External_command { command; output_size }
        ; inputs = []
        }
     }
@@ -541,7 +541,7 @@ output_size:
     { Nested_node
        { loc = Loc.create $loc
        ; comments = Comments.make ~attached_to:($startpos(_d))
-       ; call = Pipe { command; output_size }
+       ; call = External_command { command; output_size }
        ; inputs
        }
     }

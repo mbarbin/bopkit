@@ -1,6 +1,6 @@
 A(a, b) = c
 where
-  _ = not(a);
-  _ = not(b);
-  c = and(a, b);
+  _ = Not(a);
+  _ = Not(b);
+  c = And(a, b);
 end where;

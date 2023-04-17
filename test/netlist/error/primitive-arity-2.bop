@@ -1,4 +1,4 @@
 A(a, b) = (c, d)
 where
-  c, d = and(a, b);
+  c, d = And(a, b);
 end where;

@@ -1,0 +1,9 @@
+#include <stdlib.bop>
+
+#define M 3
+#define N 2
+
+Main(a:[M]:[N]) = s:[N]
+where
+  s:[N] = XorN[M][N](a:[M]:[N]);
+end where;

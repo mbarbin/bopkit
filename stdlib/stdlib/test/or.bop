@@ -1,0 +1,8 @@
+#include <stdlib.bop>
+
+#define N 4
+
+Main(a:[N]) = s
+where
+  s = Or[N](a:[N]);
+end where;

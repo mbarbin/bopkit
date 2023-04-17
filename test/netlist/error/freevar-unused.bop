@@ -1,5 +1,5 @@
 A(a) = b
 with unused = c
 where
-  b = not(a);
+  b = Not(a);
 end where;

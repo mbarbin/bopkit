@@ -6,6 +6,7 @@
 const sidebars = {
     sidebar: [
       { type: 'doc', id: 'README', label: 'Introduction' },
+      { type: 'doc', id: 'vscode/README', label: 'Visual Studio Code' },
       { type: 'doc', id: 'gtksourceview/README', label: 'GtkSourceView' }
     ],
   };

@@ -21,9 +21,8 @@ let pp_comments comments =
       Pp.verbatim line ++ Pp.newline))
 ;;
 
-(* Tail comments are printed without a trailing newline so they can
-   fit in indentation boxes without causing an extra line of
-   indentation at the end. *)
+(* Tail comments are printed without a trailing newline so they can fit in
+   indentation boxes without causing an extra line of indentation at the end. *)
 let pp_tail_comments comments =
   Pp.concat_map (Bopkit.Comments.value comments) ~f:(fun comment ->
     Pp.concat_map (Bopkit.Comment.render comment) ~f:(fun line ->
@@ -43,11 +42,9 @@ let pp_include_file { Bopkit.Netlist.loc = _; comments; include_file_kind } =
     ]
 ;;
 
-let pp_parameter
-  { Bopkit.Netlist.loc = _; comments; name = nom_parameter; parameter_value }
-  =
+let pp_parameter { Bopkit.Netlist.loc = _; comments; name; parameter_value } =
   pp_comments comments
-  ++ Pp.verbatim (sprintf "#define %s " nom_parameter)
+  ++ Pp.verbatim (sprintf "#define %s " name)
   ++
   match parameter_value with
   | DefInt e -> Bopkit.Arithmetic_expression.pp e
@@ -120,14 +117,7 @@ let rec pp_control_structure
   match t with
   | Node a -> aux ~first_in_group a
   | For_loop
-      { loc = _
-      ; head_comments
-      ; tail_comments
-      ; ident
-      ; left_bound
-      ; right_bound
-      ; nodes = declarations
-      } ->
+      { loc = _; head_comments; tail_comments; ident; left_bound; right_bound; nodes } ->
     (if (not first_in_group) && not (Bopkit.Comments.is_empty head_comments)
      then Pp.newline
      else Pp.nop)
@@ -143,7 +133,7 @@ let rec pp_control_structure
                ++ Pp.verbatim " to "
                ++ Bopkit.Arithmetic_expression.pp right_bound)
           ; Pp.newline
-          ; List.mapi declarations ~f:(fun i t -> i, t)
+          ; List.mapi nodes ~f:(fun i t -> i, t)
             |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
                  pp_control_structure ~first_in_group:(i = 0) aux t)
           ; pp_tail_comments tail_comments
@@ -156,9 +146,9 @@ let rec pp_control_structure
       ; head_comments
       ; then_tail_comments
       ; tail_comments
-      ; if_cond = cond
-      ; then_nodes = then_block
-      ; else_nodes = else_block
+      ; if_condition
+      ; then_nodes
+      ; else_nodes
       } ->
     (if (not first_in_group) && not (Bopkit.Comments.is_empty head_comments)
      then Pp.newline
@@ -166,24 +156,24 @@ let rec pp_control_structure
     ++ pp_comments head_comments
     ++ (Pp.concat
           [ Pp.verbatim "if "
-          ; Bopkit.Conditional_expression.pp cond
+          ; Bopkit.Conditional_expression.pp if_condition
           ; Pp.verbatim " then"
           ; Pp.newline
-          ; List.mapi then_block ~f:(fun i t -> i, t)
+          ; List.mapi then_nodes ~f:(fun i t -> i, t)
             |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
                  pp_control_structure ~first_in_group:(i = 0) aux t)
           ; pp_tail_comments then_tail_comments
-          ; (if List.is_empty else_block then pp_tail_comments tail_comments else Pp.nop)
+          ; (if List.is_empty else_nodes then pp_tail_comments tail_comments else Pp.nop)
           ]
         |> Pp.box ~indent:2)
-    ++ (if List.is_empty else_block
+    ++ (if List.is_empty else_nodes
         then Pp.nop
         else
           Pp.newline
           ++ (Pp.concat
                 [ Pp.verbatim "else"
                 ; Pp.newline
-                ; List.mapi else_block ~f:(fun i t -> i, t)
+                ; List.mapi else_nodes ~f:(fun i t -> i, t)
                   |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
                        pp_control_structure ~first_in_group:(i = 0) aux t)
                 ; pp_tail_comments tail_comments
@@ -229,24 +219,17 @@ let pp_external_api ~first_in_group a =
 ;;
 
 let pp_external_block
-  { Bopkit.Netlist.loc = _
-  ; head_comments
-  ; tail_comments
-  ; name
-  ; attributes = raw_attributs
-  ; api = raw_init_messages_def_method
-  ; command = raw_command_shell
-  }
+  { Bopkit.Netlist.loc = _; head_comments; tail_comments; name; attributes; api; command }
   =
   pp_comments head_comments
   ++ (Pp.concat
         [ Pp.verbatim "external "
-        ; (match raw_attributs with
+        ; (match attributes with
            | [] -> Pp.nop
            | _ :: _ as list -> pp_attributes list ++ Pp.verbatim " ")
         ; Pp.verbatim name
-        ; Pp.verbatim (sprintf " %s" (string_with_vars raw_command_shell))
-        ; (match raw_init_messages_def_method with
+        ; Pp.verbatim (sprintf " %s" (string_with_vars command))
+        ; (match api with
            | [] -> Pp.nop
            | _ :: _ as list ->
              Pp.newline
@@ -257,7 +240,7 @@ let pp_external_block
         ]
       |> Pp.box ~indent:2)
   ++
-  if List.is_empty raw_init_messages_def_method && Bopkit.Comments.is_empty tail_comments
+  if List.is_empty api && Bopkit.Comments.is_empty tail_comments
   then Pp.nop
   else Pp.newline ++ Pp.verbatim "end external;"
 ;;
@@ -272,7 +255,7 @@ let pp_index aux (t : Bopkit.Netlist.index) =
 
 let pp_variable v =
   match (v : Bopkit.Netlist.variable) with
-  | Signal { name = s } -> Pp.verbatim s
+  | Signal { name } -> Pp.verbatim name
   | Bus { loc = _; name; indexes } ->
     Pp.verbatim name
     ++ Pp.concat_map indexes ~f:(fun index ->
@@ -292,14 +275,27 @@ let pp_functional_argument { Bopkit.Netlist.name; name_is_quoted } =
 
 let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_inputs list) =
   match t with
-  | Block { name; arguments = params; functional_arguments = funargs } ->
+  | Block { name; arguments; functional_arguments } ->
+    let name =
+      match force Fmt_command.bopkit_force_fmt with
+      | false -> name
+      | true ->
+        (* CR mbarbin: This allows for a transition during which we auto-correct
+           netlist to the new primitive names *)
+        let primitives = force Bopkit_circuit.Gate_kind.Primitive.all in
+        (match
+           List.find primitives ~f:(fun t -> List.mem t.aliases name ~equal:String.equal)
+         with
+         | None -> name
+         | Some t -> List.hd_exn t.aliases)
+    in
     let call =
       Pp.concat
         [ Pp.verbatim name
-        ; Pp.concat_map params ~f:(fun param ->
+        ; Pp.concat_map arguments ~f:(fun param ->
             Pp.concat
               [ Pp.verbatim "["; Bopkit.Arithmetic_expression.pp param; Pp.verbatim "]" ])
-        ; (match funargs with
+        ; (match functional_arguments with
            | [] -> Pp.nop
            | _ :: _ as list ->
              Pp.concat
@@ -324,12 +320,7 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
       ]
     |> Pp.hvbox ~indent:2
   | External_block
-      { name
-      ; method_name
-      ; method_name_is_quoted
-      ; external_arguments = strargs
-      ; output_size = arite_pipe
-      } ->
+      { name; method_name; method_name_is_quoted; external_arguments; output_size } ->
     Pp.concat
       [ Pp.verbatim "$"
       ; Pp.verbatim name
@@ -341,14 +332,14 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
                 (if method_name_is_quoted
                  then string_with_vars method_name
                  else method_name))
-      ; pp_external_call_output_size arite_pipe
+      ; pp_external_call_output_size output_size
       ; Pp.verbatim "("
       ; Pp.cut
       ; Pp.concat_map
-          strargs
+          external_arguments
           ~sep:(Pp.verbatim "," ++ Pp.space)
-          ~f:(fun strarg -> Pp.verbatim (string_with_vars strarg))
-      ; (if List.is_empty strargs || List.is_empty inputs
+          ~f:(fun arg -> Pp.verbatim (string_with_vars arg))
+      ; (if List.is_empty external_arguments || List.is_empty inputs
          then Pp.nop
          else Pp.verbatim "," ++ Pp.space)
       ; Pp.concat_map
@@ -358,9 +349,9 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
       ; Pp.verbatim ")"
       ]
     |> Pp.hvbox ~indent:2
-  | Pipe { command; output_size = arite_pipe } ->
+  | External_command { command; output_size } ->
     Pp.concat
-      [ Pp.verbatim "external" ++ pp_external_call_output_size arite_pipe
+      [ Pp.verbatim "external" ++ pp_external_call_output_size output_size
       ; Pp.verbatim "("
       ; Pp.verbatim (string_with_vars command)
       ; Pp.concat_map inputs ~f:(fun input ->
@@ -403,14 +394,14 @@ let pp_node
       ~f:(fun output -> pp_variable output)
   in
   (* Because it is oftentimes the case that external calls do not return
-     anything (e.g. graphical components, debugging, etc.) we allow for a special
-     syntax of omitting the '=' in case of empty outputs. Currently it is not
-     generalized to all blocks. Maybe it should? TBD. *)
+     anything (e.g. graphical components, debugging, etc.) we allow for a
+     special syntax of omitting the '=' in case of empty outputs. Currently it
+     is not generalized to all blocks. Maybe it should? TBD. *)
   let skip_outputs =
     List.is_empty t.outputs
     &&
     match t.call with
-    | External_block _ | Pipe _ -> true
+    | External_block _ | External_command _ -> true
     | Block _ -> false
   in
   (if (not first_in_group) && not (Bopkit.Comments.is_empty comments)
@@ -455,7 +446,7 @@ let pp_block
                ])
         ]
   in
-  let parens_output =
+  let output_with_parenthesis =
     match outputs with
     | [ _ ] -> false
     | [] | _ :: _ :: _ -> true
@@ -471,18 +462,18 @@ let pp_block
             ~sep:(Pp.verbatim "," ++ Pp.space)
             ~f:(fun input -> pp_variable input)
         ; Pp.verbatim ") = "
-        ; (if parens_output then Pp.verbatim "(" else Pp.nop)
+        ; (if output_with_parenthesis then Pp.verbatim "(" else Pp.nop)
         ; Pp.concat_map
             outputs
             ~sep:(Pp.verbatim "," ++ Pp.space)
             ~f:(fun input -> pp_variable input)
-        ; (if parens_output then Pp.verbatim ")" else Pp.nop)
+        ; (if output_with_parenthesis then Pp.verbatim ")" else Pp.nop)
         ]
       |> Pp.box ~indent:2
     ; (if List.is_empty unused_variables
        then Pp.nop
        else (
-         let parens_unused =
+         let unused_with_parenthesis =
            match unused_variables with
            | [ _ ] -> false
            | _ -> true
@@ -490,12 +481,12 @@ let pp_block
          Pp.newline
          ++ (Pp.concat
                [ Pp.verbatim "with unused = "
-               ; (if parens_unused then Pp.verbatim "(" else Pp.nop)
+               ; (if unused_with_parenthesis then Pp.verbatim "(" else Pp.nop)
                ; Pp.concat_map
                    unused_variables
                    ~sep:(Pp.verbatim "," ++ Pp.space)
                    ~f:(fun input -> pp_variable input)
-               ; (if parens_unused then Pp.verbatim ")" else Pp.nop)
+               ; (if unused_with_parenthesis then Pp.verbatim ")" else Pp.nop)
                ]
              |> Pp.box ~indent:2)))
     ; Pp.newline

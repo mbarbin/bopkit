@@ -1,4 +1,4 @@
 and(a, b) = c
 where
-  c = xor(a, b);
+  c = Xor(a, b);
 end where;

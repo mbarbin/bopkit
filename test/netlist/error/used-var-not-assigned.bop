@@ -1,4 +1,4 @@
 A() = b
 where
-  b = not(c);
+  b = Not(c);
 end where;

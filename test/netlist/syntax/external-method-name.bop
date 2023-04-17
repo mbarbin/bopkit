@@ -4,7 +4,7 @@ external buttons "./buttons.exe -N %{N}"
 
 Bloc(a:[N]) = ()
 where
-  for i = 0 to N-1
-     = $buttons."PUSH_%{i}"(a[i]);
+  for i = 0 to N - 1
+    $buttons."PUSH_%{i}"(a[i]);
   end for;
 end where;

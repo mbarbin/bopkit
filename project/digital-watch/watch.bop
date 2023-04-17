@@ -7,8 +7,8 @@
  * circuit needs to know the number of cycles per second, so it can increment the
  * seconds on the watch at the right frequency. For things to work, we need a power
  * of 2 number of cycles per seconds. In the demo with the watch only, we use 2
- * cycles per seconds. With the bopboard, for the user interaction to feel fluid
- * enough, we increase it to 16.
+ * cycles per seconds. With the bopboard, for the user interaction to feel smoother
+ * we increase it to 16.
  */
 #define CYCLES_PER_SECOND 2 ^ 1
 
@@ -46,31 +46,31 @@ ROM C24 (5, 8) = text {
 [ VlogTestBench ]
 Adder(i, rst) = (s, r)
 where
-  s = Z(mux(rst, gnd(), xor(s, i)));
-  r = and(s, i);
+  s = Reg(Mux(rst, Gnd(), Xor(s, i)));
+  r = And(s, i);
 end where;
 
 CM10(i) = (s:[4], rst)
 with unused = c[4]
 where
   // (rst == 1) <=> ((i == 1) && (s[0..3] == 9))
-  rst = and(i, and(and(s[3], not(s[2])), and(not(s[1]), s[0])));
+  rst = And(i, And(And(s[3], Not(s[2])), And(Not(s[1]), s[0])));
   for i = 0 to 3
     s[i], c[4 - i] = Adder(c[3 - i], rst);
   end for;
-  c[0] = id(i);
+  c[0] = Id(i);
 end where;
 
 CM6(i) = (s[0..3], rst)
 with unused = c[3]
 where
   // (rst == 1) <=> ((i == 1) && (s == 5))
-  rst = and(and(i, s[1]), and(not(s[2]), s[3]));
+  rst = And(And(i, s[1]), And(Not(s[2]), s[3]));
   for i = 1 to 3
     s[i], c[4 - i] = Adder(c[3 - i], rst);
   end for;
-  c[0] = id(i);
-  s[0] = gnd();
+  c[0] = Id(i);
+  s[0] = Gnd();
 end where;
 
 CM60(i) = (su:[4], sd:[4], o)
@@ -82,11 +82,11 @@ end where;
 C24(i) = (t:[5], o)
 with unused = c[5]
 where
-  o = and(and(and(t[0], t[2]), and(t[3], t[4])), and(not(t[1]), i));
+  o = And(And(And(t[0], t[2]), And(t[3], t[4])), And(Not(t[1]), i));
   for i = 0 to 4
     t[i], c[5 - i] = Adder(c[4 - i], o);
   end for;
-  c[0] = id(i);
+  c[0] = Id(i);
 end where;
 
 /**
@@ -96,9 +96,9 @@ end where;
 CM2[P](i) = sec
 with unused = a[1..P]
 where
-  g = gnd();
-  c[0] = id(i);
-  sec = id(c[P]);
+  g = Gnd();
+  c[0] = Id(i);
+  sec = Id(c[P]);
   for i = 1 to P
     a[i], c[i] = Adder(c[i - 1], g);
   end for;
@@ -119,11 +119,11 @@ where
   m10:[7] = rom_Dec7(md:[-4]);
   h1:[7] = rom_Dec7(hu:[-4]);
   h10:[7] = rom_Dec7(hd:[-4]);
-  i = clock();
+  i = Clock();
   sec = CM2[log CYCLES_PER_SECOND](i);
-  su:[4], sd:[4], mn = CM60(or(incrS, sec));
-  mu:[4], md:[4], hr = CM60(or(incrM, mn));
-  t:[5], _ = C24(or(incrH, hr));
+  su:[4], sd:[4], mn = CM60(Or(incrS, sec));
+  mu:[4], md:[4], hr = CM60(Or(incrM, mn));
+  t:[5], _ = C24(Or(incrH, hr));
   hd:[4], hu:[4] = rom_C24(t:[-5]);
 end where;
 
@@ -136,5 +136,5 @@ end where;
 Watch(tick) = out:[42]
 with unused = tick
 where
-  out:[42] = IncrementableWatch(gnd(), gnd(), gnd());
+  out:[42] = IncrementableWatch(Gnd(), Gnd(), Gnd());
 end where;

@@ -1,4 +1,4 @@
-and[N](a:[N]) = s
+And[N](a:[N]) = s
 where
-  s = FoldLeft[N]<"and", "map", "id">(a:[N]);
+  s = FoldLeft[N]<"And", "Map", "Id">(a:[N]);
 end where;

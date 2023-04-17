@@ -1,7 +1,7 @@
 open! Core
 open! Import
 
-module Topo_block :
+module Expanded_block_node :
   Bopkit_topological_sort.Node
     with type t = Bopkit.Expanded_netlist.block
      and type key = string = struct
@@ -23,5 +23,9 @@ module Topo_block :
 end
 
 let sort blocks ~error_log =
-  Bopkit_topological_sort.sort (module Topo_block) (module String) blocks ~error_log
+  Bopkit_topological_sort.sort
+    (module Expanded_block_node)
+    (module String)
+    blocks
+    ~error_log
 ;;

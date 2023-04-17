@@ -1,0 +1,105 @@
+{   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Bopkit",
+    "scopeName": "source.bopkit",
+    "fileTypes": ["bop"],
+    "patterns": [
+      { "include": "#comments" },
+      { "include": "#keywords" },
+      { "include": "#constants" },
+      { "include": "#identifiers" },
+      { "include": "#strings" }
+    ],
+    "repository": {
+      "comments": {
+        "patterns": [
+          {
+            "name": "comment.line.double-slash.bopkit",
+            "match": "//.*$"
+          },
+          {
+            "name": "comment.block.documentation.bopkit",
+            "begin": "/\\*\\*",
+            "end": "\\*/",
+            "captures": {
+              "0": {
+                "name": "comment.block.documentation.bopkit"
+              }
+            }
+          },
+          {
+            "name": "comment.block.bopkit",
+            "begin": "/\\*",
+            "end": "\\*/",
+            "captures": {
+              "0": {
+                "name": "punctuation.definition.comment"
+              }
+            }
+          }
+        ]
+      },
+      "keywords": {
+        "patterns": [
+          {
+            "match": "\\b(if|then|else|for|to|where|end|with|unused|text|file|RAM|ROM|external)\\b",
+            "name": "keyword.control.bopkit"
+          },
+          {
+            "match": "(#define)\\b",
+            "name": "keyword.control.define.bopkit"
+          },
+          {
+            "match": "(#include)(?=\\s|$)",
+            "name": "keyword.control.include.bopkit"
+          },
+          {
+            "match": "\\b(def|log|max|min|mod)\\b",
+            "name": "keyword.operator.bopkit"
+          }
+        ]
+      },
+      "constants": {
+        "patterns": [
+          {
+            "match": "\\b(true|false|null)\\b",
+            "name": "constant.language.bopkit"
+          },
+          {
+            "match": "\\b([0-9]+)\\b",
+            "name": "constant.numeric.bopkit"
+          }
+        ]
+      },
+      "identifiers": {
+        "patterns": [
+          {
+            "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b",
+            "name": "variable.language.bopkit"
+          },
+          {
+            "match": "\\b([a-z_][a-zA-Z0-9_]*)\\b",
+            "name": "variable.other.bopkit"
+          }
+        ]
+      },
+      "strings": {
+        "patterns": [
+          {
+            "name": "string.quoted.include.bopkit",
+            "match": "(<\\w+\\.\\w+>|\"\\w+\\.\\w+\")"
+          },
+          {
+            "name": "string.quoted.double.bopkit",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [
+              {
+                "match": "\\\\[\"nrt\\\\]",
+                "name": "constant.character.escape"
+              }
+            ]
+          }
+        ]
+      }
+    }
+}

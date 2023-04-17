@@ -26,16 +26,16 @@ Blocks with parameters are called `parametrized blocks`. Their parameters are lo
 
 <!-- $MDX file=parametrized-block.bop -->
 ```bopkit
-not_and[N](a:[N], b:[N]) = c:[N]
+NotAnd[N](a:[N], b:[N]) = c:[N]
 where
   for i = 0 to N - 1
-    c[i] = not(and(a[i], b[i]));
+    c[i] = Not(And(a[i], b[i]));
   end for;
 end where;
 
-main(a:[2], b:[2]) = c:[2]
+Main(a:[2], b:[2]) = c:[2]
 where
-  c:[2] = not_and[2](a:[2], b:[2]);
+  c:[2] = NotAnd[2](a:[2], b:[2]);
 end where;
 ```
 
@@ -47,14 +47,20 @@ Parameters may be variables in places expecting an arithmetic or conditional
 expression. It that case they're expected to have type `int`. In particular in
 control structures:
 
+<!-- $MDX file=and2_recursive.bop -->
 ```bopkit
-and2[N](e:[N]) = s
+And2[N](e:[N]) = s
 where
   if N == 1 then
-    s = id(e[0]);
+    s = Id(e[0]);
   else
-    s = and(and2[N - 1](e:[N - 1]), e[N - 1]);
+    s = And(And2[N - 1](e:[N - 1]), e[N - 1]);
   end if;
+end where;
+
+Main(e:[8]) = s
+where
+  s = And2[8](e:[8]);
 end where;
 ```
 

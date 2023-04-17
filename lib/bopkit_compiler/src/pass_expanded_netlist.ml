@@ -143,10 +143,10 @@ let nested_external_inferred_output_size_error (t : t) ~loc =
       [ Pp.concat
           ~sep:Pp.newline
           [ Pp.text
-              "You can either place this call at toplevel, or add the output size \
-               explicitely using the appropriate syntax:"
-          ; Pp.text "Pipe     =>             pipe[N](...)"
-          ; Pp.text "External =>    $block.method[N](...)"
+              "You can either place this call at top level, or add the output size \
+               explicitly using the appropriate syntax:"
+          ; Pp.text "External command =>        external[N](...)"
+          ; Pp.text "External block   =>   $block.method[N](...)"
           ]
       ]
 ;;
@@ -425,7 +425,7 @@ let expand_call
     ; input_width = Unknown
     ; output_width
     }
-  | Pipe { command; output_size } ->
+  | External_command { command; output_size } ->
     let command = eval_string_with_vars t command ~loc ~parameters in
     let name = new_inline_external_block t ~loc ~command in
     let output_width =

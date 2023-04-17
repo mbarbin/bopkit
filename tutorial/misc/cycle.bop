@@ -1,7 +1,7 @@
 // Testing the cycle detection
 Cycle(a, b) = s
 where
-  u = and(a, g);
-  g = or(b, id(u));
-  s = xor(g, vdd());
+  u = And(a, g);
+  g = Or(b, Id(u));
+  s = Xor(g, Vdd());
 end where;

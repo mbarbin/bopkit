@@ -1,7 +1,7 @@
 A[N][N](a:[N]) = b:[N]
 where
   for i = 0 to N - 1
-    b[i] = not(a[i]);
+    b[i] = Not(a[i]);
   end for;
 end where;
 

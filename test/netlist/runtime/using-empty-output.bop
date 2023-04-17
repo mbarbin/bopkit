@@ -1,5 +1,5 @@
 Main(a) = b
 where
   external("bopkit simu empty-output.bop -p", a);
-  b = not(a);
+  b = Not(a);
 end where;

@@ -1,0 +1,32 @@
+{
+    "name": "bopkit-extension",
+    "displayName": "Bopkit Extension",
+    "description": "Provides syntax highlighting and auto-formatting for Bopkit.",
+    "license": "MIT",
+    "version": "0.0.1",
+    "publisher": "mbarbin",
+    "engines": {
+      "vscode": "^1.60.0"
+    },
+    "categories": [
+      "Programming Languages"
+    ],
+    "contributes": {
+      "languages": [{
+        "id": "bopkit",
+        "aliases": ["bopkit"],
+        "extensions": [".bop",".bto"],
+        "configuration": "./language-configuration.json"
+      }],
+      "grammars": [{
+        "language": "bopkit",
+        "scopeName": "source.bopkit",
+        "path": "./syntaxes/bopkit.tmLanguage.json"
+      }],
+      "snippets": [
+        { "language": "bopkit",
+          "path": "./snippets/bopkit.json"
+        }
+      ]
+    }
+  }

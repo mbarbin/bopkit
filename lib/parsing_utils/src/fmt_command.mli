@@ -27,3 +27,8 @@ val pp_to_string : _ Pp.t -> string
 (** Find all the files in the current directory that have one of the supplied
     extensions. *)
 val find_files_in_cwd_by_extensions : extensions:string list -> string list
+
+(** The pretty-printer may sometimes be used to perform some automatic
+    refactoring on the files it formats. This is only possible when the
+    environment variable BOPKIT_FORCE_FMT=true. *)
+val bopkit_force_fmt : bool Lazy.t
