@@ -22,3 +22,11 @@ let keys (t : t) =
       Hash_set.add present name;
       Some name))
 ;;
+
+let overrides =
+  let open Command.Let_syntax in
+  let%map_open overrides =
+    flag "-parameter" (listed Parameter.arg_type) ~doc:"name=value override parameter"
+  in
+  overrides
+;;

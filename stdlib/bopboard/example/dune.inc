@@ -2,13 +2,13 @@
 
 (rule
  (with-stdout-to
-  bitshift.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:bitshift.bop}")))
+  bit_shift.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:bit_shift.bop}")))
 
 (rule
  (alias fmt)
  (action
-  (diff bitshift.bop bitshift.bop.pp.output)))
+  (diff bit_shift.bop bit_shift.bop.pp.output)))
 
 (rule
  (with-stdout-to
@@ -19,6 +19,16 @@
  (alias fmt)
  (action
   (diff lights.bop lights.bop.pp.output)))
+
+(rule
+ (with-stdout-to
+  lights_bdd.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:lights_bdd.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff lights_bdd.bop lights_bdd.bop.pp.output)))
 
 (rule
  (with-stdout-to

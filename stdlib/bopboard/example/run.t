@@ -6,9 +6,11 @@ Check that the files don't have errors in them.
   >   code=$?
   >   echo "[${code}]"
   > done
-  ================================: bitshift.bop
+  ================================: bit_shift.bop
   [0]
   ================================: lights.bop
+  [0]
+  ================================: lights_bdd.bop
   [0]
   ================================: ram.bop
   [0]

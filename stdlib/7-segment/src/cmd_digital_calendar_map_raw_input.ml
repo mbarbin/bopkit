@@ -1,13 +1,4 @@
-(* Test, envoyer les bonnes infos pour calend.ml en pipe *)
-
-(* #load "unix.cma";; *)
-
-(* etant donne un tableau, un index de debut, et une longueur, 
-   rend la valeur decimale codée en binaire dans le tableau *)
-
-(* Version avec les valeurs de la date de 0 a n-1 *)
-
-(* Ne pas lire necessairement les 256 octets en pipe *)
+open! Core
 
 let expected_octets = 8
 
@@ -55,8 +46,10 @@ let day_of_week = function
   | _ -> 0, 0, 0, 0, 0, 0, 0
 ;;
 
+type t = int array
+
 (* le tableau de source est tres long, on ne lit que le debut *)
-let update_tabs source tab =
+let update_tabs source (tab : t) =
   let set_by_fct fct index v =
     let a, b, c, d, e, f, g = fct v in
     tab.(index) <- a;
@@ -94,24 +87,39 @@ let update_tabs source tab =
   done
 ;;
 
-let () =
-  let length_entree = expected_octets * 8 in
-  let length_sortie = 91 in
-  let entree = Array.make length_entree 0 in
-  let sortie = Array.make length_sortie 0 in
-  while true do
-    let line = input_line stdin in
-    if String.length line <> length_entree
-    then (
-      Printf.eprintf "Length : %d, expected %d.\n" (String.length line) length_entree;
-      flush stderr)
-    else (
-      for i = 0 to pred (String.length line) do
-        entree.(i) <- val_of_char line.[i]
-      done;
-      update_tabs entree sortie;
-      Array.iter print_int sortie;
-      Printf.printf "\n";
-      flush stdout)
-  done
+let print (t : t) =
+  let buffer = Buffer.create 42 in
+  Array.iter t ~f:(fun v -> Buffer.add_string buffer (Int.to_string v));
+  print_endline (Buffer.contents buffer)
+;;
+
+let main =
+  Command.basic
+    ~summary:"generate digital-calendar raw input"
+    (let open Command.Let_syntax in
+     let%map_open () = return () in
+     fun () ->
+       let length_entree = expected_octets * 8 in
+       let length_sortie = 91 in
+       let entree = Array.create ~len:length_entree 0 in
+       let sortie = Array.create ~len:length_sortie 0 in
+       with_return (fun { return } ->
+         while true do
+           match In_channel.(input_line stdin) with
+           | None -> return ()
+           | Some line ->
+             if String.length line <> length_entree
+             then (
+               Printf.eprintf
+                 "Length : %d, expected %d.\n"
+                 (String.length line)
+                 length_entree;
+               Out_channel.flush stderr)
+             else (
+               for i = 0 to pred (String.length line) do
+                 entree.(i) <- val_of_char line.[i]
+               done;
+               update_tabs entree sortie;
+               print sortie)
+         done))
 ;;

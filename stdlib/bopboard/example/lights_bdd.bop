@@ -1,0 +1,28 @@
+/**
+ * Introduction example for the bopboard.
+ *
+ * This is a simple circuit that connects the lights to the state of
+ * the switches. The first 3 switches encode which light must be on, using the
+ * switch state as binary encoding for the light's index.
+ *
+ * The lights can be turned off by pressing any of the push buttons.
+ *
+ * After having installed bopkit, you may run with:
+ *
+ * $ bopkit simu lights_bdd.bop
+ */
+#include <stdlib.bop>
+#include <bopboard.bop>
+
+// The number of lights and switches.
+#define N 8
+
+Main() = ()
+with unused = switch[3..7]
+where
+  switch:[N] = $bopboard.switch();
+  push:[5] = $bopboard.push();
+  lights:[N] = ReverseBdd[3](en, switch:[3]);
+  en = Not(Or[5](push:[5]));
+  $bopboard.light(lights:[N]);
+end where;

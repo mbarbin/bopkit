@@ -2,6 +2,7 @@
  * A digital watch that drives a 7-segment display, in Bopkit. This circuit
  * was originally implemented by Mathieu Barbin & Ocan Sankur in 2007.
  */
+
 /**
  * There is no need to simulate this circuit at great frequency, but the
  * circuit needs to know the number of cycles per second, so it can increment the
@@ -111,7 +112,6 @@ end where;
  */
 IncrementableWatch(incrS, incrM, incrH) = (h10:[7], h1:[7], m10:[7], m1:[7],
   s10:[7], s1:[7])
-with unused = tick
 where
   s1:[7] = rom_Dec7(su:[-4]);
   s10:[7] = rom_Dec7(sd:[-4]);

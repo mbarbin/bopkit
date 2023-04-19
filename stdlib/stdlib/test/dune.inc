@@ -112,6 +112,16 @@
 
 (rule
  (with-stdout-to
+  reverse_bdd.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:reverse_bdd.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff reverse_bdd.bop reverse_bdd.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   succ.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:succ.bop}")))
 

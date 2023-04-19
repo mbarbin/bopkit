@@ -1,14 +1,14 @@
 // Block synthesized by bopkit from "starred.txt"
 // Gate count: [105|8] (7.619 %)
 
-Bloc(a:[4]) = out:[7]
+Block(a:[4]) = out:[7]
 with unused = a[2..3]
 where
   out[0] = Not(a[0]);
-  out[1] = Mux(a[0], Not(a[1]), 0);
-  out[2] = Mux(a[0], a[1], 1);
-  out[3] = Mux(a[0], Not(a[1]), 1);
-  out[4] = Mux(a[0], 1, Not(a[1]));
-  out[5] = 1;
-  out[6] = 1;
+  out[1] = Mux(a[0], Not(a[1]), Gnd());
+  out[2] = Mux(a[0], a[1], Vdd());
+  out[3] = Mux(a[0], Not(a[1]), Vdd());
+  out[4] = Mux(a[0], Vdd(), Not(a[1]));
+  out[5] = Vdd();
+  out[6] = Vdd();
 end where;

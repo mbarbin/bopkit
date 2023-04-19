@@ -16,11 +16,9 @@ type t =
   { loc : Loc.t
   ; fichier : string
   ; name : string
-  ; arite_entree : int
-  ; arite_sortie : int
-  ; variables_locales : string list
-  ; entrees_formelles : string list
-  ; sorties_formelles : string list
+  ; local_variables : string list
+  ; input_names : string array
+  ; output_names : string array
   ; nodes : node list
   }
 [@@deriving sexp_of]

@@ -33,3 +33,7 @@ type t =
   ; value : Value.t
   }
 [@@deriving equal, sexp_of]
+
+(** Defining a syntax with which parameters may be passed via the command line.
+  *)
+val arg_type : t Command.Arg_type.t

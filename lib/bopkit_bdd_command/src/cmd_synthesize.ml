@@ -11,6 +11,11 @@ let main =
        flag "WL" (required int) ~doc:"N word length - number of bits of results"
      and tree_option =
        flag "tree" no_arg ~doc:" generate a mux tree rather than a mux list"
+     and block_name =
+       flag
+         "block-name"
+         (optional string)
+         ~doc:"Block_name the desired name for the synthesized block"
      in
      fun () ->
        let len = Int.pow 2 address in
@@ -18,10 +23,11 @@ let main =
        let muxtrees = Bopkit_bdd.Muxtree.of_partial_bit_matrix pbm in
        let bloc =
          if tree_option
-         then Bopkit_bdd.Block.of_muxtrees muxtrees ~input_size:address
+         then Bopkit_bdd.Block.of_muxtrees muxtrees ?block_name ~input_size:address
          else
            Bopkit_bdd.Block.of_muxlist
              (Bopkit_bdd.Muxlist.of_muxtrees muxtrees)
+             ?block_name
              ~input_size:address
        in
        let num_gates = Bopkit_bdd.Block.number_of_gates bloc in

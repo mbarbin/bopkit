@@ -19,3 +19,8 @@
  (deps
   (package bopkit)
   (glob_files *.bop)))
+
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.bop)))

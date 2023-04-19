@@ -1,3 +1,5 @@
+open! Core
+
 let of_digit = function
   | 0 -> [| 1; 0; 1; 1; 1; 1; 1 |]
   | 1 -> [| 0; 0; 0; 0; 1; 1; 0 |]
@@ -18,8 +20,11 @@ let bool_of_int = function
   | _ -> assert false
 ;;
 
-let all = lazy (Array.init 10 (fun i -> Array.map bool_of_int (of_digit i)))
-let blit ~digit ~dst ~dst_pos = Array.blit (Lazy.force all).(digit) 0 dst dst_pos 7
+let all = lazy (Array.init 10 ~f:(fun i -> Array.map (of_digit i) ~f:bool_of_int))
+
+let blit ~digit ~dst ~dst_pos =
+  Array.blit ~src:(Lazy.force all).(digit) ~src_pos:0 ~dst ~dst_pos ~len:7
+;;
 
 let pattern = {|
    66
@@ -37,11 +42,18 @@ let pattern_char = function
 
 let to_ascii ~digit =
   let t = of_digit digit in
-  String.map
-    (fun c ->
-      let code = Char.code c - Char.code '0' in
-      if code >= 0 && code <= 6
-      then if bool_of_int t.(code) then pattern_char code else ' '
-      else c)
-    pattern
+  String.map pattern ~f:(fun c ->
+    let code = Char.to_int c - Char.to_int '0' in
+    if code >= 0 && code <= 6
+    then if bool_of_int t.(code) then pattern_char code else ' '
+    else c)
+;;
+
+let decode ~src ~pos =
+  if pos + 7 > Array.length src
+  then None
+  else (
+    let segment = Array.init 7 ~f:(fun i -> if src.(pos + i) then 1 else 0) in
+    Array.find (Array.init 10 ~f:Fn.id) ~f:(fun digit ->
+      [%equal: int Array.t] segment (of_digit digit)))
 ;;

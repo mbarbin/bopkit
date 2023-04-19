@@ -30,12 +30,13 @@ After installing the bopkit extension, we've configured custom-format with the
 following lines:
 
 ```json
-    "custom-format.formatters": [
-        {
-            // Whatever language id you need to format
-            "language": "bopkit",
-            // The command that will be run to format files with the language id specified above
-            // $FILE is replaced with the path of the file to be formatted
-            "command": "bopkit fmt file $FILE -read-contents-from-stdin -add-extra-blank-line"
-        },
+"custom-format.formatters": [
+    {
+        // Whatever language id you need to format
+        "language": "bopkit",
+        // The command that will be run to format files with the language id specified above
+        // $FILE is replaced with the path of the file to be formatted
+        "command": "bopkit fmt file $FILE -read-contents-from-stdin -add-extra-blank-line"
+    },
+]
 ```

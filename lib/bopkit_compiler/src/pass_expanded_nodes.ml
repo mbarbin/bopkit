@@ -16,18 +16,12 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~error_log : Expanded_node
   (* We start by adding the input node at the very beginning. *)
   Queue.enqueue
     expanded_nodes
-    { gate_kind = Input
-    ; inputs = [||]
-    ; outputs = main.entrees_formelles |> Array.of_list
-    };
+    { gate_kind = Input; inputs = [||]; outputs = main.input_names };
   let array_of_file_node () =
     (* We terminate by adding the output gate, and returning them all. *)
     Queue.enqueue
       expanded_nodes
-      { gate_kind = Output
-      ; inputs = main.sorties_formelles |> Array.of_list
-      ; outputs = [||]
-      };
+      { gate_kind = Output; inputs = main.output_names; outputs = [||] };
     Queue.to_array expanded_nodes
   in
   (* Fonction auxiliaire de substitution du corps d'une fonction anterieure
@@ -38,19 +32,23 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~error_log : Expanded_node
     (* Substituer les entrees formelles par les parametres effectifs *)
     let etape1 =
       List.fold2_exn
-        des_ant.entrees_formelles
+        (des_ant.input_names |> Array.to_list)
         ent_list
         ~init:(Map.empty (module String))
         ~f:add_subst
     in
     (* Substituer les sorties formelles par les parametres effectifs *)
     let etape2 =
-      List.fold2_exn des_ant.sorties_formelles sort_list ~init:etape1 ~f:add_subst
+      List.fold2_exn
+        (des_ant.output_names |> Array.to_list)
+        sort_list
+        ~init:etape1
+        ~f:add_subst
     in
     (* Substituer les vas locales de la fonction appellée par des freshes *)
     (* ajoutons autant de freshs que de variables locales *)
     let transf_map =
-      List.fold_left des_ant.variables_locales ~init:etape2 ~f:(fun smap v ->
+      List.fold_left des_ant.local_variables ~init:etape2 ~f:(fun smap v ->
         Map.set smap ~key:v ~data:(fresh_name ()))
     in
     let subst v =

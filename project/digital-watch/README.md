@@ -46,7 +46,7 @@ It is available in the command line as:
 
 <!-- $MDX skip -->
 ```bash
-$ bopkit digital-watch
+$ bopkit digital-watch display
 ```
 
 This opens up a OCaml Graphics window, and displays a 7-segment watch that looks
@@ -61,7 +61,7 @@ You may try to feed a few inputs to play around with it. It's possible to use
 
 <!-- $MDX skip -->
 ```bash
-$ bopkit digital-watch
+$ bopkit digital-watch display
 111011011110011011000101100010111110000000 <-- to enter on stdin
 ```
 
@@ -99,7 +99,7 @@ add it to the pipe command below:
 
 <!-- $MDX skip -->
 ```bash
-$ bopkit counter -N 1 -ni -f 2 | bopkit simu watch.bop -o | bopkit digital-watch -no
+$ bopkit counter -N 1 -ni -f 2 | bopkit simu watch.bop -o | bopkit digital-watch display -no
 ```
 
 ### Putting it all together in a circuit
@@ -132,7 +132,7 @@ You may integrate the C file into a simulation with these commands:
 <!-- $MDX skip -->
 ```bash
 $ gcc /tmp/watch.c -o /tmp/watch.out
-$ bopkit counter -N 1 -ni -f 2 | /tmp/watch.out | bopkit digital-watch -no
+$ bopkit counter -N 1 -ni -f 2 | /tmp/watch.out | bopkit digital-watch display -no
 ```
 
 ## The digital-watch + bopboard combo

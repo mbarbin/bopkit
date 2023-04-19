@@ -13,8 +13,7 @@
 // The number of lights and switches.
 #define N 8
 
-[ Main ]
-LightEchoBus() = ()
+Main() = ()
 where
   switch:[N] = $bopboard.switch();
   $bopboard.light(switch:[N]);

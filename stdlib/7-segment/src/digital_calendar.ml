@@ -8,7 +8,7 @@ type t =
 let colors : Colors.t =
   { wires = Graphics.yellow
   ; on = Graphics.magenta
-  ; off = Graphics.rgb 0 30 30
+  ; off = Graphics.rgb 0 10 10
   ; background = Graphics.black
   ; frame = Graphics.blue
   }
@@ -66,14 +66,70 @@ let init () : t =
 ;;
 
 let update (t : t) input =
-  (* le tableau est donné a l'envers (91 booleens) *)
+  (* The time digits "HH:MM:SS" are given in this order: "54:32:10" from pos:0 *)
   for i = 0 to 5 do
-    (* les chiffres de la montre sont codés de gauche à droite *)
     Digit.update t.time_digits.(i) ~src:input ~src_pos:(7 * (5 - i))
   done;
-  (* les chiffres de la date : donnés de gauche à droite, unité, dizaine *)
+  (* The date digits "DD:MM:YY" are given in this order: "10:32:54" from pos:49 *)
   for i = 0 to 2 do
     Digit.update t.date_digits.((2 * i) + 1) ~src:input ~src_pos:(49 + (7 * 2 * i));
     Digit.update t.date_digits.(2 * i) ~src:input ~src_pos:(56 + (7 * 2 * i))
   done
+;;
+
+module Decoded = struct
+  type t =
+    { hour : int
+    ; minute : int
+    ; second : int
+    ; day : int
+    ; month : int
+    ; year : int
+    }
+  [@@deriving equal, sexp_of]
+
+  let to_string { hour; minute; second; day; month; year } =
+    sprintf "%02d/%02d/%02d - %02d:%02d:%02d" day month year hour minute second
+  ;;
+
+  let blit (t : t) ~dst =
+    let blit pos d = Seven_segment_code.blit ~digit:d ~dst ~dst_pos:pos in
+    blit 0 (t.second mod 10);
+    blit 7 (t.second / 10);
+    blit 14 (t.minute mod 10);
+    blit 21 (t.minute / 10);
+    blit 28 (t.hour mod 10);
+    blit 35 (t.hour / 10);
+    blit 49 (t.day mod 10);
+    blit 56 (t.day / 10);
+    blit 63 (t.month mod 10);
+    blit 70 (t.month / 10);
+    blit 77 (t.year mod 10);
+    blit 84 (t.year / 10 mod 10)
+  ;;
+end
+
+let decode input =
+  let digit ~pos =
+    match Seven_segment_code.decode ~src:input ~pos with
+    | Some digit -> digit
+    | None ->
+      raise_s [%sexp "Invalid input", (input : Bit_array.Short_sexp.t), { pos : int }]
+  in
+  let ofday = Array.init 6 ~f:(fun i -> digit ~pos:(7 * (5 - i))) in
+  let date =
+    Array.init 6 ~f:(fun j ->
+      let pos =
+        let i = j / 2 in
+        if j % 2 = 0 then 56 + (7 * 2 * i) else 49 + (7 * 2 * i)
+      in
+      digit ~pos)
+  in
+  let day = (date.(0) * 10) + date.(1) in
+  let month = (date.(2) * 10) + date.(3) in
+  let year = (date.(4) * 10) + date.(5) in
+  let hour = (ofday.(0) * 10) + ofday.(1) in
+  let minute = (ofday.(2) * 10) + ofday.(3) in
+  let second = (ofday.(4) * 10) + ofday.(5) in
+  { Decoded.hour; minute; second; day; month; year }
 ;;

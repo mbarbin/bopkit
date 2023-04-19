@@ -21,7 +21,7 @@ where
   s_rom:[N] = rom_div(a:[N], b:[N]);
 
   // Via the bdd
-  s_bdd:[N] = Bloc(a:[N], b:[N]);
+  s_bdd:[N] = Div(a:[N], b:[N]);
 
   // Via the bdd with partial specification
   s_bdd_star:[N] = external("bopkit simu div_opt.bop -p", a:[N], b:[N]);

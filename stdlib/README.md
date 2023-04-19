@@ -8,16 +8,31 @@
   />
 </p>
 
-Bopkit's standard library is made of `*.bop` files that may be included in
-circuits using this syntax:
+## Syntax
 
-```text
+Bopkit's standard library is made of `*.bop` files that may be included in
+circuits using the `#include <file.bop>` syntax, such as:
+
+```bopkit
 #include <stdlib.bop>
+#include <bopboard.bop>
+// etc...
 ```
 
 as well as executables that implements some common functionality as external
 blocks that we want to make easily available to bopkit circuit, such as the
-`bopboard`, `bopdebug`, memory-units with graphical windows, etc.
+`bopboard`, `bopdebug`, 7-segment displays, memory-units with graphical windows,
+etc.
+
+## Install
 
 The files and executables are installed via `dune-sites`, and found at runtime
 by the simulator.
+
+To troubleshoot an installation, you may run the following command which should
+print the directories where the installation occurred:
+
+<!-- $MDX skip -->
+```bash
+$ bopkit print-sites
+```

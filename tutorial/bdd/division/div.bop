@@ -1,27 +1,27 @@
 // Block synthesized by bopkit from "div.txt"
 // Gate count: [1020|197|67] (6.569 %)
 
-Bloc(a:[8]) = out:[4]
+Div(a:[8]) = out:[4]
 where
-  s1 = Mux(a[6], a[7], 1);
-  s2 = Mux(a[5], s1, 1);
-  s3 = Mux(a[6], 1, a[7]);
+  s1 = Mux(a[6], a[7], Vdd());
+  s2 = Mux(a[5], s1, Vdd());
+  s3 = Mux(a[6], Vdd(), a[7]);
   s4 = Mux(a[5], s1, s3);
   s5 = Mux(a[4], s2, s4);
   s6 = Not(a[7]);
-  s7 = Mux(a[6], s6, 0);
+  s7 = Mux(a[6], s6, Gnd());
   s8 = Mux(a[5], s7, s6);
   s9 = Mux(a[5], s6, s7);
   s10 = Mux(a[4], s8, s9);
   s11 = Mux(a[3], s5, s10);
-  s12 = Mux(a[6], s6, 1);
+  s12 = Mux(a[6], s6, Vdd());
   s13 = Not(a[6]);
   s14 = Mux(a[5], s12, s13);
-  s15 = Mux(a[6], 0, a[7]);
+  s15 = Mux(a[6], Gnd(), a[7]);
   s16 = Mux(a[5], s12, s15);
   s17 = Mux(a[4], s14, s16);
-  s18 = Mux(a[6], 0, s6);
-  s19 = Mux(a[5], s18, 0);
+  s18 = Mux(a[6], Gnd(), s6);
+  s19 = Mux(a[5], s18, Gnd());
   s20 = Mux(a[4], s18, s19);
   s21 = Mux(a[3], s17, s20);
   s22 = Mux(a[2], s11, s21);
@@ -30,14 +30,14 @@ where
   s25 = Mux(a[5], s15, s3);
   s26 = Mux(a[4], s24, s25);
   s27 = Mux(a[5], s18, s6);
-  s28 = Mux(a[5], 0, s7);
+  s28 = Mux(a[5], Gnd(), s7);
   s29 = Mux(a[4], s27, s28);
   s30 = Mux(a[3], s26, s29);
   s31 = Mux(a[5], s6, s12);
   s32 = Mux(a[5], s7, s15);
   s33 = Mux(a[4], s31, s32);
-  s34 = Mux(a[5], 0, s18);
-  s35 = Mux(a[4], s34, 0);
+  s34 = Mux(a[5], Gnd(), s18);
+  s35 = Mux(a[4], s34, Gnd());
   s36 = Mux(a[3], s33, s35);
   s37 = Mux(a[2], s30, s36);
   s38 = Mux(a[1], s22, s37);
@@ -47,7 +47,7 @@ where
   s42 = Mux(a[3], s40, s41);
   s43 = Mux(a[5], s6, s15);
   s44 = Mux(a[4], s43, s16);
-  s45 = Mux(a[4], 0, s19);
+  s45 = Mux(a[4], Gnd(), s19);
   s46 = Mux(a[3], s44, s45);
   s47 = Mux(a[2], s42, s46);
   s48 = Mux(a[5], s23, s15);
@@ -55,23 +55,23 @@ where
   s50 = Mux(a[4], s19, s28);
   s51 = Mux(a[3], s49, s50);
   s52 = Mux(a[4], s7, s32);
-  s53 = Mux(a[3], s52, 0);
+  s53 = Mux(a[3], s52, Gnd());
   s54 = Mux(a[2], s51, s53);
   s55 = Mux(a[1], s47, s54);
   s56 = Mux(a[0], s38, s55);
-  out[0] = s56;
+  out[0] = Id(s56);
   s57 = Mux(a[3], s10, s20);
   s58 = Mux(a[3], s29, s35);
   s59 = Mux(a[2], s57, s58);
   s60 = Mux(a[3], s41, s45);
-  s61 = Mux(a[3], s50, 0);
+  s61 = Mux(a[3], s50, Gnd());
   s62 = Mux(a[2], s60, s61);
   s63 = Mux(a[1], s59, s62);
-  out[1] = s63;
+  out[1] = Id(s63);
   s64 = Mux(a[3], s20, s35);
-  s65 = Mux(a[3], s45, 0);
+  s65 = Mux(a[3], s45, Gnd());
   s66 = Mux(a[2], s64, s65);
-  out[2] = s66;
-  s67 = Mux(a[3], s35, 0);
-  out[3] = s67;
+  out[2] = Id(s66);
+  s67 = Mux(a[3], s35, Gnd());
+  out[3] = Id(s67);
 end where;

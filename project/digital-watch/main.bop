@@ -1,4 +1,3 @@
-#include <"7_segment.bop">
 #include <pulse.bop>
 #include "watch.bop"
 
@@ -11,5 +10,5 @@ where
   $pulse();
   tick = Clock();
   s:[42] = Watch(tick);
-   = digital_watch_display(s:[42]);
+  external("digital_watch_display.exe", s:[42]);
 end where;

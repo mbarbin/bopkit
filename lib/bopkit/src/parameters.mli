@@ -12,3 +12,7 @@ type t = Parameter.t list
 val find : t -> parameter_name:string -> Parameter.Value.t option
 val mem : t -> parameter_name:string -> bool
 val keys : t -> string list
+
+(** Defining command line parameters that can be used to supply overriding
+    values for parameters contained in a circuit. *)
+val overrides : t Command.Param.t

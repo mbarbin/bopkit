@@ -50,7 +50,7 @@ let param =
       else None
     and output_only =
       if%map
-        flag "output-only" ~aliases:[ "-o" ] no_arg ~doc:" also show ouptut on stdout"
+        flag "output-only" ~aliases:[ "-o" ] no_arg ~doc:" only show output on stdout"
       then Some (Output_kind.Default { output_only_on_change = false })
       else None
     and show_input =

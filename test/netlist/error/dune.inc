@@ -52,6 +52,16 @@
 
 (rule
  (with-stdout-to
+  any-unused-var.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:any-unused-var.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff any-unused-var.bop any-unused-var.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   any-used-var.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:any-used-var.bop}")))
 
@@ -179,6 +189,16 @@
  (alias fmt)
  (action
   (diff duplicated-rom.bop duplicated-rom.bop.pp.output)))
+
+(rule
+ (with-stdout-to
+  duplicated-unused.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:duplicated-unused.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff duplicated-unused.bop duplicated-unused.bop.pp.output)))
 
 (rule
  (with-stdout-to
@@ -469,6 +489,16 @@
  (alias fmt)
  (action
   (diff type-clash.bop type-clash.bop.pp.output)))
+
+(rule
+ (with-stdout-to
+  unbound-unused.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:unbound-unused.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff unbound-unused.bop unbound-unused.bop.pp.output)))
 
 (rule
  (with-stdout-to

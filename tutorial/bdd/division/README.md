@@ -38,7 +38,7 @@ where
 end where;
 ```
 
-<details>
+<details open>
 <summary>
 We can simulate this circuit to generate the truth table of `div.exe`.
 </summary>
@@ -101,22 +101,22 @@ when dividing by zero.
 ### [div.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.bop)
 
 ```sh
-$ bopkit bdd synthesize -AD 8 -WL 4 -f div.txt | head -n 5
+$ bopkit bdd synthesize -block-name Div -AD 8 -WL 4 -f div.txt | head -n 5
 // Block synthesized by bopkit from "div.txt"
 // Gate count: [1020|197|67] (6.569 %)
 
-Bloc(a:[8]) = out:[4]
+Div(a:[8]) = out:[4]
 where
 ```
 
 ### [div_opt.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.bop)
 
 ```sh
-$ bopkit bdd synthesize -AD 8 -WL 4 -f div_opt.txt | head -n 5
+$ bopkit bdd synthesize -block-name Div_opt -AD 8 -WL 4 -f div_opt.txt | head -n 5
 // Block synthesized by bopkit from "div_opt.txt"
 // Gate count: [1020|185|62] (6.078 %)
 
-Bloc(a:[8]) = out:[4]
+Div_opt(a:[8]) = out:[4]
 where
 ```
 
@@ -138,12 +138,12 @@ We've written a circuit that checks different implementations for the division, 
 In addition to showcasing different things in this tutorial, it's a great test
 case for bopkit!
 
-<details>
+<details open>
 <summary>
-Checkout the contents of the full file divcheck.bop
+Checkout the entire contents of file div_check.bop
 </summary>
 
-<!-- $MDX file=divcheck.bop -->
+<!-- $MDX file=div_check.bop -->
 ```bopkit
 // A first candidate: the bdd block synthesized from the complete specification.
 #include "div.bop"
@@ -168,7 +168,7 @@ where
   s_rom:[N] = rom_div(a:[N], b:[N]);
 
   // Via the bdd
-  s_bdd:[N] = Bloc(a:[N], b:[N]);
+  s_bdd:[N] = Div(a:[N], b:[N]);
 
   // Via the bdd with partial specification
   s_bdd_star:[N] = external("bopkit simu div_opt.bop -p", a:[N], b:[N]);
@@ -192,7 +192,7 @@ to the other implementations. This does not cause the simulation to fail, since
 the `test` method ignores the results when dividing by zero.
 
 ```sh
-$ bopkit simu divcheck.bop -num-counter-cycles 1 | head -n 20
+$ bopkit simu div_check.bop -num-counter-cycles 1 | head -n 20
    Cycle | a[0] a[1] a[2] a[3] b[0] b[1] b[2] b[3] | s_reference[0] s_reference[1] s_reference[2] s_reference[3] s_rom[0] s_rom[1] s_rom[2] s_rom[3] s_bdd[0] s_bdd[1] s_bdd[2] s_bdd[3] s_bdd_star[0] s_bdd_star[1] s_bdd_star[2] s_bdd_star[3]
        0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
        1 | 1 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

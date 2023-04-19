@@ -25,10 +25,12 @@ let to_string t =
 let to_file_colon_line t = Stdune.Loc.to_file_colon_line t
 let dummy_pos = { start = Lexing.dummy_pos; stop = Lexing.dummy_pos }
 
-let in_file ~filename =
-  let p = { Lexing.pos_fname = filename; pos_lnum = 1; pos_cnum = 0; pos_bol = 0 } in
+let in_file_at_line ~filename ~line =
+  let p = { Lexing.pos_fname = filename; pos_lnum = line; pos_cnum = 0; pos_bol = 0 } in
   { start = p; stop = p }
 ;;
+
+let in_file ~filename = in_file_at_line ~filename ~line:1
 
 let with_dummy_pos t =
   { start = { Lexing.dummy_pos with pos_fname = t.start.pos_fname }

@@ -66,6 +66,7 @@ monitor in tests.
    * with tests like this one how comments are picked up at different
    * part of a netlist file.
    */
+  
   // This netlist has comment before the first [#include] construct
   /**
    * It even has documentation comments !

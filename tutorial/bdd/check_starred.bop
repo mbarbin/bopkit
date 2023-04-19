@@ -13,13 +13,12 @@ Test(a:[AD]) = ()
 where
   // Here we call the synthesized block via the #include which is at the
   // beginning of the file.
-  block[1]:[WL] = Bloc(a:[AD]);
+  block[1]:[WL] = Block(a:[AD]);
 
   // Here, just for fun we simulate the synthesized file with another call to
   // the simulator. This is equivalent to the call above. When using the simulator
   // in external blocks, the option [-p] must be added.
-  block[2]:[WL] =
-    external("bopkit simu starred-tree.bop -p 2>/dev/null", a:[AD]);
+  block[2]:[WL] = external("bopkit simu starred-tree.bop -p", a:[AD]);
 
   // Here we check the result of both blocks with the bdd checker. It would
   // raise an exception and stops the simulation in case of an invalid result.

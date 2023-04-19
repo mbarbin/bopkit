@@ -1,6 +1,5 @@
 #include <stdlib.bop>
 #include <bopboard.bop>
-#include <"7_segment.bop">
 #include <pulse.bop>
 #include "watch.bop"
 
@@ -29,7 +28,7 @@ where
   s:[42] = IncrementableWatch(incrS, incrM, incrH);
 
   // Sending the bits to the 7-segments display.
-   = digital_watch_display(s:[42]);
+  external("digital_watch_display.exe", s:[42]);
 
   // For fun we connect the bits to the right of the display to the board's light.
   $bopboard.light(s[34..41]);

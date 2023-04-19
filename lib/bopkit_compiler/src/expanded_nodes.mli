@@ -13,15 +13,15 @@ open! Core
     This looks sort of like this:
 
     {v
-       a, b, c = input();
-       d = and(a, b);
-       e = mux(b, c, d);
+       a, b, c = Input();
+       d = And(a, b);
+       e = Mux(b, c, d);
        ....
        ....
-       j, k, ... = gate(n, o, p, q, ...);
+       j, k, ... = Gate(n, o, p, q, ...);
        ...
        ...
-       = output(x, y, z);
+       = Output(x, y, z);
     v}
 *)
 

@@ -25,8 +25,8 @@ let main =
     ; "bop2c", Cmd_bop2c.main
     ; "check", Cmd_check.main
     ; "counter", Bopkit_counter.Counter.main
-    ; "digital-calendar", Seven_segment_display.digital_calendar
-    ; "digital-watch", Seven_segment_display.digital_watch
+    ; "digital-calendar", Seven_segment_display.Main.digital_calendar
+    ; "digital-watch", Seven_segment_display.Main.digital_watch
     ; "echo", Cmd_echo.main
     ; "fmt", fmt_cmd
     ; "print-sites", print_sites_cmd

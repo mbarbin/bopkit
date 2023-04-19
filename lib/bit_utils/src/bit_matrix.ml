@@ -29,3 +29,6 @@ let to_text_channel t oc =
 let to_text_file t ~filename =
   Out_channel.with_file filename ~f:(fun oc -> to_text_channel t oc)
 ;;
+
+let dimx t = Array.length t
+let dimy t = if dimx t > 0 then Array.length t.(0) else 0

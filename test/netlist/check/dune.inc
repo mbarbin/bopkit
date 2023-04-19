@@ -138,6 +138,16 @@
 
 (rule
  (with-stdout-to
+  unused-parameter.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:unused-parameter.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff unused-parameter.bop unused-parameter.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   using-any.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:using-any.bop}")))
 

@@ -7,7 +7,7 @@ module Primitive = Primitive
 
 let create_block = Pass_expanded_block.create_block
 
-let transistors_of_primitif gate_kind =
+let transistors_of_gate gate_kind =
   match (gate_kind : Bopkit_circuit.Gate_kind.t) with
   | Input | Output | Id -> 0
   | Not -> 2
@@ -23,7 +23,7 @@ let transistors_of_primitif gate_kind =
 ;;
 
 let transistors_of_circuit (t : Bopkit_circuit.Cds.t) =
-  Array.sum (module Int) t ~f:(fun e -> transistors_of_primitif e.gate_kind)
+  Array.sum (module Int) t ~f:(fun e -> transistors_of_gate e.gate_kind)
 ;;
 
 let has_main_attribute (fd : Bopkit.Netlist.block) =
@@ -36,6 +36,18 @@ let expand_netlist ~filename ~error_log ~config =
   let loc = Loc.in_file ~filename in
   let { Standalone_netlist.filenames; parameters; memories; external_blocks; blocks } =
     Pass_includes.pass ~filename ~error_log
+  in
+  let parameters =
+    parameters
+    @ List.map (Config.parameters_overrides config) ~f:(fun { name; value } ->
+        { Bopkit.Netlist.loc = Loc.dummy_pos
+        ; comments = Bopkit.Comments.none
+        ; name
+        ; parameter_value =
+            (match value with
+             | Int i -> DefInt (CST i)
+             | String s -> DefString s)
+        })
   in
   let main_block_name =
     let default_main = ref None in
@@ -95,7 +107,7 @@ let expand_netlist ~filename ~error_log ~config =
 
 let circuit_of_netlist ~filename ~error_log ~config =
   let loc = Loc.in_file ~filename in
-  Queue.clear Pass_expanded_block.global_indications_cycle;
+  Queue.clear Pass_expanded_block.global_cycle_hints;
   let%bind primitives, expanded_netlist = expand_netlist ~filename ~error_log ~config in
   let main_block_name = expanded_netlist.main_block_name in
   let env =
@@ -128,8 +140,8 @@ let circuit_of_netlist ~filename ~error_log ~config =
         error_log
         ~loc
         [ Pp.text "The circuit has a cycle." ]
-        ~hints:[ Pp.text "Below are some indications to try and find it:" ];
-      Queue.iter Pass_expanded_block.global_indications_cycle ~f:(fun (fd, lines) ->
+        ~hints:[ Pp.text "Below are some hints to try and find it:" ];
+      Queue.iter Pass_expanded_block.global_cycle_hints ~f:(fun (fd, lines) ->
         Error_log.error
           error_log
           ~loc:fd.loc
@@ -149,8 +161,8 @@ let circuit_of_netlist ~filename ~error_log ~config =
       ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
       ];
   let cds =
-    if Config.optimise_cds config
-    then Bopkit_cds_optimiser.optimise ~error_log cds
+    if Config.optimize_cds config
+    then Bopkit_cds_optimizer.optimize ~error_log cds
     else cds
   in
   let main = Map.find env main_block_name |> Option.value_exn ~here:[%here] in
@@ -169,6 +181,6 @@ let circuit_of_netlist ~filename ~error_log ~config =
        ~cds
        ~rom_memories:expanded_netlist.rom_memories
        ~external_blocks:(expanded_netlist.external_blocks |> Array.of_list)
-       ~input_names:(main.entrees_formelles |> Array.of_list)
-       ~output_names:(main.sorties_formelles |> Array.of_list))
+       ~input_names:main.input_names
+       ~output_names:main.output_names)
 ;;

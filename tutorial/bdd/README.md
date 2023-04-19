@@ -56,16 +56,16 @@ $ bopkit bdd synthesize -AD 2 -WL 4 -f fct01.txt | tee my_block.bop
 // Block synthesized by bopkit from "fct01.txt"
 // Gate count: [12|4|4] (33.333 %)
 
-Bloc(a:[2]) = out:[4]
+Block(a:[2]) = out:[4]
 where
   s1 = Not(a[1]);
-  s2 = Mux(a[0], s1, 0);
-  out[0] = s2;
-  s3 = Mux(a[0], a[1], 1);
-  out[1] = s3;
-  s4 = Mux(a[0], 0, a[1]);
-  out[2] = s4;
-  out[3] = 1;
+  s2 = Mux(a[0], s1, Gnd());
+  out[0] = Id(s2);
+  s3 = Mux(a[0], a[1], Vdd());
+  out[1] = Id(s3);
+  s4 = Mux(a[0], Gnd(), a[1]);
+  out[2] = Id(s4);
+  out[3] = Vdd();
 end where;
 ```
 

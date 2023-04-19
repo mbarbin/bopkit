@@ -24,3 +24,8 @@ val of_text_file : dimx:int -> dimy:int -> filename:string -> t
 val to_text_file : t -> filename:string -> unit
 
 val to_text_channel : t -> Out_channel.t -> unit
+
+(** {1 Dimensions} *)
+
+val dimx : t -> int
+val dimy : t -> int

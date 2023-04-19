@@ -39,12 +39,20 @@ parser but prior to entering its execution.
   [1]
   ================================: any-param.bop
   [0]
+  ================================: any-unused-var.bop
+  File "any-unused-var.bop", line 1, characters 0-1:
+  1 | A(a, b, d) = c
+      ^
+  Error: Do not declare '_' as an unused variable. It is implicit.
+  Hint: Simply remove '_' from the unused variables declaration.
+  [1]
   ================================: any-used-var.bop
   File "any-used-var.bop", line 1, characters 0-1:
   1 | A(a) = c
       ^
   Error: Block variable '_' belongs to the block unused variables but it is
   used.
+  Hint: Remove it from the unused variables declaration.
   [1]
   ================================: arg-fun-int.bop
   File "arg-fun-int.bop", line 1, characters 0-0:
@@ -122,6 +130,13 @@ parser but prior to entering its execution.
       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   Error: A memory with name 'name' is already defined.
   [1]
+  ================================: duplicated-unused.bop
+  File "duplicated-unused.bop", line 1, characters 0-1:
+  1 | A(a, b, d) = c
+      ^
+  Error: Duplicated block unused variable 'd'. Unused variable names should be
+  unique.
+  [1]
   ================================: external-nested-arity.bop
   File "external-nested-arity.bop", line 9, characters 19-42:
   9 |   out:[N] = Not[N]($calc.add(a:[N], b:[N]));
@@ -151,7 +166,13 @@ parser but prior to entering its execution.
   Error: Unbound variable 'N'.
   [1]
   ================================: freevar-unused.bop
-  [0]
+  File "freevar-unused.bop", line 1, characters 0-1:
+  1 | A(a) = b
+      ^
+  Error: In block 'A', variable 'c' is declared as unused but is actually
+  unbound.
+  Hint: Remove it from the unused variables declaration.
+  [1]
   ================================: fun-param-arity.bop
   File "fun-param-arity.bop", line 8, characters 2-16:
   8 |   b = P<not>(a);
@@ -299,6 +320,21 @@ parser but prior to entering its execution.
            ^^^^^
   Error: Parameter 'X' is of type string but an int is expected
   [1]
+  ================================: unbound-unused.bop
+  File "unbound-unused.bop", line 1, characters 0-1:
+  1 | A(a, b, d) = c
+      ^
+  Warning: Unused block variable 'myvar'.
+  Hint: You can suppress this warning by adding the variable name to the list
+  of this block's unused variables: with unused = (... , myvar)
+  File "unbound-unused.bop", line 1, characters 0-1:
+  1 | A(a, b, d) = c
+      ^
+  Error: In block 'A', variable 'my_var' is declared as unused but is actually
+  unbound.
+  Hint: Remove it from the unused variables declaration.
+  Hint: did you mean myvar?
+  [1]
   ================================: unknown-block.bop
   File "unknown-block.bop", line 3, characters 2-17:
   3 |   b = Unknown(a);
@@ -361,6 +397,7 @@ parser but prior to entering its execution.
       ^
   Error: Block variable 'b' belongs to the block unused variables but it is
   used.
+  Hint: Remove it from the unused variables declaration.
   [1]
   ================================: used-var-not-assigned.bop
   File "used-var-not-assigned.bop", line 1, characters 0-1:

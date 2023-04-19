@@ -1,6 +1,6 @@
 /**
  * A tiny circuit defining a block called "Hello", with 2 inputs [a], [b] and 1
- * output [s]. [and] is a primitive of the language.
+ * output [s]. [And] is a primitive of the language.
  */
 Hello(a, b) = s
 where

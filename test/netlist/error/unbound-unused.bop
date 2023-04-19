@@ -1,0 +1,6 @@
+A(a, b, d) = c
+with unused = (d, my_var)
+where
+  c = And(a, b);
+  myvar = Id(a);
+end where;

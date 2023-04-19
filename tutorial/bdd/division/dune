@@ -1,5 +1,21 @@
 (include dune.inc)
 
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash
+     "%{bin:bopkit} fmt gen-dune .bop -exclude div.bop,div_opt.bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))
+
 (executables
  (names div div_opt)
  (libraries core graphics unix threads bopkit_block)
@@ -36,7 +52,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 8 -WL 4 -f %{deps}))))
+   (run %{bin:bopkit} bdd synthesize -block-name Div -AD 8 -WL 4 -f %{deps}))))
 
 (rule
  (target div_opt.bop.output)
@@ -44,7 +60,18 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 8 -WL 4 -f %{deps}))))
+   (run
+    %{bin:bopkit}
+    bdd
+    synthesize
+    -block-name
+    Div_opt
+    -AD
+    8
+    -WL
+    4
+    -f
+    %{deps}))))
 
 (rule
  (alias runtest)
@@ -57,7 +84,7 @@
   (diff div_opt.bop div_opt.bop.output)))
 
 (rule
- (target divcheck.output.corrected)
+ (target div_check.output.corrected)
  (alias runtest)
  (deps
   (package bopkit)
@@ -67,21 +94,25 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} simu %{dep:divcheck.bop} -num-counter-cycles 1))))
+   (run %{bin:bopkit} simu %{dep:div_check.bop} -num-counter-cycles 1))))
 
 (rule
  (alias runtest)
  (action
-  (diff divcheck.output divcheck.output.corrected)))
+  (diff div_check.output div_check.output.corrected)))
 
 (cram
  (deps
   (package bopkit)
+  div.exe
+  div_opt.exe
   (glob_files *.bop)
   (glob_files *.txt)))
 
 (mdx
  (deps
   (package bopkit)
+  div.exe
+  div_opt.exe
   (glob_files *.bop)
   (glob_files *.txt)))

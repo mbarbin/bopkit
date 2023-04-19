@@ -1,0 +1,8 @@
+#include <stdlib.bop>
+
+#define N 3
+
+Main(in, dec:[N]) = out:[2 ^ N]
+where
+  out:[2 ^ N] = ReverseBdd[N](in, dec:[N]);
+end where;

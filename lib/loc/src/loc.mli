@@ -38,6 +38,7 @@ val to_string : t -> string
 val to_file_colon_line : t -> string
 val dummy_pos : t
 val in_file : filename:string -> t
+val in_file_at_line : filename:string -> line:int -> t
 
 (** Same as [dummy_pos] but try and keep the original filename. *)
 val with_dummy_pos : t -> t

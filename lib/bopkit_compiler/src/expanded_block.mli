@@ -24,16 +24,13 @@ type node =
 [@@deriving sexp_of]
 
 (* CR mbarbin: Remove [fichier], keep only [loc]. *)
-(* CR mbarbin: arite* : maybe less redundant to use arrays and look at their lengths. *)
 type t =
   { loc : Loc.t
   ; fichier : string
   ; name : string
-  ; arite_entree : int
-  ; arite_sortie : int
-  ; variables_locales : string list
-  ; entrees_formelles : string list
-  ; sorties_formelles : string list
+  ; local_variables : string list
+  ; input_names : string array
+  ; output_names : string array
   ; nodes : node list
   }
 [@@deriving sexp_of]

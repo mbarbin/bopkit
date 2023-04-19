@@ -18,7 +18,7 @@ your editor. If you develop a `bopkit` project, we recommend using `dune` as
 the build system. You can checkout the source of bopkit to see how we integrated
 this command to `dune fmt`.
 
-<details>
+<details open>
 
 <summary>
 Checkout: bopkit fmt file -help

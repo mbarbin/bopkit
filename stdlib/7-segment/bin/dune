@@ -1,11 +1,9 @@
 (executables
  (names
+  digital_watch
   digital_watch_display
-  generate_digital_watch_display_input
-  digital_calendar_display
-  generate_digital_calendar_display_input
-  generate_digital_calendar_display_raw_input
-  map_digital_calendar_display_raw_input)
+  digital_calendar
+  digital_calendar_display)
  (flags -w +a-40-42-44-66 -warn-error +a)
  (libraries
   core
@@ -26,16 +24,16 @@
  (alias digital-watch-display-test)
  (action
   (bash
-   "./%{dep:generate_digital_watch_display_input.exe} | ./%{dep:digital_watch_display.exe} -no")))
+   "./%{dep:digital_watch.exe} gen-input | ./%{dep:digital_watch_display.exe} -no")))
 
 (rule
  (alias digital-calendar-display-test)
  (action
   (bash
-   "./%{dep:generate_digital_calendar_display_input.exe} | ./%{dep:digital_calendar_display.exe} -no")))
+   "./%{dep:digital_calendar.exe} gen-input | ./%{dep:digital_calendar_display.exe} -no")))
 
 (rule
  (alias digital-calendar-display-raw-input-test)
  (action
   (bash
-   "./%{dep:generate_digital_calendar_display_raw_input.exe} | ./%{dep:map_digital_calendar_display_raw_input.exe} | ./%{dep:digital_calendar_display.exe} -no")))
+   "./%{dep:digital_calendar.exe} gen-raw-input | ./%{dep:digital_calendar.exe} map-raw-input | ./%{dep:digital_calendar_display.exe} -no")))

@@ -203,6 +203,25 @@ where
 end where;
 
 /**
+ * ReverseBdd transforms a Bdd decision word into a vector where exactly one
+ * component is true and all the rest is false. The component that is true is at
+ * the address selected by the decision vector.
+ */
+ReverseBdd[N](in, dec:[N]) = out:[2 ^ N]
+where
+  s[-1][0] = Id(in);
+  for i = 0 to N - 1
+    for j = 0 to 2 ^ i - 1
+      s[i][2 * j] = Mux(dec[N - 1 - i], Gnd(), s[i - 1][j]);
+      s[i][2 * j + 1] = Mux(dec[N - 1 - i], s[i - 1][j], Gnd());
+    end for;
+  end for;
+  for i = 0 to 2 ^ N - 1
+    out[i] = Id(s[N - 1][i]);
+  end for;
+end where;
+
+/**
  * Copy the input signal N times.
  */
 Vectorize[N](a) = b:[N]

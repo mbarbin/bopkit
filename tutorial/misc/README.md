@@ -73,17 +73,17 @@ the kind of error messages produced when that happens.
 $ bopkit simu cycle.bop
 File "cycle.bop", line 1, characters 0-0:
 Error: The circuit has a cycle.
-Hint: Below are some indications to try and find it:
+Hint: Below are some hints to try and find it:
 File "cycle.bop", line 2, characters 0-5:
 2 | Cycle(a, b) = s
     ^^^^^
 Error: In this block, these variables may create a dependency cycle:
 
-  ..#0#.. = ..id(..u..);
+  ..#0#.. = ..Id(..u..);
 
-  ..u.. = ..and(..g..);
+  ..u.. = ..And(..g..);
 
-  ..g.. = ..or(..#0#..);
+  ..g.. = ..Or(..#0#..);
 
 [1]
 ```

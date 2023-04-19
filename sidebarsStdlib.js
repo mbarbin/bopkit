@@ -6,6 +6,7 @@
 const sidebars = {
   sidebar: [
     { type: 'doc', id: 'README', label: 'Introduction' },
+    { type: 'doc', id: 'stdlib/README', label: 'Stdlib' },
     { type: 'category', label: 'Bopboard',
       link: { type: 'doc', id: 'bopboard/README' },
       items: [

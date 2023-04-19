@@ -36,5 +36,7 @@ any analysis error. We do not check for runtime errors.
   [0]
   ================================: unused-external.bop
   [0]
+  ================================: unused-parameter.bop
+  [0]
   ================================: using-any.bop
   [0]

@@ -13,7 +13,7 @@ buttons while providing a visual representation of critical circuit signals
 using the board's lights.
 
 The original bopboard application was written in 2008 by Samuel Kvaalen, who
-also designed board's images as well as bopkit's ladybug.
+also designed the board's images as well as bopkit's ladybug.
 
 ## Installation
 

@@ -109,11 +109,7 @@ let string_of_var ~parameters v =
     | Some (Parameter.Value.Int i) -> string_of_int i
     | Some (Parameter.Value.String s) -> s
     | None ->
-      (match Sys.getenv v with
-       | Some value -> value
-       | None ->
-         error.return
-           (Free_variable { name = v; candidates = Parameters.keys parameters })))
+      error.return (Free_variable { name = v; candidates = Parameters.keys parameters }))
 ;;
 
 let eval (t : t) ~parameters =

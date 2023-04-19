@@ -1,20 +1,26 @@
 // Block synthesized by bopkit from "dec7.txt"
 // Gate count: [105|31] (29.524 %)
 
-Bloc(a:[4]) = out:[7]
+Block(a:[4]) = out:[7]
 where
-  out[0] = Mux(a[0], Mux(a[1], 0, Mux(a[2], 1, a[3])), Mux(a[1], a[2], 1));
+  out[0] =
+    Mux(a[0],
+      Mux(a[1], Gnd(), Mux(a[2], Vdd(), a[3])),
+      Mux(a[1], a[2], Vdd()));
   out[1] =
     Mux(a[0],
-      Mux(a[1], Not(a[2]), Mux(a[2], 1, a[3])),
-      Mux(a[1], 1, Mux(a[2], 1, a[3])));
-  out[2] = Mux(a[0], 0, Mux(a[1], 1, Not(a[2])));
+      Mux(a[1], Not(a[2]), Mux(a[2], Vdd(), a[3])),
+      Mux(a[1], Vdd(), Mux(a[2], Vdd(), a[3])));
+  out[2] = Mux(a[0], Gnd(), Mux(a[1], Vdd(), Not(a[2])));
   out[3] =
     Mux(a[0],
-      Mux(a[1], Not(a[2]), Mux(a[2], 1, a[3])),
-      Mux(a[1], 1, Not(a[2])));
-  out[4] = Mux(a[0], 1, Mux(a[1], a[2], 1));
-  out[5] = Mux(a[0], Mux(a[1], 1, Not(a[2])), Mux(a[1], Not(a[2]), 1));
+      Mux(a[1], Not(a[2]), Mux(a[2], Vdd(), a[3])),
+      Mux(a[1], Vdd(), Not(a[2])));
+  out[4] = Mux(a[0], Vdd(), Mux(a[1], a[2], Vdd()));
+  out[5] =
+    Mux(a[0], Mux(a[1], Vdd(), Not(a[2])), Mux(a[1], Not(a[2]), Vdd()));
   out[6] =
-    Mux(a[0], Mux(a[1], 1, Mux(a[2], 1, a[3])), Mux(a[1], 1, Not(a[2])));
+    Mux(a[0],
+      Mux(a[1], Vdd(), Mux(a[2], Vdd(), a[3])),
+      Mux(a[1], Vdd(), Not(a[2])));
 end where;

@@ -9,7 +9,7 @@ the bopkit simulator.
 ```bopkit
 /**
  * A tiny circuit defining a block called "Hello", with 2 inputs [a], [b] and 1
- * output [s]. [and] is a primitive of the language.
+ * output [s]. [And] is a primitive of the language.
  */
 Hello(a, b) = s
 where
@@ -96,8 +96,8 @@ Bopkit's standard library. Let's check it out:
  * A tiny circuit defining a block called "Hello", with 3 inputs [a], [b], [c]
  * and 1 output [s].
  *
- * [and] is extended in <stdlib.bop> to accept an extra parameter, so it can be
- * used with greater number of parameters. To be able to use it, we simply added
+ * [And] is extended in <stdlib.bop> to accept an extra parameter, so it can be
+ * used with a greater number of arguments. To be able to use it, we simply added
  * the line above to include the stdlib.
  */
 Hello(a, b, c) = s

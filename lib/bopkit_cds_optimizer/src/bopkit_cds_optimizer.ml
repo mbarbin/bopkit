@@ -50,7 +50,7 @@ module Index_mapping = struct
 end
 
 let rebuild (tagged_cds : Tagged_gate.t array) =
-  (* index_mapping.(i) is the index of the gate i in the optimised cds. *)
+  (* index_mapping.(i) is the index of the gate i in the optimized cds. *)
   let new_cds_length = Array.count tagged_cds ~f:(fun t -> not t.is_deleted) in
   let new_cds = Array.create ~len:new_cds_length tagged_cds.(0).gate in
   let index_mapping = Array.mapi tagged_cds ~f:(fun i _ -> i) in
@@ -77,7 +77,7 @@ let rec traverse_ids (cds : Cds.t) ~output_wire =
   | _ -> [ output_wire ]
 ;;
 
-let optimise ~error_log:_ (cds : Cds.t) =
+let optimize ~error_log:_ (cds : Cds.t) =
   let tagged_cds = Array.map cds ~f:(fun gate -> Tagged_gate.make gate) in
   Array.iter tagged_cds ~f:(fun t ->
     t.gate

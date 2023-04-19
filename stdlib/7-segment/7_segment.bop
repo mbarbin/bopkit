@@ -1,3 +1,23 @@
+/**
+ * To produce the bits code to send to the 7-segment display, we use a ROM that
+ * contains them. Since there are 10 codes, we need 4 bits of address.
+ */
+ROM Dec7 (4, 7) = text {
+
+  // Zero   One    Two     Three   Four
+  1011111 0000110 0111011 0101111 1100110
+
+  // Five   Six    Seven   Eight   Nine
+  1101101 1111101 0000111 1111111 1101111
+
+  // The remaining 6 words are set to [false] since they are
+  // not specified here.
+}
+
+external digital_watch_display "digital_watch_display.exe"
+
+external digital_calendar_display "digital_calendar_display.exe"
+
 digital_watch_display(h10:[7], h1:[7], m10:[7], m1:[7], s10:[7], s1:[7]) = ()
 where
   external("digital_watch_display.exe",

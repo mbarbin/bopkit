@@ -8,7 +8,7 @@
   core
   core_unix.command_unix
   bit_utils
-  bopkit_cds_optimiser
+  bopkit_cds_optimizer
   bopkit_circuit
   bopkit_pp
   bopkit_sites

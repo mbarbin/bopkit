@@ -65,7 +65,7 @@ struct
     let stdin_contents =
       if read_contents_from_stdin then In_channel.input_all In_channel.stdin else ""
     in
-    let rec find_fixpoint ~num_steps ~filename =
+    let rec find_fix_point ~num_steps ~filename =
       let original_contents =
         if read_contents_from_stdin && num_steps = 0
         then stdin_contents
@@ -80,7 +80,7 @@ struct
             ~lexbuf:(Lexing.from_string stdin_contents)
         else Parsing_utils.parse_file (module T_syntax) ~filename
       in
-      let temp_file, oc = Filename_unix.open_temp_file "fmt_command" "fixpoint" in
+      let temp_file, oc = Filename_unix.open_temp_file "fmt_command" "fix_point" in
       Out_channel.output_string oc (pp_to_string (T_pp.pp program));
       Out_channel.flush oc;
       Out_channel.close oc;
@@ -114,12 +114,12 @@ struct
         | Ok true ->
           if String.equal pretty_printed_contents original_contents
           then return { Pretty_print_result.pretty_printed_contents; result = Ok () }
-          else find_fixpoint ~num_steps:(succ num_steps) ~filename:temp_file
+          else find_fix_point ~num_steps:(succ num_steps) ~filename:temp_file
       in
       Core_unix.unlink temp_file;
       result
     in
-    find_fixpoint ~num_steps:0 ~filename
+    find_fix_point ~num_steps:0 ~filename
   ;;
 
   let test_cmd =
@@ -148,12 +148,20 @@ struct
         "generate dune stanza for all files present in the cwd to be pretty-printed"
       (let open Command.Let_syntax in
        let%map_open extensions = anon (".EXT" %: string |> non_empty_sequence_as_list)
+       and exclude =
+         flag
+           "exclude"
+           (optional_with_default [] (Arg_type.comma_separated string))
+           ~doc:"FILE[,..]* file to exclude"
        and call =
          flag "--" escape ~doc:" how to access the [fmt file] command for these files"
          >>| Option.value ~default:[]
        in
        fun () ->
-         let files = find_files_in_cwd_by_extensions ~extensions in
+         let files =
+           find_files_in_cwd_by_extensions ~extensions
+           |> List.filter ~f:(fun file -> not (List.mem exclude file ~equal:String.equal))
+         in
          let output_ext = ".pp.output" in
          let generate_rules ~file =
            let open Sexp in

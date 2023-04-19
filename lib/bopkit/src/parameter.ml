@@ -17,3 +17,18 @@ type t =
   ; value : Value.t
   }
 [@@deriving equal, sexp_of]
+
+let arg_type =
+  let of_string str =
+    match String.lsplit2 str ~on:'=' with
+    | None -> failwith "Invalid parameter argument. Expected 'name=value'."
+    | Some (name, value) ->
+      let value : Value.t =
+        match int_of_string value with
+        | i -> Int i
+        | exception _ -> String value
+      in
+      { name; value }
+  in
+  Command.Arg_type.create of_string
+;;

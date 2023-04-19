@@ -57,13 +57,14 @@ module Coordinates = struct
       |]
     and text =
       let ip = int_of_float p in
-      [| x + (5 * cm) + ip, y + (2 * cm)
-       ; x + (7 * cm) + ip, y + (2 * cm)
-       ; x + (9 * cm) + ip, y + (2 * cm)
-       ; x + (11 * cm) + ip, y + (2 * cm)
-       ; x + (13 * cm) + ip, y + (2 * cm)
-       ; x + (15 * cm) + ip, y + (2 * cm)
-       ; x + (17 * cm) + ip, y + (2 * cm)
+      let dy = if d >= 3 then 4 * d else 3 * d in
+      [| x + (5 * cm) + ip, y + dy
+       ; x + (7 * cm) + ip, y + dy
+       ; x + (9 * cm) + ip, y + dy
+       ; x + (11 * cm) + ip, y + dy
+       ; x + (13 * cm) + ip, y + dy
+       ; x + (15 * cm) + ip, y + dy
+       ; x + (17 * cm) + ip, y + dy
       |]
     and wires =
       [| [| x + (5 * cm), y + (23 * cm) + d

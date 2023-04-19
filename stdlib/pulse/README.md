@@ -8,6 +8,7 @@ Pulse defines an external block that allows you to control the frequency at whic
  * Pulse is used to regulate the simulation of bop files to a desired fixed
  * number of simulated cycles per second.
  */
+
 /**
  * This module defines two parameters to regulate the simulation. The first is
  * for setting a maximum number of cycles per seconds. The default is [max], which

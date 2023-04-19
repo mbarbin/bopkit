@@ -20,3 +20,13 @@
  (alias runtest)
  (action
   (diff dune.inc dune.inc.gen)))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.bop)))
+
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.bop)))

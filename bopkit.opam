@@ -10,6 +10,7 @@ depends: [
   "ocaml" {>= "4.13"}
   "dune" {>= "3.5"}
   "dune-site" {>= "3.5"}
+  "ANSITerminal" {>= "0.8.3"}
   "core" {>= "v0.15"}
   "core_unix" {>= "v0.15"}
   "graphics" {>= "5.1.2"}

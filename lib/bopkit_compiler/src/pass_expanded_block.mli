@@ -1,7 +1,7 @@
 open! Core
 
-(** Create a new [t] from its expanded netlist representation, while performing
-    some checks. *)
+(** Create a new [Expanded_block.t] from its expanded netlist representation,
+    while performing some checks. *)
 val create_block
   :  Bopkit.Expanded_netlist.block
   -> error_log:Error_log.t
@@ -15,4 +15,4 @@ val create_env
   -> primitives:Primitive.env
   -> Expanded_block.env
 
-val global_indications_cycle : (Expanded_block.t * string list) Queue.t
+val global_cycle_hints : (Expanded_block.t * string list) Queue.t

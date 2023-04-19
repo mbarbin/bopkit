@@ -1,0 +1,6 @@
+#define Unused 4
+
+Main(a) = b
+where
+  b = Not(a);
+end where;

@@ -2,6 +2,13 @@
  (name seven_segment_display)
  (public_name bopkit.seven-segment-display)
  (flags -w +a-4-40-41-42-44-66-70 -warn-error +a)
- (libraries core graphics threads)
+ (libraries
+  ANSITerminal
+  bit_utils
+  core
+  core_unix
+  core_unix.core_thread
+  graphics
+  threads)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

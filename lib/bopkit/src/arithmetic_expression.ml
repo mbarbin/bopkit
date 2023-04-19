@@ -55,23 +55,8 @@ let eval t ~parameters =
                       s
                 })
          | None ->
-           let vs =
-             match Sys.getenv s with
-             | Some v -> v
-             | None ->
-               error.return
-                 (Free_variable { name = s; candidates = Parameters.keys parameters })
-           in
-           (match int_of_string vs with
-            | i -> i
-            | exception _ ->
-              error.return
-                (Type_clash
-                   { message =
-                       Printf.sprintf
-                         "Parameter '%s' is of type string but an int is expected"
-                         s
-                   })))
+           error.return
+             (Free_variable { name = s; candidates = Parameters.keys parameters }))
       | CST c -> c
       | ADD (a, b) -> eval a + eval b
       | SUB (a, b) -> eval a - eval b

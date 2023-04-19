@@ -2,21 +2,22 @@ open! Core
 open! Import
 
 type t =
-  { input_size : int
+  { block_name : string
+  ; input_size : int
   ; output_size : int
   ; body : Muxlist.t
   }
 [@@deriving sexp_of]
 
-let rec muxtree_uses_et t =
+let rec muxtree_uses_star t =
   match (t : Muxtree.t) with
   | Constant None -> true
   | Constant (Some (_ : bool)) | Signal (_ : Ident.t) | Not_signal (_ : Ident.t) -> false
-  | Mux { input = (_ : int); vdd; gnd } -> muxtree_uses_et vdd || muxtree_uses_et gnd
+  | Mux { input = (_ : int); vdd; gnd } -> muxtree_uses_star vdd || muxtree_uses_star gnd
 ;;
 
-let uses_et t =
-  List.exists t.body ~f:(fun { output = _; muxtree } -> muxtree_uses_et muxtree)
+let uses_star t =
+  List.exists t.body ~f:(fun { output = _; muxtree } -> muxtree_uses_star muxtree)
 ;;
 
 let used_inputs (t : t) =
@@ -39,6 +40,7 @@ let used_inputs (t : t) =
 ;;
 
 module Name = struct
+  let block_name_default = "Block"
   let unspecified_bit_block = "Star"
   let input = "a"
   let output = "out"
@@ -70,27 +72,32 @@ let pp_ident ident =
   | Internal i -> Pp.textf "%s%d" Name.internal i
 ;;
 
-let rec pp_muxtree muxtree =
+let pp_muxtree (muxtree : Muxtree.t) =
   let open Pp.O in
-  match (muxtree : Muxtree.t) with
-  | Constant (Some value) -> Pp.char (if value then '1' else '0')
-  | Constant None -> Pp.textf "%s()" Name.unspecified_bit_block
-  | Signal i -> pp_ident i
-  | Not_signal i -> Pp.verbatim "Not(" ++ pp_ident i ++ Pp.verbatim ")"
-  | Mux { input; vdd; gnd } ->
-    Pp.concat
-      [ Pp.verbatim "Mux("
-      ; pp_ident (Ident.Input input)
-      ; Pp.verbatim "," ++ Pp.space
-      ; pp_muxtree vdd
-      ; Pp.verbatim "," ++ Pp.space
-      ; pp_muxtree gnd
-      ; Pp.verbatim ")"
-      ]
-    |> Pp.hvbox ~indent:2
+  let rec aux muxtree =
+    match (muxtree : Muxtree.t) with
+    | Constant (Some value) -> Pp.verbatim (if value then "Vdd()" else "Gnd()")
+    | Constant None -> Pp.textf "%s()" Name.unspecified_bit_block
+    | Signal i -> pp_ident i
+    | Not_signal i -> Pp.verbatim "Not(" ++ pp_ident i ++ Pp.verbatim ")"
+    | Mux { input; vdd; gnd } ->
+      Pp.concat
+        [ Pp.verbatim "Mux("
+        ; pp_ident (Ident.Input input)
+        ; Pp.verbatim "," ++ Pp.space
+        ; aux vdd
+        ; Pp.verbatim "," ++ Pp.space
+        ; aux gnd
+        ; Pp.verbatim ")"
+        ]
+      |> Pp.hvbox ~indent:2
+  in
+  match muxtree with
+  | Signal i -> Pp.verbatim "Id(" ++ pp_ident i ++ Pp.verbatim ")"
+  | Constant _ | Not_signal _ | Mux _ -> aux muxtree
 ;;
 
-let et =
+let star =
   lazy
     (sprintf {|
 %s () = s
@@ -105,8 +112,10 @@ let pp_t (t : t) =
   let open Pp.O in
   let unused_variables = unused_variables t in
   Pp.concat
-    [ (if uses_et t then Pp.verbatim (force et) ++ Pp.newline ++ Pp.newline else Pp.nop)
-    ; Pp.textf "Bloc(%s:[%d])" Name.input t.input_size
+    [ (if uses_star t
+       then Pp.verbatim (force star) ++ Pp.newline ++ Pp.newline
+       else Pp.nop)
+    ; Pp.textf "%s(%s:[%d])" t.block_name Name.input t.input_size
     ; Pp.verbatim " = "
     ; Pp.textf "%s:[%d]" Name.output t.output_size
     ; Pp.newline
@@ -147,15 +156,16 @@ let pp_t (t : t) =
 
 let pp fmt t = Pp.to_fmt fmt (pp_t t)
 
-let of_muxtrees muxtrees ~input_size =
-  { input_size
+let of_muxtrees ?(block_name = Name.block_name_default) muxtrees ~input_size =
+  { block_name
+  ; input_size
   ; output_size = List.length muxtrees
   ; body =
       List.mapi muxtrees ~f:(fun i muxtree -> { Muxlist.Node.output = Output i; muxtree })
   }
 ;;
 
-let of_muxlist muxlist ~input_size =
+let of_muxlist ?(block_name = Name.block_name_default) muxlist ~input_size =
   let output_size =
     let max = ref 0 in
     List.iter muxlist ~f:(fun { Muxlist.Node.output; muxtree = _ } ->
@@ -164,7 +174,7 @@ let of_muxlist muxlist ~input_size =
       | Output i -> max := Int.max !max (i + 1));
     !max
   in
-  { input_size; output_size; body = muxlist }
+  { block_name; input_size; output_size; body = muxlist }
 ;;
 
 let number_of_gates t =

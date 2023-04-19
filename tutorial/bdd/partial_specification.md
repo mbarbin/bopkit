@@ -26,22 +26,22 @@ $ bopkit bdd synthesize -AD 4 -WL 7 -f starred.txt
 // Block synthesized by bopkit from "starred.txt"
 // Gate count: [105|8|6] (5.714 %)
 
-Bloc(a:[4]) = out:[7]
+Block(a:[4]) = out:[7]
 with unused = a[2..3]
 where
   s1 = Not(a[0]);
-  out[0] = s1;
+  out[0] = Id(s1);
   s2 = Not(a[1]);
-  s3 = Mux(a[0], s2, 0);
-  out[1] = s3;
-  s4 = Mux(a[0], a[1], 1);
-  out[2] = s4;
-  s5 = Mux(a[0], s2, 1);
-  out[3] = s5;
-  s6 = Mux(a[0], 1, s2);
-  out[4] = s6;
-  out[5] = 1;
-  out[6] = 1;
+  s3 = Mux(a[0], s2, Gnd());
+  out[1] = Id(s3);
+  s4 = Mux(a[0], a[1], Vdd());
+  out[2] = Id(s4);
+  s5 = Mux(a[0], s2, Vdd());
+  out[3] = Id(s5);
+  s6 = Mux(a[0], Vdd(), s2);
+  out[4] = Id(s6);
+  out[5] = Vdd();
+  out[6] = Vdd();
 end where;
 ```
 
@@ -127,13 +127,12 @@ Test(a:[AD]) = ()
 where
   // Here we call the synthesized block via the #include which is at the
   // beginning of the file.
-  block[1]:[WL] = Bloc(a:[AD]);
+  block[1]:[WL] = Block(a:[AD]);
 
   // Here, just for fun we simulate the synthesized file with another call to
   // the simulator. This is equivalent to the call above. When using the simulator
   // in external blocks, the option [-p] must be added.
-  block[2]:[WL] =
-    external("bopkit simu starred-tree.bop -p 2>/dev/null", a:[AD]);
+  block[2]:[WL] = external("bopkit simu starred-tree.bop -p", a:[AD]);
 
   // Here we check the result of both blocks with the bdd checker. It would
   // raise an exception and stops the simulation in case of an invalid result.

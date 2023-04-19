@@ -1,0 +1,5 @@
+A(a, b, d) = c
+with unused = (d, d)
+where
+  c = And(a, b);
+end where;

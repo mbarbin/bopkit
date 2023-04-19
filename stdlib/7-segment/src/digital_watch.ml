@@ -5,7 +5,7 @@ type t = { digits : Digit.t array }
 let colors : Colors.t =
   { wires = Graphics.red
   ; on = Graphics.green
-  ; off = Graphics.rgb 0 20 0
+  ; off = Graphics.rgb 0 10 0
   ; background = Graphics.black
   ; frame = Graphics.yellow
   }
@@ -39,4 +39,40 @@ let init () : t =
 
 let update (t : t) input =
   Array.iteri t.digits ~f:(fun i digit -> Digit.update digit ~src:input ~src_pos:(7 * i))
+;;
+
+module Decoded = struct
+  type t =
+    { hour : int
+    ; minute : int
+    ; second : int
+    }
+  [@@deriving equal, sexp_of]
+
+  let to_string { hour; minute; second } = sprintf "%02d:%02d:%02d" hour minute second
+
+  let blit (t : t) ~dst =
+    let blit pos d = Seven_segment_code.blit ~digit:d ~dst ~dst_pos:pos in
+    blit 0 (t.hour / 10);
+    blit 7 (t.hour mod 10);
+    blit 14 (t.minute / 10);
+    blit 21 (t.minute mod 10);
+    blit 28 (t.second / 10);
+    blit 35 (t.second mod 10)
+  ;;
+end
+
+let decode input =
+  let digits =
+    Array.init 6 ~f:(fun i ->
+      let pos = 7 * i in
+      match Seven_segment_code.decode ~src:input ~pos with
+      | Some digit -> digit
+      | None ->
+        raise_s [%sexp "Invalid input", (input : Bit_array.Short_sexp.t), { pos : int }])
+  in
+  let hour = (digits.(0) * 10) + digits.(1) in
+  let minute = (digits.(2) * 10) + digits.(3) in
+  let second = (digits.(4) * 10) + digits.(5) in
+  { Decoded.hour; minute; second }
 ;;

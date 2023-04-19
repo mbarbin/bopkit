@@ -1,0 +1,9 @@
+#include <stdlib.bop>
+
+#define N 2
+#define M 1
+
+Main(a:[N]:[M]) = s
+where
+  s = And[N * M](a:[N]:[M]);
+end where;

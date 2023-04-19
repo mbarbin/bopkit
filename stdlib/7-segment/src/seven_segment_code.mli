@@ -1,3 +1,5 @@
+open! Core
+
 (** A seven-segment display is a form of electronic display device for
     displaying decimal numerals
 
@@ -33,3 +35,7 @@ val blit : digit:int -> dst:bool array -> dst_pos:int -> unit
 
 (** For testing purposes, display the digit as a multi-line ascii string.*)
 val to_ascii : digit:int -> string
+
+(** Decode a 7 segment bit code from a src starting a the given position. If the
+    src is too short, returns None. *)
+val decode : src:bool array -> pos:int -> int option

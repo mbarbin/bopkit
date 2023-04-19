@@ -16,9 +16,17 @@ let string_with_vars str =
 ;;
 
 let pp_comments comments =
+  let previous_comment_is_multi_lines = ref false in
   Pp.concat_map (Bopkit.Comments.value comments) ~f:(fun comment ->
-    Pp.concat_map (Bopkit.Comment.render comment) ~f:(fun line ->
-      Pp.verbatim line ++ Pp.newline))
+    let lines = Bopkit.Comment.render comment in
+    let comment_is_multi_lines =
+      match lines with
+      | [] | [ _ ] -> false
+      | _ :: _ :: _ -> true
+    in
+    let sep = if !previous_comment_is_multi_lines then Pp.newline else Pp.nop in
+    previous_comment_is_multi_lines := comment_is_multi_lines;
+    sep ++ Pp.concat_map lines ~f:(fun line -> Pp.verbatim line ++ Pp.newline))
 ;;
 
 (* Tail comments are printed without a trailing newline so they can fit in

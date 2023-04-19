@@ -14,16 +14,9 @@
   (bash "%{bin:bopkit} simu %{dep:main.bop}")))
 
 (rule
- (copy
-  ./../../stdlib/7-segment/bin/generate_digital_watch_display_input.exe
-  generate_digital_watch_display_input.exe))
-
-(rule
  (with-stdout-to
   "watch.expected"
-  (run
-   %{dep:generate_digital_watch_display_input.exe}
-   --gen-unit-test-output)))
+  (run %{bin:bopkit} digital-watch gen-input --gen-unit-test-output)))
 
 (rule
  (with-stdout-to
@@ -36,7 +29,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bop2c %{dep:watch.bop} -optimise-cds false))))
+   (run %{bin:bopkit} bop2c %{dep:watch.bop} -optimize-cds false))))
 
 (rule
  (alias runtest)

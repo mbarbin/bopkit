@@ -1,18 +1,20 @@
 open! Core
 
 type t =
-  { optimise_cds : bool
+  { optimize_cds : bool
   ; print_pass_output : Pass_name.t list
+  ; parameters_overrides : Bopkit.Parameters.t
   }
+[@@deriving fields]
 
-let default = { optimise_cds = false; print_pass_output = [] }
+let default = { optimize_cds = false; print_pass_output = []; parameters_overrides = [] }
 
 let param =
-  let%map_open.Command optimise_cds =
+  let%map_open.Command optimize_cds =
     flag
-      "optimise-cds"
+      "optimize-cds"
       (optional_with_default false bool)
-      ~doc:"BOOL perform cds optimisation (def: false)"
+      ~doc:"BOOL perform cds optimization (def: false)"
   and print_pass_output =
     flag
       "print-pass-output"
@@ -20,11 +22,11 @@ let param =
          []
          (Arg_type.enumerated_sexpable (module Pass_name) |> Arg_type.comma_separated))
       ~doc:"PASS[,PASS]* supply pass names whose output to print"
-  in
-  { optimise_cds; print_pass_output }
+  and parameters_overrides = Bopkit.Parameters.overrides in
+  { optimize_cds; print_pass_output; parameters_overrides }
 ;;
 
-let optimise_cds t = t.optimise_cds
+let optimize_cds t = t.optimize_cds
 
 let print_pass_output t ~pass_name =
   List.mem t.print_pass_output pass_name ~equal:Pass_name.equal

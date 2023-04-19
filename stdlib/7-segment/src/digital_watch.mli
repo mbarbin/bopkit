@@ -1,4 +1,4 @@
-(** Module to create and update an OCaml graphics with a 7-segment display for a
+(** Module to create and update an OCaml Graphics with a 7-segment display for a
     digital watch. *)
 
 open! Core
@@ -17,3 +17,19 @@ val init : unit -> t
     right compared to the order of the digits as seen in the display, as in:
     01:23:45 *)
 val update : t -> bool array -> unit
+
+module Decoded : sig
+  type t =
+    { hour : int
+    ; minute : int
+    ; second : int
+    }
+  [@@deriving equal, sexp_of]
+
+  val to_string : t -> string
+  val blit : t -> dst:bool array -> unit
+end
+
+(** For tests and or displaying the information in a terminal, it may be useful
+    to be able to decode a signal array, using the same input convention. *)
+val decode : bool array -> Decoded.t
