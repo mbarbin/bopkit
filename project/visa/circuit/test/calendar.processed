@@ -1,0 +1,134 @@
+000:
+  load 5, R0
+  load #3, R1
+  and
+  jmz @005
+  jmn @007
+005:
+  load #29, R0
+  jmp @008
+007:
+  load #28, R0
+008:
+  store R0, 7
+009:
+  sleep
+  load 0, R0
+  write R0, 0
+  load 1, R0
+  write R0, 1
+  load 2, R0
+  write R0, 2
+  load 3, R0
+  write R0, 4
+  load 4, R0
+  write R0, 5
+  load 5, R0
+  write R0, 6
+  load 0, R0
+  load #1, R1
+  add
+  store R1, 0
+  load #60, R0
+  cmp
+  jmn @030
+  jmp @009
+030:
+  load #0, R0
+  store R0, 0
+  load 1, R0
+  load #1, R1
+  add
+  store R1, 1
+  load #60, R0
+  cmp
+  jmn @040
+  jmp @009
+040:
+  load #0, R0
+  store R0, 1
+  load 2, R0
+  load #1, R1
+  add
+  store R1, 2
+  load #24, R0
+  cmp
+  jmn @050
+  jmp @009
+050:
+  load #0, R0
+  store R0, 2
+  load 4, R0
+  load #1, R1
+  cmp
+  jmn @099
+  load #6, R0
+  not R0
+  load #1, R1
+  add
+  load 4, R0
+  add
+  jmz @111
+  load #128, R0
+  and
+  cmp
+  jmn @111
+  jmp @102
+068:
+  load 3, R0
+  load #1, R1
+  add
+  store R1, 3
+  load 8, R0
+  cmp
+  jmn @076
+  jmp @009
+076:
+  load #0, R0
+  store R0, 3
+  load 4, R0
+  load #1, R1
+  add
+  store R1, 4
+  load #12, R0
+  cmp
+  jmn @086
+  jmp @009
+086:
+  load #0, R0
+  store R0, 4
+  load 5, R0
+  load #1, R1
+  add
+  store R1, 5
+  load #100, R0
+  cmp
+  jmn @096
+  jmp @000
+096:
+  load #0, R0
+  store R0, 5
+  jmp @009
+099:
+  load 7, R0
+  store R0, 8
+  jmp @068
+102:
+  load 4, R0
+  load #1, R1
+  and
+  jmz @108
+106:
+  load #31, R0
+  jmp @109
+108:
+  load #30, R0
+109:
+  store R0, 8
+  jmp @068
+111:
+  load 4, R0
+  load #1, R1
+  and
+  jmn @108
+  jmp @106

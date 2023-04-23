@@ -258,10 +258,7 @@ let create_block
         Error_log.error
           error_log
           ~loc
-          [ Pp.textf
-              "Block variable '%s' is used but is not assigned to any node output."
-              x
-          ]
+          [ Pp.textf "Block variable '%s' is not assigned to any node output." x ]
     and entree_modifiee x =
       if Set.mem sorties_appel x
       then

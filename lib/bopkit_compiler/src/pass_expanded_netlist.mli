@@ -10,5 +10,4 @@ val pass
   -> error_log:Error_log.t
   -> primitives:Primitive.env
   -> parameters:Bopkit.Parameters.t
-  -> main_block_name:string
   -> output

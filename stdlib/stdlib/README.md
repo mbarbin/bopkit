@@ -261,24 +261,20 @@ where
 end where;
 
 /**
- * Machine register with set and enable. Sets the input value if the enable is
- * true, otherwise keeps on returning the latest set value.
+ * This is a register with a semantic of anticipation: in case the input is
+ * enabled, the output directly echos the input signal rather than waiting one
+ * cycle. If the input is not enabled, it keeps its previous value.
  */
-RegMC(en, set) = get
+Var(set, en) = get
 where
-  get = Id(u);
-
-  // TODO: get wasn't used on the right hand side of the equal because of some
-  // compatibility issue with bop2vlog. Consider improving bop2vlog directly to
-  // handle that case in general.
-  u = Reg(Mux(en, set, u));
+  r_out = RegEn(set, en);
+  get = Mux(en, set, r_out);
 end where;
 
-/// RegMC on N bits.
-RegMC[N](en, set:[N]) = get:[N]
+Var[N](set:[N], en) = get:[N]
 where
   for i = 0 to N - 1
-    get[i] = RegMC(en, set[i]);
+    get[i] = Var(set[i], en);
   end for;
 end where;
 

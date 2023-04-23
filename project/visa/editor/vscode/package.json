@@ -1,0 +1,32 @@
+{
+    "name": "visa-assembly-extension",
+    "displayName": "Visa Assembly Extension",
+    "description": "Provides syntax highlighting and auto-formatting for Visa Assembly.",
+    "license": "MIT",
+    "version": "0.0.1",
+    "publisher": "mbarbin",
+    "engines": {
+      "vscode": "^1.60.0"
+    },
+    "categories": [
+      "Programming Languages"
+    ],
+    "contributes": {
+      "languages": [{
+        "id": "visa-assembly",
+        "aliases": ["visa-assembly"],
+        "extensions": [".asm"],
+        "configuration": "./language-configuration.json"
+      }],
+      "grammars": [{
+        "language": "visa-assembly",
+        "scopeName": "source.visa-assembly",
+        "path": "./syntaxes/visa-assembly.tmLanguage.json"
+      }],
+      "snippets": [
+        { "language": "visa-assembly",
+          "path": "./snippets/visa-assembly.json"
+        }
+      ]
+    }
+  }

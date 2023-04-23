@@ -27,7 +27,7 @@ type 'a t =
   }
 [@@deriving equal, fields, sexp_of]
 
-(** To be called in the right hand side of a Menhir rule, using the [$sloc]
+(** To be called in the right hand side of a Menhir rule, using the [$loc]
     special keyword provided by Menhir. For example:
 
    {[

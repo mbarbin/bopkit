@@ -1,0 +1,10 @@
+#include "visa.bop"
+#include "calendar-output.bop"
+#include <"7_segment.bop">
+
+Main() = ()
+where
+  d:[OutputDeviceSize]:[AR] = VisaMicroprocessor();
+  calendar:[91] = MapOutput(d:[8]:[8]);
+  $digital_calendar_display(calendar:[91]);
+end where;

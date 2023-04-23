@@ -1,0 +1,36 @@
+(include dune.inc)
+
+(rule
+ (deps
+  (glob_files *.asm))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash "%{bin:visa} fmt gen-dune .asm -- \%{bin:visa} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))
+
+(rule
+ (copy ../../circuit/visa.bop visa.bop))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.txt)
+  (glob_files *.asm)
+  (glob_files *.bin)
+  (glob_files *.bop)))
+
+(mdx
+ (deps
+  (package bopkit)
+  get_date.exe
+  (glob_files *.txt)
+  (glob_files *.asm)
+  (glob_files *.bin)
+  (glob_files *.bop)))

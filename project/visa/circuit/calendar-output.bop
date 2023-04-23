@@ -1,0 +1,39 @@
+/**
+ * The microprocessor visa is not specialized to produce an output for the digital
+ * calendar. Rather, it has a generic output device composed of 8 bytes.
+ *
+ * We make use of this small circuit to map the output of the microprocessor to
+ * the format that is expected by the digital-calendar device.
+ */
+#include <stdlib.bop>
+#include <"7_segment.bop">
+#include "div10.bop"
+
+MapOutput(visa:[8]:[8]) = calendar:[13]:[7]
+with unused = (visa:[8][7], visa[3]:[7], visa[7]:[7])
+where
+  su:[4], st:[4] = Div10(visa[0]:[7]);
+  mu:[4], mt:[4] = Div10(visa[1]:[7]);
+  hu:[4], ht:[4] = Div10(visa[2]:[7]);
+
+  // visa[3] is currently unused. At some point there was a plan for it to
+  // encode the day of the week, but this is not done.
+  du:[4], dt:[4] = Div10(Succ[7](visa[4]:[7]));
+  mou:[4], mot:[4] = Div10(Succ[7](visa[5]:[7]));
+  yu:[4], yt:[4] = Div10(visa[6]:[7]);
+
+  // And now mapping all the values through the 7-segment encoder.
+  calendar[0]:[7] = rom_Dec7(su:[4]);
+  calendar[1]:[7] = rom_Dec7(st:[4]);
+  calendar[2]:[7] = rom_Dec7(mu:[4]);
+  calendar[3]:[7] = rom_Dec7(mt:[4]);
+  calendar[4]:[7] = rom_Dec7(hu:[4]);
+  calendar[5]:[7] = rom_Dec7(ht:[4]);
+  calendar[6]:[7] = Gnd[7]();
+  calendar[7]:[7] = rom_Dec7(du:[4]);
+  calendar[8]:[7] = rom_Dec7(dt:[4]);
+  calendar[9]:[7] = rom_Dec7(mou:[4]);
+  calendar[10]:[7] = rom_Dec7(mot:[4]);
+  calendar[11]:[7] = rom_Dec7(yu:[4]);
+  calendar[12]:[7] = rom_Dec7(yt:[4]);
+end where;

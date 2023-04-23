@@ -38,6 +38,21 @@ module Config = struct
   ;;
 end
 
+(* I've tried testing the following, which doesn't work as expected:
+
+ {v
+   let%expect_test "am_running_test" =
+     print_s [%sexp { am_running_inline_test : bool; am_running_test : bool }];
+     [%expect {| ((am_running_inline_test false) (am_running_test false)) |}];
+     ()
+   ;;
+ v}
+
+ Thus been using this variable to avoid the printer to produce styles in expect
+ tests when running in the GitHub Actions environment.
+*)
+let force_am_running_test = ref false
+
 module Message = struct
   module Kind = struct
     type t =
@@ -67,16 +82,26 @@ module Message = struct
     }
   [@@deriving sexp_of]
 
+  let test_printer pp =
+    let ppf = Format.err_formatter in
+    Pp.to_fmt ppf pp;
+    Format.pp_print_flush ppf ()
+  ;;
+
   let print (t : t) ~config =
     if not t.flushed
     then (
       if Kind.is_printed t.kind ~config
       then (
+        let use_test_printer = am_running_test || !force_am_running_test in
         Option.iter t.message.loc ~f:(fun loc ->
-          Stdune.Ansi_color.prerr
+          (if use_test_printer then test_printer else Stdune.Ansi_color.prerr)
             (Stdune.Loc.pp loc
              |> Pp.map_tags ~f:(fun Loc -> Stdune.User_message.Print_config.default Loc)));
-        Stdune.User_message.prerr { t.message with loc = None });
+        let message = { t.message with loc = None } in
+        if use_test_printer
+        then test_printer (Stdune.User_message.pp message)
+        else Stdune.User_message.prerr message);
       t.flushed <- true)
   ;;
 end
@@ -147,15 +172,14 @@ let flush { config; messages } =
   Queue.iter messages ~f:(fun message -> Message.print message ~config)
 ;;
 
-let checkpoint (t : t) =
-  if Queue.exists t.messages ~f:(fun t ->
-       match t.kind with
-       | Error -> true
-       | Warning | Info | Debug -> false)
-  then Error special_error
-  else Ok ()
+let has_errors t =
+  Queue.exists t.messages ~f:(fun t ->
+    match t.kind with
+    | Error -> true
+    | Warning | Info | Debug -> false)
 ;;
 
+let checkpoint (t : t) = if has_errors t then Error special_error else Ok ()
 let mode t = t.config.mode
 let is_debug_mode t = Config.Mode.equal (mode t) Debug
 
@@ -163,7 +187,7 @@ let report_and_return_status ?(config = Config.default) f () =
   let t = create ~config in
   let status =
     match f t with
-    | Ok () -> `Ok
+    | Ok () -> if has_errors t then `Fatal_error else `Ok
     | Error e -> `Error e
     | exception Fatal_error -> `Fatal_error
     | exception e ->
@@ -188,7 +212,10 @@ let report_and_exit ~config f () =
 
 module For_test = struct
   let report ?config f =
-    match report_and_return_status ?config f () with
+    match
+      Ref.set_temporarily force_am_running_test true ~f:(fun () ->
+        report_and_return_status ?config f ())
+    with
     | `Ok -> ()
     | `Error -> print_endline "[1]"
     | `Raised (e, raw_backtrace) -> Stdlib.Printexc.raise_with_backtrace e raw_backtrace

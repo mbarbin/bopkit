@@ -31,7 +31,7 @@ display of the 7-segment digits of a digital watch.
   />
 </p>
 
-Visa is a compact micro-processor that comes with a tool for simulating its
+Visa is a compact microprocessor that comes with a tool for simulating its
 assembly language and converting it into binary instructions for the
 visa-machine. The project contains an assembly code that drives the display of a
 7-segment digital calendar.
@@ -46,7 +46,7 @@ visa-machine. The project contains an assembly code that drives the display of a
   />
 </p>
 
-Subleq is a micro-processor implementation with a single instruction (OISC). The
+Subleq is a microprocessor implementation with a single instruction (OISC). The
 project also features a tool that produces RAM images whose subleq-computation
 doesn't loop, which we use as input tests.
 

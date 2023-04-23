@@ -54,12 +54,12 @@ The project originated in 2007 as a class assignment with Professor Jean
 Vuillemin[^1]:
 
 > Write a simulator for a hardware description language of your choice; use it
-> to execute on a micro-processor of your design a binary code that will drive
+> to execute on a microprocessor of your design a binary code that will drive
 > the display of a digital calendar.
 
 Ocan Sankur and Mathieu Barbin teamed up to complete the project, implementing a
 HDL based on a subset of the language 2Z[^2] used in the course notes, and
-designing a micro-processor called visa.
+designing a microprocessor called visa.
 
 After the assignment was completed, Bopkit grew into a fun tool box for
 experimenting and playing around with various aspects of language implementation
@@ -76,7 +76,7 @@ We would like to express our gratitude to the following individuals:
 * **Jean Vuillemin** for the class and assignment that sparked the beginning of
   this project.
 * **Ocan Sankur** for co-authoring the initial assignment and for implementing
-  the micro-processor visa with an early version of bopkit that had some rough
+  the microprocessor visa with an early version of bopkit that had some rough
   edges.
 * **Mehdi Bouaziz** for co-authoring the subleq project, which we implemented as
   a project for **David Naccache**'s class.

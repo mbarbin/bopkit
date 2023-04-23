@@ -105,7 +105,8 @@ let make_print_command (module Device : DEVICE_S) ~length ~name =
                  ANSITerminal.move_bol ();
                  ANSITerminal.print_string [] output)
                else print_endline output))
-         done))
+         done;
+         if clear_on_reprint then print_endline ""))
 ;;
 
 let digital_calendar_display =

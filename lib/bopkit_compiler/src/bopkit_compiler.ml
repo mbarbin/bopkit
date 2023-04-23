@@ -71,12 +71,12 @@ let expand_netlist ~filename ~error_log ~config =
     Pass_memories.pass memories ~error_log ~parameters
   in
   let main_block_name =
-    match main_block_name with
+    match Option.first_some (Config.main config) main_block_name with
     | Some name -> name
     | None -> Error_log.raise error_log ~loc [ Pp.textf "Project has no main block." ]
   in
   let { Pass_expanded_netlist.inline_external_blocks; blocks } =
-    Pass_expanded_netlist.pass blocks ~error_log ~primitives ~parameters ~main_block_name
+    Pass_expanded_netlist.pass blocks ~error_log ~primitives ~parameters
   in
   Error_log.debug
     error_log
@@ -114,7 +114,9 @@ let circuit_of_netlist ~filename ~error_log ~config =
     Pass_expanded_block.create_env expanded_netlist.blocks ~error_log ~primitives
   in
   let%bind () = Error_log.checkpoint error_log in
-  let expanded_nodes = Pass_expanded_nodes.pass ~env ~main_block_name ~error_log in
+  let expanded_nodes =
+    Pass_expanded_nodes.pass ~env ~main_block_name ~config ~error_log
+  in
   if Config.print_pass_output config ~pass_name:Expanded_nodes
   then
     Error_log.debug

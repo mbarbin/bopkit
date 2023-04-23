@@ -1,0 +1,58 @@
+(cram
+ (deps
+  (package bopkit)
+  get_date.exe
+  (glob_files *.txt)
+  (glob_files *.asm)
+  (glob_files *.bin)
+  (glob_files *.bop)))
+
+(mdx
+ (deps
+  (package bopkit)
+  get_date.exe
+  (glob_files *.txt)
+  (glob_files *.asm)
+  (glob_files *.bin)
+  (glob_files *.bop)))
+
+;; Copying files referred to by the documentation
+
+(rule
+ (copy ../circuit/get_date.exe get_date.exe))
+
+(rule
+ (copy ../lib/visa/test/test__machine_code.ml test__machine_code.ml))
+
+(rule
+ (copy ../lib/visa/src/assembly_instruction.ml assembly_instruction.ml))
+
+(rule
+ (copy ../lib/visa/src/instruction.ml instruction.ml))
+
+(rule
+ (copy ../lib/visa_dsl/test/test__visa_dsl.ml test__visa_dsl.ml))
+
+(rule
+ (copy ../test/runtime/loop.asm loop.asm))
+
+(rule
+ (copy ../test/runtime/constant.asm constant.asm))
+
+(rule
+ (copy ../test/runtime/minus.asm minus.asm))
+
+(rule
+ (copy ../test/assembler/error/invalid-arguments.asm invalid-arguments.asm))
+
+(rule
+ (copy ../circuit/calendar.asm calendar.asm))
+
+(rule
+ (copy ../circuit/calendar-output.bop calendar-output.bop))
+
+(rule
+ (copy ../circuit/visa.bop visa.bop))
+
+(rule
+ (copy ../circuit/main.bop main.bop))

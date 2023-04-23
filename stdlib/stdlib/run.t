@@ -7,8 +7,8 @@ Check that the files don't have errors in them.
   >   echo "[${code}]"
   > done
   ================================: stdlib.bop
-  File "stdlib.bop", line 263, characters 0-3:
-  263 | CM2(in) = (s, r)
+  File "stdlib.bop", line 259, characters 0-3:
+  259 | CM2(in) = (s, r)
         ^^^
   Warning: Unused block 'CM2'.
   File "stdlib.bop", line 151, characters 0-6:
@@ -19,12 +19,12 @@ Check that the files don't have errors in them.
   234 | FullAdder(a, b, c) = (s, r)
         ^^^^^^^^^
   Warning: Unused block 'FullAdder'.
-  File "stdlib.bop", line 312, characters 0-7:
-  312 | Posedge(c) = en
+  File "stdlib.bop", line 308, characters 0-7:
+  308 | Posedge(c) = en
         ^^^^^^^
   Warning: Unused block 'Posedge'.
-  File "stdlib.bop", line 244, characters 0-5:
-  244 | RegMC(en, set) = get
-        ^^^^^
-  Warning: Unused block 'RegMC'.
+  File "stdlib.bop", line 245, characters 0-3:
+  245 | Var(set, en) = get
+        ^^^
+  Warning: Unused block 'Var'.
   [0]

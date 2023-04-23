@@ -1,0 +1,3 @@
+LABEL:
+  sleep
+  nop

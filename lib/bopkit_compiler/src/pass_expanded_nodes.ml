@@ -2,14 +2,27 @@ open! Core
 
 let transf_fresh_inline = Printf.sprintf "$%d$"
 
-let pass ~(env : Expanded_block.env) ~main_block_name ~error_log : Expanded_nodes.t =
+let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
+  : Expanded_nodes.t
+  =
   let fresh_name =
     let index = ref 0 in
     fun () ->
       incr index;
       transf_fresh_inline !index
   in
-  let main = Map.find env main_block_name |> Option.value_exn ~here:[%here] in
+  let main =
+    match Map.find env main_block_name with
+    | Some block -> block
+    | None ->
+      (* The request for that specific block_name as the main entry point may
+         have been overridden by the user via the command line, and so it may
+         contain some typos. Let's try and give a helpful error message here. *)
+      Error_log.raise
+        error_log
+        [ Pp.textf "Failed to find main block name '%s'." main_block_name ]
+        ~hints:(Error_log.did_you_mean main_block_name ~candidates:(Map.keys env))
+  in
   let expanded_nodes : Expanded_nodes.Node.t Queue.t = Queue.create () in
   (* Appellee file Q dans le rapport latex *)
   let fonctions_utilisees = Hash_set.create (module String) in
@@ -94,13 +107,12 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~error_log : Expanded_node
   in
   Error_log.debug error_log [ Pp.text "Inlining blocks." ];
   aux_nodes main.nodes;
-  (* relever les fonctions inutilisees de la net-list *)
   Map.iteri env ~f:(fun ~key:name ~data:fd ->
-    if String.equal name main_block_name || Hash_set.mem fonctions_utilisees name
-    then ()
-    else if String.equal fd.fichier main.fichier
-    then Error_log.warning error_log ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]
-    else ());
+    if (not (String.equal name main_block_name))
+       && (not (Hash_set.mem fonctions_utilisees name))
+       && String.equal fd.fichier main.fichier
+       && Option.is_none (Config.main config)
+    then Error_log.warning error_log ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]);
   array_of_file_node ()
 ;;
 

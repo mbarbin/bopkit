@@ -577,7 +577,7 @@ type output =
   ; blocks : Bopkit.Expanded_netlist.block list
   }
 
-let pass blocks ~error_log ~primitives ~parameters ~main_block_name:_ =
+let pass blocks ~error_log ~primitives ~parameters =
   let blocks = Block_sort.sort blocks ~error_log in
   let t = create_state blocks ~error_log ~primitives ~parameters in
   List.iter blocks ~f:(fun block ->

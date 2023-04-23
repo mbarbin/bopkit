@@ -183,7 +183,7 @@ parser but prior to entering its execution.
   File "input-as-output.bop", line 1, characters 0-1:
   1 | A(a) = a
       ^
-  Error: Block variable 'a' is used but is not assigned to any node output.
+  Error: Block variable 'a' is not assigned to any node output.
   [1]
   ================================: invalid-funarg-2.bop
   File "invalid-funarg-2.bop", line 5, characters 2-13:
@@ -254,7 +254,7 @@ parser but prior to entering its execution.
   File "output-not-assigned.bop", line 1, characters 0-1:
   1 | A() = c
       ^
-  Error: Block variable 'c' is used but is not assigned to any node output.
+  Error: Block variable 'c' is not assigned to any node output.
   [1]
   ================================: param-arity.bop
   File "param-arity.bop", line 8, characters 2-14:
@@ -403,7 +403,7 @@ parser but prior to entering its execution.
   File "used-var-not-assigned.bop", line 1, characters 0-1:
   1 | A() = b
       ^
-  Error: Block variable 'c' is used but is not assigned to any node output.
+  Error: Block variable 'c' is not assigned to any node output.
   [1]
   ================================: write-input.bop
   File "write-input.bop", line 1, characters 0-1:

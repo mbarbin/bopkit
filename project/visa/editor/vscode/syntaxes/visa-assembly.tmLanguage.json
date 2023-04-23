@@ -1,0 +1,70 @@
+{   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Visa Assembly",
+    "scopeName": "source.visa-assembly",
+    "fileTypes": ["asm"],
+    "patterns": [
+      { "include": "#comments" },
+      { "include": "#keywords" },
+      { "include": "#labels" },
+      { "include": "#constants" },
+      { "include": "#identifiers" }
+    ],
+    "repository": {
+      "comments": {
+        "patterns": [
+          {
+            "name": "comment.line.double-slash.visa-assembly",
+            "match": "//.*$"
+          }
+        ]
+      },
+      "keywords": {
+        "patterns": [
+          {
+            "match": "\\b(define|macro|end)\\b",
+            "name": "keyword.control.visa-assembly"
+          },
+          {
+            "match": "\\b(add|and|cmp|gof|jmn|jmp|jmz|load|mult|nop|not|sleep|store|write|swc)\\b",
+            "name": "keyword.operator.visa-assembly"
+          }
+        ]
+      },
+      "labels": {
+        "patterns": [
+          {
+            "match": "\\b([A-Za-z0-9_]+)(?=\\s*:)",
+            "name": "string.unquoted.label.visa-assembly"
+          },
+          {
+            "match": "(@[A-Za-z0-9_]+)",
+            "name": "string.unquoted.label.visa-assembly"
+          }
+        ]
+      },
+      "constants": {
+        "patterns": [
+          {
+            "match": "\\b(R0|R1)\\b",
+            "name": "constant.language.visa-assembly"
+          },
+          {
+            "match": "\\b([0-9]+)\\b",
+            "name": "constant.numeric.visa-assembly"
+          }
+        ]
+      },
+      "identifiers": {
+        "patterns": [
+          {
+            "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b",
+            "name": "variable.language.visa-assembly"
+          },
+          {
+            "match": "\\b([a-z_][a-zA-Z0-9_]*)\\b",
+            "name": "variable.other.visa-assembly"
+          }
+        ]
+      }
+    }
+}

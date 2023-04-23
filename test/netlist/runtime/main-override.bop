@@ -1,0 +1,9 @@
+Hello_and(a, b) = s
+where
+  s = And(a, b);
+end where;
+
+Hello_or(a, b) = s
+where
+  s = Or(Hello_and(a, a), b);
+end where;

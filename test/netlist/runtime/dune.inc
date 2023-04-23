@@ -32,6 +32,16 @@
 
 (rule
  (with-stdout-to
+  main-override.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:main-override.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff main-override.bop main-override.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   parameter-override.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:parameter-override.bop}")))
 

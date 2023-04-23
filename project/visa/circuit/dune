@@ -1,0 +1,175 @@
+(include dune.asm.inc)
+
+(include dune.bop.inc)
+
+(rule
+ (deps
+  (glob_files *.asm))
+ (action
+  (with-stdout-to
+   dune.asm.inc.gen
+   (pipe-stdout
+    (bash "%{bin:visa} fmt gen-dune .asm -- \%{bin:visa} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.bop.inc.gen
+   (pipe-stdout
+    (bash
+     "%{bin:bopkit} fmt gen-dune .bop -exclude div10.bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.asm.inc dune.asm.inc.gen)))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.bop.inc dune.bop.inc.gen)))
+
+(rule
+ (with-stdout-to
+  calendar.sexp.corrected
+  (bash "%{bin:visa} parse %{dep:calendar.asm}")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff test/calendar.sexp calendar.sexp.corrected)))
+
+(rule
+ (with-stdout-to
+  calendar.processed.corrected
+  (bash "%{bin:visa} process %{dep:calendar.asm} -quiet")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff test/calendar.processed calendar.processed.corrected)))
+
+(rule
+ (with-stdout-to
+  calendar.bin.corrected
+  (bash "%{bin:visa} to-machine-code %{dep:calendar.asm}")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff calendar.bin calendar.bin.corrected)))
+
+(rule
+ (with-stdout-to
+  calendar.processed.bin.corrected
+  (bash "%{bin:visa} to-machine-code %{dep:test/calendar.processed} -quiet")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff calendar.bin calendar.processed.bin.corrected)))
+
+(rule
+ (with-stdout-to
+  calendar.processed.processed
+  (bash "%{bin:visa} process %{dep:test/calendar.processed} -quiet")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff test/calendar.processed calendar.processed.processed)))
+
+(rule
+ (with-stdout-to
+  calendar.disassembled
+  (bash "%{bin:visa} disassemble %{dep:calendar.bin} -quiet")))
+
+(rule
+ (alias runtest)
+ (action
+  (diff test/calendar.processed calendar.disassembled)))
+
+(rule
+ (target initial-memory.txt.corrected)
+ (action
+  (with-stdout-to
+   %{target}
+   (run %{dep:get_date.exe} "23:59:56" "1999/12/31"))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff initial-memory.txt initial-memory.txt.corrected)))
+
+(rule
+ (alias visa-simulation-soft-mapping)
+ (deps
+  calendar.bin
+  initial-memory.txt
+  (package bopkit))
+ (action
+  (bash
+   "%{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change | %{bin:bopkit} digital-calendar map-raw-input | %{bin:bopkit} digital-calendar display -no")))
+
+(rule
+ (alias visa-simulation)
+ (deps
+  calendar.bin
+  initial-memory.txt
+  (package bopkit))
+ (action
+  (bash
+   "%{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change | %{bin:bopkit} simu %{dep:calendar-output.bop} -p | %{bin:bopkit} digital-calendar display -no")))
+
+(rule
+ (target div10.txt)
+ (deps
+  (package bopkit))
+ (action
+  (with-stdout-to
+   %{target}
+   (bash "%{bin:bopkit} counter -ni -c 100 -N 7 | ./%{dep:div10.exe}"))))
+
+(rule
+ (target div10.bop.corrected)
+ (deps
+  (package bopkit))
+ (action
+  (with-stdout-to
+   %{target}
+   (run
+    %{bin:bopkit}
+    bdd
+    synthesize
+    -block-name
+    Div10
+    -AD
+    7
+    -WL
+    8
+    -f
+    %{dep:div10.txt}))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff div10.bop div10.bop.corrected)))
+
+(executables
+ (names div10 get_date)
+ (libraries core unix threads bopkit_block)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(cram
+ (deps
+  (package bopkit)
+  get_date.exe
+  (glob_files *.txt)
+  (glob_files *.asm)
+  (glob_files *.bin)
+  (glob_files *.bop)))

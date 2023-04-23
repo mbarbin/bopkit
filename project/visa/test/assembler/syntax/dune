@@ -1,0 +1,5 @@
+(cram
+ (deps
+  (package bopkit)
+  %{bin:visa}
+  (glob_files *.asm)))

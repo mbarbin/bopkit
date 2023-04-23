@@ -1,0 +1,16 @@
+(library
+ (name visa_debugger)
+ (public_name bopkit.visa-debugger)
+ (flags -w +a-4-40-42-44-45-66 -warn-error +a)
+ (libraries
+  bit_utils
+  bogue
+  core
+  core_unix
+  core_unix.core_thread
+  visa
+  visa_assembler
+  visa_simulator
+  visa_syntax)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

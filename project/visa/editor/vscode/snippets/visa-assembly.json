@@ -1,0 +1,16 @@
+{
+    "Define": {
+        "prefix": "define",
+        "body": [
+            "define ${1:name} ${2:value}$0"
+        ]
+    },
+    "Macro": {
+        "prefix": "macro",
+        "body": [
+            "macro name ${1:params}",
+            "  $0",
+            "end"
+        ]
+    }
+}
