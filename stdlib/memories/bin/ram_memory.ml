@@ -108,12 +108,16 @@ let () =
     (let open Command.Let_syntax in
      let%map_open address_width =
        flag
-         "addresses-len"
-         ~aliases:[ "a" ]
+         "addresses-width"
+         ~aliases:[ "addresses-len"; "a" ]
          (required int)
          ~doc:"N number of bit of addresses"
      and data_width =
-       flag "words-len" ~aliases:[ "w" ] (required int) ~doc:"N number of bits of words"
+       flag
+         "words-width"
+         ~aliases:[ "words-len"; "w" ]
+         (required int)
+         ~doc:"N number of bits of words"
      and title = flag "title" (optional string) ~doc:"TITLE set window title" in
      let t = init ~title ~address_width ~data_width in
      Bopkit_block.create ~name:"ram_memory" ~main:(main t) ~is_multi_threaded:true ())

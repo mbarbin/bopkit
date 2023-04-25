@@ -1,0 +1,14 @@
+(library
+ (name subleq_generator)
+ (public_name bopkit.subleq-generator)
+ (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (libraries
+  core
+  bit_utils
+  bopkit_memory
+  subleq_simulator
+  unix
+  graphics
+  threads)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))

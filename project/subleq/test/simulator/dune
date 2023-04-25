@@ -1,0 +1,5 @@
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.input)
+  (glob_files *.output)))

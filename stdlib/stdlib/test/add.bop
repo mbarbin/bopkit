@@ -1,0 +1,8 @@
+#include <stdlib.bop>
+
+#define N 4
+
+Main(a:[N], b:[N], carry_in) = (r:[N], carry_out)
+where
+  r:[N], carry_out = Add[N](a:[N], b:[N], carry_in);
+end where;

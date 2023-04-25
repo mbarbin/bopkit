@@ -2,6 +2,16 @@
 
 (rule
  (with-stdout-to
+  add.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:add.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff add.bop add.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   and.bop.pp.output
   (bash "%{bin:bopkit} fmt file %{dep:and.bop}")))
 
@@ -119,6 +129,16 @@
  (alias fmt)
  (action
   (diff reverse_bdd.bop reverse_bdd.bop.pp.output)))
+
+(rule
+ (with-stdout-to
+  sub.bop.pp.output
+  (bash "%{bin:bopkit} fmt file %{dep:sub.bop}")))
+
+(rule
+ (alias fmt)
+ (action
+  (diff sub.bop sub.bop.pp.output)))
 
 (rule
  (with-stdout-to

@@ -1,0 +1,48 @@
+(executables
+ (names controller disk_interface subleq_ram)
+ (libraries
+  core
+  bopkit_block
+  bopkit_sleeper
+  graphics
+  bopkit_memory
+  unix
+  threads)
+ (preprocess
+  (pps ppx_jane ppx_js_style -check-doc-comments)))
+
+(rule
+ (alias subleq-simulation)
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.exe)
+  (glob_files test/*.input))
+ (action
+  (bash "%{bin:bopkit} simu %{dep:main.bop} -parameter 'WithPulse=1'")))
+
+(cram
+ (deps
+  (package bopkit)
+  (glob_files *.bop)
+  (glob_files *.exe)
+  (glob_files test/*.input)
+  (glob_files test/*.output)
+  (glob_files test/*.sh)))
+
+(include dune.inc)
+
+(rule
+ (deps
+  (glob_files *.bop))
+ (action
+  (with-stdout-to
+   dune.inc.gen
+   (pipe-stdout
+    (bash "%{bin:bopkit} fmt gen-dune .bop -- \%{bin:bopkit} fmt file")
+    (run dune format-dune-file)))))
+
+(rule
+ (alias runtest)
+ (action
+  (diff dune.inc dune.inc.gen)))

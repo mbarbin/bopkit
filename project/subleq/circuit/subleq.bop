@@ -1,0 +1,169 @@
+/**
+ * This is the bopkit implementation of the subleq microprocessor. This circuit
+ * was originally implemented by Mathieu Barbin & Mehdi Bouaziz in 2008.
+ */
+#include <stdlib.bop>
+
+/**
+ * This parameter drives whether Graphics applications are open as part of the
+ * execution. In tests, we do not enable them, but when showing demos we do.
+ */
+#define DEBUG 0
+
+/**
+ * This defines the architecture of the microprocessor. This implementation is
+ * not architecture specific, and thus this parameter may be set to various
+ * values.
+ *
+ * It determines the width of the words stored in memory. The number of
+ * addresses in the executable is 2^AR.
+ */
+#define AR 4
+
+/**
+ * Our implementation requires each execution instructions to run on 5 or 6
+ * clock cycles, which we call steps. We use an internal register to keep track
+ * of the step at which we're currently at. CL is the number of bits needed for
+ * this register. Because we never exceed 6 cycles, 3 bits are enough.
+ */
+#define CL 3
+
+/**
+ * The internal memory of the Subleq machine.
+ */
+RAM MEM (AR, AR)
+
+/**
+ * The following blocks are used to identify the active step during the execution
+ * of a subleq instruction.
+ */
+Is2(dat:[CL]) = b
+where
+  b = And(Not(dat[0]), And(dat[1], Not[CL - 2](dat[2..CL - 1])));
+end where;
+
+Is3(dat:[CL]) = b
+where
+  b = And(dat[0], And(dat[1], Not(dat[2])));
+end where;
+
+Is4(dat:[CL]) = b
+where
+  b = And(Not(dat[0]), And(Not(dat[1]), dat[2]));
+end where;
+
+Is5(dat:[CL]) = b
+where
+  b = And(dat[0], And(Not(dat[1]), dat[2]));
+end where;
+
+/**
+ * Executing an instruction on this Subleq machine takes either 5 or 6 steps,
+ * which are as follows:
+ *
+ * | Step 0: we read A @ pc
+ * | Step 1: we read *A @ A
+ * | Step 2: we read B @ pc+1
+ * | Step 3: we read *B @ B
+ * | Step 4: we write r=(*B - *A) @ B
+ * |   if r > 0 we jump to pc+3
+ * |   else:
+ * |     Step 5: we read pc+2
+ */
+Subleq(run, set_pc, pc_in:[AR], write, address:[AR],
+  data_in:[AR]) = (pc_out:[AR], data_out:[AR])
+where
+  reset = Or(Not(run), Posedge(run));
+
+  // Testing the current active step
+  step2 = Is2(step:[CL]);
+  step3 = Is3(step:[CL]);
+  step4 = Is4(step:[CL]);
+  step5 = Is5(step:[CL]);
+  next_instruction = Or(step5, And(step4, Not(case_negative_or_null)));
+  step:[CL] =
+    Mux[CL](
+      Or(reset, Reg(next_instruction)),
+      Gnd[CL](),
+      Reg[CL](Succ[CL](step:[CL])));
+
+  // Program Counter pc, and pc+1, pc+2 and pc+3
+  next_pc:[AR] = Mux[AR](Reg(step5), reg_mem_out:[AR], Reg[AR](pc3:[AR]));
+  pc:[AR] =
+    Mux[AR](
+      And(Not(run), set_pc),
+      pc_in:[AR],
+      Mux[AR](
+        And(run, Reg(next_instruction)),
+        next_pc:[AR],
+        Reg[AR](pc:[AR])));
+  pc1:[AR], _ = Add[AR](pc:[AR], Gnd[AR](), Vdd());
+  pc2:[AR], _ = Add[AR](pc:[AR], Gnd(), Vdd(), Gnd[AR - 2](), Gnd());
+  pc3:[AR], _ = Add[AR](pc:[AR], Vdd(), Vdd(), Gnd[AR - 2](), Gnd());
+
+  // Outputs
+  pc_out:[AR] = Id[AR](pc:[AR]);
+  data_out:[AR] = Id[AR](mem_out:[AR]);
+
+  // Memory
+  mem_out:[AR] =
+    ram_MEM(
+      mem_address:[AR],
+      mem_address:[AR],
+      mem_write_mode,
+      mem_data_in:[AR]);
+  reg_mem_out:[AR] = Reg[AR](mem_out:[AR]);
+
+  // DEBUG external GRAPHICS
+  if DEBUG then
+    external("./subleq_ram.exe -AR %{AR} -CL %{CL} -DEBUG %{DEBUG}",
+      step:[CL],
+      mem_address:[AR],
+      mem_write_mode,
+      mem_data_in:[AR],
+      reg_mem_out:[AR]);
+  end if;
+
+  // The address of b is read at step 2 so it is set here at step3
+  b_address:[AR] = RegEn[AR](reg_mem_out:[AR], step3);
+
+  // The value of a is read at step1 so it is set here at step2
+  a_value:[AR] = RegEn[AR](reg_mem_out:[AR], step2);
+
+  // sub_out is (*b - *a). It is only correct and used at step4
+  sub_out:[AR] = Sub[AR](reg_mem_out:[AR], a_value:[AR]);
+
+  // (*b - *a) is negative or null. Only correct and used at step4
+  case_negative_or_null =
+    Or(sub_out[AR - 1], Equals[AR](sub_out:[AR], Gnd[AR]()));
+
+  // The address to use in run mode is different for each step
+  run_mem_address:[AR] =
+    Bdd[2 ^ CL][AR](
+      // Step 0: we read A @ pc
+      pc:[AR],
+      // Step 1: we read *A @ A
+      reg_mem_out:[AR],
+      // Step 2: we read B @ pc+1
+      pc1:[AR],
+      // Step 3: we read *B @ B
+      reg_mem_out:[AR],
+      // Step 4: we write r=(*B - *A) @ B
+      b_address:[AR],
+      // Step 5: we read pc+2
+      pc2:[AR],
+      // Completing the bdd
+      Gnd[2 * AR](),
+      step:[CL]);
+
+  // We write at step4, other steps are read-only
+  run_mem_write_mode = Id(step4);
+
+  // The data written is always the result of the sub, and only written at step4
+  run_mem_data_in:[AR] = Id[AR](sub_out:[AR]);
+
+  // Driving the memory - using run_* variable in run mode
+  mem_address:[AR] = Mux[AR](run, run_mem_address:[AR], address:[AR]);
+  mem_write_mode = Mux(run, run_mem_write_mode, write);
+  mem_data_in:[AR] = Mux[AR](run, run_mem_data_in:[AR], data_in:[AR]);
+end where;

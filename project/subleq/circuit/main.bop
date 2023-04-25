@@ -1,0 +1,41 @@
+#include <stdlib.bop>
+#include <pulse.bop>
+#include "subleq.bop"
+
+#define DEBUG 1
+#define AR 4
+#define WithPulse 0
+#define PULSE__CYCLES_PER_SECOND 4
+#define NumberOfPrograms 30
+#define FilesPrefix "test/ar4-"
+
+external controller "./controller.exe -AR %{AR}"
+
+external disk_interface "./disk_interface.exe -AR %{AR} -DEBUG %{DEBUG} -num-programs %{NumberOfPrograms} -files-prefix %{FilesPrefix}"
+
+Main() = ()
+where
+  if WithPulse then
+    $pulse();
+  end if;
+  reset = Posedge(Reg(cr_standby));
+  cr_data_out:[AR] =
+    Reg[AR](
+      $disk_interface[AR](
+        cr_address:[AR],
+        cr_write,
+        cr_data_in:[AR],
+        cr_standby));
+  sl_pc_out:[AR], sl_data_out:[AR] =
+    Reg[2 * AR](
+      Subleq(
+        sl_run,
+        sl_set_pc,
+        sl_pc_in:[AR],
+        sl_write,
+        sl_address:[AR],
+        sl_data_in:[AR]));
+  sl_run, sl_set_pc, sl_pc_in:[AR], sl_write, sl_address:[AR],
+    sl_data_in:[AR], cr_address:[AR], cr_write, cr_data_in:[AR], cr_standby =
+    $controller(reset, sl_pc_out:[AR], sl_data_out:[AR], cr_data_out:[AR]);
+end where;

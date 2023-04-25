@@ -1,0 +1,12 @@
+(mdx
+ (deps
+  (package bopkit)
+  (glob_files *.input)))
+
+;; Copying files referred to by the documentation
+
+(rule
+ (copy circuit/test/ar4-01.input ar4-01.input))
+
+(rule
+ (copy test/simulator/cycle01.input cycle01.input))
