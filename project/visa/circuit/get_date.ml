@@ -7,7 +7,7 @@ let () =
     ~summary:"generate initial contents for visa's RAM memory"
     (let open Command.Let_syntax in
      let%map_open ofday =
-       anon ("HH:MM:SS" %: string) >>| Time.Ofday.of_string >>| Time.Ofday.to_parts
+       anon ("HH:MM:SS" %: string) >>| Time_ns.Ofday.of_string >>| Time_ns.Ofday.to_parts
      and date = anon ("YYYY/MM/DD" %: string) >>| Date.of_string in
      fun () ->
        let print name value =

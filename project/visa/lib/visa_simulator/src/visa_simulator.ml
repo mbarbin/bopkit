@@ -209,15 +209,13 @@ let step (t : t) ~error_log:_ =
     return (Step_result.Macro_call { macro_name })
 ;;
 
-exception SigInt
-
 let run (t : t) ~error_log =
   let last_output = ref "" in
   let output_device = Memory.output_device t.memory in
   let count_output = ref 0 in
   with_return (fun return ->
     (* Make it possible to interrupt the simulation on SIGINT. *)
-    Caml.(Sys.set_signal Sys.sigint (Sys.Signal_handle (fun _ -> raise SigInt)));
+    Sys_unix.catch_break true;
     (try
        while true do
          match step t ~error_log with
@@ -249,7 +247,7 @@ let run (t : t) ~error_log =
            then return.return (Ok ())
        done
      with
-     | SigInt -> ());
+     | Sys_unix.Break -> ());
     Ok ())
 ;;
 

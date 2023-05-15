@@ -234,13 +234,11 @@ let init t =
          Set_once.set_exn index [%here] this_index;
          Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
          List.iter decl_bloc.init_messages ~f:(fun m ->
-           try
-             Printf.fprintf new_pipe.input_pipe "%s\n" m;
-             Out_channel.flush new_pipe.input_pipe;
-             ignore (Caml.input_line new_pipe.output_pipe : string)
-           with
-           | End_of_file ->
-             pipe_error t ~loc ~command:decl_bloc.command ~index:this_index m))
+           Printf.fprintf new_pipe.input_pipe "%s\n" m;
+           Out_channel.flush new_pipe.input_pipe;
+           match In_channel.input_line new_pipe.output_pipe with
+           | Some (_ : string) -> ()
+           | None -> pipe_error t ~loc ~command:decl_bloc.command ~index:this_index m))
     | _ -> ());
   Array.iter (external_blocks t) ~f:(fun { name = a; loc; _ } ->
     (* As it stands, this warning is inconvenient. First, it is only produced at

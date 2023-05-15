@@ -1,8 +1,6 @@
 open! Core
 module Config = Config
 
-exception SigInt
-
 let run ~circuit ~error_log ~config =
   let circuit_simulator = Circuit_simulator.of_circuit ~circuit ~error_log in
   let expected_input_length = Array.length (Circuit_simulator.input circuit_simulator) in
@@ -31,8 +29,8 @@ let run ~circuit ~error_log ~config =
       ~input:(Circuit_simulator.input circuit_simulator)
       ~output:(Circuit_simulator.output circuit_simulator)
   in
-  (* Make it possible to interupt the simulation on sigint. *)
-  Caml.(Sys.set_signal Sys.sigint (Sys.Signal_handle (fun _ -> raise SigInt)));
+  (* Make it possible to interrupt the simulation on sigint. *)
+  Sys_unix.catch_break true;
   (try
      match num_cycles with
      | None ->
@@ -44,8 +42,7 @@ let run ~circuit ~error_log ~config =
          one_cycle ()
        done
    with
-   | SigInt -> ()
-   | End_of_file -> ());
+   | Sys_unix.Break | End_of_file -> ());
   Error_log.info error_log [ Pp.textf "End of simulation (%S)" circuit.filename ];
   Circuit_simulator.quit circuit_simulator
 ;;

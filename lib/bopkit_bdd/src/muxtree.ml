@@ -49,11 +49,9 @@ let rec normalize = function
    ]}
 *)
 
-let log2 n = Caml.Float.log2 (float_of_int n) |> int_of_float
-
 let of_partial_bit_matrix (pbm : Partial_bit_matrix.t) =
   let len = Array.length pbm in
-  let num_input_bits = log2 len in
+  let num_input_bits = Int.floor_log2 len in
   (* This function is only defined on partial bit matrix encoding for a boolean
      function. *)
   assert (Int.pow 2 num_input_bits = len);
