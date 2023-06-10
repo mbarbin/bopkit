@@ -305,7 +305,7 @@ let light_method (t : t) =
      otherwise it should be empty in which case we set the entire light array.
      *)
   Bopkit_block.Method.create
-    ~name:"LIGHT"
+    ~name:"light"
     ~input_arity:Remaining_bits
     ~output_arity:Empty
     ~f:(fun ~arguments ~input ~output:() ->
@@ -399,8 +399,8 @@ let run_cmd =
        ~main:(main_method t)
        ~methods:
          [ light_method t
-         ; button_method t ~name:"PUSH" ~which_buttons:Board.pushes
-         ; button_method t ~name:"SWITCH" ~which_buttons:Board.switches
+         ; button_method t ~name:"push" ~which_buttons:Board.pushes
+         ; button_method t ~name:"switch" ~which_buttons:Board.switches
          ]
        ~is_multi_threaded:true
        ())

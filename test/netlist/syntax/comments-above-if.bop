@@ -4,7 +4,7 @@
 external with_loops "./with_loops.exe"
   // Such as this one!
   if N mod 2 == 0 then
-    def "m%{i}" "IMPL_M%{i}"
+    def "m%{i}"
   end if;
 end external;
 

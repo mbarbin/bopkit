@@ -156,7 +156,7 @@ ROM div (8, 4) = file("div.txt")
 // An external block from which we'll use the [test] method for unit testing
 // the different means of computing the division.
 external div "./div.exe -N %{N}"
-  def test "test"
+  def test
 end external;
 
 Main(a:[N], b:[N]) = (s_reference:[4], s_rom:[4], s_bdd:[4], s_bdd_star:[4])

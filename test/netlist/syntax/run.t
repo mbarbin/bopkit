@@ -27,7 +27,7 @@ monitor in tests.
   external with_loops "./with_loops.exe"
     // Such as this one!
     for i = 1 to 3
-      def "m%{i}" "IMPL_M%{i}"
+      def "m%{i}"
       // In the case of for loop, there might be tail comments.
     end for;
     // External blocks may have tail comments too.
@@ -48,7 +48,7 @@ monitor in tests.
   external with_loops "./with_loops.exe"
     // Such as this one!
     if N mod 2 == 0 then
-      def "m%{i}" "IMPL_M%{i}"
+      def "m%{i}"
     end if;
   end external;
   
@@ -140,12 +140,12 @@ monitor in tests.
     /**
      * Documentation for the add method.
      */
-    def add "ADD"
+    def add
   
     /**
      * Documentation for the mult method.
      */
-    def mult "MULT"
+    def mult
   end external;
   
   external pulse "./pulse.exe"
@@ -189,16 +189,16 @@ monitor in tests.
   external [ Attr1, Attr2 ] with_attr "./with_attr.exe"
   
   external with_methods "%{PATH}/with_methods.exe -N %{N}"
-    def m1 "IMPL_M1"
-    def [ A1, A2 ] m2 "IMPL_M2"
-    def "m3" "IMPL_M3"
+    def m1
+    def [ A1, A2 ] m2
+    def "m3"
   end external;
   
   external with_loops "./with_loops.exe"
     for i = 1 to 3
       if i mod 2 == 0 then
         for j = i
-          def "m%{i}" "IMPL_M%{i}"
+          def "m%{i}"
         end for;
       end if;
     end for;

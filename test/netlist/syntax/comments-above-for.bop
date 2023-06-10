@@ -4,7 +4,7 @@
 external with_loops "./with_loops.exe"
   // Such as this one!
   for i = 1 to 3
-    def "m%{i}" "IMPL_M%{i}"
+    def "m%{i}"
     // In the case of for loop, there might be tail comments.
   end for;
   // External blocks may have tail comments too.

@@ -145,11 +145,11 @@ where
       addr:[N],
       write_mode,
       data_in:[N]);
-  addr:[N] = $board1.SWITCH();
-  write_mode = $board1.PUSH("0");
-  $board1.LIGHT(data_out:[N]);
-  data_in:[N] = $board2.SWITCH();
-  $board2.LIGHT(data_in:[N]);
+  addr:[N] = $board1.switch();
+  write_mode = $board1.push("0");
+  $board1.light(data_out:[N]);
+  data_in:[N] = $board2.switch();
+  $board2.light(data_in:[N]);
 end where;
 ```
 

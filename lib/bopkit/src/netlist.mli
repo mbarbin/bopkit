@@ -81,7 +81,6 @@ type external_block_api_element =
       ; method_name : string
       ; method_name_is_quoted : bool
       ; attributes : string list
-      ; implementation_name : string
       }
 [@@deriving equal, sexp_of]
 

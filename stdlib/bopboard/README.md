@@ -19,7 +19,7 @@ also designed the board's images as well as bopkit's ladybug.
 
 Using bopboard requires to install the bopkit package. The bopboard executable
 is installed via dune-sites in the bopkit's libexec directory, where the
-simulator knowns to find it.
+simulator knows to find it.
 
 ## Usage in bopkit file
 

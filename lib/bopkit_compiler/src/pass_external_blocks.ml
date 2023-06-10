@@ -14,21 +14,14 @@ let pass (external_block : Bopkit.Netlist.external_block) ~error_log ~parameters
     match (element : Bopkit.Netlist.external_block_api_element) with
     | Init_message { loc; comments; message } ->
       Init_message { loc; comments; message = eval_string ~parameters message }
-    | Method
-        { loc
-        ; comments
-        ; method_name = a
-        ; method_name_is_quoted
-        ; attributes = att
-        ; implementation_name = b
-        } ->
+    | Method { loc; comments; method_name = a; method_name_is_quoted; attributes = att }
+      ->
       Method
         { loc
         ; comments
         ; method_name = (if method_name_is_quoted then eval_string ~parameters a else a)
         ; method_name_is_quoted
         ; attributes = att
-        ; implementation_name = eval_string ~parameters b
         }
   in
   let api =
@@ -38,17 +31,8 @@ let pass (external_block : Bopkit.Netlist.external_block) ~error_log ~parameters
   let init_messages = Queue.create () in
   let methods = Queue.create () in
   List.iter api ~f:(function
-    | Method
-        { loc = _
-        ; comments = _
-        ; method_name
-        ; method_name_is_quoted = _
-        ; attributes
-        ; implementation_name
-        } ->
-      Queue.enqueue
-        methods
-        { Bopkit.Expanded_netlist.method_name; attributes; implementation_name }
+    | Method { loc = _; comments = _; method_name; method_name_is_quoted = _; attributes }
+      -> Queue.enqueue methods { Bopkit.Expanded_netlist.method_name; attributes }
     | Init_message { loc = _; comments = _; message } ->
       Queue.enqueue init_messages message);
   { Bopkit.Expanded_netlist.loc = external_block.loc
