@@ -174,8 +174,7 @@ let init t =
              List.find decl_bloc.methods ~f:(fun m ->
                String.equal method_name m.method_name)
            with
-           | Some { method_name = _; attributes = _; implementation_name } ->
-             Some implementation_name
+           | Some { method_name; attributes = _ } -> Some method_name
            | None ->
              Error_log.warning
                t.error_log

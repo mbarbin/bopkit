@@ -74,8 +74,8 @@ a parameter.
 #define N 8
 
 external my_calculator "./my_calculator.exe -n %{N}"
-  def add ADD
-  def sub SUB
+  def add
+  def sub
   // ...
 end external;
 ```

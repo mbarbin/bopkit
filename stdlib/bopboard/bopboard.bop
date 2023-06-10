@@ -12,7 +12,7 @@ external bopboard "bopboard run"
    *
    * |    $bopboard.light("0", i);
    */
-  def light "LIGHT"
+  def light
 
   /**
    * Connect to the 8 switch buttons of the board.
@@ -24,7 +24,7 @@ external bopboard "bopboard run"
    *
    * |    p = $bopboard.switch("7");
    */
-  def switch "SWITCH"
+  def switch
 
   /**
    * Connect to the 5 push buttons of the board.
@@ -36,5 +36,5 @@ external bopboard "bopboard run"
    *
    * |    p = $bopboard.push("2");
    */
-  def push "PUSH"
+  def push
 end external;

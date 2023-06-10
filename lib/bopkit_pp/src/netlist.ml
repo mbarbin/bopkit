@@ -202,14 +202,7 @@ let pp_external_api ~first_in_group a =
       ; Pp.verbatim "init "
       ; Pp.verbatim (string_with_vars message)
       ]
-  | Method
-      { loc = _
-      ; comments
-      ; method_name
-      ; method_name_is_quoted
-      ; attributes
-      ; implementation_name
-      } ->
+  | Method { loc = _; comments; method_name; method_name_is_quoted; attributes } ->
     Pp.concat
       [ (if (not first_in_group) && not (Bopkit.Comments.is_empty comments)
          then Pp.newline
@@ -221,8 +214,6 @@ let pp_external_api ~first_in_group a =
          else pp_attributes attributes ++ Pp.verbatim " ")
       ; Pp.verbatim
           (if method_name_is_quoted then string_with_vars method_name else method_name)
-      ; Pp.verbatim " "
-      ; Pp.verbatim (string_with_vars implementation_name)
       ]
 ;;
 

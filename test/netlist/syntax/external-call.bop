@@ -4,12 +4,12 @@ external calc "./calc.exe -N %{N}"
   /**
    * Documentation for the add method.
    */
-  def add "ADD"
+  def add
 
   /**
    * Documentation for the mult method.
    */
-  def mult "MULT"
+  def mult
 end external;
 
 external pulse "./pulse.exe"

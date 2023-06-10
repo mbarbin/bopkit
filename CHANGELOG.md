@@ -16,6 +16,7 @@
 - Rewrite the bopboard in OCaml using tsdl (it was in C and using SDL-1 which is now deprecated).
 - Rewrite visa assembly tool from C to OCaml.
 - Group executables into a single CLI named 'bopkit'.
+- In external blocks, always use method_name as implementation_name, merge the two concepts.
 
 ## Fixed
 

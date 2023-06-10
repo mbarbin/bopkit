@@ -17,7 +17,6 @@ type memory =
 type external_method =
   { method_name : string
   ; attributes : string list
-  ; implementation_name : string
   }
 
 type external_block =

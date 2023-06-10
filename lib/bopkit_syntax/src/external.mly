@@ -42,7 +42,7 @@ init_message_def_method:
       )
     }
 
-  | _d=DEF attributes=ident_list_option method_name=STRING implementation_name=STRING
+  | _d=DEF attributes=ident_list_option method_name=STRING
     { Bopkit.Control_structure.Node (
         Method
           { loc = Loc.create $loc
@@ -50,11 +50,10 @@ init_message_def_method:
           ; method_name
           ; method_name_is_quoted = true
           ; attributes
-          ; implementation_name
           })
     }
 
-  | _d=DEF attributes=ident_list_option method_name=IDENT implementation_name=STRING
+  | _d=DEF attributes=ident_list_option method_name=IDENT
     { Bopkit.Control_structure.Node (
         Method
           { loc = Loc.create $loc
@@ -62,7 +61,6 @@ init_message_def_method:
           ; method_name
           ; method_name_is_quoted = false
           ; attributes
-          ; implementation_name
           })
     }
 
