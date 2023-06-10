@@ -276,7 +276,7 @@ For the program to be able to fit into the microprocessor ROM code, it has to
 have a binary representation that fits on 256 bytes.
 
 ```sh
-$ visa to-machine-code calendar.asm | wc -l
+$ visa assemble calendar.asm | wc -l
 210
 ```
 

@@ -20,7 +20,7 @@
   // Export the result to the output-device at address 1
   write R1, 1
 
-  $ visa to-machine-code minus.asm | tee minus.bin
+  $ visa assemble minus.asm | tee minus.bin
   00110000
   11100000
   01100000

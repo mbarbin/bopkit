@@ -23,7 +23,7 @@
   write R0, 0
   write R1, 1
 
-  $ visa to-machine-code constant.asm | tee constant.bin
+  $ visa assemble constant.asm | tee constant.bin
   00110000
   10000000
   00111000

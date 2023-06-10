@@ -5,7 +5,7 @@
     write R1, 0
     jmp @LOOP
 
-  $ visa to-machine-code loop.asm | tee loop.bin
+  $ visa assemble loop.asm | tee loop.bin
   00110000
   10000000
   01000000

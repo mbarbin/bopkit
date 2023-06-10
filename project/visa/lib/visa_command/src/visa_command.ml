@@ -51,7 +51,7 @@ let check_cmd =
        return ()))
 ;;
 
-let to_machine_code_cmd =
+let assemble_cmd =
   Command.basic
     ~summary:"parse and transform an assembler program into machine code"
     (let open Command.Let_syntax in
@@ -87,13 +87,13 @@ let disassemble_cmd =
 let main =
   Command.group
     ~summary:"visa assembler"
-    [ "check", check_cmd
+    [ "assemble", assemble_cmd
+    ; "check", check_cmd
     ; "digital-calendar", Seven_segment_display.Main.digital_calendar
     ; "disassemble", disassemble_cmd
     ; "fmt", fmt_cmd
     ; "parse", parse_cmd
     ; "process", process_cmd
     ; "run", Visa_simulator.main
-    ; "to-machine-code", to_machine_code_cmd
     ]
 ;;

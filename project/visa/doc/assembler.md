@@ -537,7 +537,7 @@ occupy 2 bytes. This information is documented on the Instructions section of
 this page.
 
 ```sh
-$ visa to-machine-code minus.asm
+$ visa assemble minus.asm
 00110000
 11100000
 01100000
@@ -586,7 +586,7 @@ stateDiagram-v2
   machine : Machine code
   assembly --> processed: process
   processed --> processed: process
-  assembly --> machine: to-machine-code
-  processed --> machine: to-machine-code
+  assembly --> machine: assemble
+  processed --> machine: assemble
   machine --> processed: disassemble
 ```
