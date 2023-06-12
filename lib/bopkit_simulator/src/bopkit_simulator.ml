@@ -22,25 +22,35 @@ let run ~circuit ~error_log ~config =
   Output_handler.init output_handler;
   Error_log.flush error_log;
   let one_cycle () =
-    Circuit_simulator.one_cycle circuit_simulator ~blit_input:(fun ~dst ->
-      Input_handler.blit_input input_handler ~dst ~error_log);
-    Output_handler.output
-      output_handler
-      ~input:(Circuit_simulator.input circuit_simulator)
-      ~output:(Circuit_simulator.output circuit_simulator)
+    match
+      Circuit_simulator.one_cycle circuit_simulator ~blit_input:(fun ~dst ->
+        Input_handler.blit_input input_handler ~dst ~error_log)
+    with
+    | Quit as quit -> quit
+    | Continue as continue ->
+      Output_handler.output
+        output_handler
+        ~input:(Circuit_simulator.input circuit_simulator)
+        ~output:(Circuit_simulator.output circuit_simulator);
+      continue
   in
   (* Make it possible to interrupt the simulation on sigint. *)
   Sys_unix.catch_break true;
   (try
-     match num_cycles with
-     | None ->
-       while true do
-         one_cycle ()
-       done
-     | Some nb_cycles ->
-       for _ = 1 to nb_cycles do
-         one_cycle ()
-       done
+     with_return (fun { return } ->
+       match num_cycles with
+       | None ->
+         while true do
+           match one_cycle () with
+           | Continue -> ()
+           | Quit -> return ()
+         done
+       | Some nb_cycles ->
+         for _ = 1 to nb_cycles do
+           match one_cycle () with
+           | Continue -> ()
+           | Quit -> return ()
+         done)
    with
    | Sys_unix.Break | End_of_file -> ());
   Error_log.info error_log [ Pp.textf "End of simulation (%S)" circuit.filename ];

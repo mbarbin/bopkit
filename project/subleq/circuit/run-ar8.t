@@ -69,7 +69,8 @@ Hello
   28 |         cr_standby));
   Error: External process[1] ('./disk_interface.exe -AR 8 -DEBUG 0
   -num-programs 10 -files-prefix test/ar8-')
-  received: '000000000110111111' and exited abnormally.
+  received: '000000000110111111' and exited abnormally:
+  (Unix.Exit_or_signal (Exit_non_zero 1))
   [1]
 
   $ ls -1 test/*.img

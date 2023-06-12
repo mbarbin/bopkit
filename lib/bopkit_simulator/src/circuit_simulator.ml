@@ -1,5 +1,11 @@
 open! Core
 
+module One_cycle_result = struct
+  type t =
+    | Continue
+    | Quit
+end
+
 let bits_of_string s =
   let exception Bits_of_string in
   match
@@ -29,17 +35,29 @@ let decimal_of_partial_array ~src:t ~pos:offset ~len:long =
     aux 0 (pred index_fin))
 ;;
 
-type external_process =
-  { loc : Loc.t
-  ; command : string
-  ; output_pipe : In_channel.t
-  ; input_pipe : Out_channel.t
-  }
+module Pending_input = struct
+  type t =
+    { input : string
+    ; loc : Loc.t
+    }
+end
+
+module External_process = struct
+  type t =
+    { loc : Loc.t
+    ; command : string
+    ; output_pipe : In_channel.t
+    ; input_pipe : Out_channel.t
+    ; mutable pending_input : Pending_input.t option
+        (* [pending_input] is used to improve error messages in the case of a
+           process terminating before responding to an input. *)
+    }
+end
 
 type t =
   { error_log : Error_log.t
   ; circuit : Bopkit_circuit.Circuit.t
-  ; mutable external_process : external_process array
+  ; mutable external_process : External_process.t array
   ; regr_indexes : int array
   ; input : Bit_array.t
   ; output : Bit_array.t
@@ -47,7 +65,6 @@ type t =
 
 let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) ~error_log =
   let cds = circuit.cds in
-  let external_process : external_process array = [||] in
   let regr_indexes =
     Array.foldi cds ~init:[] ~f:(fun index accu node ->
       match node.gate_kind with
@@ -75,7 +92,7 @@ let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) ~error_log =
     | Some gate -> gate.input
     | None -> failwith "No Output node found in the cds"
   in
-  { error_log; circuit; external_process; regr_indexes; input; output }
+  { error_log; circuit; external_process = [||]; regr_indexes; input; output }
 ;;
 
 let input t = t.input
@@ -84,51 +101,6 @@ let cds t = t.circuit.cds
 let rom_memories t = t.circuit.rom_memories
 let external_blocks t = t.circuit.external_blocks
 let main t = t.circuit.main
-
-(* CR mbarbin: The use of the following runtime errors causes 2 issues:
-
-   1. They do not account for processes that actually exit cleanly.
-   2. They cause the process to end without cleanly closing all other processes.
-*)
-
-let pipe_error (t : t) ~loc ~command ~index question =
-  Error_log.raise
-    t.error_log
-    ~loc
-    [ Pp.textf "External process[%d] ('%s')" index command
-    ; Pp.textf "received: '%s' and exited abnormally." question
-    ]
-;;
-
-let protocole_sortie_error (t : t) ~loc ~command ~index question reponse =
-  Error_log.raise
-    t.error_log
-    ~loc
-    [ Pp.textf "External process[%d] ('%s')" index command
-    ; Pp.textf " received: '%s'" question
-    ; Pp.textf "responded: '%s'" reponse
-    ]
-;;
-
-let pipe_arite_sortie_error
-  (t : t)
-  ~loc
-  ~command
-  ~index
-  question
-  reponse
-  arite_min
-  len_sortie
-  =
-  Error_log.raise
-    t.error_log
-    ~loc
-    [ Pp.textf "External process[%d] ('%s')" index command
-    ; Pp.textf " received: '%s'" question
-    ; Pp.textf "responded: '%s'" reponse
-    ; Pp.textf "Simulation expects at least %d bits but received %d." arite_min len_sortie
-    ]
-;;
 
 let init t =
   let () =
@@ -146,12 +118,19 @@ let init t =
       ~data:(String.concat ~sep:":" (Bopkit_sites.Sites.stdbin @ [ path ]))
   in
   let external_blocks_table = Hashtbl.create (module String) in
-  let q = Queue.create () in
+  let external_processes : External_process.t Queue.t = Queue.create () in
   let external_index = ref 0 in
   Array.iter (cds t) ~f:(fun gate ->
     match gate.gate_kind with
     | External { loc; name; method_name; arguments; protocol_prefix; index } ->
-      let decl_bloc : Bopkit.Expanded_netlist.external_block =
+      let { Bopkit.Expanded_netlist.loc = _
+          ; name
+          ; attributes = _
+          ; init_messages
+          ; methods
+          ; command
+          }
+        =
         match
           Array.find
             (external_blocks t)
@@ -171,8 +150,7 @@ let init t =
         | None -> None
         | Some method_name ->
           (match
-             List.find decl_bloc.methods ~f:(fun m ->
-               String.equal method_name m.method_name)
+             List.find methods ~f:(fun m -> String.equal method_name m.method_name)
            with
            | Some { method_name; attributes = _ } -> Some method_name
            | None ->
@@ -204,17 +182,17 @@ let init t =
         | Some m, Some args -> m ^ " " ^ args ^ " "
       in
       (match Hashtbl.find external_blocks_table name with
-       | Some bloc_index ->
+       | Some block_index ->
          Error_log.debug
            t.error_log
            ~loc
-           [ Pp.textf "External process[%d] already started." bloc_index ];
+           [ Pp.textf "External process[%d] already started." block_index ];
          (* Even though this gate is unique in the cds, it is possible that its
             gate_kind has been shared between several gates. This happens when a
             block is called multiple times at different part of the program.
             Given that it comes from the same syntactic place, it's index and
             protocol prefix will be the same. *)
-         Set_once.set_if_none index [%here] bloc_index;
+         Set_once.set_if_none index [%here] block_index;
          Set_once.set_if_none protocol_prefix [%here] this_protocol_prefix
        | None ->
          let this_index = !external_index in
@@ -222,22 +200,35 @@ let init t =
          Error_log.debug
            t.error_log
            ~loc
-           [ Pp.textf "Starting external process[%d] = '%s'." this_index decl_bloc.command
-           ];
+           [ Pp.textf "Starting external process[%d] = '%s'." this_index command ];
          Hashtbl.set external_blocks_table ~key:name ~data:this_index;
-         let in_ch, out_ch = Core_unix.open_process decl_bloc.command in
-         let new_pipe =
-           { loc; command = decl_bloc.command; output_pipe = in_ch; input_pipe = out_ch }
+         let output_pipe, input_pipe = Core_unix.open_process command in
+         let external_process =
+           { External_process.loc
+           ; command
+           ; output_pipe
+           ; input_pipe
+           ; pending_input = None
+           }
          in
-         Queue.enqueue q new_pipe;
+         Queue.enqueue external_processes external_process;
          Set_once.set_exn index [%here] this_index;
          Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
-         List.iter decl_bloc.init_messages ~f:(fun m ->
-           Printf.fprintf new_pipe.input_pipe "%s\n" m;
-           Out_channel.flush new_pipe.input_pipe;
-           match In_channel.input_line new_pipe.output_pipe with
-           | Some (_ : string) -> ()
-           | None -> pipe_error t ~loc ~command:decl_bloc.command ~index:this_index m))
+         with_return (fun return ->
+           List.iter init_messages ~f:(fun message ->
+             Printf.fprintf input_pipe "%s\n" message;
+             Out_channel.flush input_pipe;
+             external_process.pending_input <- Some { loc; input = message };
+             match In_channel.input_line output_pipe with
+             | Some (_ : string) -> external_process.pending_input <- None
+             | None ->
+               Error_log.error
+                 t.error_log
+                 ~loc
+                 [ Pp.textf "External process[%d] ('%s')" this_index command
+                 ; Pp.textf "received: '%s' and exited abnormally." message
+                 ];
+               return.return ())))
     | _ -> ());
   Array.iter (external_blocks t) ~f:(fun { name = a; loc; _ } ->
     (* As it stands, this warning is inconvenient. First, it is only produced at
@@ -249,8 +240,16 @@ let init t =
        parameters. Disabled for now. *)
     if (not (Hashtbl.mem external_blocks_table a)) && false
     then Error_log.warning t.error_log ~loc [ Pp.textf "Unused external block '%s'" a ]);
-  t.external_process <- Array.init !external_index ~f:(fun _ -> Queue.dequeue_exn q);
+  t.external_process <- Queue.to_array external_processes;
   Error_log.info t.error_log [ Pp.textf " Simulation <'%s'>" (main t) ]
+;;
+
+let or_exit_error e =
+  (match (e : Core_unix.Exit_or_signal.t) with
+   | Ok () -> Ok ()
+   | Error (`Signal signal) -> if Signal.equal signal Signal.int then Ok () else e
+   | Error (`Exit_non_zero _) -> e)
+  |> Core_unix.Exit_or_signal.or_error
 ;;
 
 let quit t =
@@ -260,21 +259,28 @@ let quit t =
       t.error_log
       ~loc:process.loc
       [ Pp.textf "Closing external process[%d] = '%s'." i process.command ];
-    try
-      match
-        Core_unix.close_process (process.output_pipe, process.input_pipe)
-        |> Core_unix.Exit_or_signal.or_error
-      with
-      | Ok () -> ()
-      | Error e ->
-        Error_log.error
-          t.error_log
-          ~loc:process.loc
-          [ Pp.textf "Error closing external process[%d] = '%s'." i process.command
-          ; Pp.text (Error.to_string_hum e)
-          ]
+    match
+      Core_unix.close_process (process.output_pipe, process.input_pipe) |> or_exit_error
     with
-    | End_of_file ->
+    | Ok () -> ()
+    | Error e ->
+      let loc =
+        match process.pending_input with
+        | None -> process.loc
+        | Some t -> t.loc
+      in
+      Error_log.error
+        t.error_log
+        ~loc
+        [ Pp.textf "External process[%d] ('%s')" i process.command
+        ; Pp.textf
+            "%sexited abnormally:"
+            (match process.pending_input with
+             | None -> ""
+             | Some { loc = _; input } -> sprintf "received: '%s' and " input)
+        ; Pp.textf "%s" (Error.to_string_hum e)
+        ]
+    | exception End_of_file ->
       Error_log.debug
         t.error_log
         ~loc:process.loc
@@ -285,7 +291,7 @@ let quit t =
             "broken pipe"
             (-1)
         ]
-    | e ->
+    | exception e ->
       (* CR mbarbin: This prevents other processes from being properly closed. *)
       prerr_endline "Circuit#quit error";
       raise e
@@ -393,42 +399,53 @@ let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
     let protocol =
       Set_once.get_exn protocol_prefix [%here] ^ Bit_array.to_string gate.input
     in
-    (try
-       Printf.fprintf process.input_pipe "%s\n" protocol;
-       Out_channel.flush process.input_pipe;
-       let reponse =
-         match In_channel.input_line process.output_pipe with
-         | Some line -> line
-         | None -> raise End_of_file
-       in
-       let len_sortie = String.length reponse in
-       let protocole_sortie =
-         match bits_of_string reponse with
-         | Some b -> b
-         | None ->
-           protocole_sortie_error t ~loc ~command:process.command ~index protocol reponse
-       in
-       let expected_len = Array.length gate.output in
-       if len_sortie < expected_len
-       then
-         pipe_arite_sortie_error
-           t
-           ~loc
-           ~command:process.command
-           ~index
-           protocol
-           reponse
-           expected_len
-           len_sortie
-       else
-         Array.blit
-           ~src:protocole_sortie
-           ~src_pos:0
-           ~dst:gate.output
-           ~dst_pos:0
-           ~len:expected_len
-     with
-     | End_of_file -> pipe_error t ~loc ~command:process.command ~index protocol)
+    with_return (fun return ->
+      Printf.fprintf process.input_pipe "%s\n" protocol;
+      Out_channel.flush process.input_pipe;
+      process.pending_input <- Some { loc; input = protocol };
+      let reponse =
+        match In_channel.input_line process.output_pipe with
+        | Some line -> line
+        | None -> return.return One_cycle_result.Quit
+      in
+      let len_sortie = String.length reponse in
+      let protocole_sortie =
+        match bits_of_string reponse with
+        | Some b -> b
+        | None ->
+          Error_log.error
+            t.error_log
+            ~loc
+            [ Pp.textf "External process[%d] ('%s')" index process.command
+            ; Pp.textf " received: '%s'" protocol
+            ; Pp.textf "responded: '%s'" reponse
+            ];
+          return.return One_cycle_result.Quit
+      in
+      let expected_len = Array.length gate.output in
+      if len_sortie < expected_len
+      then (
+        Error_log.error
+          t.error_log
+          ~loc
+          [ Pp.textf "External process[%d] ('%s')" index process.command
+          ; Pp.textf " received: '%s'" protocol
+          ; Pp.textf "responded: '%s'" reponse
+          ; Pp.textf
+              "Simulation expected %d bits but received %d."
+              expected_len
+              len_sortie
+          ];
+        return.return One_cycle_result.Quit)
+      else (
+        process.pending_input <- None;
+        Array.blit
+          ~src:protocole_sortie
+          ~src_pos:0
+          ~dst:gate.output
+          ~dst_pos:0
+          ~len:expected_len;
+        One_cycle_result.Continue))
   | _ -> assert false
 ;;
 
@@ -442,21 +459,26 @@ let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
 ;;
 
 let one_cycle t ~blit_input =
-  Array.iter
-    (cds t)
-    ~f:(fun ({ Bopkit_circuit.Gate.gate_kind; input; output; _ } as gate) ->
-    (match gate_kind with
-     | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
-     | Input -> blit_input ~dst:gate.output
-     | Id -> fct_id ~input ~output
-     | Not -> fct_not ~input ~output
-     | And -> fct_and ~input ~output
-     | Or -> fct_or ~input ~output
-     | Xor -> fct_xor ~input ~output
-     | Mux -> fct_mux ~input ~output
-     | Rom { index; _ } -> fct_rom t ~input ~output ~index
-     | Ram _ -> fct_ram t ~gate
-     | External _ -> fct_external t ~gate);
-    propagate_output t ~gate);
-  update_registers t
+  with_return (fun { return } ->
+    Array.iter
+      (cds t)
+      ~f:(fun ({ Bopkit_circuit.Gate.gate_kind; input; output; _ } as gate) ->
+      (match gate_kind with
+       | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
+       | Input -> blit_input ~dst:gate.output
+       | Id -> fct_id ~input ~output
+       | Not -> fct_not ~input ~output
+       | And -> fct_and ~input ~output
+       | Or -> fct_or ~input ~output
+       | Xor -> fct_xor ~input ~output
+       | Mux -> fct_mux ~input ~output
+       | Rom { index; _ } -> fct_rom t ~input ~output ~index
+       | Ram _ -> fct_ram t ~gate
+       | External _ ->
+         (match fct_external t ~gate with
+          | Continue -> ()
+          | Quit as quit -> return quit));
+      propagate_output t ~gate);
+    update_registers t;
+    One_cycle_result.Continue)
 ;;

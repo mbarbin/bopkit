@@ -19,7 +19,15 @@ val init : t -> unit
 (** Cleanly end the simulation. In particular, close all external processes. *)
 val quit : t -> unit
 
+module One_cycle_result : sig
+  type t =
+    | Continue
+    | Quit
+end
+
 (** Run through one clock cycle of the simulation. When encountering the input
     node, calls [blit_input] to fill it with the input values for that cycle.
-*)
-val one_cycle : t -> blit_input:(dst:bool array -> unit) -> unit
+    If the cycle encounters a condition under which the simulation cannot
+    continue, it will return [Quit], otherwise [Continue]. If an unexpected
+    condition is encountered, errors will be added to t's error log. *)
+val one_cycle : t -> blit_input:(dst:bool array -> unit) -> One_cycle_result.t

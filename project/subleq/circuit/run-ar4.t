@@ -13,7 +13,6 @@ Hello
   [1]
 
   $ tail -n 20 trace.stderr
-  Load memory "mem" from "test/ar4-29.input" (text file)
   RESET !!
   [ --> ] Saving RAM --> "test/ar4-29.img"
   Save memory "mem" to "test/ar4-29.img" (text file)
@@ -32,7 +31,8 @@ Hello
   28 |         cr_standby));
   Error: External process[1] ('./disk_interface.exe -AR 4 -DEBUG 0
   -num-programs 30 -files-prefix test/ar4-')
-  received: '0000000001' and exited abnormally.
+  received: '0000000001' and exited abnormally:
+  (Unix.Exit_or_signal (Exit_non_zero 1))
 
   $ ls -1 test/*.img
   test/ar4-01.img

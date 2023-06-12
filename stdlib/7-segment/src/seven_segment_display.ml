@@ -27,30 +27,33 @@ let make_display_command (module Device : DEVICE_S) ~length ~name =
        let tab = Array.create ~len:length false in
        let m = Device.init () in
        with_return (fun { return } ->
-         while true do
-           let line =
-             match In_channel.(input_line stdin) with
-             | Some line -> line
-             | None -> return ()
-           in
-           if String.length line <> length
-           then (
-             Printf.fprintf
-               stderr
-               "Length : %d, expected %d.\n"
-               (String.length line)
-               length;
-             Out_channel.flush stderr)
-           else (
-             for i = 0 to pred length do
-               Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
-             done;
-             Device.update m tab;
-             if with_output
+         try
+           while true do
+             let line =
+               match In_channel.(input_line stdin) with
+               | Some line -> line
+               | None -> return ()
+             in
+             if String.length line <> length
              then (
-               Out_channel.newline stdout;
-               Out_channel.flush stdout))
-         done))
+               Printf.fprintf
+                 stderr
+                 "Length : %d, expected %d.\n"
+                 (String.length line)
+                 length;
+               Out_channel.flush stderr)
+             else (
+               for i = 0 to pred length do
+                 Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
+               done;
+               Device.update m tab;
+               if with_output
+               then (
+                 Out_channel.newline stdout;
+                 Out_channel.flush stdout))
+           done
+         with
+         | Graphics.Graphic_failure _ -> ()))
 ;;
 
 let make_print_command (module Device : DEVICE_S) ~length ~name =
