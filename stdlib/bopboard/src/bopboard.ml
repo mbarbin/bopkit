@@ -75,8 +75,6 @@ let find_image ~image =
     if Sys_unix.file_exists_exn file then Some file else None)
 ;;
 
-let find_images () = List.map Image.all ~f:(fun image -> find_image ~image)
-
 let result_exn = function
   | Ok s -> s
   | Error (`Msg s) ->
@@ -183,9 +181,7 @@ type t =
   }
 
 let init ~title =
-  let images = find_images () in
   let board = init_board () in
-  List.iter images ~f:(fun image -> eprint_s [%sexp (image : string option)]);
   Sdl.init Sdl.Init.(video + events) |> result_exn;
   let window =
     Sdl.create_window title ~w:v_WINWIDTH ~h:v_WINHEIGHT Sdl.Window.opengl |> result_exn
