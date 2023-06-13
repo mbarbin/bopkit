@@ -38,13 +38,15 @@ type _ t =
          single page. *)
       int
   ; mutable edit_mode :
-      (* During the main_loop the user can edit values, during which case
+      (* During the event_loop the user can edit values, during which case
          edit_mode will be true. This can be accessed by another thread. *)
       bool
   ; mutable pause_mode : bool
   ; num_dec_char_addr : int
   ; num_dec_char_word : int
   }
+
+exception Escape_key_pressed [@@deriving sexp_of]
 
 (* Cells looks like this, and here are their dimensions (bx x by):
 
@@ -218,6 +220,7 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
   while not !fin do
     let stat = wait_next_event [ Key_pressed ] in
     match stat.key with
+    | o when int_of_char o = 27 -> raise Escape_key_pressed
     | o when int_of_char o = 13 -> fin := true
     | o when int_of_char o = 8 ->
       if Stack.is_empty acc
@@ -474,7 +477,7 @@ let load_text_file t ~filename =
 
 let pause_mode t = t.pause_mode
 
-let main_loop t ?loop ?(read_only = false) () =
+let event_loop_internal t ~loop ~read_only =
   let open Graphics in
   let mode_edit_off () =
     if t.edit_mode
@@ -552,13 +555,14 @@ let main_loop t ?loop ?(read_only = false) () =
               true)
           | o when Char.equal o ' ' || int_of_char o = 13 (* '\n' *) ->
             (match loop with
-             | None | Some false -> return.return ()
-             | Some true ->
+             | false -> return.return ()
+             | true ->
                if read_only
                then false
                else (
                  switch_edit ();
                  true))
+          | o when int_of_char o = 27 -> raise Escape_key_pressed
           | _ -> false)
         else if stat.button
         then (
@@ -580,7 +584,12 @@ let main_loop t ?loop ?(read_only = false) () =
     done)
 ;;
 
-let wait t = main_loop t ?loop:None ~read_only:false ()
+let wait t = event_loop_internal t ~loop:false ~read_only:false
+
+let event_loop t ~read_only =
+  try event_loop_internal t ~loop:true ~read_only with
+  | Escape_key_pressed | Graphics.Graphic_failure _ -> ()
+;;
 
 let read_int t ~address =
   if address < 0 || address >= t.length

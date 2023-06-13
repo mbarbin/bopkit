@@ -10,9 +10,20 @@ Hello
   >   -parameter 'NumberOfPrograms=30' \
   >   -parameter 'FilesPrefix=test/ar4-' \
   >  2> trace.stderr
-  [1]
 
   $ tail -n 20 trace.stderr
+  [ <-- ] Loading RAM <-- "test/ar4-27.input"
+  Load memory "mem" from "test/ar4-27.input" (text file)
+  RESET !!
+  [ --> ] Saving RAM --> "test/ar4-27.img"
+  Save memory "mem" to "test/ar4-27.img" (text file)
+  [ <-- ] Loading RAM <-- "test/ar4-28.input"
+  Load memory "mem" from "test/ar4-28.input" (text file)
+  RESET !!
+  [ --> ] Saving RAM --> "test/ar4-28.img"
+  Save memory "mem" to "test/ar4-28.img" (text file)
+  [ <-- ] Loading RAM <-- "test/ar4-29.input"
+  Load memory "mem" from "test/ar4-29.input" (text file)
   RESET !!
   [ --> ] Saving RAM --> "test/ar4-29.img"
   Save memory "mem" to "test/ar4-29.img" (text file)
@@ -21,18 +32,6 @@ Hello
   RESET !!
   [ --> ] Saving RAM --> "test/ar4-30.img"
   Save memory "mem" to "test/ar4-30.img" (text file)
-  ("External block exception" ((name disk_interface) (index_cycle 3759))
-   ((line 0000000001)) (Dune__exe__Disk_interface.End_of_execution))
-  File "main.bop", line 24, characters 6-114:
-  24 |       $disk_interface[AR](
-  25 |         cr_address:[AR],
-  26 |         cr_write,
-  27 |         cr_data_in:[AR],
-  28 |         cr_standby));
-  Error: External process[1] ('./disk_interface.exe -AR 4 -DEBUG 0
-  -num-programs 30 -files-prefix test/ar4-')
-  received: '0000000001' and exited abnormally:
-  (Unix.Exit_or_signal (Exit_non_zero 1))
 
   $ ls -1 test/*.img
   test/ar4-01.img

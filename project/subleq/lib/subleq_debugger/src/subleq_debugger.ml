@@ -93,7 +93,12 @@ let create_exn (init : Bit_matrix.t) =
   if dimx <> Int.pow 2 dimy
   then raise_s [%sexp "Invalid subleq memory dimensions", [%here]];
   let subleq = new subleq_machine dimy init in
+  Graphics.open_graph " 300x400";
+  Graphics.set_window_title "Subleq Debugger";
   { subleq }
 ;;
 
-let run (t : t) = t.subleq#run
+let run (t : t) =
+  try t.subleq#run with
+  | Bopkit_memory.Escape_key_pressed | Graphics.Graphic_failure _ -> ()
+;;

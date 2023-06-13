@@ -14,7 +14,9 @@ let init ~title ~address_width ~data_width =
   let (_ : Core_thread.t) =
     Core_thread.create
       ~on_uncaught_exn:`Kill_whole_process
-      (fun () -> Bopkit_memory.main_loop mem ~loop:true ())
+      (fun () ->
+        Bopkit_memory.event_loop mem ~read_only:false;
+        exit 0)
       ()
   in
   Bopkit_memory.draw mem;

@@ -4,14 +4,32 @@ type t =
   { architecture : int
   ; cl : int
   ; debug : bool
+  ; mem : Bopkit_memory.Ram.t
   }
 
 let init ~architecture ~cl ~debug =
+  let mem =
+    Bopkit_memory.create
+      ~name:"mem"
+      ~address_width:architecture
+      ~data_width:architecture
+      ~kind:Ram
+      ()
+  in
   if debug
   then (
     Graphics.open_graph " 400x500";
-    Graphics.set_window_title "Subleq Internal RAM");
-  { architecture; cl; debug }
+    Graphics.set_window_title "Subleq Internal RAM";
+    let (_ : Core_thread.t) =
+      Core_thread.create
+        ~on_uncaught_exn:`Kill_whole_process
+        (fun () ->
+          Bopkit_memory.event_loop mem ~read_only:true;
+          exit 0)
+        ()
+    in
+    Bopkit_memory.draw mem);
+  { architecture; cl; debug; mem }
 ;;
 
 let reg_maker i =
@@ -23,10 +41,7 @@ let reg_maker i =
     Array.blit ~src:bin ~src_pos:0 ~dst:t ~dst_pos:0 ~len:i
 ;;
 
-let main { architecture = ar; cl; debug } =
-  let mem =
-    Bopkit_memory.create ~name:"mem" ~address_width:ar ~data_width:ar ~kind:Ram ()
-  in
+let main { architecture = ar; cl; debug; mem } =
   let regAR = reg_maker ar in
   let regS = reg_maker 1 in
   let sortie = Array.create ~len:ar false in

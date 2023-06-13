@@ -59,19 +59,6 @@ Hello
   RESET !!
   [ --> ] Saving RAM --> "test/ar8-10.img"
   Save memory "mem" to "test/ar8-10.img" (text file)
-  ("External block exception" ((name disk_interface) (index_cycle 27117))
-   ((line 000000000110111111)) (Dune__exe__Disk_interface.End_of_execution))
-  File "main.bop", line 24, characters 6-114:
-  24 |       $disk_interface[AR](
-  25 |         cr_address:[AR],
-  26 |         cr_write,
-  27 |         cr_data_in:[AR],
-  28 |         cr_standby));
-  Error: External process[1] ('./disk_interface.exe -AR 8 -DEBUG 0
-  -num-programs 10 -files-prefix test/ar8-')
-  received: '000000000110111111' and exited abnormally:
-  (Unix.Exit_or_signal (Exit_non_zero 1))
-  [1]
 
   $ ls -1 test/*.img
   test/ar8-01.img

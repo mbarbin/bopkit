@@ -95,11 +95,15 @@ val center_view
   -> on_address:int
   -> [ `Done_now_needs_to_redraw | `Not_needed_did_nothing ]
 
+(** When waiting for a user event, if the Escape key is pressed, this exception
+    will be raised. *)
+exception Escape_key_pressed
+
 (** Enter an event loop that allows for some interaction, such as modifying the
     view or changing some memory cell. This function terminates when the user
     does a certain action, such as pressing space or return key. This is used
-    by application that implement step by step debugging with a graphical view.
-*)
+    by applications that implement step by step debugging with a graphical
+    view. May raise [Escape_key_pressed]. *)
 val wait : _ t -> unit
 
 (** In the even loop, the user can enter a pause-mode, which may allow for
@@ -108,9 +112,11 @@ val pause_mode : _ t -> bool
 
 (** Run the event loop and interact with the user. This should be run in a
     dedicated thread if the program needs to handle other things. If
-    [read_only] is set, the functionality that allows memory cell editing will
-    be turned off. *)
-val main_loop : _ t -> ?loop:bool -> ?read_only:bool -> unit -> unit
+    [read_only] is set to [true], the functionality that allows memory cell
+    editing will be turned off. The event_loop is interupted and this function
+    returns unit if it catches the exceptions [Escape_key_pressed] or
+    [Graphic_failure _]. *)
+val event_loop : _ t -> read_only:bool -> unit
 
 (** {1 Color map}
 

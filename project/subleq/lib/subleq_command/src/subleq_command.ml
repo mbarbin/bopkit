@@ -28,7 +28,7 @@ let generate_cmd =
 
 let simulate_cmd =
   Command.basic
-    ~summary:"generate subleq images for testing"
+    ~summary:"simulate execution of subleq image"
     (let open Command.Let_syntax in
      let%map_open debugger = flag "g" no_arg ~doc:" run a graphic debugger"
      and architecture =
@@ -44,8 +44,6 @@ let simulate_cmd =
        if debugger
        then (
          let subleq_debugger = Subleq_debugger.create_exn initial_memory in
-         Graphics.open_graph " 300x400";
-         Graphics.set_window_title "Subleq Debugger";
          Subleq_debugger.run subleq_debugger)
        else (
          let subleq_simulator = Subleq_simulator.create ~architecture in
