@@ -20,9 +20,9 @@ parser but prior to outputing machine code.
   ((constant_name x))
   [1]
   ================================: duplicated-label.asm
-  File "duplicated-label.asm", line 5, characters 0-5:
+  File "duplicated-label.asm", line 5, characters 0-4:
   5 | TAG:
-  6 |   nop
+      ^^^^
   Error: Multiple definition of label is not allowed
   ((label TAG))
   [1]
@@ -62,9 +62,9 @@ parser but prior to outputing machine code.
   Error: ("Undefined label" ((label label)))
   [1]
   ================================: label-without-instruction.asm
-  File "label-without-instruction.asm", line 1, characters 0-4:
+  File "label-without-instruction.asm", line 1, characters 0-3:
   1 | L1:
-  2 | L2:
+      ^^^
   Error: Label 'L1' was not followed by any instruction
   [1]
   ================================: undefined-macro.asm
@@ -79,9 +79,9 @@ parser but prior to outputing machine code.
   Hint: did you mean var?
   [1]
   ================================: unused-label.asm
-  File "unused-label.asm", line 1, characters 0-7:
+  File "unused-label.asm", line 1, characters 0-6:
   1 | LABEL:
-  2 |   sleep
+      ^^^^^^
   Warning: Unused label 'LABEL'
   [0]
   ================================: unused-macro-parameter.asm

@@ -53,8 +53,8 @@ top_level_construct :
      ; body
      }
    }
- | label=IDENT COLON NEWLINE?
- | label=INT COLON NEWLINE?
+ | label=IDENT COLON
+ | label=INT COLON
    { Visa.Program.Top_level_construct.Label_introduction
      { label =
         With_loc.create $loc
