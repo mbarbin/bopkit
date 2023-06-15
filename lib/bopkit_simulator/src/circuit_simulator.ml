@@ -458,14 +458,14 @@ let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
       cds.(gate_index).input.(input_index) <- output))
 ;;
 
-let one_cycle t ~blit_input =
+let one_cycle t ~blit_input ~output_handler =
   with_return (fun { return } ->
+    blit_input ~dst:t.input;
     Array.iter
       (cds t)
       ~f:(fun ({ Bopkit_circuit.Gate.gate_kind; input; output; _ } as gate) ->
       (match gate_kind with
-       | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
-       | Input -> blit_input ~dst:gate.output
+       | Input | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
        | Id -> fct_id ~input ~output
        | Not -> fct_not ~input ~output
        | And -> fct_and ~input ~output
@@ -480,5 +480,6 @@ let one_cycle t ~blit_input =
           | Quit as quit -> return quit));
       propagate_output t ~gate);
     update_registers t;
+    output_handler ~input:(input t) ~output:(output t);
     One_cycle_result.Continue)
 ;;
