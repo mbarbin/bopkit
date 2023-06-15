@@ -7,19 +7,19 @@ license: "MIT"
 homepage: "https://github.com/mbarbin/bopkit"
 bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
-  "ocaml" {>= "4.13"}
+  "ocaml" {>= "4.14"}
   "dune" {>= "3.5"}
   "dune-site" {>= "3.5"}
   "ANSITerminal" {>= "0.8.3"}
   "bogue" {>= "20221112"}
-  "core" {>= "v0.15" & < "v0.16"}
-  "core_unix" {>= "v0.15" & < "v0.16"}
+  "core" {>= "v0.16" & < "v0.17"}
+  "core_unix" {>= "v0.16" & < "v0.17"}
   "graphics" {>= "5.1.2"}
   "mdx" {>= "2.2"}
   "menhir" {>= "20220210"}
   "ocamlformat" {= "0.25.1"}
-  "ppx_jane" {>= "v0.15" & < "v0.16"}
-  "ppx_js_style" {>= "v0.15" & < "v0.16"}
+  "ppx_jane" {>= "v0.16" & < "v0.17"}
+  "ppx_js_style" {>= "v0.16" & < "v0.17"}
   "pp" {>= "1.1.2"}
   "stdune" {>= "3.6"}
   "tsdl" {>= "0.9.8"}
