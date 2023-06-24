@@ -197,10 +197,9 @@ Checkout the entire contents of the file bit_shift.bop
 CyclerBD[N](reset, predBD:[N]) = bd:[N]
 where
   bd:[N] = Mux[N](reset, Vdd(), Gnd[N - 1](), u:[N]);
-  for i = 0 to N - 2
-    u[i + 1] = Id(predBD[i]);
+  for i = 0 to N - 1
+    u[(i + 1) mod N] = Id(predBD[i]);
   end for;
-  u[0] = Id(predBD[N - 1]);
 end where;
 
 /**
