@@ -9,11 +9,22 @@ type output =
 let read_code_brut_memoire ~error_log ~loc memory_content =
   match (memory_content : Bopkit.Netlist.memory_content) with
   | Zero -> [||]
-  | Text chaine -> Bit_array.of_01_chars_in_string chaine
+  | Text text ->
+    (try Bit_array.of_01_chars_in_string text with
+     | e ->
+       Error_log.raise
+         error_log
+         ~loc
+         [ Pp.text "Invalid memory specification"; Pp.text (Exn.to_string e) ])
   | File filename ->
     (try Bit_array.of_text_file ~filename with
      | Sys_error _ ->
-       Error_log.raise error_log ~loc [ Pp.textf "%S: memory file not found" filename ])
+       Error_log.raise error_log ~loc [ Pp.textf "%S: memory file not found" filename ]
+     | e ->
+       Error_log.raise
+         error_log
+         ~loc
+         [ Pp.textf "Invalid memory file '%s'" filename; Pp.text (Exn.to_string e) ])
 ;;
 
 let tab_bits_of_code_brut ~error_log ~loc name taille lg_mot code =

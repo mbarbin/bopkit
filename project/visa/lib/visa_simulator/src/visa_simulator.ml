@@ -56,9 +56,15 @@ let create ~(config : Config.t) ~error_log ~program =
   let execution_stack = Execution_stack.create () in
   let memory = Memory.create () in
   Option.iter config.initial_memory ~f:(fun filename ->
-    Memory.load_initial_memory
-      memory
-      (Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~filename));
+    let content =
+      try Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~filename with
+      | e ->
+        Error_log.raise
+          error_log
+          ~loc:(Loc.in_file ~filename)
+          [ Pp.text "Invalid memory file"; Pp.text (Exn.to_string e) ]
+    in
+    Memory.load_initial_memory memory content);
   { error_log; environment; code; execution_stack; memory; config }
 ;;
 

@@ -13,7 +13,7 @@ let () =
        let print name value =
          let tmp = Array.create ~len:8 false in
          Bit_array.blit_int ~src:value ~dst:tmp;
-         print_endline (sprintf "%s: %s" name (Bit_array.to_string tmp))
+         print_endline (sprintf "%s // %s" (Bit_array.to_string tmp) name)
        in
        print_endline "// Initial memory contents for Visa";
        print_endline

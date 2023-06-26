@@ -2,12 +2,32 @@ open! Core
 
 type t = bool array [@@deriving compare, equal, quickcheck, sexp_of]
 
-let enqueue_01_char ~src:string ~dst:q =
-  String.iter string ~f:(fun char ->
-    match char with
-    | '0' -> Queue.enqueue q false
-    | '1' -> Queue.enqueue q true
-    | _ -> ())
+let enqueue_01_char_in_line ~line ~dst =
+  let error ~pos sexp =
+    raise_s
+      [%sexp
+        "Invalid bit array specification", { line : string; pos : int }, (sexp : Sexp.t)]
+  in
+  let len = String.length line in
+  with_return (fun { return } ->
+    String.iteri line ~f:(fun i char ->
+      match char with
+      | '0' -> Queue.enqueue dst false
+      | '1' -> Queue.enqueue dst true
+      | '/' ->
+        if i >= len - 1 || not (Char.equal line.[i + 1] '/')
+        then
+          error
+            ~pos:i
+            [%sexp "Comment character '/' is expected to be followed by another '/'"]
+        else return ()
+      | ' ' | '|' -> ()
+      | c -> error ~pos:i [%sexp { unexpected_char = (c : Char.t) }]))
+;;
+
+let enqueue_01_char ~src ~dst =
+  let lines = String.split_lines src in
+  List.iter lines ~f:(fun line -> enqueue_01_char_in_line ~line ~dst)
 ;;
 
 let of_01_chars_in_string s =
@@ -27,10 +47,7 @@ let of_text_file ~filename =
       while true do
         match In_channel.input_line ic with
         | None -> return ()
-        | Some line ->
-          (* Skip this line if it is a comment. *)
-          if not (String.is_prefix line ~prefix:"//")
-          then enqueue_01_char ~src:line ~dst:q
+        | Some line -> enqueue_01_char ~src:line ~dst:q
       done));
   Queue.to_array q
 ;;

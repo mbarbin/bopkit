@@ -8,8 +8,17 @@ let%expect_test "of_01_chars_in_string" =
   [%expect {| (false true false) |}];
   test "010\n";
   [%expect {| (false true false) |}];
-  test "//010 and some other characters followed by 11";
-  [%expect {| (false true false true true) |}]
+  test "010 // and some other characters followed by 11 (which should be ignored)";
+  [%expect {| (false true false) |}];
+  test
+    {|
+    // Some comment 11110101010
+    01|01
+    // Other comment 01010101010
+    01|01 // And a comment here 0010101
+  |};
+  [%expect {| (false true false true false true false true) |}];
+  ()
 ;;
 
 let%expect_test "to_string" =

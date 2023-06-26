@@ -10,16 +10,29 @@ open! Core
 
 type t = bool array [@@deriving compare, equal, quickcheck, sexp_of]
 
-(** Builds a [t] by only looking at the characters '0' and '1' from a string,
-    and ignores all the other characters. *)
+(** Builds a [t] by only looking at the characters '0' and '1' from a multi
+    lines string. Comments are supported and start with '//', in which case
+    all remaining characters until the end of the current line are ignored.
+
+    The parsed contents is allowed to contain separator characters for better
+    readability ('|' or space).
+
+    For example:
+
+    {v
+     // This is a comment, these chars are ignored: 001010
+     00|01 // On this line, only the chars "0001" are read, the '|' is ignored
+     // The following line does not have a comment, and the space is ignored
+     00 10
+    v}
+*)
 val of_01_chars_in_string : string -> t
 
 (** Creates a string of bits made of '0' (false) and '1' (true). *)
 val to_string : t -> string
 
-(** If a line has the "//" prefix, it is assumed to be a comment line and it is
-    ignored. Otherwise, the function will look at all [0-1] characters, and
-    ignore all the others. *)
+(** Concat all the value read on all the lines from a file, using the function
+    [of_01_chars_in_string]. *)
 val of_text_file : filename:string -> t
 
 (** Write a bunch of '0' and '1' to a file, ending with a newline character.
