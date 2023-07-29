@@ -50,11 +50,11 @@ let parse text =
            text
            |> String.split_lines
            |> List.map ~f:(fun line ->
-                let line = String.strip line in
-                let line =
-                  String.chop_prefix line ~prefix:"*" |> Option.value ~default:line
-                in
-                String.strip line)
+             let line = String.strip line in
+             let line =
+               String.chop_prefix line ~prefix:"*" |> Option.value ~default:line
+             in
+             String.strip line)
            |> List.drop_while ~f:String.is_empty
            |> List.rev
            |> List.drop_while ~f:String.is_empty

@@ -38,14 +38,14 @@ let rec normalize = function
 (* A note about a potential extensions to [normalize] to consider:
 
    {[
-      match nm1, nm2 with
-      | Mux(j, a, b), Mux(k, c, d) when j = k ->
-        if MuxTreeOrder.compare a c = 0
-        then Mux(j, a, Mux(i, b, d)) (* Saving 1 Mux *)
-        else if MuxTreeOrder.compare b d = 0
-        then Mux(j, Mux(i, a, c), b) (* Saving 1 Mux *)
-        else Mux(i, nm1, nm2)
-      | _ -> Mux (i, nm1, nm2)
+     match nm1, nm2 with
+     | Mux (j, a, b), Mux (k, c, d) when j = k ->
+       if MuxTreeOrder.compare a c = 0
+       then Mux (j, a, Mux (i, b, d)) (* Saving 1 Mux *)
+       else if MuxTreeOrder.compare b d = 0
+       then Mux (j, Mux (i, a, c), b) (* Saving 1 Mux *)
+       else Mux (i, nm1, nm2)
+     | _ -> Mux (i, nm1, nm2)
    ]}
 *)
 

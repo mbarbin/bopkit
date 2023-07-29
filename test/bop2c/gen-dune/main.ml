@@ -65,13 +65,10 @@ let gen_dune_cmd =
 let () = Command_unix.run gen_dune_cmd
 
 (*
-{v
-
-
-
+   {v
 (rule
  (target watch_in_c)
  (action
   (run "gcc" -o %{target} %{dep:watch_in_c.c})))
-v}
+   v}
 *)

@@ -9,10 +9,10 @@ open! Core
 
    1. The file contents is first loaded into the subleq memory.
    2. Then the subleq is instructed to run and compute the resulting program
-      image.
+   image.
    3. After the image is computed, the controller copies the contents of the
-      subleq memory back into the disk_interface, and instruct the latter to
-      save it to disk, before loading the next program.
+   subleq memory back into the disk_interface, and instruct the latter to
+   save it to disk, before loading the next program.
 
    The controller is here implemented in OCaml but conceptually it could very
    well be a bopkit circuit. At the time we wrote this project (2008), we didn't
@@ -27,24 +27,24 @@ open! Core
 module State = struct
   (* The lifecycle of the state is as follows:
 
-  {v
+     {v
        STANDBY
     -> INIT
     -> Foreach i, LOADING i
     -> WAITING
     -> Foreach i, SAVING i
     -> STANDBY
-  v}
+     v}
 
-  The details meaning for the states are:
+     The details meaning for the states are:
 
-   STANDBY: doing nothing, waiting for a RESET
-   INIT: temporary state before staring the LOADING process
-   LOADING i: transferring memory from disk_interface --> subleq. At index [i].
-   WAITING: waiting for the subleq to finish its computation
-   SAVING i: transferring memory back from subleq --> disk_interface. At index [i]
-   STANDBY: back to the initial state, ready to start for the next program
-*)
+     STANDBY: doing nothing, waiting for a RESET
+     INIT: temporary state before staring the LOADING process
+     LOADING i: transferring memory from disk_interface --> subleq. At index [i].
+     WAITING: waiting for the subleq to finish its computation
+     SAVING i: transferring memory back from subleq --> disk_interface. At index [i]
+     STANDBY: back to the initial state, ready to start for the next program
+  *)
 
   type t =
     | INIT

@@ -7,20 +7,20 @@ let map t ~f = Result.map t ~f
 let bind t ~f = Result.bind t ~f
 
 include Applicative.Make (struct
-  type nonrec 'a t = 'a t
+    type nonrec 'a t = 'a t
 
-  let return = return
-  let apply f x = Result.combine f x ~ok:(fun f x -> f x) ~err:(fun e1 _ -> e1)
-  let map = `Custom map
-end)
+    let return = return
+    let apply f x = Result.combine f x ~ok:(fun f x -> f x) ~err:(fun e1 _ -> e1)
+    let map = `Custom map
+  end)
 
 include Monad.Make (struct
-  type nonrec 'a t = 'a t
+    type nonrec 'a t = 'a t
 
-  let return = return
-  let bind = bind
-  let map = `Custom map
-end)
+    let return = return
+    let bind = bind
+    let map = `Custom map
+  end)
 
 let with_return f =
   with_return (fun return ->

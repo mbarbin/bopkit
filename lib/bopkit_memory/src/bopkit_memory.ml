@@ -51,12 +51,10 @@ exception Escape_key_pressed [@@deriving sexp_of]
 (* Cells looks like this, and here are their dimensions (bx x by):
 
    {v
-
            bx : (address + 3 + words + 2) * tX
     ------------------
    | 01001 : 00010101 | by = tY + 2 * 2 = 17
     ------------------
-
    v}
 *)
 
@@ -116,7 +114,7 @@ let create
     -> unit
     -> a t
   =
- fun ~name ~address_width ~data_width ~kind:_ ?init () ->
+  fun ~name ~address_width ~data_width ~kind:_ ?init () ->
   let length = Int.pow 2 address_width in
   let values =
     match init with

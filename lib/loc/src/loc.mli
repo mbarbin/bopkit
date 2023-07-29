@@ -20,12 +20,11 @@ val include_sexp_of_positions : bool ref
 (** To be called in the right hand side of a Menhir rule, using the [$loc]
     special keyword provided by Menhir. For example:
 
-   {v
+    {v
      ident:
       | ident=IDENT { Loc.create $loc }
      ;
-   v}
-*)
+    v} *)
 val create : Source_code_position.t * Source_code_position.t -> t
 
 val of_pos : Source_code_position.t -> t

@@ -13,10 +13,10 @@ module Macro_frame = struct
           "| %s"
           (t.bindings
            |> List.map ~f:(fun (parameter_name, argument) ->
-                sprintf
-                  "%s=>%s"
-                  (Visa.Parameter_name.to_string parameter_name)
-                  (Visa.Assembly_instruction.Argument.to_string argument.symbol))
+             sprintf
+               "%s=>%s"
+               (Visa.Parameter_name.to_string parameter_name)
+               (Visa.Assembly_instruction.Argument.to_string argument.symbol))
            |> String.concat ~sep:", ")
       ; "|"
       ; sprintf "| macro_code_pointer = %s" (index t.macro_code_pointer)

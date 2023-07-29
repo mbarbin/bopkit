@@ -24,8 +24,7 @@ type t = bool array [@@deriving compare, equal, quickcheck, sexp_of]
      00|01 // On this line, only the chars "0001" are read, the '|' is ignored
      // The following line does not have a comment, and the space is ignored
      00 10
-    v}
-*)
+    v} *)
 val of_01_chars_in_string : string -> t
 
 (** Creates a string of bits made of '0' (false) and '1' (true). *)
@@ -46,23 +45,23 @@ val to_text_channel : t -> Out_channel.t -> unit
 val to_int : t -> int
 
 (** Taking the length of the array as a reference for the
-   architecture, [to_signed_int t] returns the signed binary value
-   encoded by [t] with the least significant bits to the left. *)
+    architecture, [to_signed_int t] returns the signed binary value
+    encoded by [t] with the least significant bits to the left. *)
 val to_signed_int : t -> int
 
 (** [blit_int ~src:i ~dst:t] changes the bits of [t] by setting them
-   to the binary encoding of the integer value [i]. This operation is
-   done taking the length of the array as a reference for the
-   architecture, so in practice this means modulo (2^n) where n is the
-   length of [t]. [i] is allowed to be null or negative - in all cases
-   [blit_int] behaves as if [~src:(i % 2^n)] was supplied. *)
+    to the binary encoding of the integer value [i]. This operation is
+    done taking the length of the array as a reference for the
+    architecture, so in practice this means modulo (2^n) where n is the
+    length of [t]. [i] is allowed to be null or negative - in all cases
+    [blit_int] behaves as if [~src:(i % 2^n)] was supplied. *)
 val blit_int : src:int -> dst:t -> unit
 
 (** [blit_init ~dst:t ~f] will reset the contents of [t] with values
-   returned by [f], applied to the integers [0..n-1] in increasing
-   order (n being the length of [t]). This is sort of an "in place"
-   version of [Array.init], to be used when you want to change an
-   existing array rather than returning a new one. *)
+    returned by [f], applied to the integers [0..n-1] in increasing
+    order (n being the length of [t]). This is sort of an "in place"
+    version of [Array.init], to be used when you want to change an
+    existing array rather than returning a new one. *)
 val blit_init : dst:t -> f:(int -> bool) -> unit
 
 module Short_sexp : sig

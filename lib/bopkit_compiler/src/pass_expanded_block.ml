@@ -177,7 +177,7 @@ let create_block
     let variables_spec = Set.union ensemble_entree ensemble_sortie in
     (* creer les ensembles des variables utilisees comme entree, comme sorties *)
     (* une variable ne peut pas etre branchée a deux sortie de primitives,
-     sauf si c'est "_" qui n'est pas utilisee par construction *)
+       sauf si c'est "_" qui n'est pas utilisee par construction *)
     let f_fold
       (set_e, set_s)
       { Bopkit.Expanded_netlist.loc = _
@@ -280,7 +280,7 @@ let create_block
     (*  Error   *)
     (* si l'ensemble des entrees et des sorties ne sont pas disjoints *)
     (* par l'absurde : comme ce serait une sortie, elle doit etre modifiee
-	     donc c'est qu'une entree est modifiee : redondant *)
+       donc c'est qu'une entree est modifiee : redondant *)
     (* si une entree de la fonction est modifiee *)
     Set.iter ensemble_entree ~f:entree_modifiee;
     (* si une sortie n'est pas specifiee *)

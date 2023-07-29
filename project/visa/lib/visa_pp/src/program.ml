@@ -76,7 +76,7 @@ let pp (program : Visa.Program.t) =
       match List.hd ts with
       | Some (Label_introduction _) ->
         (* In order to avoid blank lines with indentations, each
-            Newline opens its own box. *)
+           Newline opens its own box. *)
         let subgroups =
           List.group ts ~break:(fun _ t2 ->
             match t2 with

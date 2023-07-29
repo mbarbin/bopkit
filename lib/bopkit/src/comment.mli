@@ -5,11 +5,15 @@ open! Core
     The lexer/parser attaches the raw text to AST nodes, containing the entire
     comment lexem, which includes the comments prefix and suffixes, for example:
 
-    {["// this was a single line comment"]}
+    {[
+      "// this was a single line comment"
+    ]}
 
     Or:
 
-    {["/**\nThis was a multi-line\ndocumentation comment\n*/"]}
+    {[
+      "/**\nThis was a multi-line\ndocumentation comment\n*/"
+    ]}
 
     This module implements the rendering of the comment back into a pretty
     printed form, to be used by the fmt code. *)

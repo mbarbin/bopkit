@@ -40,16 +40,16 @@ end
 
 (* I've tried testing the following, which doesn't work as expected:
 
- {v
+   {v
    let%expect_test "am_running_test" =
      print_s [%sexp { am_running_inline_test : bool; am_running_test : bool }];
      [%expect {| ((am_running_inline_test false) (am_running_test false)) |}];
      ()
    ;;
- v}
+   v}
 
- Thus been using this variable to avoid the printer to produce styles in expect
- tests when running in the GitHub Actions environment.
+   Thus been using this variable to avoid the printer to produce styles in expect
+   tests when running in the GitHub Actions environment.
 *)
 let force_am_running_test = ref false
 

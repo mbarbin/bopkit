@@ -160,7 +160,7 @@ let function_ram ~id ~num_addresses ~data_width =
     let args =
       Array.concat [ tab_read_add; tab_write_add; [| "en" |]; tab_data; tab_sorties ]
       |> Array.mapi ~f:(fun i arg ->
-           (if i < entrees then "unsigned char " else "unsigned char *") ^ arg)
+        (if i < entrees then "unsigned char " else "unsigned char *") ^ arg)
     in
     call ~name:(Printf.sprintf "void call_ram%d" id) ~args
   in
@@ -201,7 +201,7 @@ let function_rom ~id ~num_addresses ~data_width =
     let args =
       Array.concat [ tab_entrees; tab_sorties ]
       |> Array.mapi ~f:(fun i arg ->
-           (if i < bits then "unsigned char " else "unsigned char *") ^ arg)
+        (if i < bits then "unsigned char " else "unsigned char *") ^ arg)
     in
     call ~name:(sprintf "void call_rom%d" id) ~args
   in

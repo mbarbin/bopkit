@@ -18,8 +18,7 @@ val init : unit -> t
     The order of the digits in the signal array is as follows:
 
     Time digits "HH:MM:SS" are given in this order: "54:32:10" from pos:0.
-    Date digits "DD:MM:YY" are given in this order: "10:32:54" from pos:49.
-*)
+    Date digits "DD:MM:YY" are given in this order: "10:32:54" from pos:49. *)
 val update : t -> bool array -> unit
 
 module Decoded : sig

@@ -40,14 +40,14 @@ let expand_netlist ~filename ~error_log ~config =
   let parameters =
     parameters
     @ List.map (Config.parameters_overrides config) ~f:(fun { name; value } ->
-        { Bopkit.Netlist.loc = Loc.dummy_pos
-        ; comments = Bopkit.Comments.none
-        ; name
-        ; parameter_value =
-            (match value with
-             | Int i -> DefInt (CST i)
-             | String s -> DefString s)
-        })
+      { Bopkit.Netlist.loc = Loc.dummy_pos
+      ; comments = Bopkit.Comments.none
+      ; name
+      ; parameter_value =
+          (match value with
+           | Int i -> DefInt (CST i)
+           | String s -> DefString s)
+      })
   in
   let main_block_name =
     let default_main = ref None in

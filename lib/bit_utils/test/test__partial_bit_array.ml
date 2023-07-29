@@ -33,15 +33,15 @@ let%expect_test "to_string roundtrip" =
     Partial_bit_array.quickcheck_generator
     ~sexp_of:[%sexp_of: Partial_bit_array.t]
     ~f:(fun t1 ->
-    let t2 =
-      t1 |> Partial_bit_array.to_string |> Partial_bit_array.of_01star_chars_in_string
-    in
-    if not ([%equal: Partial_bit_array.t] t1 t2)
-    then
-      raise_s
-        [%sexp
-          "Value does not roundtrip"
-          , { t1 : Partial_bit_array.t; t2 : Partial_bit_array.t }])
+      let t2 =
+        t1 |> Partial_bit_array.to_string |> Partial_bit_array.of_01star_chars_in_string
+      in
+      if not ([%equal: Partial_bit_array.t] t1 t2)
+      then
+        raise_s
+          [%sexp
+            "Value does not roundtrip"
+            , { t1 : Partial_bit_array.t; t2 : Partial_bit_array.t }])
 ;;
 
 let%expect_test "text files" =

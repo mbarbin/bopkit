@@ -47,7 +47,7 @@ module Arity = struct
   ;;
 
   let rec read_input : type a. bool array -> index:int ref -> (a, bool) t -> a =
-   fun input ~index arity ->
+    fun input ~index arity ->
     match arity with
     | Empty -> ()
     | Signal ->
@@ -94,7 +94,7 @@ module Arity = struct
       let e = read_input input ~index e in
       let f = read_input input ~index f in
       a, b, c, d, e, f
- ;;
+  ;;
 end
 
 module Method = struct
@@ -172,7 +172,7 @@ let rec create_output : type kind. (kind, bool ref) Arity.t -> kind = function
 ;;
 
 let create_input : type kind. (kind, bool) Arity.t -> line:string -> kind =
- fun arity ~line ->
+  fun arity ~line ->
   let bool_of_char = Bit_string_encoding.Bit.of_char in
   let input = Array.init (String.length line) ~f:(fun i -> bool_of_char line.[i]) in
   let index = ref 0 in
@@ -213,7 +213,7 @@ let run_line
   let buffer = Buffer.create 23 in
   let fff c = Buffer.add_char buffer (Bit_string_encoding.Bit.to_char c) in
   let rec iter_output : type a. (a, bool ref) Arity.t -> a -> unit =
-   fun arity output ->
+    fun arity output ->
     match arity with
     | Empty -> ()
     | Signal -> fff !output

@@ -121,7 +121,7 @@ let rec pp_control_structure
     -> a Bopkit.Control_structure.t
     -> b Pp.t
   =
- fun ~first_in_group aux t ->
+  fun ~first_in_group aux t ->
   match t with
   | Node a -> aux ~first_in_group a
   | For_loop
@@ -143,7 +143,7 @@ let rec pp_control_structure
           ; Pp.newline
           ; List.mapi nodes ~f:(fun i t -> i, t)
             |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
-                 pp_control_structure ~first_in_group:(i = 0) aux t)
+              pp_control_structure ~first_in_group:(i = 0) aux t)
           ; pp_tail_comments tail_comments
           ]
         |> Pp.box ~indent:2)
@@ -169,7 +169,7 @@ let rec pp_control_structure
           ; Pp.newline
           ; List.mapi then_nodes ~f:(fun i t -> i, t)
             |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
-                 pp_control_structure ~first_in_group:(i = 0) aux t)
+              pp_control_structure ~first_in_group:(i = 0) aux t)
           ; pp_tail_comments then_tail_comments
           ; (if List.is_empty else_nodes then pp_tail_comments tail_comments else Pp.nop)
           ]
@@ -183,7 +183,7 @@ let rec pp_control_structure
                 ; Pp.newline
                 ; List.mapi else_nodes ~f:(fun i t -> i, t)
                   |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, t) ->
-                       pp_control_structure ~first_in_group:(i = 0) aux t)
+                    pp_control_structure ~first_in_group:(i = 0) aux t)
                 ; pp_tail_comments tail_comments
                 ]
               |> Pp.box ~indent:2))
@@ -234,7 +234,7 @@ let pp_external_block
              Pp.newline
              ++ (List.mapi list ~f:(fun i t -> i, t)
                  |> Pp.concat_map ~sep:Pp.newline ~f:(fun (i, api) ->
-                      pp_control_structure ~first_in_group:(i = 0) pp_external_api api)))
+                   pp_control_structure ~first_in_group:(i = 0) pp_external_api api)))
         ; pp_tail_comments tail_comments
         ]
       |> Pp.box ~indent:2)
@@ -258,7 +258,7 @@ let pp_variable v =
   | Bus { loc = _; name; indexes } ->
     Pp.verbatim name
     ++ Pp.concat_map indexes ~f:(fun index ->
-         pp_index Bopkit.Arithmetic_expression.pp index)
+      pp_index Bopkit.Arithmetic_expression.pp index)
 ;;
 
 let pp_external_call_output_size t =
@@ -366,20 +366,20 @@ and pp_imbrication (t : Bopkit.Netlist.nested_inputs) =
   | Variables { loc = _; comments; variables } ->
     pp_comments comments
     ++
-    (match variables with
-     | [] -> Pp.nop
-     | [ variable ] -> pp_variable variable
-     | _ :: _ :: _ ->
-       Pp.concat
-         [ Pp.verbatim "("
-         ; Pp.cut
-         ; Pp.concat_map
-             variables
-             ~sep:(Pp.verbatim "," ++ Pp.space)
-             ~f:(fun var -> pp_variable var)
-         ; Pp.verbatim ")"
-         ]
-       |> Pp.hvbox ~indent:2)
+      (match variables with
+      | [] -> Pp.nop
+      | [ variable ] -> pp_variable variable
+      | _ :: _ :: _ ->
+        Pp.concat
+          [ Pp.verbatim "("
+          ; Pp.cut
+          ; Pp.concat_map
+              variables
+              ~sep:(Pp.verbatim "," ++ Pp.space)
+              ~f:(fun var -> pp_variable var)
+          ; Pp.verbatim ")"
+          ]
+        |> Pp.hvbox ~indent:2)
 ;;
 
 let pp_node
@@ -493,7 +493,7 @@ let pp_block
         [ Pp.verbatim "where"
         ; List.mapi nodes ~f:(fun i t -> i, t)
           |> Pp.concat_map ~f:(fun (i, node) ->
-               Pp.newline ++ pp_control_structure ~first_in_group:(i = 0) pp_node node)
+            Pp.newline ++ pp_control_structure ~first_in_group:(i = 0) pp_node node)
         ; pp_tail_comments tail_comments
         ]
       |> Pp.box ~indent:2
@@ -518,11 +518,11 @@ let pp
     | _ :: _ ->
       List.mapi include_files ~f:(fun i t -> i, t)
       |> Pp.concat_map ~f:(fun (i, include_file) ->
-           (if i > 0 && not (Bopkit.Comments.is_empty include_file.comments)
-            then Pp.newline
-            else Pp.nop)
-           ++ pp_include_file include_file
-           ++ Pp.newline)
+        (if i > 0 && not (Bopkit.Comments.is_empty include_file.comments)
+         then Pp.newline
+         else Pp.nop)
+        ++ pp_include_file include_file
+        ++ Pp.newline)
       |> Option.return
   in
   let parameters =
@@ -531,11 +531,11 @@ let pp
     | _ :: _ ->
       List.mapi parameters ~f:(fun i t -> i, t)
       |> Pp.concat_map ~f:(fun (i, parameter) ->
-           (if i > 0 && not (Bopkit.Comments.is_empty parameter.comments)
-            then Pp.newline
-            else Pp.nop)
-           ++ pp_parameter parameter
-           ++ Pp.newline)
+        (if i > 0 && not (Bopkit.Comments.is_empty parameter.comments)
+         then Pp.newline
+         else Pp.nop)
+        ++ pp_parameter parameter
+        ++ Pp.newline)
       |> Option.return
   in
   let memories =
@@ -544,11 +544,11 @@ let pp
     | _ :: _ ->
       List.mapi memories ~f:(fun i t -> i, t)
       |> Pp.concat_map ~f:(fun (i, memory) ->
-           (if i > 0 && not (Bopkit.Comments.is_empty memory.comments)
-            then Pp.newline
-            else Pp.nop)
-           ++ pp_memory memory
-           ++ Pp.newline)
+        (if i > 0 && not (Bopkit.Comments.is_empty memory.comments)
+         then Pp.newline
+         else Pp.nop)
+        ++ pp_memory memory
+        ++ Pp.newline)
       |> Option.return
   in
   let external_blocks =

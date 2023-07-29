@@ -49,16 +49,16 @@ type 'a comment_node
     position. For example:
 
     {[
-     my_rule:
-       | _tok=TOK1 rule=rule1 TOK2
-         { { rule = rule1
-           ; comments =
-               Comments_state.retrieve_comments
-                 ~attached_to:($startpos(_tok))
-                 ~f:Fn.id
-           }
-         }
-     ;
+      my_rule:
+        | _tok=TOK1 rule=rule1 TOK2
+          { { rule = rule1
+            ; comments =
+                Comments_state.retrieve_comments
+                  ~attached_to:($startpos(_tok))
+                  ~f:Fn.id
+            }
+          }
+      ;
     ]}
 
     An empty node is created and returned immediately during the construction of

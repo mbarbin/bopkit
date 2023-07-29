@@ -3,7 +3,7 @@ open! Core
 (** The subleq simulator allows you to compute the result of the subleq
     computation from a starting RAM image. If the process loops, the simulator
     detects it and aborts the computation, otherwise you can print the RAM
-    image resulting from its successful computation.  *)
+    image resulting from its successful computation. *)
 
 type t
 
@@ -31,8 +31,8 @@ end
 val run : t -> Run_result.t
 
 (** After running the program you may be interested in getting back
-   the RAM image resulting from the computation. If [run t] returned
-   [Program_does_not_terminate] the contents of the memory is not
-   specified, and we make not guarantee about its meaning or
-   stability. *)
+    the RAM image resulting from the computation. If [run t] returned
+    [Program_does_not_terminate] the contents of the memory is not
+    specified, and we make not guarantee about its meaning or
+    stability. *)
 val print_memory : t -> out_channel:Out_channel.t -> unit

@@ -15,8 +15,7 @@ open! Core
       end where;
     ]}
 
-    Parameters can be bound to integers or strings.
-*)
+    Parameters can be bound to integers or strings. *)
 
 module Value : sig
   type t =
@@ -34,6 +33,5 @@ type t =
   }
 [@@deriving equal, sexp_of]
 
-(** Defining a syntax with which parameters may be passed via the command line.
-  *)
+(** Defining a syntax with which parameters may be passed via the command line. *)
 val arg_type : t Command.Arg_type.t

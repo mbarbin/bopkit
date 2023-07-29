@@ -2,7 +2,9 @@ module Sites : sig
   (** stdlib/ contains *.bop files that can be included into other bop files
       using the following syntax:
 
-      {[ #include <file.bop> ]}
+      {[
+        #include <file.bop>
+      ]}
 
       These files are available to all bopkit projects, such as <stdlib.bop>,
       <bopboard.bop>, and possibly more.

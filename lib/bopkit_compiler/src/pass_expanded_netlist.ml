@@ -103,10 +103,10 @@ module Task = struct
 end
 
 (** To avoid functions to be mutually recursive, and to clarify the
-     break down of the rest of the file, we use a state that model
-     amounts of work that needs to be performed, as well as work that
-     has. As work is performed, that state is modified. When there is
-     no more work to do, the result can be extracted from the state. *)
+    break down of the rest of the file, we use a state that model
+    amounts of work that needs to be performed, as well as work that
+    has. As work is performed, that state is modified. When there is
+    no more work to do, the result can be extracted from the state. *)
 type t =
   { env : env
   ; error_log : Error_log.t
@@ -198,7 +198,7 @@ let request_expansion (t : t) ~name ~loc =
 let request_specialisation
   (t : t)
   ({ Specialisation_request.loc; parameters; name; arguments; functional_arguments } as
-  specialisation_request)
+   specialisation_request)
   =
   let specialisation_key =
     Specialisation_key.of_specialisation_request specialisation_request

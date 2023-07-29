@@ -18,8 +18,7 @@ open! Core
 
     {[
       type t = A.t With_loc.t list
-    ]}
-*)
+    ]} *)
 
 type 'a t =
   { loc : Loc.t
@@ -30,12 +29,11 @@ type 'a t =
 (** To be called in the right hand side of a Menhir rule, using the [$loc]
     special keyword provided by Menhir. For example:
 
-   {[
-     ident:
-      | ident=IDENT { With_loc.create $loc ident }
-     ;
-   ]}
-*)
+    {[
+      ident:
+       | ident=IDENT { With_loc.create $loc ident }
+      ;
+    ]} *)
 val create : Source_code_position.t * Source_code_position.t -> 'a -> 'a t
 
 (** Build the first line of error messages to produce to stderr using the same

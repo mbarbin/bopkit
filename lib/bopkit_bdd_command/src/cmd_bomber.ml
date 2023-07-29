@@ -19,10 +19,10 @@ let main =
            ~dimx:(Int.pow 2 address)
            ~dimy:word_length
            ~f:(fun (_ : int) ->
-           let t = Random.int 100 in
-           if t < do_not_care_probability (* generate a don't care bit *)
-           then None
-           else Some (Random.int 100 < probability_1))
+             let t = Random.int 100 in
+             if t < do_not_care_probability (* generate a don't care bit *)
+             then None
+             else Some (Random.int 100 < probability_1))
        in
        Partial_bit_matrix.to_text_channel pbm stdout)
 ;;

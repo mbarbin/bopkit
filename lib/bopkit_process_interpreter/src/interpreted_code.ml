@@ -110,19 +110,19 @@ let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
   List.iter
     program.assignments
     ~f:(fun { comments = _; result; operator_name; arguments } ->
-    let operands =
-      Array.concat
-        [ [| Bopkit_process.Program.Argument.Ident { ident = result } |]; arguments ]
-      |> Array.mapi ~f:(fun i operand -> var_map ~is_assigned:(i = 0) operand)
-    in
-    match Map.find (force Operator.primitives) operator_name.symbol with
-    | None -> unknown_operator_error ~error_log ~operator_name
-    | Some operator ->
-      let arity = Operator.arity operator in
-      let number_of_arguments = Array.length arguments in
-      if arity <> number_of_arguments
-      then operator_arity_error ~error_log ~operator_name ~arity ~number_of_arguments
-      else Queue.enqueue code (Operation { operator; operands }));
+      let operands =
+        Array.concat
+          [ [| Bopkit_process.Program.Argument.Ident { ident = result } |]; arguments ]
+        |> Array.mapi ~f:(fun i operand -> var_map ~is_assigned:(i = 0) operand)
+      in
+      match Map.find (force Operator.primitives) operator_name.symbol with
+      | None -> unknown_operator_error ~error_log ~operator_name
+      | Some operator ->
+        let arity = Operator.arity operator in
+        let number_of_arguments = Array.length arguments in
+        if arity <> number_of_arguments
+        then operator_arity_error ~error_log ~operator_name ~arity ~number_of_arguments
+        else Queue.enqueue code (Operation { operator; operands }));
   Queue.enqueue
     code
     (Output

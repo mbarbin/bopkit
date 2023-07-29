@@ -22,9 +22,9 @@ let blit_time (t : t) (tm : Caml_unix.tm) =
     let day_of_week =
       day_of_week tm.tm_wday
       |> Array.map ~f:(function
-           | 1 -> true
-           | 0 -> false
-           | _ -> assert false)
+        | 1 -> true
+        | 0 -> false
+        | _ -> assert false)
     in
     Array.blit ~src:day_of_week ~src_pos:0 ~dst:t ~dst_pos:42 ~len:7
   in

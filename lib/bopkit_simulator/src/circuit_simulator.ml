@@ -135,7 +135,7 @@ let init t =
           Array.find
             (external_blocks t)
             ~f:(fun (block : Bopkit.Expanded_netlist.external_block) ->
-            String.equal block.name name)
+              String.equal block.name name)
         with
         | Some x -> x
         | None ->
@@ -298,8 +298,7 @@ let quit t =
   done
 ;;
 
-(* For each [Regr], update its matching [Regt]. Called at the end of each cycle.
-*)
+(* For each [Regr], update its matching [Regt]. Called at the end of each cycle. *)
 let update_registers t =
   let cds = cds t in
   Array.iter t.regr_indexes ~f:(fun i ->
@@ -455,7 +454,7 @@ let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
     List.iter
       output_wires
       ~f:(fun { Bopkit_circuit.Output_wire.gate_index; input_index } ->
-      cds.(gate_index).input.(input_index) <- output))
+        cds.(gate_index).input.(input_index) <- output))
 ;;
 
 let one_cycle t ~blit_input ~output_handler =
@@ -464,21 +463,21 @@ let one_cycle t ~blit_input ~output_handler =
     Array.iter
       (cds t)
       ~f:(fun ({ Bopkit_circuit.Gate.gate_kind; input; output; _ } as gate) ->
-      (match gate_kind with
-       | Input | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
-       | Id -> fct_id ~input ~output
-       | Not -> fct_not ~input ~output
-       | And -> fct_and ~input ~output
-       | Or -> fct_or ~input ~output
-       | Xor -> fct_xor ~input ~output
-       | Mux -> fct_mux ~input ~output
-       | Rom { index; _ } -> fct_rom t ~input ~output ~index
-       | Ram _ -> fct_ram t ~gate
-       | External _ ->
-         (match fct_external t ~gate with
-          | Continue -> ()
-          | Quit as quit -> return quit));
-      propagate_output t ~gate);
+        (match gate_kind with
+         | Input | Output | Clock | Gnd | Vdd | Reg _ | Regr _ | Regt -> ()
+         | Id -> fct_id ~input ~output
+         | Not -> fct_not ~input ~output
+         | And -> fct_and ~input ~output
+         | Or -> fct_or ~input ~output
+         | Xor -> fct_xor ~input ~output
+         | Mux -> fct_mux ~input ~output
+         | Rom { index; _ } -> fct_rom t ~input ~output ~index
+         | Ram _ -> fct_ram t ~gate
+         | External _ ->
+           (match fct_external t ~gate with
+            | Continue -> ()
+            | Quit as quit -> return quit));
+        propagate_output t ~gate);
     update_registers t;
     output_handler ~input:(input t) ~output:(output t);
     One_cycle_result.Continue)

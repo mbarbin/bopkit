@@ -4,8 +4,8 @@ open! Or_error.Let_syntax
 let find_distribution_file ~filename ~loc ~error_log =
   Bopkit_sites.Sites.stdlib
   |> List.find_map ~f:(fun stdlib_directory ->
-       let rfile = Filename.concat stdlib_directory filename in
-       if Sys_unix.file_exists_exn rfile then Some rfile else None)
+    let rfile = Filename.concat stdlib_directory filename in
+    if Sys_unix.file_exists_exn rfile then Some rfile else None)
   |> function
   | Some rfile -> rfile
   | None ->

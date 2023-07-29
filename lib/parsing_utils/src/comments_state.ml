@@ -86,8 +86,8 @@ let insert_token t (token : Token.t) =
          else (
            assert (previous_token.pos_cnum = token.pos_cnum);
            (* If they're both a cut, only keep the existing one.
-           Otherwise we decide which order makes the most sence once for
-           all here. *)
+              Otherwise we decide which order makes the most sence once for
+              all here. *)
            match previous_token.token_kind, token.token_kind with
            | Cut, Cut -> (* Keep the existing one. *) `Dont_insert
            | Cut, Comment _ -> `Insert_before

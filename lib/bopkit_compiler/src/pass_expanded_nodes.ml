@@ -84,8 +84,8 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
      -recolte les liaisons necessaires au branchement correct de tous les fils *)
 
   (* La fonction TRAITE figurant dans le rapport latex.
-       Cette fonction travaille par induction sur les listes d'appels des corps.
-       Elle renvoit la table des liaisons *)
+     Cette fonction travaille par induction sur les listes d'appels des corps.
+     Elle renvoit la table des liaisons *)
   let rec aux_node { Expanded_block.call; inputs; outputs } =
     match call with
     | Primitive { gate_kind } ->

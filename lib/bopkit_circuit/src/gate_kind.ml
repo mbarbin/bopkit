@@ -103,6 +103,6 @@ module Primitive = struct
        ; Vdd, (0, 1), [ "Vdd"; "vdd" ]
        ]
        |> List.map ~f:(fun (gate_kind, (input_width, output_width), aliases) ->
-            { gate_kind; input_width; output_width; aliases }))
+         { gate_kind; input_width; output_width; aliases }))
   ;;
 end

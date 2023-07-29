@@ -79,7 +79,7 @@ let rec increment_code_pointer (t : t) =
       true)
   | Some
       ({ macro_name = _; bindings = _; assembly_instructions; macro_code_pointer } as
-      macro_call) ->
+       macro_call) ->
     if macro_code_pointer >= Array.length assembly_instructions - 1
     then (
       ignore

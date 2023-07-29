@@ -98,7 +98,7 @@ module O = struct
     ;;
 
     let rec arguments : type a. a t -> a -> Visa.Assembly_instruction.Argument.t list =
-     fun t a ->
+      fun t a ->
       match t, a with
       | Address _, address -> [ address ]
       | Output _, output -> [ output ]
@@ -106,7 +106,7 @@ module O = struct
       | Value _, value -> [ value ]
       | T2 (ta, tb), (a, b) -> arguments ta a @ arguments tb b
       | T3 (ta, tb, tc), (a, b, c) -> arguments ta a @ arguments tb b @ arguments tc c
-   ;;
+    ;;
   end
 
   type 'a macro =
@@ -125,17 +125,17 @@ module O = struct
       macro.f session (Parameters.input macro.parameters);
       Queue.to_list session.program
       |> List.map ~f:(function
-           | ( Newline
-             | Comment _
-             | Constant_definition _
-             | Macro_definition _
-             | Label_introduction _ ) as construct ->
-             raise_s
-               [%sexp
-                 "Invalid visa construct inside macro"
-                 , [%here]
-                 , (construct : Visa.Program.Top_level_construct.t)]
-           | Assembly_instruction { assembly_instruction = i } -> i)
+        | ( Newline
+          | Comment _
+          | Constant_definition _
+          | Macro_definition _
+          | Label_introduction _ ) as construct ->
+          raise_s
+            [%sexp
+              "Invalid visa construct inside macro"
+              , [%here]
+              , (construct : Visa.Program.Top_level_construct.t)]
+        | Assembly_instruction { assembly_instruction = i } -> i)
     in
     Queue.enqueue
       t.program

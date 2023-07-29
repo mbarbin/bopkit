@@ -15,11 +15,10 @@ type include_file =
 (** This encodes the difference between including a file from the standard
     library, and a file from a user's project.
 
-  {v
+    {v
      #include <stdlib.bop>
      #include "my_file.bop"
-  v}
-*)
+    v} *)
 and include_file_kind =
   | File_path of string
   | Distribution of
@@ -122,8 +121,7 @@ type functional_argument =
 
     {v
       a:[2]:[3] --->  a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2]
-    v}
-*)
+    v} *)
 type index =
   | Segment of Arithmetic_expression.t
   | Interval of Arithmetic_expression.t * Arithmetic_expression.t
@@ -154,8 +152,7 @@ type external_call_output_size =
       output = block(input);
       output = $block.method(input);
       output = external("./command.exe", input);
-    v}
-*)
+    v} *)
 type call =
   | Block of
       { name : string
@@ -181,8 +178,7 @@ type call =
 
     {v
       e = or(and(a, b), xor(c, d));
-    v}
-*)
+    v} *)
 type nested_inputs =
   | Variables of
       { loc : Loc.t

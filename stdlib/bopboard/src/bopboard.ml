@@ -299,48 +299,48 @@ let light_method (t : t) =
   (* This method has a variable input length depending on how it is called. If
      it has an argument, we expect it to be the index of a single light,
      otherwise it should be empty in which case we set the entire light array.
-     *)
+  *)
   Bopkit_block.Method.create
     ~name:"light"
     ~input_arity:Remaining_bits
     ~output_arity:Empty
     ~f:(fun ~arguments ~input ~output:() ->
-    let needs_redraw = ref false in
-    let set_light (light : Button.t) active =
-      if Bool.( <> ) light.active active
-      then (
-        needs_redraw := true;
-        light.active <- active)
-    in
-    (match arguments with
-     | _ :: _ :: _ ->
-       raise_s [%sexp "invalid arguments", [%here], { arguments : string list }]
-     | [] ->
-       let expected_length = Array.length t.board.lights in
-       let input_length = Array.length input in
-       if input_length <> expected_length
-       then
-         raise_s
-           [%sexp
-             "unexpected input length"
-             , [%here]
-             , { expected_length : int; input_length : int }];
-       Array.iter2_exn t.board.lights input ~f:set_light
-     | [ index ] ->
-       let index = int_of_string index in
-       if index < 0 || index >= Array.length t.board.lights
-       then raise_s [%sexp "light index out of bounds", [%here], { index : int }];
-       let input_length = Array.length input in
-       let expected_length = 1 in
-       if input_length <> expected_length
-       then
-         raise_s
-           [%sexp
-             "unexpected input length"
-             , [%here]
-             , { expected_length : int; input_length : int }];
-       set_light t.board.lights.(index) input.(0));
-    if !needs_redraw then redraw t)
+      let needs_redraw = ref false in
+      let set_light (light : Button.t) active =
+        if Bool.( <> ) light.active active
+        then (
+          needs_redraw := true;
+          light.active <- active)
+      in
+      (match arguments with
+       | _ :: _ :: _ ->
+         raise_s [%sexp "invalid arguments", [%here], { arguments : string list }]
+       | [] ->
+         let expected_length = Array.length t.board.lights in
+         let input_length = Array.length input in
+         if input_length <> expected_length
+         then
+           raise_s
+             [%sexp
+               "unexpected input length"
+               , [%here]
+               , { expected_length : int; input_length : int }];
+         Array.iter2_exn t.board.lights input ~f:set_light
+       | [ index ] ->
+         let index = int_of_string index in
+         if index < 0 || index >= Array.length t.board.lights
+         then raise_s [%sexp "light index out of bounds", [%here], { index : int }];
+         let input_length = Array.length input in
+         let expected_length = 1 in
+         if input_length <> expected_length
+         then
+           raise_s
+             [%sexp
+               "unexpected input length"
+               , [%here]
+               , { expected_length : int; input_length : int }];
+         set_light t.board.lights.(index) input.(0));
+      if !needs_redraw then redraw t)
 ;;
 
 let button_method (t : t) ~name ~which_buttons =
@@ -353,21 +353,21 @@ let button_method (t : t) ~name ~which_buttons =
     ~input_arity:Empty
     ~output_arity:Output_buffer
     ~f:(fun ~arguments ~input:() ~output ->
-    let output_button (button : Button.t) =
-      Buffer.add_char output (if button.active then '1' else '0')
-    in
-    let buttons = which_buttons t.board in
-    match arguments with
-    | [] -> Array.iter buttons ~f:output_button
-    | [ index ] ->
-      let index = int_of_string index in
-      if index < 0 || index >= Array.length buttons
-      then
-        raise_s
-          [%sexp "button index out of bounds", [%here], { name : string; index : int }];
-      output_button buttons.(index)
-    | _ :: _ :: _ ->
-      raise_s [%sexp "invalid arguments", [%here], { arguments : string list }])
+      let output_button (button : Button.t) =
+        Buffer.add_char output (if button.active then '1' else '0')
+      in
+      let buttons = which_buttons t.board in
+      match arguments with
+      | [] -> Array.iter buttons ~f:output_button
+      | [ index ] ->
+        let index = int_of_string index in
+        if index < 0 || index >= Array.length buttons
+        then
+          raise_s
+            [%sexp "button index out of bounds", [%here], { name : string; index : int }];
+        output_button buttons.(index)
+      | _ :: _ :: _ ->
+        raise_s [%sexp "invalid arguments", [%here], { arguments : string list }])
 ;;
 
 let main_method (_ : t) =

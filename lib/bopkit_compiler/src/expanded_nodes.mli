@@ -22,8 +22,7 @@ open! Core
        ...
        ...
        = Output(x, y, z);
-    v}
-*)
+    v} *)
 
 module Node : sig
   type t =

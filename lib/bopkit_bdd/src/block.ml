@@ -54,15 +54,15 @@ let unused_variables t =
   |> List.filter_opt
   |> List.group ~break:(fun i j -> i + 1 < j)
   |> List.map ~f:(fun interval ->
-       let index =
-         match interval with
-         | [] -> assert false
-         | [ i ] -> Bopkit.Netlist.Index (CST i)
-         | first :: (_ :: _ as tl) ->
-           let last = List.last_exn tl in
-           Bopkit.Netlist.Interval (CST first, CST last)
-       in
-       Bopkit.Netlist.Bus { loc = Loc.dummy_pos; name = Name.input; indexes = [ index ] })
+    let index =
+      match interval with
+      | [] -> assert false
+      | [ i ] -> Bopkit.Netlist.Index (CST i)
+      | first :: (_ :: _ as tl) ->
+        let last = List.last_exn tl in
+        Bopkit.Netlist.Interval (CST first, CST last)
+    in
+    Bopkit.Netlist.Bus { loc = Loc.dummy_pos; name = Name.input; indexes = [ index ] })
 ;;
 
 let pp_ident ident =

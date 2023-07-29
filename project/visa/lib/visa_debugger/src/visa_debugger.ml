@@ -102,8 +102,8 @@ let run_bogue (t : t) ~error_log =
       ~text:(String.make 8 '0')
       ~prompt:"value"
         (*      ~filter:(fun str ->
-        String.length str = 8
-        && String.for_all str ~f:(fun c -> Char.equal c '0' || Char.equal c '1'))
+                String.length str = 8
+                && String.for_all str ~f:(fun c -> Char.equal c '0' || Char.equal c '1'))
         *)
       ~max_size:8
       ()

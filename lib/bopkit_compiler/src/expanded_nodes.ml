@@ -29,15 +29,15 @@ let pp_debug t =
     (Array.to_list t)
     ~sep:Pp.newline
     ~f:(fun { Node.gate_kind; inputs; outputs } ->
-    Pp.concat
-      [ Pp.concat_map
-          (outputs |> Array.to_list)
-          ~sep:(Pp.verbatim "," ++ Pp.space)
-          ~f:Pp.verbatim
-      ; (if Array.is_empty outputs then Pp.nop else Pp.verbatim " = ")
-      ; Bopkit_circuit.Gate_kind.pp_debug gate_kind
-      ; Pp.verbatim "("
-      ; Pp.concat_map (inputs |> Array.to_list) ~sep:(Pp.verbatim ", ") ~f:Pp.verbatim
-      ; Pp.verbatim ");"
-      ])
+      Pp.concat
+        [ Pp.concat_map
+            (outputs |> Array.to_list)
+            ~sep:(Pp.verbatim "," ++ Pp.space)
+            ~f:Pp.verbatim
+        ; (if Array.is_empty outputs then Pp.nop else Pp.verbatim " = ")
+        ; Bopkit_circuit.Gate_kind.pp_debug gate_kind
+        ; Pp.verbatim "("
+        ; Pp.concat_map (inputs |> Array.to_list) ~sep:(Pp.verbatim ", ") ~f:Pp.verbatim
+        ; Pp.verbatim ");"
+        ])
 ;;

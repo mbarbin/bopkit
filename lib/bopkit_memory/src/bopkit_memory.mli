@@ -33,8 +33,7 @@ open! Core
 
     When the entire memory does not fit on the window, scrolling is possible
     with [center_view], and in the main user event loop, by pressing the
-    navigating keys '>' (next page) and '<' (previous page).
-*)
+    navigating keys '>' (next page) and '<' (previous page). *)
 
 (** The type of a memory, with which you can read/write values and drive the
     graphic window. The parameter is used to distinguish between RAM and ROM

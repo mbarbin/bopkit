@@ -49,9 +49,9 @@ module type T_pp = sig
 end
 
 module Make
-  (T : T)
-  (T_syntax : Parsing_utils.S with type t = T.t)
-  (T_pp : T_pp with type t = T.t) =
+    (T : T)
+    (T_syntax : Parsing_utils.S with type t = T.t)
+    (T_pp : T_pp with type t = T.t) =
 struct
   module Pretty_print_result = struct
     type t =

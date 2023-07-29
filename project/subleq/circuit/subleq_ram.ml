@@ -55,8 +55,9 @@ let main { architecture = ar; cl; debug; mem } =
          , Bus { width = ar }
          , Bus { width = ar } ))
     ~output_arity:Empty
-    ~f:(fun ~input:(step, mem_address, mem_write_mode, mem_data_in, reg_mem_out)
-            ~output:() ->
+    ~f:
+      (fun
+        ~input:(step, mem_address, mem_write_mode, mem_data_in, reg_mem_out) ~output:() ->
       regS [| mem_write_mode |] was_write;
       let step = Bit_array.to_int step in
       if step = 0 then Bopkit_memory.reset_all_color mem;

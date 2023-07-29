@@ -37,10 +37,10 @@ let%expect_test "to_string roundtrip" =
     Bit_array.quickcheck_generator
     ~sexp_of:[%sexp_of: Bit_array.t]
     ~f:(fun t1 ->
-    let t2 = t1 |> Bit_array.to_string |> Bit_array.of_01_chars_in_string in
-    if not ([%equal: Bit_array.t] t1 t2)
-    then
-      raise_s [%sexp "Value does not roundtrip", { t1 : Bit_array.t; t2 : Bit_array.t }])
+      let t2 = t1 |> Bit_array.to_string |> Bit_array.of_01_chars_in_string in
+      if not ([%equal: Bit_array.t] t1 t2)
+      then
+        raise_s [%sexp "Value does not roundtrip", { t1 : Bit_array.t; t2 : Bit_array.t }])
 ;;
 
 let%expect_test "text files" =
@@ -88,18 +88,18 @@ let%expect_test "to_signed_int / to_int" =
     Bit_array.quickcheck_generator
     ~sexp_of:[%sexp_of: Bit_array.t]
     ~f:(fun t ->
-    let len = Array.length t in
-    let modulo = Int.pow 2 len in
-    let is_negative = len > 0 && t.(pred len) in
-    let signed_int = Bit_array.to_signed_int t in
-    let int = Bit_array.to_int t in
-    let expected_signed_int = if is_negative then int - modulo else int in
-    if signed_int <> expected_signed_int
-    then
-      raise_s
-        [%sexp
-          "Unexpected signed int"
-          , { t : Bit_array.t; int : int; expected_signed_int : int; signed_int : int }])
+      let len = Array.length t in
+      let modulo = Int.pow 2 len in
+      let is_negative = len > 0 && t.(pred len) in
+      let signed_int = Bit_array.to_signed_int t in
+      let int = Bit_array.to_int t in
+      let expected_signed_int = if is_negative then int - modulo else int in
+      if signed_int <> expected_signed_int
+      then
+        raise_s
+          [%sexp
+            "Unexpected signed int"
+            , { t : Bit_array.t; int : int; expected_signed_int : int; signed_int : int }])
 ;;
 
 let%expect_test "sequence" =
@@ -148,12 +148,12 @@ let%expect_test "blit_int" =
     List.iter
       [ Int.min_value; -1000; -33; -1; 0; 10; 17; 23; max; Int.max_value ]
       ~f:(fun i ->
-      Bit_array.blit_int ~src:i ~dst:t;
-      let j = Bit_array.to_int t in
-      if i % max <> j || j < 0 || j >= max
-      then
-        raise_s
-          [%sexp "Unexpected result of blit_int", { t : Bit_array.t; i : int; j : int }]))
+        Bit_array.blit_int ~src:i ~dst:t;
+        let j = Bit_array.to_int t in
+        if i % max <> j || j < 0 || j >= max
+        then
+          raise_s
+            [%sexp "Unexpected result of blit_int", { t : Bit_array.t; i : int; j : int }]))
 ;;
 
 let%expect_test "blit_init" =

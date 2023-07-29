@@ -10,7 +10,7 @@ end
 module Top_level_construct = struct
   (* CR mbarbin: Keep in the ast whether there're empty lines before
      or after a comment, and keep one line in that case in the [pp].
-     *)
+  *)
   (* CR mbarbin: Add the ability to have comments inside macros.
      Currently this yields a syntax error. *)
   (* CR mbarbin: Change the parser. Enforce the order of section.

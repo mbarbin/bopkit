@@ -94,8 +94,7 @@ val is_debug_mode : t -> bool
 
 (** Wrap the execution of a program and introduce an error log to the scope.
     This is meant to be used inside the body of a core command. This will take
-    care of printing the error log to stderr and handle the command exit code.
-*)
+    care of printing the error log to stderr and handle the command exit code. *)
 val report_and_exit : config:Config.t -> (t -> unit Or_error.t) -> unit -> _
 
 module For_test : sig
