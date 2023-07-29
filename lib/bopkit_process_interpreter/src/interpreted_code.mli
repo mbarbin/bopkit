@@ -10,7 +10,7 @@ end
 
 module Memory : sig
   (** The memory used by the interpreter is composed of all variables needed by
-      the program, indexed by addresses. All variable occupie the same number
+      the program, indexed by addresses. All variable occupy the same number
       of bits, given by the parameter [architecture]. Once a specific address
       has been fetched, its memory contents may be modified by side effect to
       the returned {!type:Bit_array.t}. *)

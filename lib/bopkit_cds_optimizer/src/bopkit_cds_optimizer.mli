@@ -12,8 +12,8 @@
     hasn't been ported to the new version yet, so this is not done here.
 
     Also note that because this code hasn't been tested extensively, this code
-    is not turned on by default. To be activated with [-optimize-cds true] in the
-    command line. *)
+    is not turned on by default. To be activated with [-optimize-cds true] in
+    the command line. *)
 
 open! Core
 

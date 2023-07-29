@@ -7,11 +7,11 @@ open! Core
     and interconnections of a circuit.
 
     The concept of a Circuit Description System was first introduced by A.R.
-    Newton and D.E. Thomas in their 1976 paper "Simulation of MOS Digital Systems
-    using Switch-Level Timing Models". In this paper, they proposed a methodology
-    for simulating digital circuits using switch-level timing models, and
-    described the use of a Circuit Description System as a means of representing
-    the circuit in a form that could be efficiently simulated.
+    Newton and D.E. Thomas in their 1976 paper "Simulation of MOS Digital
+    Systems using Switch-Level Timing Models". In this paper, they proposed a
+    methodology for simulating digital circuits using switch-level timing
+    models, and described the use of a Circuit Description System as a means of
+    representing the circuit in a form that could be efficiently simulated.
 
     The CDS data structure typically consists of an array of gates, where each
     gate represents a logical function such as AND, OR, NOT, etc. The gates are
