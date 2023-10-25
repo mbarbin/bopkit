@@ -45,9 +45,9 @@ jobs:
       - name: Run tests
         run: opam exec -- dune runtest
 
-#      - name: Lint opam
-#        uses: ocaml/setup-ocaml/lint-opam@v2
-#
+      - name: Lint opam
+        uses: ocaml/setup-ocaml/lint-opam@v2
+
       - name: Lint fmt
         uses: ocaml/setup-ocaml/lint-fmt@v2
 
