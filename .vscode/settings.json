@@ -3,6 +3,8 @@
         "alist",
         "Bopboard",
         "bopdebug",
+        "bopin",
+        "bopipe",
         "Bopkit",
         "Bourdoncle",
         "Brainfuck",
@@ -20,9 +22,11 @@
         "gmtime",
         "gtksourceview",
         "hideable",
+        "janestreet",
         "jing",
         "keypressed",
         "Kvaalen",
+        "libsdl",
         "lnum",
         "mult",
         "muxlist",
@@ -49,6 +53,7 @@
         "tsdl",
         "unstage",
         "Vectorize",
+        "vhdl",
         "Vuillemin"
     ],
     "cSpell.enableFiletypes": [
