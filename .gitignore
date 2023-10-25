@@ -2,7 +2,6 @@ _build
 _opam
 *.merlin
 bopkit.install
-.vscode
 node_modules
 build
 .docusaurus
