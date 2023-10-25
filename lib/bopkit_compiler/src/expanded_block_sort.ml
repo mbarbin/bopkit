@@ -3,8 +3,8 @@ open! Import
 
 module Expanded_block_node :
   Bopkit_topological_sort.Node
-    with type t = Bopkit.Expanded_netlist.block
-     and type key = string = struct
+  with type t = Bopkit.Expanded_netlist.block
+   and type key = string = struct
   type t = Bopkit.Expanded_netlist.block
   type key = string
 

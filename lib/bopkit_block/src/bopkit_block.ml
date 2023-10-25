@@ -325,7 +325,7 @@ let main ?readme t_param =
                       ~except:[]
                       ~timeout:`Never
                       ()
-                     : Core_unix.Select_fds.t);
+                    : Core_unix.Select_fds.t);
                In_channel.input_line In_channel.stdin)
            with
            | None -> return (Ok ())

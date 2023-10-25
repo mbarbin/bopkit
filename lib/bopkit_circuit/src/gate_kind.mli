@@ -33,12 +33,12 @@ type t =
       ; method_name : string option
       ; arguments : string list
       ; protocol_prefix : string Set_once.t
-          (** The method name and the arguments are constant for a given gate,
-              thus the simulator caches the prefix of the string that it will
-              send to the external process. *)
+      (** The method name and the arguments are constant for a given gate,
+          thus the simulator caches the prefix of the string that it will
+          send to the external process. *)
       ; index : int Set_once.t
-          (** The index of the external gate in the process table is determined
-              at runtime during the initialization of the simulation. *)
+      (** The index of the external gate in the process table is determined
+          at runtime during the initialization of the simulation. *)
       }
 [@@deriving sexp_of]
 

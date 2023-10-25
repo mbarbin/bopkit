@@ -26,8 +26,8 @@ let whattimeisit () =
 let start t =
   t.n <- 0;
   t.start
-    <- (Caml_unix.gettimeofday ()
-        -. if t.as_if_started_at_midnight then whattimeisit () else 0.);
+  <- (Caml_unix.gettimeofday ()
+      -. if t.as_if_started_at_midnight then whattimeisit () else 0.);
   t.started <- true
 ;;
 
@@ -39,9 +39,9 @@ let wait ~(seconds : float) =
          expressed as a float. *)
       ignore
         (Caml_unix.select [] [] [] seconds
-          : Caml_unix.file_descr list
-            * Caml_unix.file_descr list
-            * Caml_unix.file_descr list)
+         : Caml_unix.file_descr list
+           * Caml_unix.file_descr list
+           * Caml_unix.file_descr list)
     with
     | Caml_unix.Unix_error (_, "select", _) -> ())
 ;;

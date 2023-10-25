@@ -366,7 +366,7 @@ let click_color t ~address =
       | None -> 1
     in
     t.coloration
-      <- Map.set t.coloration ~key:address ~data:(color_of_click new_state, new_state))
+    <- Map.set t.coloration ~key:address ~data:(color_of_click new_state, new_state))
 ;;
 
 let reset_color t ~address = t.coloration <- Map.remove t.coloration address
@@ -417,7 +417,7 @@ let read_user_value t ~address:addr =
     then (
       ignore
         (center_view t ~on_address:addr
-          : [ `Done_now_needs_to_redraw | `Not_needed_did_nothing ]);
+         : [ `Done_now_needs_to_redraw | `Not_needed_did_nothing ]);
       draw t)
     else ();
     let i = addr - t.offset in

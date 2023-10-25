@@ -30,9 +30,9 @@ let topological_sort ~error_log (cds : t) =
   let update_output_wires (gate : Gate.t) =
     for i = 0 to pred (Array.length gate.output_wires) do
       gate.output_wires.(i)
-        <- List.map gate.output_wires.(i) ~f:(fun { gate_index = n; input_index = c } ->
-             { Output_wire.gate_index = order_inv.(n); input_index = c })
-           |> List.sort ~compare:Output_wire.compare
+      <- List.map gate.output_wires.(i) ~f:(fun { gate_index = n; input_index = c } ->
+           { Output_wire.gate_index = order_inv.(n); input_index = c })
+         |> List.sort ~compare:Output_wire.compare
     done;
     match gate.gate_kind with
     | Regr { index_of_regt = n } ->
@@ -112,17 +112,17 @@ let split_registers (cds : t) =
     | Reg { initial_value } ->
       let index_of_regt = !new_node_no in
       new_cds.(index_of_regt)
-        <- { gate_kind = Regt
-           ; input = [||]
-           ; output = [| initial_value |]
-           ; output_wires = cds.(i).output_wires
-           };
+      <- { gate_kind = Regt
+         ; input = [||]
+         ; output = [| initial_value |]
+         ; output_wires = cds.(i).output_wires
+         };
       new_cds.(i)
-        <- { gate_kind = Regr { index_of_regt }
-           ; input = cds.(i).input
-           ; output = [||]
-           ; output_wires = [||]
-           };
+      <- { gate_kind = Regr { index_of_regt }
+         ; input = cds.(i).input
+         ; output = [||]
+         ; output_wires = [||]
+         };
       incr new_node_no
     | _ -> new_cds.(i) <- gate);
   new_cds

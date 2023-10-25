@@ -36,9 +36,9 @@ let generate_one t =
     blit_input_with_random_values t;
     Subleq_simulator.reset_exn t.subleq_simulator t.input;
     found_program
-      := match Subleq_simulator.run t.subleq_simulator with
-         | Success -> not t.with_cycle
-         | Program_does_not_terminate -> t.with_cycle
+    := match Subleq_simulator.run t.subleq_simulator with
+       | Success -> not t.with_cycle
+       | Program_does_not_terminate -> t.with_cycle
   done;
   t.index <- t.index + 1;
   let index_string =

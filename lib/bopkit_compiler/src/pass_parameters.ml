@@ -3,8 +3,8 @@ open! Import
 
 module Topo_parameter :
   Bopkit_topological_sort.Node
-    with type t = Bopkit.Netlist.parameter
-     and type key = string = struct
+  with type t = Bopkit.Netlist.parameter
+   and type key = string = struct
   type t = Bopkit.Netlist.parameter
   type key = string
 

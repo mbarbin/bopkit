@@ -49,8 +49,8 @@ module External_process = struct
     ; output_pipe : In_channel.t
     ; input_pipe : Out_channel.t
     ; mutable pending_input : Pending_input.t option
-        (* [pending_input] is used to improve error messages in the case of a
-           process terminating before responding to an input. *)
+    (* [pending_input] is used to improve error messages in the case of a
+       process terminating before responding to an input. *)
     }
 end
 

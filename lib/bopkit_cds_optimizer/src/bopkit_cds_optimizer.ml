@@ -81,13 +81,13 @@ let optimize ~error_log:_ (cds : Cds.t) =
   let tagged_cds = Array.map cds ~f:(fun gate -> Tagged_gate.make gate) in
   Array.iter tagged_cds ~f:(fun t ->
     t.gate
-      <- { t.gate with
-           output_wires =
-             Array.map t.gate.output_wires ~f:(fun output_wires ->
-               List.concat_map output_wires ~f:(fun output_wire ->
-                 traverse_ids cds ~output_wire)
-               |> List.sort ~compare:Output_wire.compare)
-         };
+    <- { t.gate with
+         output_wires =
+           Array.map t.gate.output_wires ~f:(fun output_wires ->
+             List.concat_map output_wires ~f:(fun output_wire ->
+               traverse_ids cds ~output_wire)
+             |> List.sort ~compare:Output_wire.compare)
+       };
     match t.gate.gate_kind with
     | (Clock | Gnd | Vdd) as constant ->
       let bit =
