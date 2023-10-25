@@ -23,7 +23,7 @@ depends: [
   "pp" {>= "1.1.2"}
   "stdune" {>= "3.6"}
   "tsdl" {>= "0.9.8"}
-  "tsdl-image" {>= "0.5"}
+  "tsdl-image" {>= "0.6"}
 ]
 build: [
   ["dune" "subst"] {pinned}
