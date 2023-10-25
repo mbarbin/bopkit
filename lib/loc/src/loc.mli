@@ -3,11 +3,7 @@ open! Core
 (** A type used to decorate AST nodes built by parser so as to allow located
     error messages. *)
 
-type t = Stdune.Loc.t =
-  { start : Source_code_position.t
-  ; stop : Source_code_position.t
-  }
-[@@deriving equal, sexp_of]
+type t = Stdune.Loc.t [@@deriving equal, sexp_of]
 
 (** By default set to [false], this may be temporarily turned to [true] to
     operates some comparison that ignores positions. *)

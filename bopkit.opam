@@ -8,7 +8,7 @@ homepage: "https://github.com/mbarbin/bopkit"
 bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
   "ocaml" {>= "4.14"}
-  "dune" {>= "3.5"}
+  "dune" {>= "3.11"}
   "dune-site" {>= "3.5"}
   "ANSITerminal" {>= "0.8.3"}
   "bogue" {>= "20221112"}
@@ -21,7 +21,7 @@ depends: [
   "ppx_jane" {>= "v0.16" & < "v0.17"}
   "ppx_js_style" {>= "v0.16" & < "v0.17"}
   "pp" {>= "1.1.2"}
-  "stdune" {>= "3.6"}
+  "stdune" {>= "3.11"}
   "tsdl" {>= "0.9.8"}
   "tsdl-image" {>= "0.6"}
 ]
