@@ -27,10 +27,17 @@ a [7-segment display](project/digital-watch/).
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Install
 
+The repo depends on unreleased packages that are found in an external
+opam-repository, which must be added to the current switch:
+
+```sh
+opam repo add mbarbin https://github.com/mbarbin/opam-repository.git
+```
+
 Please note that only installation from sources is currently supported. Clone
 the repository, then build and install the code with dune:
 
-```
+```sh
 dune build
 dune install
 ```
