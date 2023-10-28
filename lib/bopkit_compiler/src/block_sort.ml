@@ -26,29 +26,25 @@ struct
         if List.mem functional_args name ~equal:String.equal
         then Appendable_list.empty
         else
-          Appendable_list.of_list
+          Appendable_list.singleton
             (match arguments, functional_arguments with
-             | [], [] -> [ name ]
-             | _ -> [ Printf.sprintf "%s[]" name ])
+             | [], [] -> name
+             | _ -> Printf.sprintf "%s[]" name)
     and aux_imbrication : Bopkit.Netlist.nested_inputs -> _ = function
       | Nested_node { loc = _; comments = _; call; inputs } ->
-        Appendable_list.append
-          (aux_call call)
-          (Appendable_list.concat_map inputs ~f:aux_imbrication)
+        Appendable_list.concat (aux_call call :: List.map inputs ~f:aux_imbrication)
       | Variables _ -> Appendable_list.empty
     and aux_node : Bopkit.Netlist.node Bopkit.Control_structure.t -> _ = function
       | Node { loc = _; comments = _; call; inputs; outputs = _ } ->
-        Appendable_list.append
-          (aux_call call)
-          (Appendable_list.concat_map inputs ~f:aux_imbrication)
+        Appendable_list.concat (aux_call call :: List.map inputs ~f:aux_imbrication)
       | For_loop { nodes = node_list; _ } ->
-        Appendable_list.concat_map node_list ~f:aux_node
+        List.map node_list ~f:aux_node |> Appendable_list.concat
       | If_then_else { then_nodes = node_then; else_nodes = node_else; _ } ->
         Appendable_list.append
-          (Appendable_list.concat_map node_then ~f:aux_node)
-          (Appendable_list.concat_map node_else ~f:aux_node)
+          (List.map node_then ~f:aux_node |> Appendable_list.concat)
+          (List.map node_else ~f:aux_node |> Appendable_list.concat)
     in
-    Appendable_list.concat_map nodes ~f:aux_node
+    List.map nodes ~f:aux_node |> Appendable_list.concat
   ;;
 end
 

@@ -14,11 +14,11 @@ module Expanded_block_node :
     let nodes = fct.nodes in
     let rec aux_call : Bopkit.Expanded_netlist.call -> _ = function
       | External_block _ -> Appendable_list.empty
-      | Block { name } -> Appendable_list.of_list [ name ]
+      | Block { name } -> Appendable_list.singleton name
     and aux_node : Bopkit.Expanded_netlist.node -> _ = function
       | { loc = _; call; inputs = _; outputs = _ } -> aux_call call
     in
-    Appendable_list.concat_map nodes ~f:aux_node
+    List.map nodes ~f:aux_node |> Appendable_list.concat
   ;;
 end
 
