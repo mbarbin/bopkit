@@ -1,6 +1,13 @@
 # Unreleased
 
 ## Added
+## Changed
+## Fixed
+## Removed
+
+# 0.2.0 - 2023-10-30
+
+## Added
 
 - Added docusaurus documentation website, publish to GitHub Pages.
 - Added changelog.
