@@ -2,15 +2,18 @@
  (name parsing_utils)
  (public_name bopkit.parsing-utils)
  (wrapped false)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Base -open Stdio)
  (libraries
+  base
   core
+  core.filename_base
   pp
   core_unix
   core_unix.filename_unix
   core_unix.sys_unix
   error_log
   loc
-  stdune)
+  stdune
+  stdio)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

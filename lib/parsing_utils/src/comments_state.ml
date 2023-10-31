@@ -53,6 +53,8 @@ module Token = struct
   [@@deriving sexp_of]
 end
 
+module Doubly_linked = Core.Doubly_linked
+
 (* The first tokens are the most recent. *)
 type t =
   { tokens : Token.t Doubly_linked.t
@@ -68,13 +70,14 @@ let the_t : t Lazy.t =
 let insert_token t (token : Token.t) =
   if !debug
   then
-    Printf.eprintf
-      "DEBUG: insert_token %s\n%!"
-      (Sexp.to_string_hum [%sexp (token : Token.t)]);
+    prerr_endline
+      (Printf.sprintf
+         "DEBUG: insert_token %s"
+         (Sexp.to_string_hum [%sexp (token : Token.t)]));
   let (_ : Token.t Doubly_linked.Elt.t) =
     match Doubly_linked.find_elt t.tokens ~f:(fun t -> t.pos_cnum <= token.pos_cnum) with
     | None ->
-      (* All token are stricly more recent, add this one to the back. *)
+      (* All token are strictly more recent, add this one to the back. *)
       Doubly_linked.insert_last t.tokens token
     | Some elt ->
       (match
@@ -83,9 +86,8 @@ let insert_token t (token : Token.t) =
          then `Insert_before
          else (
            assert (previous_token.pos_cnum = token.pos_cnum);
-           (* If they're both a cut, only keep the existing one.
-              Otherwise we decide which order makes the most sence once for
-              all here. *)
+           (* If they're both a cut, only keep the existing one. Otherwise we
+              decide which order makes the most sense once for all here. *)
            match previous_token.token_kind, token.token_kind with
            | Cut, Cut -> (* Keep the existing one. *) `Dont_insert
            | Cut, Comment _ -> `Insert_before
@@ -143,15 +145,16 @@ let extract_comments t ~pos_cnum =
   in
   if !debug
   then
-    Printf.eprintf
-      "DEBUG: retrieve_comments pos_cnum=%d => %d comments\n%!"
-      pos_cnum
-      (List.length comments);
+    prerr_endline
+      (Printf.sprintf
+         "DEBUG: retrieve_comments pos_cnum=%d => %d comments"
+         pos_cnum
+         (List.length comments));
   comments
 ;;
 
 let reset () =
-  if !debug then Printf.eprintf "DEBUG: reset\n%!";
+  if !debug then prerr_endline "DEBUG: reset";
   let { tokens; comment_nodes } = force the_t in
   Doubly_linked.clear tokens;
   Queue.clear comment_nodes

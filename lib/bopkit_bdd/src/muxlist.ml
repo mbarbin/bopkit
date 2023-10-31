@@ -12,7 +12,7 @@ let of_muxtrees muxtrees =
   let fresh_internal_ident =
     let index = ref 0 in
     fun () ->
-      incr index;
+      Int.incr index;
       Ident.Internal !index
   in
   let nodes : Node.t Queue.t = Queue.create () in

@@ -58,7 +58,7 @@ let of_partial_bit_matrix (pbm : Partial_bit_matrix.t) =
       then Constant pbm.(accu).(i)
       else (
         let v2_pow_j2 = v2_pow_j * 2 in
-        let succ_j = succ j in
+        let succ_j = Int.succ j in
         Mux
           { input = j
           ; vdd = aux v2_pow_j2 (accu + v2_pow_j) succ_j

@@ -96,12 +96,14 @@ let pp_muxtree (muxtree : Muxtree.t) =
 
 let star =
   lazy
-    (sprintf {|
+    (Printf.sprintf
+       {|
 %s () = s
 where
   s = Vdd();
 end where;
-|} Name.unspecified_bit_block
+|}
+       Name.unspecified_bit_block
      |> String.strip)
 ;;
 
