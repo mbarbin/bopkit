@@ -4,7 +4,7 @@ type t = Bopkit.Netlist.t
 
 let string_with_vars str =
   match Bopkit.String_with_vars.parse str with
-  | Ok t -> sprintf "%S" (Bopkit.String_with_vars.to_string ~syntax:Percent t)
+  | Ok t -> Printf.sprintf "%S" (Bopkit.String_with_vars.to_string ~syntax:Percent t)
   | Error e ->
     raise_s
       [%sexp
@@ -40,18 +40,19 @@ let pp_include_file { Bopkit.Netlist.loc = _; comments; include_file_kind } =
   Pp.concat
     [ pp_comments comments
     ; (match include_file_kind with
-       | File_path file -> Pp.verbatim (sprintf "#include %s" (string_with_vars file))
+       | File_path file ->
+         Pp.verbatim (Printf.sprintf "#include %s" (string_with_vars file))
        | Distribution { file; file_is_quoted } ->
          Pp.verbatim
            (if file_is_quoted
-            then sprintf "#include <%s>" (string_with_vars file)
-            else sprintf "#include <%s>" file))
+            then Printf.sprintf "#include <%s>" (string_with_vars file)
+            else Printf.sprintf "#include <%s>" file))
     ]
 ;;
 
 let pp_parameter { Bopkit.Netlist.loc = _; comments; name; parameter_value } =
   pp_comments comments
-  ++ Pp.verbatim (sprintf "#define %s " name)
+  ++ Pp.verbatim (Printf.sprintf "#define %s " name)
   ++
   match parameter_value with
   | DefInt e -> Bopkit.Arithmetic_expression.pp e
@@ -91,8 +92,8 @@ let pp_memory
   Pp.concat
     [ pp_comments comments
     ; (match memory_kind with
-       | RAM -> Pp.verbatim (sprintf "RAM %s" name)
-       | ROM -> Pp.verbatim (sprintf "ROM %s" name))
+       | RAM -> Pp.verbatim (Printf.sprintf "RAM %s" name)
+       | ROM -> Pp.verbatim (Printf.sprintf "ROM %s" name))
     ; Pp.verbatim " ("
     ; Bopkit.Arithmetic_expression.pp address_width
     ; Pp.verbatim ", "
@@ -100,8 +101,8 @@ let pp_memory
     ; Pp.verbatim ")"
     ; (match memory_content with
        | Zero -> Pp.nop
-       | File file -> Pp.verbatim (sprintf " = file(%s)" (string_with_vars file))
-       | Text text -> Pp.verbatim (sprintf " = text {%s}" text))
+       | File file -> Pp.verbatim (Printf.sprintf " = file(%s)" (string_with_vars file))
+       | Text text -> Pp.verbatim (Printf.sprintf " = text {%s}" text))
     ]
 ;;
 
@@ -226,7 +227,7 @@ let pp_external_block
            | [] -> Pp.nop
            | _ :: _ as list -> pp_attributes list ++ Pp.verbatim " ")
         ; Pp.verbatim name
-        ; Pp.verbatim (sprintf " %s" (string_with_vars command))
+        ; Pp.verbatim (Printf.sprintf " %s" (string_with_vars command))
         ; (match api with
            | [] -> Pp.nop
            | _ :: _ as list ->

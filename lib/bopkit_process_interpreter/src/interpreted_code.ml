@@ -63,7 +63,7 @@ let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
   let next_memory_index =
     let index = ref (-1) in
     fun () ->
-      incr index;
+      Int.incr index;
       !index
   in
   let addresses : Address.t Hashtbl.M(Bopkit_process.Ident).t =

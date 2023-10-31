@@ -1,7 +1,7 @@
 (library
  (name bopkit_pp)
  (public_name bopkit.pp)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries core bopkit bopkit_circuit pp)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Base)
+ (libraries base bopkit bopkit_circuit pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

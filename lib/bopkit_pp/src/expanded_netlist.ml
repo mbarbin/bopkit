@@ -11,7 +11,7 @@ let map_variable variable : Bopkit.Netlist.variable =
   | Signal { name } -> Signal { name }
   | Bus { loc; name; indexes } ->
     Bus { loc; name; indexes = List.map indexes ~f:map_index }
-  | Internal i -> Signal { name = sprintf "#%d#" i }
+  | Internal i -> Signal { name = Printf.sprintf "#%d#" i }
 ;;
 
 let map_variables { Bopkit.Expanded_netlist.original_grouping; _ } =

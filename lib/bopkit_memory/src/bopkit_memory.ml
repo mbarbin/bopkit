@@ -117,20 +117,21 @@ let create
   let values =
     match init with
     | Some values -> values
-    | None -> Bit_matrix.init_matrix_linear ~dimx:length ~dimy:data_width ~f:(const false)
+    | None ->
+      Bit_matrix.init_matrix_linear ~dimx:length ~dimy:data_width ~f:(Fn.const false)
   in
   let max_value = Int.pow 2 data_width in
   let mem =
     let t = Array.make_matrix ~dimx:length ~dimy:data_width false in
-    for i = 0 to pred (min length (Array.length values)) do
-      for j = 0 to pred (min data_width (Array.length values.(i))) do
+    for i = 0 to Int.pred (min length (Array.length values)) do
+      for j = 0 to Int.pred (min data_width (Array.length values.(i))) do
         t.(i).(j) <- values.(i).(j)
       done
     done;
     t
   in
-  let num_dec_char_addr = String.length (string_of_int length) in
-  let num_dec_char_word = String.length (string_of_int max_value) in
+  let num_dec_char_addr = String.length (Int.to_string length) in
+  let num_dec_char_word = String.length (Int.to_string max_value) in
   { name
   ; data_width
   ; address_width
@@ -151,19 +152,15 @@ let create
   }
 ;;
 
-let int_of_string s =
-  match int_of_string s with
-  | (i : int) -> Some i
-  | exception Failure _ -> None
-;;
-
 (* Add some leading '0' to a decimal, to achieve vertical alignment. For
    example: int_d 4 15 --> "0015" *)
-let int_d d i = sprintf "%0*d" d i
+let int_d d i = Printf.sprintf "%0*d" d i
 
 (* Same as [int_d] but with an additional +/- leading char. For example:
    ind_d_signed 4 -15 --> "-015" *)
-let int_d_signed d i = sprintf "%c%0*d" (if i < 0 then '-' else '+') (d - 1) (Int.abs i)
+let int_d_signed d i =
+  Printf.sprintf "%c%0*d" (if i < 0 then '-' else '+') (d - 1) (Int.abs i)
+;;
 
 (* The user can cycle through different colors when clicking on the cells. *)
 let color_of_click n =
@@ -179,8 +176,8 @@ let color_of_click n =
   | _ -> white
 ;;
 
-let from_rgb (c : Graphics.color) = c / Int.pow 256 2, c / 256 mod 256, c mod 256
-let ( |*. ) i f = int_of_float (float i *. f)
+let from_rgb (c : Graphics.color) = c / Int.pow 256 2, c / 256 % 256, c % 256
+let ( |*. ) i f = Int.of_float (Float.of_int i *. f)
 
 let scale_color color p =
   let r, g, b = from_rgb color in
@@ -216,9 +213,9 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
   while not !fin do
     let stat = wait_next_event [ Key_pressed ] in
     match stat.key with
-    | o when int_of_char o = 27 -> raise Escape_key_pressed
-    | o when int_of_char o = 13 -> fin := true
-    | o when int_of_char o = 8 ->
+    | o when Char.to_int o = 27 -> raise Escape_key_pressed
+    | o when Char.to_int o = 13 -> fin := true
+    | o when Char.to_int o = 8 ->
       if Stack.is_empty acc
       then ()
       else (
@@ -239,7 +236,7 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
   done;
   let len = Stack.length acc in
   let out = Bytes.make len ' ' in
-  for i = pred len downto 0 do
+  for i = Int.pred len downto 0 do
     Bytes.set out i (Stack.pop_exn acc)
   done;
   Bytes.to_string out
@@ -272,7 +269,7 @@ let draw_color t =
     else (
       let i = adr - t.offset
       and bits_adr = Array.create ~len:t.address_width false in
-      moveto (0 + (bx * (i / byc))) (sY - by - (by * (i mod byc)) + 2);
+      moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) + 2);
       set_color (scale_color col parameter);
       fill_rect (current_x ()) (current_y () - 2) bx by;
       set_color t.pen;
@@ -308,10 +305,10 @@ let draw t =
   set_color t.pen;
   (* Here we draw them all without considerations for colors, and we redraw the
      colored one at the end. *)
-  for i = 0 to pred (min cpp (t.length - t.offset)) do
+  for i = 0 to Int.pred (min cpp (t.length - t.offset)) do
     let j = i + t.offset
     and bits_adr = Array.create ~len:t.address_width false in
-    moveto (0 + (bx * (i / byc))) (sY - by - (by * (i mod byc)) + 2);
+    moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) + 2);
     Bit_array.blit_int ~dst:bits_adr ~src:j;
     draw_char ' ';
     match t.word_printing_style with
@@ -360,7 +357,7 @@ let click_color t ~address =
   else (
     let new_state =
       match Map.find t.coloration address with
-      | Some (_, s) -> succ s mod 7
+      | Some (_, s) -> Int.succ s % 7
       | None -> 1
     in
     t.coloration
@@ -422,7 +419,7 @@ let read_user_value t ~address:addr =
     match t.word_printing_style with
     | Binary ->
       let dx, dy =
-        (bx * (i / byc)) + (tX * (t.address_width + 4)), sY - by - (by * (i mod byc))
+        (bx * (i / byc)) + (tX * (t.address_width + 4)), sY - by - (by * (i % byc))
       in
       let s_user = read_string t ~at_coordinates:(dx - 2, dy) ~length:t.data_width () in
       let tmp = Bit_array.of_01_chars_in_string s_user in
@@ -434,38 +431,38 @@ let read_user_value t ~address:addr =
         ~len:(min (Array.length tmp) t.data_width)
     | Decimal ->
       let dx, dy =
-        (bx * (i / byc)) + (tX * (t.num_dec_char_addr + 4)), sY - by - (by * (i mod byc))
+        (bx * (i / byc)) + (tX * (t.num_dec_char_addr + 4)), sY - by - (by * (i % byc))
       in
       let s_user =
         read_string t ~at_coordinates:(dx - 2, dy) ~length:t.num_dec_char_word ()
       in
-      (match int_of_string s_user with
+      (match Int.of_string_opt s_user with
        | None -> ()
        | Some iv -> Bit_array.blit_int ~dst:t.mem.(addr) ~src:iv)
     | SignedDecimal ->
       let dx, dy =
-        (bx * (i / byc)) + (tX * (t.num_dec_char_addr + 4)), sY - by - (by * (i mod byc))
+        (bx * (i / byc)) + (tX * (t.num_dec_char_addr + 4)), sY - by - (by * (i % byc))
       in
       let s_user =
         read_string t ~at_coordinates:(dx - 2, dy) ~length:(t.num_dec_char_word + 1) ()
       in
-      (match int_of_string s_user with
+      (match Int.of_string_opt s_user with
        | None -> ()
        | Some iv -> Bit_array.blit_int ~dst:t.mem.(addr) ~src:iv))
 ;;
 
 let to_text_file t ~filename =
-  Printf.fprintf stderr "Save memory \"%s\" to \"%s\" (text file)\n" t.name filename;
-  Out_channel.flush stderr;
+  prerr_endline
+    (Printf.sprintf "Save memory \"%s\" to \"%s\" (text file)" t.name filename);
   Bit_matrix.to_text_file t.mem ~filename
 ;;
 
 let load_text_file t ~filename =
-  Printf.fprintf stderr "Load memory \"%s\" from \"%s\" (text file)\n" t.name filename;
-  Out_channel.flush stderr;
+  prerr_endline
+    (Printf.sprintf "Load memory \"%s\" from \"%s\" (text file)" t.name filename);
   let bin = Bit_matrix.of_text_file ~dimx:t.length ~dimy:t.data_width ~filename in
-  for i = 0 to pred t.length do
-    for j = 0 to pred t.data_width do
+  for i = 0 to Int.pred t.length do
+    for j = 0 to Int.pred t.data_width do
       t.mem.(i).(j) <- bin.(i).(j)
     done
   done
@@ -494,7 +491,7 @@ let event_loop_internal t ~loop ~read_only =
     | true -> mode_edit_off ()
     | false -> mode_edit_on ()
   in
-  with_return (fun return ->
+  With_return.with_return (fun return ->
     mode_edit_off ();
     draw t;
     while true do
@@ -549,7 +546,7 @@ let event_loop_internal t ~loop ~read_only =
               let filename = read_string t ~at_coordinates:(0, 0) ~prompt () in
               load_text_file t ~filename;
               true)
-          | o when Char.equal o ' ' || int_of_char o = 13 (* '\n' *) ->
+          | o when Char.equal o ' ' || Char.to_int o = 13 (* '\n' *) ->
             (match loop with
              | false -> return.return ()
              | true ->
@@ -558,7 +555,7 @@ let event_loop_internal t ~loop ~read_only =
                else (
                  switch_edit ();
                  true))
-          | o when int_of_char o = 27 -> raise Escape_key_pressed
+          | o when Char.to_int o = 27 -> raise Escape_key_pressed
           | _ -> false)
         else if stat.button
         then (
@@ -590,9 +587,9 @@ let event_loop t ~read_only =
 let read_int t ~address =
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "Memory %s : read_int out of bounds (%d)\n" t.name address;
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline
+      (Printf.sprintf "Memory %s : read_int out of bounds (%d)" t.name address);
+    Stdlib.exit 1)
   else Bit_array.to_int t.mem.(address)
 ;;
 
@@ -600,23 +597,21 @@ let read_bits t ~address ~dst:where =
   let address = Bit_array.to_int address in
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "Memory %s: read_bits out of bounds (%d)\n" t.name address;
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline
+      (Printf.sprintf "Memory %s: read_bits out of bounds (%d)" t.name address);
+    Stdlib.exit 1)
   else if Array.length where <> t.data_width
   then (
-    Printf.fprintf stderr "Memory %s: read_bits invalid pointer\n" t.name;
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline (Printf.sprintf "Memory %s: read_bits invalid pointer\n" t.name);
+    Stdlib.exit 1)
   else Array.blit ~src:t.mem.(address) ~src_pos:0 ~dst:where ~dst_pos:0 ~len:t.data_width
 ;;
 
 let write_int t ~address ~value =
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "RAM %s: write_int out of bounds (%d)\n" t.name address;
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline (Printf.sprintf "RAM %s: write_int out of bounds (%d)\n" t.name address);
+    Stdlib.exit 1)
   else Bit_array.blit_int ~dst:t.mem.(address) ~src:value
 ;;
 
@@ -624,17 +619,15 @@ let write_bits t ~address ~value =
   let address = Bit_array.to_int address in
   if address < 0 || address >= t.length
   then (
-    Printf.fprintf stderr "RAM %s: write_bits out of bounds (%d)\n" t.name address;
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline (Printf.sprintf "RAM %s: write_bits out of bounds (%d)" t.name address);
+    Stdlib.exit 1)
   else if Array.length value <> t.data_width
   then (
-    Printf.fprintf
-      stderr
-      "RAM %s: write_bits invalid data (%d)\n"
-      t.name
-      (Bit_array.to_int value);
-    Out_channel.flush stderr;
-    exit 1)
+    prerr_endline
+      (Printf.sprintf
+         "RAM %s: write_bits invalid data (%d)"
+         t.name
+         (Bit_array.to_int value));
+    Stdlib.exit 1)
   else Array.blit ~src:value ~src_pos:0 ~dst:t.mem.(address) ~dst_pos:0 ~len:t.data_width
 ;;

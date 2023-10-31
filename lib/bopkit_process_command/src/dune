@@ -1,13 +1,14 @@
 (library
  (name bopkit_process_command)
  (public_name bopkit.process-command)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Base)
  (libraries
-  core
+  base
   bopkit_process
   bopkit_process_syntax
   bopkit_process_interpreter
   bopkit_process_pp
+  core.command
   pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

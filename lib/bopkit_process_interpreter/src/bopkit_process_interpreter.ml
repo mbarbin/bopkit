@@ -1,7 +1,7 @@
 open! Or_error.Let_syntax
 
 let execute_instruction
-  ~(break : unit Or_error.t return)
+  ~(break : unit Or_error.t With_return.return)
   ~architecture
   ~memory
   ~instruction
@@ -47,7 +47,7 @@ let execute_instruction
 ;;
 
 let execute_code ~interpreted_code:{ Interpreted_code.architecture; memory; code } =
-  with_return (fun break ->
+  With_return.with_return (fun break ->
     while true do
       Array.iter code ~f:(fun instruction ->
         execute_instruction ~break ~architecture ~memory ~instruction)
