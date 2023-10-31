@@ -7,7 +7,7 @@ license: "MIT"
 homepage: "https://github.com/mbarbin/bopkit"
 bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
-  "ocaml" {>= "5.0"}
+  "ocaml" {>= "5.1"}
   "dune" {>= "3.11"}
   "dune-site" {>= "3.11"}
   "appendable-list" {>= "v0.16" & < "v0.17"}
