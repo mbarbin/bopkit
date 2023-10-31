@@ -30,7 +30,7 @@ let run ~circuit ~error_log ~config =
   (* Make it possible to interrupt the simulation on sigint. *)
   Sys_unix.catch_break true;
   (try
-     with_return (fun { return } ->
+     With_return.with_return (fun { return } ->
        match num_cycles with
        | None ->
          while true do

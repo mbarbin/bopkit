@@ -28,9 +28,9 @@ let decimal_of_partial_array ~src:t ~pos:offset ~len:long =
     let rec aux accu i =
       if i < offset
       then accu
-      else aux ((2 * accu) + if Array.unsafe_get t i then 1 else 0) (pred i)
+      else aux ((2 * accu) + if Array.unsafe_get t i then 1 else 0) (Int.pred i)
     in
-    aux 0 (pred index_fin))
+    aux 0 (Int.pred index_fin))
 ;;
 
 module Pending_input = struct
@@ -169,7 +169,9 @@ let init t =
         match arguments with
         | [] -> None
         | _ :: _ ->
-          let arguments = List.map arguments ~f:(fun arg -> sprintf "\"%s\"" arg) in
+          let arguments =
+            List.map arguments ~f:(fun arg -> Printf.sprintf "\"%s\"" arg)
+          in
           Some (arguments |> String.concat ~sep:" ")
       in
       let this_protocol_prefix =
@@ -190,11 +192,11 @@ let init t =
             block is called multiple times at different part of the program.
             Given that it comes from the same syntactic place, it's index and
             protocol prefix will be the same. *)
-         Set_once.set_if_none index [%here] block_index;
-         Set_once.set_if_none protocol_prefix [%here] this_protocol_prefix
+         Core.Set_once.set_if_none index [%here] block_index;
+         Core.Set_once.set_if_none protocol_prefix [%here] this_protocol_prefix
        | None ->
          let this_index = !external_index in
-         incr external_index;
+         Int.incr external_index;
          Error_log.debug
            t.error_log
            ~loc
@@ -210,11 +212,11 @@ let init t =
            }
          in
          Queue.enqueue external_processes external_process;
-         Set_once.set_exn index [%here] this_index;
-         Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
-         with_return (fun return ->
+         Core.Set_once.set_exn index [%here] this_index;
+         Core.Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
+         With_return.with_return (fun return ->
            List.iter init_messages ~f:(fun message ->
-             Printf.fprintf input_pipe "%s\n" message;
+             Out_channel.output_lines input_pipe [ message ];
              Out_channel.flush input_pipe;
              external_process.pending_input <- Some { loc; input = message };
              match In_channel.input_line output_pipe with
@@ -245,13 +247,14 @@ let init t =
 let or_exit_error e =
   (match (e : Core_unix.Exit_or_signal.t) with
    | Ok () -> Ok ()
-   | Error (`Signal signal) -> if Signal.equal signal Signal.int then Ok () else e
+   | Error (`Signal signal) ->
+     if Core.Signal.equal signal Core.Signal.int then Ok () else e
    | Error (`Exit_non_zero _) -> e)
   |> Core_unix.Exit_or_signal.or_error
 ;;
 
 let quit t =
-  for i = 0 to pred (Array.length t.external_process) do
+  for i = 0 to Int.pred (Array.length t.external_process) do
     let process = t.external_process.(i) in
     Error_log.debug
       t.error_log
@@ -275,7 +278,7 @@ let quit t =
             "%sexited abnormally:"
             (match process.pending_input with
              | None -> ""
-             | Some { loc = _; input } -> sprintf "received: '%s' and " input)
+             | Some { loc = _; input } -> Printf.sprintf "received: '%s' and " input)
         ; Pp.textf "%s" (Error.to_string_hum e)
         ]
     | exception End_of_file ->
@@ -391,13 +394,13 @@ let fct_ram (_ : t) ~(gate : Bopkit_circuit.Gate.t) =
 let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
   match gate.gate_kind with
   | External { loc; name = _; method_name = _; arguments = _; protocol_prefix; index } ->
-    let index = Set_once.get_exn index [%here] in
+    let index = Core.Set_once.get_exn index [%here] in
     let process = t.external_process.(index) in
     let protocol =
-      Set_once.get_exn protocol_prefix [%here] ^ Bit_array.to_string gate.input
+      Core.Set_once.get_exn protocol_prefix [%here] ^ Bit_array.to_string gate.input
     in
-    with_return (fun return ->
-      Printf.fprintf process.input_pipe "%s\n" protocol;
+    With_return.with_return (fun return ->
+      Out_channel.output_lines process.input_pipe [ protocol ];
       Out_channel.flush process.input_pipe;
       process.pending_input <- Some { loc; input = protocol };
       let reponse =
@@ -456,7 +459,7 @@ let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
 ;;
 
 let one_cycle t ~blit_input ~output_handler =
-  with_return (fun { return } ->
+  With_return.with_return (fun { return } ->
     blit_input ~dst:t.input;
     Array.iter
       (cds t)

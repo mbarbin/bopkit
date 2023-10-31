@@ -39,7 +39,7 @@ let read_and_blit_input t ~dst ~error_log =
             dst_len
         ]
     else
-      for i = 0 to pred dst_len do
+      for i = 0 to Int.pred dst_len do
         let value =
           match input.[i] with
           | '0' -> false

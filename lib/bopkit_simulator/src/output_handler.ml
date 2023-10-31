@@ -8,7 +8,7 @@ type t =
 
 let create ~config ~input_names ~output_names =
   { output_kind = Config.output_kind config
-  ; last_output = Array.map output_names ~f:(const false)
+  ; last_output = Array.map output_names ~f:(Fn.const false)
   ; index_cycle = -1
   ; input_names
   ; output_names
@@ -17,9 +17,7 @@ let create ~config ~input_names ~output_names =
 
 let print_output ~output ~print_if_empty =
   if Array.length output > 0 || print_if_empty
-  then (
-    Printf.printf "%s\n" (Bit_array.to_string output);
-    Out_channel.flush stdout)
+  then print_endline (Bit_array.to_string output)
 ;;
 
 let output_changed t ~output =
@@ -36,7 +34,7 @@ let output_changed t ~output =
 let char_of_bool = Bit_string_encoding.Bit.to_char
 
 let output t ~input ~output =
-  t.index_cycle <- succ t.index_cycle;
+  t.index_cycle <- Int.succ t.index_cycle;
   match t.output_kind with
   | Default { output_only_on_change } ->
     if (not output_only_on_change) || output_changed t ~output
@@ -45,11 +43,11 @@ let output t ~input ~output =
   | Show_input ->
     if not (Array.is_empty input && Array.is_empty output)
     then (
-      Printf.printf "%8d |" t.index_cycle;
-      Array.iter input ~f:(fun i -> Printf.printf " %c" (char_of_bool i));
-      Printf.printf " |";
-      Array.iter output ~f:(fun i -> Printf.printf " %c" (char_of_bool i));
-      Printf.printf "\n";
+      Out_channel.printf "%8d |" t.index_cycle;
+      Array.iter input ~f:(fun i -> Out_channel.printf " %c" (char_of_bool i));
+      Out_channel.printf " |";
+      Array.iter output ~f:(fun i -> Out_channel.printf " %c" (char_of_bool i));
+      Out_channel.printf "\n";
       Out_channel.flush stdout)
 ;;
 
@@ -59,10 +57,10 @@ let init t =
   | Show_input ->
     if not (Array.is_empty t.input_names && Array.is_empty t.output_names)
     then (
-      Printf.printf "%8s |" "Cycle";
-      Array.iter t.input_names ~f:(fun name -> Printf.printf " %s" name);
-      Printf.printf " |";
-      Array.iter t.output_names ~f:(fun name -> Printf.printf " %s" name);
-      Printf.printf "\n";
+      Out_channel.printf "%8s |" "Cycle";
+      Array.iter t.input_names ~f:(fun name -> Out_channel.printf " %s" name);
+      Out_channel.printf " |";
+      Array.iter t.output_names ~f:(fun name -> Out_channel.printf " %s" name);
+      Out_channel.printf "\n";
       Out_channel.flush stdout)
 ;;
