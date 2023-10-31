@@ -6,7 +6,7 @@ module Value = struct
 
   let to_syntax = function
     | Int d -> Int.to_string d
-    | String s -> sprintf "%S" s
+    | String s -> Printf.sprintf "%S" s
   ;;
 end
 
@@ -22,9 +22,9 @@ let arg_type =
     | None -> failwith "Invalid parameter argument. Expected 'name=value'."
     | Some (name, value) ->
       let value : Value.t =
-        match int_of_string value with
-        | i -> Int i
-        | exception _ -> String value
+        match Int.of_string_opt value with
+        | Some i -> Int i
+        | None -> String value
       in
       { name; value }
   in

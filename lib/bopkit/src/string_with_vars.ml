@@ -46,8 +46,8 @@ let parse t =
         else if Char.equal t.[i] (Syntax.close_char syntax)
         then (
           Queue.enqueue bounds (offset, len);
-          enqueue 0 0 ~is_parsing_var:None (succ i))
-        else enqueue offset (succ len) ~is_parsing_var (succ i)
+          enqueue 0 0 ~is_parsing_var:None (Int.succ i))
+        else enqueue offset (Int.succ len) ~is_parsing_var (Int.succ i)
       | None ->
         if i >= len_t
         then ()
@@ -55,11 +55,11 @@ let parse t =
           match
             if Char.equal t.[i] '$'
                && i <= len_t - 2
-               && Char.( = ) t.[succ i] (Syntax.open_char Dollar)
+               && Char.( = ) t.[Int.succ i] (Syntax.open_char Dollar)
             then Some Syntax.Dollar
             else if Char.equal t.[i] '%'
                     && i <= len_t - 2
-                    && Char.( = ) t.[succ i] (Syntax.open_char Percent)
+                    && Char.( = ) t.[Int.succ i] (Syntax.open_char Percent)
             then Some Syntax.Percent
             else None
           with
@@ -67,7 +67,7 @@ let parse t =
             if i >= len_t - 3
             then error.return (Syntax_error { in_ = t })
             else enqueue i 3 ~is_parsing_var:(Some syntax) (i + 2)
-          | None -> enqueue 0 0 ~is_parsing_var:None (succ i))
+          | None -> enqueue 0 0 ~is_parsing_var:None (Int.succ i))
     in
     let parts : Part.t Queue.t = Queue.create () in
     let rec dequeue b =
@@ -90,7 +90,7 @@ let to_string ?(syntax = Syntax.Dollar) { parts } =
   List.map parts ~f:(function
     | Text text -> text
     | Var var ->
-      sprintf
+      Printf.sprintf
         "%c%c%s%c"
         (Syntax.start syntax)
         (Syntax.open_char syntax)
@@ -104,7 +104,7 @@ let sexp_of_t t = Sexp.Atom (to_string t)
 let string_of_var ~parameters v =
   Or_eval_error.with_return (fun ~error ->
     match Parameters.find parameters ~parameter_name:v with
-    | Some (Parameter.Value.Int i) -> string_of_int i
+    | Some (Parameter.Value.Int i) -> Int.to_string i
     | Some (Parameter.Value.String s) -> s
     | None ->
       error.return (Free_variable { name = v; candidates = Parameters.keys parameters }))

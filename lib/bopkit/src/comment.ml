@@ -11,7 +11,7 @@ type t =
 
 let parse text =
   let text = String.strip text in
-  with_return (fun { return } ->
+  With_return.with_return (fun { return } ->
     if String.length text < 2 then return None;
     if not (Char.equal text.[0] '/') then return None;
     let newlines = String.count text ~f:(fun c -> Char.equal c '\n') in
@@ -77,7 +77,7 @@ let parse_exn comment =
 let render = function
   | Single_line { is_documentation_comment; text } ->
     let prefix = if is_documentation_comment then "///" else "//" in
-    [ (if String.is_empty text then prefix else sprintf "%s %s" prefix text) ]
+    [ (if String.is_empty text then prefix else Printf.sprintf "%s %s" prefix text) ]
   | Multiple_lines { is_documentation_comment; lines } ->
     if is_documentation_comment
     then

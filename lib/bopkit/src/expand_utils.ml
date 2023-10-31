@@ -38,9 +38,9 @@ let eval_variable (variable : Netlist.variable) ~error_log ~parameters
 let expand_const_variable (variable : Expanded_netlist.variable) =
   match variable with
   | Signal { name } -> [ name ]
-  | Internal i -> [ sprintf "#%d#" i ]
+  | Internal i -> [ Printf.sprintf "#%d#" i ]
   | Bus { loc = _; name; indexes } ->
-    let suffixes = expand_indexes indexes ~f:(fun i -> sprintf "[%d]" i) in
+    let suffixes = expand_indexes indexes ~f:(fun i -> Printf.sprintf "[%d]" i) in
     List.map suffixes ~f:(fun suffix -> name ^ suffix)
 ;;
 

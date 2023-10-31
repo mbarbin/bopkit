@@ -15,7 +15,7 @@ type t =
 let log2 =
   let rec aux accu n =
     let nsur2 = n / 2 in
-    if nsur2 = 0 then accu else aux (succ accu) nsur2
+    if nsur2 = 0 then accu else aux (Int.succ accu) nsur2
   in
   aux 0
 ;;
@@ -60,7 +60,7 @@ let eval t ~parameters =
       | SUB (a, b) -> eval a - eval b
       | DIV (a, b) -> eval a / eval b
       | MULT (a, b) -> eval a * eval b
-      | MOD (a, b) -> eval a mod eval b
+      | MOD (a, b) -> eval a % eval b
       | EXP (a, b) -> Int.pow (eval a) (eval b)
       | MIN (a, b) -> min (eval a) (eval b)
       | MAX (a, b) -> max (eval a) (eval b)
@@ -70,6 +70,7 @@ let eval t ~parameters =
 ;;
 
 let pp t =
+  let module Format = Stdlib.Format in
   let rec aux formatter = function
     | ADD (t1, t2) -> Format.fprintf formatter "%a + %a" aux t1 aux_closed t2
     | SUB (t1, t2) ->

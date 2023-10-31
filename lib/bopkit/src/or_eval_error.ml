@@ -21,11 +21,11 @@ include Monad.Make (struct
   end)
 
 let with_return f =
-  with_return (fun return ->
+  With_return.with_return (fun return ->
     Ok (f ~error:(With_return.prepend return ~f:(fun e -> Error e))))
 ;;
 
-let propagate ~error = function
+let propagate ~(error : _ With_return.return) = function
   | Ok e -> e
   | Error e -> error.return e
 ;;

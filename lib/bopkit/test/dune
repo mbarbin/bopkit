@@ -1,7 +1,17 @@
 (library
  (name bopkit_test)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core -open Bopkit)
- (libraries core bopkit pp)
+ (flags
+  -w
+  +a-4-40-41-42-44-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Bopkit)
+ (libraries base bopkit pp stdio)
  (inline_tests)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

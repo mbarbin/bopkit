@@ -13,6 +13,7 @@ depends: [
   "appendable-list" {>= "v0.16" & < "v0.17"}
   "ANSITerminal" {>= "0.8.3"}
   "bogue" {>= "20221112"}
+  "base" {>= "v0.16" & < "v0.17"}
   "core" {>= "v0.16" & < "v0.17"}
   "core_unix" {>= "v0.16" & < "v0.17"}
   "graphics" {>= "5.1.2"}
@@ -21,6 +22,7 @@ depends: [
   "ppx_jane" {>= "v0.16" & < "v0.17"}
   "ppx_js_style" {>= "v0.16" & < "v0.17"}
   "pp" {>= "1.1.2"}
+  "stdio" {>= "v0.16" & < "v0.17"}
   "stdune" {>= "3.11"}
   "tsdl" {>= "0.9.8"}
   "tsdl-image" {>= "0.6"}
