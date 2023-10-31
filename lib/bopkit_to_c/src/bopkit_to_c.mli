@@ -1,5 +1,3 @@
-open! Import
-
 (** Translating a bopkit project into a standalone C file. The file can be
     compiled with [gcc], for example with optimization options like [-O3] for
     performant native simulation of a digital circuit.

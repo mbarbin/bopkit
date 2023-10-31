@@ -16,7 +16,7 @@ module type Key = sig
   type t [@@deriving sexp_of]
 
   include Equal.S with type t := t
-  include Hashtbl.Key_plain with type t := t
+  include Hashtbl.Key.S with type t := t
 end
 
 (** Best effort to make parents appear before their children, and otherwise

@@ -82,9 +82,9 @@ module Message = struct
   [@@deriving sexp_of]
 
   let test_printer pp =
-    let ppf = Format.err_formatter in
+    let ppf = Stdlib.Format.err_formatter in
     Pp.to_fmt ppf pp;
-    Format.pp_print_flush ppf ()
+    Stdlib.Format.pp_print_flush ppf ()
   ;;
 
   let print (t : t) ~config =
@@ -92,7 +92,7 @@ module Message = struct
     then (
       if Kind.is_printed t.kind ~config
       then (
-        let use_test_printer = am_running_test || !force_am_running_test in
+        let use_test_printer = !force_am_running_test in
         Option.iter t.message.loc ~f:(fun loc ->
           (if use_test_printer then test_printer else Stdune.Ansi_color.prerr)
             (Stdune.Loc.pp loc
@@ -204,8 +204,8 @@ let report_and_return_status ?(config = Config.default) f () =
 
 let report_and_exit ~config f () =
   match report_and_return_status ~config f () with
-  | `Ok -> exit 0
-  | `Error -> exit 1
+  | `Ok -> Stdlib.exit 0
+  | `Error -> Stdlib.exit 1
   | `Raised (e, raw_backtrace) -> Stdlib.Printexc.raise_with_backtrace e raw_backtrace
 ;;
 

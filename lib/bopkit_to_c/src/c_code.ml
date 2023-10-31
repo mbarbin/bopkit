@@ -4,26 +4,27 @@ let input_name = "input_string"
 let output_name = "output_string"
 
 let output_declaration ~output_width:n =
-  Pp.verbatim (sprintf "char %s[%d] = %S;" output_name (succ n) (String.make n '0'))
+  Pp.verbatim
+    (Printf.sprintf "char %s[%d] = %S;" output_name (Int.succ n) (String.make n '0'))
 ;;
 
 let input_declaration ~input_width:i =
-  Pp.verbatim (sprintf "unsigned char %s[%d];" input_name (succ i))
+  Pp.verbatim (Printf.sprintf "unsigned char %s[%d];" input_name (Int.succ i))
 ;;
 
-let of_id s a = Pp.verbatim (sprintf "%s = %s;" s a)
-let of_not s a = Pp.verbatim (sprintf "%s = !%s;" s a)
-let of_and s a b = Pp.verbatim (sprintf "%s = %s && %s;" s a b)
-let of_or s a b = Pp.verbatim (sprintf "%s= %s || %s;" s a b)
-let of_xor s a b = Pp.verbatim (sprintf "%s = %s ? !%s : %s;" s a b b)
-let of_mux s e a b = Pp.verbatim (sprintf "%s = %s ? %s : %s;" s e a b)
+let of_id s a = Pp.verbatim (Printf.sprintf "%s = %s;" s a)
+let of_not s a = Pp.verbatim (Printf.sprintf "%s = !%s;" s a)
+let of_and s a b = Pp.verbatim (Printf.sprintf "%s = %s && %s;" s a b)
+let of_or s a b = Pp.verbatim (Printf.sprintf "%s= %s || %s;" s a b)
+let of_xor s a b = Pp.verbatim (Printf.sprintf "%s = %s ? !%s : %s;" s a b b)
+let of_mux s e a b = Pp.verbatim (Printf.sprintf "%s = %s ? %s : %s;" s e a b)
 
 let input ~input_width:n =
   let parameters =
     [ Pp.verbatim "("
     ; Pp.concat
         ~sep:(Pp.verbatim "," ++ Pp.space)
-        (List.init n ~f:(fun i -> Pp.verbatim (sprintf "unsigned char *e%d" i)))
+        (List.init n ~f:(fun i -> Pp.verbatim (Printf.sprintf "unsigned char *e%d" i)))
     ; Pp.verbatim ")"
     ]
     |> Pp.concat
@@ -33,11 +34,11 @@ let input ~input_width:n =
     Pp.concat
       ~sep:Pp.newline
       (List.init n ~f:(fun i ->
-         Pp.verbatim (sprintf "*e%d = (%s[%d] == '1');" i input_name i)))
+         Pp.verbatim (Printf.sprintf "*e%d = (%s[%d] == '1');" i input_name i)))
   in
   [ [ Pp.verbatim "void input" ++ parameters ++ Pp.verbatim " {"
     ; Pp.newline
-    ; Pp.verbatim (sprintf "readLineFromStdin(%s, %d);" input_name (succ n))
+    ; Pp.verbatim (Printf.sprintf "readLineFromStdin(%s, %d);" input_name (Int.succ n))
     ; (if n > 0 then Pp.newline else Pp.nop)
     ; body
     ]
@@ -53,7 +54,7 @@ let output ~output_width:n =
     [ Pp.verbatim "("
     ; Pp.concat
         ~sep:(Pp.verbatim "," ++ Pp.space)
-        (List.init n ~f:(fun i -> Pp.verbatim (sprintf "unsigned char e%d" i)))
+        (List.init n ~f:(fun i -> Pp.verbatim (Printf.sprintf "unsigned char e%d" i)))
     ; Pp.verbatim ")"
     ]
     |> Pp.concat
@@ -63,13 +64,13 @@ let output ~output_width:n =
     Pp.concat
       ~sep:Pp.newline
       (List.init n ~f:(fun i ->
-         Pp.verbatim (sprintf "%s[%d] = e%d ? '1' : '0';" output_name i i)))
+         Pp.verbatim (Printf.sprintf "%s[%d] = e%d ? '1' : '0';" output_name i i)))
   in
   [ [ Pp.verbatim "void output" ++ parameters ++ Pp.verbatim " {"
     ; Pp.newline
     ; body
     ; (if n > 0 then Pp.newline else Pp.nop)
-    ; Pp.verbatim (sprintf "fprintf(stdout, \"%%s\\n\", %s);" output_name)
+    ; Pp.verbatim (Printf.sprintf "fprintf(stdout, \"%%s\\n\", %s);" output_name)
     ; Pp.newline
     ; Pp.verbatim "fflush(stdout);"
     ]
@@ -119,7 +120,7 @@ let init_tab2 t =
 let index_of_bits index t =
   let len = Array.length t in
   if len = 0
-  then Pp.verbatim (sprintf "%s = 0;" index)
+  then Pp.verbatim (Printf.sprintf "%s = 0;" index)
   else (
     let rec aux acc power i =
       if i >= len
@@ -131,25 +132,27 @@ let index_of_bits index t =
           ++
           if String.equal multiplier "0"
           then Pp.nop
-          else Pp.verbatim (sprintf " + %d * %s" power multiplier)
+          else Pp.verbatim (Printf.sprintf " + %d * %s" power multiplier)
         in
-        aux acc (2 * power) (succ i))
+        aux acc (2 * power) (Int.succ i))
     in
-    aux (Pp.verbatim (sprintf "%s = %s" index t.(0))) 2 1 |> Pp.box ~indent:2)
+    aux (Pp.verbatim (Printf.sprintf "%s = %s" index t.(0))) 2 1 |> Pp.box ~indent:2)
 ;;
 
 let assign_bits_of_array ~prefix ~array ~len =
-  List.init len ~f:(fun i -> Pp.verbatim (sprintf "%s%d = %s[%d];" prefix i array i))
+  List.init len ~f:(fun i ->
+    Pp.verbatim (Printf.sprintf "%s%d = %s[%d];" prefix i array i))
   |> Pp.concat ~sep:Pp.newline
 ;;
 
 let assign_array_of_bits ~array ~prefix ~len =
-  List.init len ~f:(fun i -> Pp.verbatim (sprintf "%s[%d] = %s%d;" array i prefix i))
+  List.init len ~f:(fun i ->
+    Pp.verbatim (Printf.sprintf "%s[%d] = %s%d;" array i prefix i))
   |> Pp.concat ~sep:Pp.newline
 ;;
 
 let function_ram ~id ~num_addresses ~data_width =
-  let bits = int_of_float (log (float_of_int num_addresses) /. log 2.) in
+  let bits = Int.of_float (Float.log (Float.of_int num_addresses) /. Float.log 2.) in
   let entrees = (2 * bits) + 1 + data_width in
   let tab_read_add = Array.init bits ~f:(fun i -> Printf.sprintf "r%d" i) in
   let tab_write_add = Array.init bits ~f:(fun i -> Printf.sprintf "e%d" i) in
@@ -168,7 +171,7 @@ let function_ram ~id ~num_addresses ~data_width =
     ; [ Pp.verbatim "if (en) {"
       ; index_of_bits "index" tab_write_add
       ; assign_array_of_bits
-          ~array:(sprintf "ram%d[index]" id)
+          ~array:(Printf.sprintf "ram%d[index]" id)
           ~prefix:"d"
           ~len:data_width
       ]
@@ -178,7 +181,7 @@ let function_ram ~id ~num_addresses ~data_width =
       ; index_of_bits "index" tab_read_add
       ; assign_bits_of_array
           ~prefix:"*s"
-          ~array:(sprintf "ram%d[index]" id)
+          ~array:(Printf.sprintf "ram%d[index]" id)
           ~len:data_width
       ]
       |> Pp.concat ~sep:Pp.newline
@@ -193,7 +196,7 @@ let function_ram ~id ~num_addresses ~data_width =
 ;;
 
 let function_rom ~id ~num_addresses ~data_width =
-  let bits = int_of_float (log (float_of_int num_addresses) /. log 2.) in
+  let bits = Int.of_float (Float.log (Float.of_int num_addresses) /. Float.log 2.) in
   let tab_entrees = Array.init bits ~f:(fun i -> Printf.sprintf "e%d" i) in
   let tab_sorties = Array.init data_width ~f:(fun i -> Printf.sprintf "s%d" i) in
   let pp =
@@ -202,11 +205,14 @@ let function_rom ~id ~num_addresses ~data_width =
       |> Array.mapi ~f:(fun i arg ->
         (if i < bits then "unsigned char " else "unsigned char *") ^ arg)
     in
-    call ~name:(sprintf "void call_rom%d" id) ~args
+    call ~name:(Printf.sprintf "void call_rom%d" id) ~args
   in
   [ [ pp ++ Pp.verbatim " {"
     ; Pp.verbatim "int " ++ index_of_bits "index" tab_entrees
-    ; assign_bits_of_array ~prefix:"*s" ~array:(sprintf "rom%d[index]" id) ~len:data_width
+    ; assign_bits_of_array
+        ~prefix:"*s"
+        ~array:(Printf.sprintf "rom%d[index]" id)
+        ~len:data_width
     ]
     |> Pp.concat ~sep:Pp.newline
     |> Pp.box ~indent:2
@@ -220,7 +226,8 @@ let of_ram ~id ~contents =
   let data_width = Array.length contents.(0) in
   let decl =
     Pp.concat
-      [ Pp.verbatim (sprintf "unsigned char ram%d[%d][%d] = " id num_addresses data_width)
+      [ Pp.verbatim
+          (Printf.sprintf "unsigned char ram%d[%d][%d] = " id num_addresses data_width)
       ; init_tab2 contents
       ; Pp.verbatim ";"
       ; Pp.newline
@@ -235,7 +242,8 @@ let of_rom ~id ~contents =
   let data_width = Array.length contents.(0) in
   let decl =
     Pp.concat
-      [ Pp.verbatim (sprintf "unsigned char rom%d[%d][%d] = " id num_addresses data_width)
+      [ Pp.verbatim
+          (Printf.sprintf "unsigned char rom%d[%d][%d] = " id num_addresses data_width)
       ; init_tab2 contents
       ; Pp.verbatim ";"
       ; Pp.newline

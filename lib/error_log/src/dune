@@ -2,7 +2,7 @@
  (name error_log)
  (public_name bopkit.error-log)
  (wrapped false)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries core loc stdune)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Base -open Stdio)
+ (libraries base core.command loc stdio stdune)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

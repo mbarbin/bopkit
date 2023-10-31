@@ -10,7 +10,7 @@ module type Key = sig
   type t [@@deriving sexp_of]
 
   include Equal.S with type t := t
-  include Hashtbl.Key_plain with type t := t
+  include Hashtbl.Key.S with type t := t
 end
 
 module Node_and_key = struct

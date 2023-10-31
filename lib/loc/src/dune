@@ -2,7 +2,7 @@
  (name loc)
  (public_name bopkit.loc)
  (wrapped false)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries core stdune)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Base)
+ (libraries base stdune)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
