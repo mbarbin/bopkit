@@ -1,5 +1,3 @@
-open! Core
-
 type t = bool array [@@deriving compare, equal, quickcheck, sexp_of]
 
 let enqueue_01_char_in_line ~line ~dst =

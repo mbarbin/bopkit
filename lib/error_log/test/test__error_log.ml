@@ -1,4 +1,3 @@
-open! Core
 open! Or_error.Let_syntax
 
 let%expect_test "return Ok" =

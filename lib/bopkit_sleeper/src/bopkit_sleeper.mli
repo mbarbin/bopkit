@@ -1,5 +1,3 @@
-open! Core
-
 (** A [Bopkit_sleeper.t] is used to regulate the simulation of bop files to a
     desired fixed number of simulated cycles per second.
 

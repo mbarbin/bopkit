@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 type t =
   | Constant of bool option
   | Signal of Ident.t

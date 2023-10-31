@@ -1,5 +1,3 @@
-open! Core
-
 (** This modules implements utils to call parsing functions given a Parser/Lexer
     pair. The pattern here is for a library to implement the [S] interface,
     and then use the functions provided here by supplying [S] as a first class

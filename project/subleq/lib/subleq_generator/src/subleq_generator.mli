@@ -1,5 +1,3 @@
-open! Core
-
 (** This module allows you to generate subleq programs. We make use of this
     program to generate random inputs for our regression tests. *)
 

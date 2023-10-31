@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { address_width : int
   ; data_width : int

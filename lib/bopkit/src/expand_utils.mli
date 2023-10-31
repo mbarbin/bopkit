@@ -1,5 +1,3 @@
-open! Core
-
 (** Some utils while expanded elements of a [Netlist.t] into elements of an
     [Expanded_netlist.t]. *)
 

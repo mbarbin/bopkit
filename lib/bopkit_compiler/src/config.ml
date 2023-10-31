@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { optimize_cds : bool
   ; print_pass_output : Pass_name.t list

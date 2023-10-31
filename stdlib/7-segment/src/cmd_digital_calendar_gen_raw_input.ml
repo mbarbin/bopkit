@@ -1,5 +1,3 @@
-open! Core
-
 let expected_octets = 8
 
 let set_binary_value_in_array ~dst ~dst_pos ~value ~len =

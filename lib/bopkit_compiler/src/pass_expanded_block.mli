@@ -1,5 +1,3 @@
-open! Core
-
 (** Create a new [Expanded_block.t] from its expanded netlist representation,
     while performing some checks. *)
 val create_block

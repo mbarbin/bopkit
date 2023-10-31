@@ -1,4 +1,3 @@
-open! Core
 open! Or_error.Let_syntax
 
 module Arity = struct

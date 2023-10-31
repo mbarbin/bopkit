@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 type t = Parameter.t list
 
 let find (t : t) ~parameter_name =

@@ -1,5 +1,3 @@
-open! Core
-
 let parse_cmd =
   Command.basic
     ~summary:"parse and dump an assembler program ast"

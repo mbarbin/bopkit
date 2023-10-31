@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { wires : Graphics.color
   ; on : Graphics.color

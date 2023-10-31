@@ -1,5 +1,3 @@
-open! Core
-
 type 'a t =
   | Node of 'a
   | For_loop of

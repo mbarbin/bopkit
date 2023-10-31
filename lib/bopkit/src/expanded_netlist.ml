@@ -1,5 +1,3 @@
-open! Core
-
 type memory =
   { loc : Loc.t
   ; name : string

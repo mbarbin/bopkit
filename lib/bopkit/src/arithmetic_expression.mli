@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | VAR of string
   | CST of int

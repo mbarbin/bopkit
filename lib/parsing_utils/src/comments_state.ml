@@ -1,5 +1,3 @@
-open! Core
-
 module Comment_node = struct
   type 'a t' =
     | Resolved of 'a

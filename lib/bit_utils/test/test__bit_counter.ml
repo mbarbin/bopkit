@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "counter" =
   let n = 3 in
   let t = Array.create ~len:n false in

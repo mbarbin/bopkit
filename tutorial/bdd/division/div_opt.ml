@@ -1,5 +1,3 @@
-open! Core
-
 (* Optimization: we don't specify the results when dividing by zero. *)
 
 let main n =

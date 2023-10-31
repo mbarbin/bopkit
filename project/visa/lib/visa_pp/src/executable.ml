@@ -1,5 +1,3 @@
-open! Core
-
 module With_labels = struct
   type t = Visa.Executable.With_labels.t
 

@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"generate a .bop circuit from a boolean function with partial specification"

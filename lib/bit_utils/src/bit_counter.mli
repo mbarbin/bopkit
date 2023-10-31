@@ -1,5 +1,3 @@
-open! Core
-
 type t [@@deriving sexp_of]
 
 val create : len:int -> t

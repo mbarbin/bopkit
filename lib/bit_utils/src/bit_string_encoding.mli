@@ -1,5 +1,3 @@
-open! Core
-
 (** Some bit encoding that are used throughout the project. *)
 
 module Bit : sig

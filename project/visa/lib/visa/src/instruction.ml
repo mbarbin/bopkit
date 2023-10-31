@@ -1,5 +1,3 @@
-open! Core
-
 type 'label t =
   (* $MDX part-begin=instructions *)
   | Nop

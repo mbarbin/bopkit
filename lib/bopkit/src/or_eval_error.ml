@@ -1,5 +1,3 @@
-open! Core
-
 type 'a t = ('a, Eval_error.t) Result.t [@@deriving sexp_of]
 
 let return a = Ok a

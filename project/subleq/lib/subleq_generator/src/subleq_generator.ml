@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { with_cycle : bool
   ; number_of_programs : int

@@ -1,6 +1,3 @@
-open! Core
-module Comment = Bopkit.Comment
-
 let%expect_test "categorise" =
   let test text =
     match Comment.parse text with

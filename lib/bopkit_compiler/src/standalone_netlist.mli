@@ -1,5 +1,3 @@
-open! Core
-
 (** One of the very first things we do as we process a project, is to resolve
     all "#include" constructs that we find in the project's files
     (recursively). We want to build a resulting netlist that is the

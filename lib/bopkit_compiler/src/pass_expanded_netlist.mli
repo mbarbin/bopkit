@@ -1,5 +1,3 @@
-open! Core
-
 type output =
   { inline_external_blocks : Bopkit.Expanded_netlist.external_block list
   ; blocks : Bopkit.Expanded_netlist.block list

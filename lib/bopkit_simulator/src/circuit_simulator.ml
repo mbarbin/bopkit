@@ -1,5 +1,3 @@
-open! Core
-
 module One_cycle_result = struct
   type t =
     | Continue

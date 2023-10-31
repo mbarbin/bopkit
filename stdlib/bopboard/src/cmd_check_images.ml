@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"check that all required images are present"

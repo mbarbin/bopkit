@@ -1,5 +1,3 @@
-open! Core
-
 (** The declaration of the variable that will hold the input of the circuit. *)
 val input_declaration : input_width:int -> _ Pp.t
 

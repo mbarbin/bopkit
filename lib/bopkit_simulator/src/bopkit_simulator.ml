@@ -1,4 +1,3 @@
-open! Core
 module Config = Config
 
 let run ~circuit ~error_log ~config =

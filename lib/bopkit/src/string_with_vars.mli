@@ -1,5 +1,3 @@
-open! Core
-
 (** String with variables %\{...\} in it. This allows commands to depend on
     parameters, etc. *)
 

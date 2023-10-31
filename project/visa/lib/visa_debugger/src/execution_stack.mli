@@ -1,5 +1,3 @@
-open! Core
-
 module Macro_frame : sig
   include module type of Visa_simulator.Execution_stack.Macro_frame
 

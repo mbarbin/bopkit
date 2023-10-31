@@ -1,7 +1,7 @@
 (library
  (name bopkit_bdd_command)
  (public_name bopkit.bdd-command)
- (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
  (libraries core bit_utils bopkit_bdd bopkit_block pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

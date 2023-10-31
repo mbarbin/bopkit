@@ -1,5 +1,3 @@
-open! Core
-
 (** Functions used by the lexer and parser. Defined in a separate module rather
     than in the lexer file to benefits from better language support (editor,
     ocamlformat). *)

@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { gate_kind : Bopkit_circuit.Gate_kind.t
   ; input_width : int

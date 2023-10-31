@@ -1,5 +1,3 @@
-open! Core
-
 module Assembly_construct : sig
   (** After the environment is built, the assembler only keep these top level
       constructs from the original program. *)

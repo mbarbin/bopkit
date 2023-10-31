@@ -1,5 +1,3 @@
-open! Core
-
 module Macro_frame = struct
   type t =
     { macro_name : Visa.Macro_name.t With_loc.t

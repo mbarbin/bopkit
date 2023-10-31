@@ -1,5 +1,3 @@
-open! Core
-
 (** Expanded netlist is an intermediate representation built during the analysis
     of a circuit. Constructs such as control structures and imbrications have
     been developed. This representation is used by different parts of bopkit

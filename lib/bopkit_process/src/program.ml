@@ -1,5 +1,3 @@
-open! Core
-
 module T = struct
   type argument =
     | Ident of { ident : Ident.t With_loc.t }

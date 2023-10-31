@@ -1,5 +1,3 @@
-open! Core
-
 let pulse ~bopkit_sleeper =
   Bopkit_block.Method.main
     ~input_arity:Empty

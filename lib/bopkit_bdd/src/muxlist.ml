@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 module Node = struct
   type t =
     { output : Ident.t

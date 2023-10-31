@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { output_kind : Config.Output_kind.t
   ; last_output : Bit_array.t

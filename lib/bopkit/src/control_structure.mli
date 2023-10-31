@@ -1,5 +1,3 @@
-open! Core
-
 (** Control structure acts as macro. They're developed statically during the
     analysis of the input program. *)
 

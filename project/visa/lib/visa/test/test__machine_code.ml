@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "operation" =
   let module Operation = Visa.Machine_code.For_testing.Operation in
   let test operation =

@@ -1,5 +1,3 @@
-open! Core
-
 module Bit = struct
   type t = bool
 

@@ -1,5 +1,3 @@
-open! Core
-
 module Byte : sig
   (** Visa's machine instructions may be encoded on 1 or 2 byte. *)
 

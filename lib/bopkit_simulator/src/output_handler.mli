@@ -1,5 +1,3 @@
-open! Core
-
 (** This is the module responsible for displaying the state of the inputs and
     outputs of a circuit during the simulation. It's behavior can be tweaked via
     command line parameters passed in via the [Config.t] value supplied to

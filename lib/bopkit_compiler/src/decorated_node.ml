@@ -1,5 +1,3 @@
-open! Core
-
 type nested_inputs =
   | Variables of Bopkit.Expanded_netlist.variables
   | Nested_node of

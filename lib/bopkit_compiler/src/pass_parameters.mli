@@ -1,4 +1,3 @@
-open! Core
 open! Import
 
 (** All parameters of a project are aggregated, then sorted topologically and

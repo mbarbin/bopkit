@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"check a bopkit project"

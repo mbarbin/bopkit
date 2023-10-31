@@ -1,5 +1,3 @@
-open! Core
-
 (* The controller part of the subleq demo we built is responsible for making the
    connection between the internal subleq machine, and the disk_interface
    device which has the ability to do read/write on disk (the subleq machine

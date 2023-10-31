@@ -18,6 +18,7 @@
 
 (executables
  (names div div_opt)
+ (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
  (libraries core graphics unix threads bopkit_block)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

@@ -1,5 +1,3 @@
-open! Core
-
 type t = Gate.t array
 
 let sexp_of_t t =

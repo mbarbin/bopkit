@@ -1,5 +1,3 @@
-open! Core
-
 module T = struct
   type key = string
 

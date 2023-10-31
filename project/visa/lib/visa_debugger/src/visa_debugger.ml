@@ -1,4 +1,3 @@
-open! Core
 open Or_error.Let_syntax
 
 type t = Visa_simulator.t

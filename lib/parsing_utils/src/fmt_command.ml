@@ -1,4 +1,3 @@
-open! Core
 open! Or_error.Let_syntax
 
 (* Because of blank lines that appears in boxes are indented and produce

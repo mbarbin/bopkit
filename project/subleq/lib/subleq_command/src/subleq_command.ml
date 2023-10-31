@@ -1,5 +1,3 @@
-open! Core
-
 let generate_cmd =
   Command.basic
     ~summary:"generate subleq images for testing"

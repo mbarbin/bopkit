@@ -1,5 +1,3 @@
-open! Core
-
 type t = int [@@deriving equal, sexp_of]
 
 let of_int t = t

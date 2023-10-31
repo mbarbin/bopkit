@@ -1,4 +1,3 @@
-open! Core
 include module type of Visa_simulator.Code
 
 (** The code is rendered in a way that makes it friendly to look at in the

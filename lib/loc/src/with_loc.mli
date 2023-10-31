@@ -1,5 +1,3 @@
-open! Core
-
 (** When the symbol you want to decorate is not already an argument in a record,
     it may be convenient to use this type as a standard way to decorate a
     symbol with a position.

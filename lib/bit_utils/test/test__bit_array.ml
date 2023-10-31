@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "of_01_chars_in_string" =
   let test str = print_s [%sexp (Bit_array.of_01_chars_in_string str : Bit_array.t)] in
   test "";

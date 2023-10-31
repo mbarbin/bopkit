@@ -1,5 +1,3 @@
-open! Core
-
 (** This data structure helps during the transition from the [Expanded_nodes.t]
     representation to the [Cds.t]. It keeps track of all the positions at which
     a variable is used as an input, which in turn helps create the output_wires

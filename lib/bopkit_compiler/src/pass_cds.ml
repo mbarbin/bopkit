@@ -1,5 +1,3 @@
-open! Core
-
 let pass (e : Expanded_nodes.t) =
   let output_wires = Expanded_nodes.output_wires e in
   Array.map

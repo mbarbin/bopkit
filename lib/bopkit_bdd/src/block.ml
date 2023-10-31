@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 type t =
   { block_name : string
   ; input_size : int

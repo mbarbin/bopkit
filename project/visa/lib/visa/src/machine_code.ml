@@ -1,5 +1,3 @@
-open! Core
-
 module Byte = struct
   type t = Bit_array.t [@@deriving equal]
 

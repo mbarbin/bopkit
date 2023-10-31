@@ -1,5 +1,3 @@
-open! Core
-
 (** Process assumes a fixed architecture parameter N, that would be the length
     in bits of all the words that are manipulated at runtime.
 

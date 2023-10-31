@@ -1,5 +1,3 @@
-open! Core
-
 module type Node = sig
   type t
   type key

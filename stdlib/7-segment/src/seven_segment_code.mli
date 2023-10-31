@@ -1,5 +1,3 @@
-open! Core
-
 (** A seven-segment display is a form of electronic display device for
     displaying decimal numerals
 

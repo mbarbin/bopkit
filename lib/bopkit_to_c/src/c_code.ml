@@ -1,4 +1,3 @@
-open! Core
 open! Pp.O
 
 let input_name = "input_string"

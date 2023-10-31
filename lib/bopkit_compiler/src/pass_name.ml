@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | Cds
   | Cds_split_registers

@@ -1,6 +1,3 @@
-open! Core
-open! Seven_segment_display
-
 let%expect_test "digital-watch-decoded" =
   let dst = Array.create ~len:64 false in
   let test (d : Digital_watch.Decoded.t) =

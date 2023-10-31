@@ -1,5 +1,3 @@
-open! Core
-
 module T = struct
   type t = bool [@@deriving enumerate, equal, sexp_of]
 end

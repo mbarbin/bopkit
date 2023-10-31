@@ -1,5 +1,3 @@
-open! Core
-
 type t = Comment.t list Comments_state.Comment_node.t [@@deriving equal, sexp_of]
 
 let value t = Comments_state.Comment_node.value_exn t

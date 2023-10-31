@@ -1,7 +1,5 @@
 (* A program to generate initial values for Visa's RAM memory. *)
 
-open! Core
-
 let () =
   Command.basic
     ~summary:"generate initial contents for visa's RAM memory"

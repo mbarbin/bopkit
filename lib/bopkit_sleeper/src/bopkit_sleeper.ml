@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { period : float
   ; as_if_started_at_midnight : bool

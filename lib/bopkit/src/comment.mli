@@ -1,5 +1,3 @@
-open! Core
-
 (** Pretty-printing comments that are found in bopkit files.
 
     The lexer/parser attaches the raw text to AST nodes, containing the entire

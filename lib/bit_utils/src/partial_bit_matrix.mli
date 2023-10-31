@@ -1,5 +1,3 @@
-open! Core
-
 (** Extending [Partial_bit_array] for arrays of 2 dimensions. *)
 
 type t = Partial_bit_array.t array [@@deriving compare, equal, sexp_of]

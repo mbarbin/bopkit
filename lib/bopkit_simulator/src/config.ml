@@ -1,5 +1,3 @@
-open! Core
-
 module Num_cycles = struct
   type t =
     | Unbounded

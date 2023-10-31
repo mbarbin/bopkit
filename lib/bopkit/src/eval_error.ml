@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | Free_variable of
       { name : string

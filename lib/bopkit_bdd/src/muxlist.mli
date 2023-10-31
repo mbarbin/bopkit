@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 module Node : sig
   type t =
     { output : Ident.t

@@ -1,5 +1,3 @@
-open! Core
-
 let pass (external_block : Bopkit.Netlist.external_block) ~error_log ~parameters =
   let eval_string ~parameters str =
     let ok_eval_exn res =

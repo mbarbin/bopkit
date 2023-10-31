@@ -1,5 +1,3 @@
-open! Core
-
 let interval_of_index (index : Expanded_netlist.index) =
   match index with
   | Index i -> Interval.singleton i

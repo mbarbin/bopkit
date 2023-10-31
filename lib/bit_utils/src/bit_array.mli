@@ -1,5 +1,3 @@
-open! Core
-
 (** In bopkit, bool arrays have many uses, including saving or reading the
     contents of memory-units from files, exchanging the value of buses between
     external blocks, printing block outputs to stdout, etc.

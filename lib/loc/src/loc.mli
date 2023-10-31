@@ -1,5 +1,3 @@
-open! Core
-
 (** A type used to decorate AST nodes built by parser so as to allow located
     error messages. *)
 

@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 module T = struct
   type t =
     | Constant of bool option

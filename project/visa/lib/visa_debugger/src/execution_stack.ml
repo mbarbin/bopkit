@@ -1,5 +1,3 @@
-open! Core
-
 module Macro_frame = struct
   include Visa_simulator.Execution_stack.Macro_frame
 

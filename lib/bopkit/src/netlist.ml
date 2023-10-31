@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 type include_file =
   { loc : Loc.t
   ; comments : Comments.t

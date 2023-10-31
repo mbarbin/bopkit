@@ -1,5 +1,3 @@
-open! Core
-
 let exec_cmd =
   Command.basic
     ~summary:"execute a process file as an external bloc"

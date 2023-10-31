@@ -1,5 +1,3 @@
-open! Core
-
 let expected_octets = 8
 
 let val_of_bin_array ~src:tab ~pos:index ~len:long =

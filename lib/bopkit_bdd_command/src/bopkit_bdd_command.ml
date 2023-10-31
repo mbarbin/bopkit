@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.group
     ~summary:"Bopkit Binary Decision Diagram tool"

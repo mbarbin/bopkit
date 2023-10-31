@@ -1,5 +1,3 @@
-open! Core
-
 let horizontal_segment_polygon d x y =
   let u = 4 * d in
   let d2 = 2 * d in

@@ -1,7 +1,7 @@
 (library
  (name visa)
  (public_name bopkit.visa)
- (flags -w +a-4-40-42-44-45-66 -warn-error +a)
+ (flags -w +a-4-40-42-44-45-66 -warn-error +a -open Core)
  (libraries bit_utils core error_log parsing_utils pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

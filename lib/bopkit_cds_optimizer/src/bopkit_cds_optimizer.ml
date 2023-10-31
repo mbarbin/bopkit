@@ -1,4 +1,3 @@
-open! Core
 open Bopkit_circuit
 
 module Tagged_gate = struct

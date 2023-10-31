@@ -1,5 +1,3 @@
-open! Core
-
 module T = struct
   type 'a t =
     { loc : Loc.t

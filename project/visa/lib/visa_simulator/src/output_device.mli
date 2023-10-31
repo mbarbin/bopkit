@@ -1,5 +1,3 @@
-open! Core
-
 (** The visa microprocessor communicates with external devices thanks to
     dedicated export ports called the output device. *)
 

@@ -1,5 +1,3 @@
-open! Core
-
 type t [@@deriving equal, sexp_of]
 
 val make : attached_to:Lexing.position -> t

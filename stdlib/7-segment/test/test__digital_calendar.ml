@@ -1,6 +1,3 @@
-open! Core
-open! Seven_segment_display
-
 let%expect_test "digital-calendar-decoded" =
   let dst = Array.create ~len:91 false in
   let test (d : Digital_calendar.Decoded.t) =

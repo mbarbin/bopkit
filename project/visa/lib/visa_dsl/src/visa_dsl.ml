@@ -1,5 +1,3 @@
-open! Core
-
 module Session = struct
   type t = { program : Visa.Program.Top_level_construct.t Queue.t }
 

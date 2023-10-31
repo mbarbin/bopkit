@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"translate a bop project into a standalone C file"

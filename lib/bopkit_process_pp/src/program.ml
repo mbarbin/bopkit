@@ -1,5 +1,3 @@
-open! Core
-
 type t = Bopkit_process.Program.t
 
 let pp_ident (ident : Bopkit_process.Ident.t With_loc.t) =

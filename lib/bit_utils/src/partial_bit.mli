@@ -1,5 +1,3 @@
-open! Core
-
 type t = bool option [@@deriving compare, equal, quickcheck, sexp_of]
 
 (** Check whether the partial bit agrees with a fully specified value. If the

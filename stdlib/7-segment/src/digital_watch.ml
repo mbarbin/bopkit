@@ -1,5 +1,3 @@
-open! Core
-
 type t = { digits : Digit.t array }
 
 let colors : Colors.t =

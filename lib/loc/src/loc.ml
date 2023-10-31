@@ -1,5 +1,3 @@
-open! Core
-
 module Loc0 = struct
   type t = Stdune.Lexbuf.Loc.t =
     { start : Source_code_position.t

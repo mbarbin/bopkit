@@ -1,4 +1,3 @@
-open! Core
 open Or_error.Let_syntax
 module Code = Code
 module Execution_stack = Execution_stack

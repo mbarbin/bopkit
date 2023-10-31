@@ -1,5 +1,3 @@
-open! Core
-
 module Arity : sig
   type ('kind, 'signal) t =
     | Empty : (unit, 'signal) t

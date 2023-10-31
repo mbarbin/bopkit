@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 (** In bopkit bdd synthesized blocks, there are 3 different classes of signals:
 
     -the input

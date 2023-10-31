@@ -1,5 +1,3 @@
-open! Core
-
 type t = Partial_bit_array.t array [@@deriving compare, equal, sexp_of]
 
 let of_partial_bit_array ~dimx ~dimy code =

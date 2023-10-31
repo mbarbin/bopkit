@@ -1,6 +1,6 @@
 (library
  (name bit_utils_test)
- (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
  (libraries
   core
   core_unix

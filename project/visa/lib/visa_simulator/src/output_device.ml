@@ -1,5 +1,3 @@
-open! Core
-
 type t = Bit_array.t array [@@deriving equal]
 
 let sexp_of_t t =

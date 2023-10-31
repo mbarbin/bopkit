@@ -1,5 +1,3 @@
-open! Core
-
 module Constant_kind = struct
   type t =
     | Value of { value : int }

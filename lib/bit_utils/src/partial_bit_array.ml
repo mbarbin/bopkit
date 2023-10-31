@@ -1,5 +1,3 @@
-open! Core
-
 type t = Partial_bit.t array [@@deriving compare, equal, quickcheck, sexp_of]
 
 let enqueue_01star_char ~src:string ~dst:q =

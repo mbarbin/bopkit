@@ -1,5 +1,3 @@
-open! Core
-
 (** Parameters are language construct that allows some flexibility in the
     definition of blocs, adding parameters to external blocks commands, etc.
     Example:

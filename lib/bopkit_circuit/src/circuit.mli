@@ -1,5 +1,3 @@
-open! Core
-
 (** A bopkit circuit holds a [Cds.t] along with information required to fire the
     computation of gates that are not entirely combinatorial, such as memories
     and external nodes.

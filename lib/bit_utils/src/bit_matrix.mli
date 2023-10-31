@@ -1,5 +1,3 @@
-open! Core
-
 (** Extending [Bit_array] for arrays of 2 dimensions. For examples,
     loading/saving contents of memories. *)
 

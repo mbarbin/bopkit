@@ -1,5 +1,3 @@
-open! Core
-
 let using_any ~error_log ~loc =
   Error_log.raise
     error_log

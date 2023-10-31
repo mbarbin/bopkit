@@ -1,6 +1,3 @@
-open! Core
-open! Bopkit
-
 let%expect_test "eval" =
   let test str parameters =
     let parameters =

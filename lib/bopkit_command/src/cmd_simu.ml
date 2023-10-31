@@ -1,4 +1,3 @@
-open! Core
 open! Import
 open! Or_error.Let_syntax
 

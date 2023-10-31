@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { gate_kind : Gate_kind.t
   ; input : Bit_array.Short_sexp.t [@sexp.sexp_drop_if Array.is_empty]

@@ -1,5 +1,3 @@
-open! Core
-
 let transf_fresh_inline = Printf.sprintf "$%d$"
 
 let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log

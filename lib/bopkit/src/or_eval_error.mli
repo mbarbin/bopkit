@@ -1,5 +1,3 @@
-open! Core
-
 type 'a t = ('a, Eval_error.t) Result.t [@@deriving sexp_of]
 
 include Applicative.S with type 'a t := 'a t

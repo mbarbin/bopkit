@@ -1,5 +1,3 @@
-open! Core
-
 (** The images needed to create the board are installed with the bopboard
     executable as additional runtime resources via dune-sites. See
     {!module:Bopkit_sites} for information regarding the install location.

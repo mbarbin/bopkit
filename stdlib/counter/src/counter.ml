@@ -1,5 +1,3 @@
-open! Core
-
 let counter ~width ~frequency =
   let bit_counter = Bit_counter.create ~len:width in
   let bopkit_sleeper =

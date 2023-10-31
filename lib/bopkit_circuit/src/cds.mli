@@ -1,5 +1,3 @@
-open! Core
-
 (** According to ChatGPT :
 
     The acronym "CDS" stands for "Circuit Description System". It is a data

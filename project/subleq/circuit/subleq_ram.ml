@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { architecture : int
   ; cl : int

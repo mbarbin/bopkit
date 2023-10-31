@@ -1,5 +1,3 @@
-open! Core
-
 (* s <- a/b *)
 let div_fct ~dst int_a int_b =
   Bit_array.blit_int

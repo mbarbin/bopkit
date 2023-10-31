@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "init" =
   let test t = print_s [%sexp (t : Bit_matrix.t)] in
   test (Bit_matrix.init_matrix_linear ~dimx:0 ~dimy:0 ~f:(const false));

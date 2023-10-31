@@ -1,5 +1,3 @@
-open! Core
-
 type t = Bopkit.Netlist.t
 type token = Parser.token
 

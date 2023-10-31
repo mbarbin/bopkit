@@ -1,5 +1,6 @@
 (executables
  (names ram_memory)
+ (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
  (libraries
   core
   core_unix.core_thread

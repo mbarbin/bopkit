@@ -1,6 +1,14 @@
 (library
- (name seven_segment_devices_test)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a)
+ (name seven_segment_display_test)
+ (flags
+  -w
+  +a-4-40-41-42-44-66
+  -warn-error
+  +a
+  -open
+  Core
+  -open
+  Seven_segment_display)
  (libraries core bopkit.seven-segment-display expect_test_helpers_core)
  (inline_tests)
  (preprocess

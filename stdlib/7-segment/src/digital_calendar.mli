@@ -1,8 +1,6 @@
 (** Module to create and update an OCaml Graphics with a 7-segment display for a
     digital calendar. *)
 
-open! Core
-
 type t
 
 (** Open an OCaml Graphics windows with a new 7-segment displays drawn in it. *)

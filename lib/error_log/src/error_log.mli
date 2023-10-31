@@ -1,5 +1,3 @@
-open! Core
-
 (** Error_log is an abstraction used by programs that process user programs and
     report located errors and warnings.
 

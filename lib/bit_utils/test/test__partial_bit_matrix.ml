@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "of_partial_bit_array" =
   let partial_bit_array =
     Array.init 24 ~f:(fun i -> if i mod 5 = 1 then None else Some (i mod 2 = 1))

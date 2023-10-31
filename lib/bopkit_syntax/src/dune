@@ -15,7 +15,7 @@
 (library
  (name bopkit_syntax)
  (public_name bopkit.syntax)
- (flags -w +a-4-40-42-44-45-66 -warn-error +a)
+ (flags -w +a-4-40-42-44-45-66 -warn-error +a -open Core)
  (libraries bopkit core parsing_utils)
  (preprocess
   (pps ppx_jane)))

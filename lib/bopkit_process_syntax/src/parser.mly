@@ -1,5 +1,4 @@
 %{
-  open! Core
   open Bopkit_process
 
   let operator_name (argument : Program.Argument.t) =

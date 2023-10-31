@@ -1,5 +1,3 @@
-open! Core
-
 let main ~ad ~wl ~filename =
   let num_addr = Int.pow 2 ad in
   let rom = Partial_bit_matrix.of_text_file ~dimx:num_addr ~dimy:wl ~filename in

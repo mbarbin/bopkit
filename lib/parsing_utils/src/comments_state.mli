@@ -1,5 +1,3 @@
-open! Core
-
 (** This module allows attaching comments to tokens, thanks to a collaboration
     between a parser and a lexer.
 

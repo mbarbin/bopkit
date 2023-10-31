@@ -1,5 +1,3 @@
-open! Core
-
 (** The interpreter does not execute the parsed code directly, but rather builds
     an intermediate code representation dedicated to the execution. This is a
     private abstraction used by the interpreter. *)

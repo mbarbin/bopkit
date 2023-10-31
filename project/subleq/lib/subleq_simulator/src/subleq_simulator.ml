@@ -1,5 +1,3 @@
-open! Core
-
 (* To detect cycles in the Subleq execution, we use the algorithm known as the
    "rho of pollard", or "Floyd algorithm". See for example:
    http://fr.wikipedia.org/wiki/Algorithme_du_lièvre_et_de_la_tortue

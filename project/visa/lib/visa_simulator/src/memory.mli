@@ -1,5 +1,3 @@
-open! Core
-
 (** [t] is the part of the internal state of the simulator that deals with
     values that are stored in ram as well as registers. It does not contain
     the code pointer. *)

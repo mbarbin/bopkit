@@ -1,4 +1,3 @@
-open! Core
 open! Or_error.Let_syntax
 
 (* $MDX part-begin=program *)

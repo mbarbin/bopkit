@@ -1,5 +1,3 @@
-open! Core
-
 (** Once a bopkit project has been converted to a circuit, this module allows to
     simulate its execution. By default, the simulation runs in a loop and can
     be interrupted with a SigInt. You can also specify via the [Config.t] a

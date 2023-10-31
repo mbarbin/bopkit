@@ -1,4 +1,3 @@
-open! Core
 open! Import
 
 (** Topological sort for Blocks. *)

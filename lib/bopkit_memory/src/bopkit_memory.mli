@@ -1,5 +1,3 @@
-open! Core
-
 (** In bopkit circuits you can define and use memory units, which can be of type
     RAM or ROM. This module allows to display the contents of a memory in an
     OCaml Graphics window.

@@ -1,5 +1,3 @@
-open! Core
-
 module Time_of_day = struct
   type t =
     { hour : int

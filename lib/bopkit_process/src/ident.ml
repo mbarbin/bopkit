@@ -1,5 +1,3 @@
-open! Core
-
 include
   String_id.Make
     (struct

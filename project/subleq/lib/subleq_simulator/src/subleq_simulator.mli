@@ -1,5 +1,3 @@
-open! Core
-
 (** The subleq simulator allows you to compute the result of the subleq
     computation from a starting RAM image. If the process loops, the simulator
     detects it and aborts the computation, otherwise you can print the RAM

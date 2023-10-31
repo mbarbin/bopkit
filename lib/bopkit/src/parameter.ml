@@ -1,5 +1,3 @@
-open! Core
-
 module Value = struct
   type t =
     | Int of int

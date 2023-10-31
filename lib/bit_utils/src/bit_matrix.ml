@@ -1,5 +1,3 @@
-open! Core
-
 type t = Bit_array.t array [@@deriving compare, equal, sexp_of]
 
 let init_matrix_linear ~dimx ~dimy ~f =

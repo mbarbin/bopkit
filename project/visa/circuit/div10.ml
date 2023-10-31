@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Bopkit_block.Method.main
     ~input_arity:(Bus { width = 7 })

@@ -1,6 +1,6 @@
 (library
  (name visa_test)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a)
+ (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
  (libraries core visa)
  (inline_tests)
  (preprocess

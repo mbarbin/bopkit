@@ -1,5 +1,3 @@
-open! Core
-
 let map_index index : Bopkit.Netlist.index =
   match (index : Bopkit.Expanded_netlist.index) with
   | Interval (0, n) when n > 0 -> Segment (CST (n - 1))

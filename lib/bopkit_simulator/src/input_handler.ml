@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { counter_input : Bit_counter.t option
   ; expected_input_length : int

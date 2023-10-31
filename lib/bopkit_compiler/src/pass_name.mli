@@ -1,5 +1,3 @@
-open! Core
-
 (** A type to regroup an identifier for various passes of the bopkit compiler.
     This allows for example to toggle debug values. *)
 

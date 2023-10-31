@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"remove duplicates from an input where each line appears twice"

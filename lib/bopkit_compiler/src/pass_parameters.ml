@@ -1,4 +1,3 @@
-open! Core
 open! Import
 
 module Topo_parameter :

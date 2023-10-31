@@ -1,5 +1,3 @@
-open! Core
-
 (** This is an internal representation used as an intermediate step in the chain
     of transformations that leads to the final cds.
 

@@ -1,5 +1,3 @@
-open! Core
-
 module Constant_kind : sig
   type t =
     | Value of { value : int }

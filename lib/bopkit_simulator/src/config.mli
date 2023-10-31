@@ -1,5 +1,3 @@
-open! Core
-
 (** This type allows the user to tweak some behavior of the simulator from the
     command line. For example, deciding whether to print the inputs on stdout,
     whether to stop the simulation after some number of cycles, etc. *)

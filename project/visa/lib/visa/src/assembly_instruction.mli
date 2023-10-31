@@ -1,5 +1,3 @@
-open! Core
-
 module Operation_kind : sig
   type t =
     | Macro_call of { macro_name : Macro_name.t }

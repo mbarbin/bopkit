@@ -1,5 +1,3 @@
-open! Core
-
 let main =
   Command.basic
     ~summary:"generate random boolean functions with partial specification"

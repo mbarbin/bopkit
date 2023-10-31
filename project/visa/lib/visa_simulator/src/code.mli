@@ -1,5 +1,3 @@
-open! Core
-
 module Statement : sig
   type t = private
     { labels : Visa.Label.t With_loc.t list

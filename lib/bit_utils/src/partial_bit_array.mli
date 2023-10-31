@@ -1,5 +1,3 @@
-open! Core
-
 (** Sometimes some of the bits of a given computation are not specified
     (sometimes called "outputs with bit don't care"). This modules allows to
     represent such cases.

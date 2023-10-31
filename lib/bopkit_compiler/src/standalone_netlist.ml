@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { filenames : string list
   ; parameters : Bopkit.Netlist.parameter list

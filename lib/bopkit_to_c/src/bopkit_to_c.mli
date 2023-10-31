@@ -1,4 +1,3 @@
-open! Core
 open! Import
 
 (** Translating a bopkit project into a standalone C file. The file can be

@@ -1,5 +1,3 @@
-open! Core
-
 type output =
   { rom_memories : Bit_matrix.t array
   ; memories : Bopkit.Expanded_netlist.memory array

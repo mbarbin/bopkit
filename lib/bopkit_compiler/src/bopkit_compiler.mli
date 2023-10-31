@@ -1,4 +1,3 @@
-open! Core
 open! Import
 module Expanded_block = Expanded_block
 module Primitive = Primitive

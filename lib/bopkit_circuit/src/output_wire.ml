@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { gate_index : int
   ; input_index : int

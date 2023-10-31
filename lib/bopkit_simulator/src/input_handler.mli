@@ -1,5 +1,3 @@
-open! Core
-
 (** This is the module responsible for reading the input of the circuit at each
     cycle and feeding it to the rest of the simulation. Creating a [t]
     requires the simulation config, so it is possible to tweak the behavior of

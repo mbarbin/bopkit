@@ -1,5 +1,3 @@
-open! Core
-
 let gen_dune_cmd =
   Command.basic
     ~summary:"generate dune stanza for all files present in the cwd to be pretty-printed"

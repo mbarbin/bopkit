@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | CONST of Arithmetic_expression.t
   | COND_EQ of Arithmetic_expression.t * Arithmetic_expression.t

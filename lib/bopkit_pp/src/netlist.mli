@@ -1,5 +1,3 @@
-open! Core
-
 (** Pretty printing  for bopkit files. *)
 
 (** {1 Netlist constructs} *)

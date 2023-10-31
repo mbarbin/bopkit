@@ -1,5 +1,3 @@
-open! Core
-
 module Method_kind : sig
   type t =
     | Main

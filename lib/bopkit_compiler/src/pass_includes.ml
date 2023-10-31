@@ -1,4 +1,3 @@
-open! Core
 open! Or_error.Let_syntax
 
 let find_distribution_file ~filename ~loc ~error_log =

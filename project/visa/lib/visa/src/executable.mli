@@ -1,5 +1,3 @@
-open! Core
-
 (** In contrast to a {!type:Program.t} which may include higher level language
     constructs such as constants and macros definitions, an executable is a
     mere sequence of instructions. This is the expanded version of the program

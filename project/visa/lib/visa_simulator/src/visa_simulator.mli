@@ -1,4 +1,3 @@
-open! Core
 module Code = Code
 module Execution_stack = Execution_stack
 module Memory = Memory

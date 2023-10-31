@@ -1,5 +1,3 @@
-open! Core
-
 (** Primitives are the building block of circuits. During the various
     transformations performed as we build the circuit, we refer to an
     environment of primitives indexed by their name to resolve the calls, and

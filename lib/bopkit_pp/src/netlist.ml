@@ -1,4 +1,3 @@
-open! Core
 open! Pp.O
 
 type t = Bopkit.Netlist.t

@@ -1,5 +1,3 @@
-open! Core
-
 let%expect_test "of_01star_chars_in_string" =
   let test str =
     print_s

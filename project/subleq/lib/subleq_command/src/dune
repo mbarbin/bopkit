@@ -1,7 +1,7 @@
 (library
  (name subleq_command)
  (public_name bopkit.subleq-command)
- (flags -w +a-4-40-42-44-66 -warn-error +a)
+ (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
  (libraries
   core
   bit_utils

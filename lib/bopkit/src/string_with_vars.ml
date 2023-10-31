@@ -1,5 +1,3 @@
-open! Core
-
 module Part = struct
   type t =
     | Text of string

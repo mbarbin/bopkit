@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { filename : string
   ; main : string

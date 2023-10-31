@@ -1,6 +1,3 @@
-open! Core
-module Interval = Bopkit.Interval
-
 let%expect_test "expand" =
   let test t =
     let r = Interval.expand t ~f:Fn.id in

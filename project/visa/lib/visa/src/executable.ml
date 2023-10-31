@@ -1,5 +1,3 @@
-open! Core
-
 module With_labels = struct
   module Line = struct
     type t =

@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | R0
   | R1

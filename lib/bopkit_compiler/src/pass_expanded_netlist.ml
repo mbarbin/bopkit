@@ -1,5 +1,3 @@
-open! Core
-
 type env =
   { standard_blocks : Bopkit.Netlist.block Hashtbl.M(String).t
   ; parametrized_blocks : Bopkit.Netlist.block Hashtbl.M(String).t

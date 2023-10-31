@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { length : int
   ; max_value : int

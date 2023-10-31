@@ -1,5 +1,3 @@
-open! Core
-
 (** Each of the output bit of a gate can be connected to the input of other
     gates. Since the cds is sorted topologically, such input gate necessarily
     appears after the output gate in the cds.

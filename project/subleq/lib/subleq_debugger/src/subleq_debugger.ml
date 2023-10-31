@@ -1,5 +1,3 @@
-open! Core
-
 let colorPC = Graphics.green
 and colorA = Graphics.yellow
 and colorB = Graphics.magenta

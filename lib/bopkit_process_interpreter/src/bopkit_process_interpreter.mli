@@ -1,5 +1,3 @@
-open! Core
-
 (** Interpreter for a bopkit process program. *)
 
 (** Given an architecture parameter and an input program, interpret its

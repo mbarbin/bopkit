@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { from : int
   ; to_ : int

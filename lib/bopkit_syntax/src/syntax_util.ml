@@ -1,5 +1,3 @@
-open! Core
-
 let remove_first_and_last_char s =
   assert (String.length s >= 2);
   String.sub s ~pos:1 ~len:(String.length s - 2)

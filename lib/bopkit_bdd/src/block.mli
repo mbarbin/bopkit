@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 type t [@@deriving sexp_of]
 
 (** Output a bloc using Bopkit concrete syntax. The resulting simulation of the

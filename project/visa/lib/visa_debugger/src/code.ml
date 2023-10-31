@@ -1,4 +1,3 @@
-open! Core
 include Visa_simulator.Code
 
 let render_lines_for_debugging t =

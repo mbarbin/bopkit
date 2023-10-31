@@ -1,5 +1,3 @@
-open! Core
-
 (** [from] and [to_] are included in the interval. [from] may be smaller than,
     equal to, or greater than [to_]. *)
 type t =

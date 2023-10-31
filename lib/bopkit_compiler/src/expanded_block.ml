@@ -1,5 +1,3 @@
-open! Core
-
 type call =
   | Block of { name : string }
   | Primitive of { gate_kind : Bopkit_circuit.Gate_kind.t }

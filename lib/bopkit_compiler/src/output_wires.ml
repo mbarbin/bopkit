@@ -1,5 +1,3 @@
-open! Core
-
 type output_wire = Bopkit_circuit.Output_wire.t
 type t = output_wire list Map.M(String).t
 

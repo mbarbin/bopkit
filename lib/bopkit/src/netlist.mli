@@ -1,6 +1,3 @@
-open! Core
-open! Import
-
 (** This file defines the abstract syntax tree of [*.bop] files. For each file,
     the parser returns a single value of type [t]. *)
 

@@ -1,5 +1,3 @@
-open! Core
-
 (** This is an intermediate structure as we map the AST from [Netlist.t] to
     [Expanded_netlist.t]. It's very close to a [Netlist.node] except that
     variables are decorated, and it is flat of control structures. *)

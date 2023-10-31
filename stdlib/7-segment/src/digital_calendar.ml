@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   { time_digits : Digit.t array
   ; date_digits : Digit.t array

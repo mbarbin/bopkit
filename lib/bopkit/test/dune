@@ -1,6 +1,6 @@
 (library
  (name bopkit_test)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a)
+ (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core -open Bopkit)
  (libraries core bopkit pp)
  (inline_tests)
  (preprocess

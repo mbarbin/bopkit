@@ -1,5 +1,3 @@
-open! Core
-
 (** Shared place to implement common [fmt] related commands, with the ability to
     control that the AST doesn't change, and reaches a fix point.
 

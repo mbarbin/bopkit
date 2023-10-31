@@ -1,5 +1,3 @@
-open! Core
-
 (** A type used to manipulate the errors that occur when evaluating parameters,
     string_with_vars, etc. *)
 

@@ -1,5 +1,3 @@
-open! Core
-
 type t
 
 val create : colors:Colors.t -> size:int -> x:int -> y:int -> t

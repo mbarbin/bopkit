@@ -1,4 +1,3 @@
-open! Core
 module Sdl = Tsdl.Sdl
 
 let v_NUMPUSH = 5

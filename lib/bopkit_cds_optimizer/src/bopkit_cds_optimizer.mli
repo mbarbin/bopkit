@@ -15,6 +15,4 @@
     is not turned on by default. To be activated with [-optimize-cds true] in
     the command line. *)
 
-open! Core
-
 val optimize : error_log:Error_log.t -> Bopkit_circuit.Cds.t -> Bopkit_circuit.Cds.t

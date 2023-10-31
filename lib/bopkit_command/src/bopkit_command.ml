@@ -1,5 +1,3 @@
-open! Core
-
 let print_sites_cmd =
   Command.basic
     ~summary:"print stdlib sites"

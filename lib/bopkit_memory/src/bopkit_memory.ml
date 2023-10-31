@@ -1,5 +1,3 @@
-open! Core
-
 type rom
 type ram
 

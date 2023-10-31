@@ -1,5 +1,3 @@
-open! Core
-
 (** Topological sort, e.g. used to reorder parameters, functions, etc.
 
     Nodes are compared using hashable keys. [sort] only keeps the last version

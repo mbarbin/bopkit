@@ -1,5 +1,3 @@
-open! Core
-
 type t =
   | Single_line of
       { is_documentation_comment : bool

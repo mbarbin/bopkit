@@ -1,5 +1,3 @@
-open! Core
-
 (** A process program, as read and returned by the parser. *)
 
 module Argument : sig
