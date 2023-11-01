@@ -5,6 +5,7 @@ maintainer: "Mathieu Barbin"
 authors: "Mathieu Barbin"
 license: "MIT"
 homepage: "https://github.com/mbarbin/bopkit"
+doc: "https://mbarbin.github.io/bopkit/"
 bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
   "ocaml" {>= "5.1"}
