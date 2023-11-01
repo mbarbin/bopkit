@@ -1,19 +1,26 @@
-# Unreleased
+## unreleased
 
-## Added
-## Changed
-## Fixed
-## Removed
+### Added
 
-# 0.2.0 - 2023-10-30
+### Changed
 
-## Added
+- Change changelog format to be closer to dune-release's.
+
+### Fixed
+
+- `bopkit -version` now prints the distribution version correctly.
+
+### Removed
+
+## 0.2.0 (2023-10-30)
+
+### Added
 
 - Added docusaurus documentation website, publish to GitHub Pages.
 - Added changelog.
 - Added pretty-printers for all languages. Integrate it to dune-fmt.
 
-## Changed
+### Changed
 
 - Rename project from 'bebop' to 'bopkit'.
 - Now building with dune.
@@ -25,16 +32,17 @@
 - Group executables into a single CLI named 'bopkit'.
 - In external blocks, always use method_name as implementation_name, merge the two concepts.
 
-## Fixed
+### Fixed
 
-- Fixed nondeterministic failure in visa assembler to machine-code. This was fixed as part of the rewrite to OCaml.
+- Fixed nondeterministic failure in visa assembler to machine-code. This was
+  fixed as part of the rewrite to OCaml.
 
-## Removed
+### Removed
 
 - Removed bopipe and bopin. Replaced bpo and bpi files by external blocks construction in OCaml.
 - Removed bop2vhdl. This was highly experimental and untested.
 - Removed bop2xml. This wasn't used by any project.
 
-# 0.1.1 / 0.1.0 - 2007/2008
+## 0.1.1 (2007/2008)
 
 Project didn't have a changelog then.
