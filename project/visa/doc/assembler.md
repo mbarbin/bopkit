@@ -35,12 +35,12 @@ In this section you'll find the microprocessor instructions, with their expected
 |-----------------------|---------------------------------------------|-----------------|
 | nop                   | Do nothing                                  | 1               |
 | sleep                 | Standby until the next second               | 1               |
-| add                   | R1 <- R0 + R1                               | 1               |
-| and                   | R1 <- Bitwise And (R0, R1)                  | 1               |
+| add                   | R1 \<- R0 + R1                               | 1               |
+| and                   | R1 \<- Bitwise And (R0, R1)                  | 1               |
 | swc                   | Switch the contents of R0 and R1            | 1               |
-| cmp                   | R1 <- ( R0 == R1 ) ? 1 : 0                  | 1               |
-| not R                 | R <- Bitwise Not R                          | 1               |
-| gof                   | R1 <- Overflow_flag                         | 1               |
+| cmp                   | R1 \<- ( R0 == R1 ) ? 1 : 0                  | 1               |
+| not R                 | R \<- Bitwise Not R                          | 1               |
+| gof                   | R1 \<- Overflow_flag                         | 1               |
 | jmp @LABEL            | Jump to label                               | 2               |
 | jmn @LABEL            | Jump to label if ( R1 != 0 )                | 2               |
 | jmz @LABEL            | Jump to label if ( R1 == 0 )                | 2               |
