@@ -6,7 +6,7 @@ that takes a block as an argument). This directory shows a few examples.
 ## Syntax
 
 The functional arguments are to be added after the block name (and after the
-block's integer parameters if any), and put them in between chars '<' and '>':
+block's integer parameters if any), and put them in between chars '\<' and '>':
 
 ```text
 block<fct> a = s
