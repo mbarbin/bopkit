@@ -8,7 +8,7 @@ that takes a block as an argument). This directory shows a few examples.
 The functional arguments are to be added after the block name (and after the
 block's integer parameters if any), and put them in between chars '\<' and '>':
 
-```text
+```bopkit
 block<fct> a = s
 where
   s = fct(a);
@@ -18,7 +18,7 @@ end where;
 In case of several arguments, they're comma separated. Here is another example,
 from the stdlib:
 
-```text
+```bopkit
 OneOutputToVector[N]<fun>() = o:[N]
 where
   for i = 0 to N - 1
