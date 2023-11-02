@@ -25,7 +25,7 @@ simulator knows to find it.
 
 To use the bopboard, add the following include to your bop file:
 
-```text
+```bopkit
 #include <bopboard.bop>
 ```
 
@@ -42,7 +42,7 @@ them on the board, and doing so defines their state).
 To connect all the lights to an input bus of width 8 in a bopkit file, use the
 syntax:
 
-```text
+```bopkit
   $bopboard.light(i:[8]);
 ```
 
@@ -50,13 +50,13 @@ Note that you may also connect the lights one by one (and leave some
 unconnected), by adding a textual argument indicating the index of the light. In
 this case, the input of the method is expected to be a simple signal (size 1).
 
-```text
+```bopkit
   $bopboard.light("0", i);
 ```
 
 The same applies to pushes and switches.
 
-```text
+```bopkit
   // Access the bus with the state of the 5 push buttons.
   // The signal [vdd] means that the button is pressed down.
   p:[5] = $bopboard.push();
