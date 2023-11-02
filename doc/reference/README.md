@@ -35,7 +35,7 @@ necessarily be in the following order:
 - [external blocks](external-blocks.md)
 - [blocks](blocks.md)
 
-:::caution
+:::warning
 
 Having the sections out of order will cause a syntax error.
 

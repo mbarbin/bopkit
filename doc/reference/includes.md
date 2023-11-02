@@ -34,7 +34,7 @@ $ bopkit print-sites
  ...
 ```
 
-:::caution
+:::warning
 
 Certain included filenames from the distribution must be quoted.
 

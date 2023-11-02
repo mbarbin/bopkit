@@ -51,7 +51,7 @@ Here is a table of the supported indexations, and how they're resolved to expand
 | a:[-4] | a[3], a[2], a[1], a[0] | Equivalent to a[3..0] |
 | a[3..4]:[2] | a[3][0], a[3][1], a[4][0], a[4][1] | 2 dimensional bus |
 
-:::caution
+:::warning
 
 Because bus indexes are 0-based, note that for example `a:[8]` is of size 8, and it's last signal is `a[7]` (and not `a[8]`). Beware of off-by-1 errors.
 
