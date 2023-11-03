@@ -341,4 +341,4 @@ let main ?readme t_param =
          exit 1)
 ;;
 
-let run ?readme t_param = Command_unix.run (main ?readme t_param)
+let run ?readme t_param = Command_unix_for_opam.run (main ?readme t_param)

@@ -1,11 +1,7 @@
-(executables
- (names main)
+(executable
+ (name main)
+ (public_name bopkit)
  (libraries command-unix-for-opam bopkit_command)
  (flags -w +a-4-40-42-44-66 -warn-error +a)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
-
-(install
- (section bin)
- (files
-  (main.exe as bopkit)))
