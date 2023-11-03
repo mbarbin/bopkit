@@ -1,16 +1,14 @@
-## unreleased
-
-### Added
+## 0.2.3 (2023-11-03)
 
 ### Changed
 
 - Migrate Docusaurus config files to TypeScript.
 
-### Deprecated
-
 ### Fixed
 
-### Removed
+- Fix `bopkit -version`. There are subtle differences between using
+  `public_name` and `(install (section bin))` which I do not understand yet, but
+  using the latter disables dune-build-info.
 
 ## 0.2.2 (2023-11-03)
 
