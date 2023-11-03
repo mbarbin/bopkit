@@ -30,7 +30,19 @@ depends: [
 ]
 build: [
   ["dune" "subst"] {pinned}
-  ["dune" "build" "-p" name "-j" jobs]
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "--promote-install-files=false"
+    "@install"
+    "@runtest" {with-test}
+    "@doc" {with-doc}
+  ]
+  ["dune" "install" "-p" name "--create-install-files" name]
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
 dev-repo: "git+https://github.com/mbarbin/bopkit.git"
