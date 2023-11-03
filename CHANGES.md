@@ -1,18 +1,13 @@
-## unreleased
-
-### Added
+## 0.2.2 (2023-11-03)
 
 ### Changed
 
 - Now generating opam file from dune-project.
 
-### Deprecated
-
 ### Fixed
 
+- Use `command-unix-for-opam` to fix `-version` for all binaries.
 - Fix dune-install invocation to locate shared files at runtime (#6).
-
-### Removed
 
 ## 0.2.1 (2023-11-02)
 
