@@ -2,9 +2,6 @@ import { themes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
-const lightCodeTheme = themes.github;
-const darkCodeTheme = themes.dracula;
-
 const config: Config = {
   title: 'Bopkit',
   tagline: 'An educational project for digital circuits programming',
@@ -41,7 +38,7 @@ const config: Config = {
         docs: {
           path: 'doc',
           routeBasePath: 'doc',
-          sidebarPath: require.resolve('./sidebarsDoc.js'),
+          sidebarPath: './sidebarsDoc.js',
           editUrl: 'https://github.com/mbarbin/bopkit/tree/main/',
         },
         blog: false,
@@ -59,7 +56,7 @@ const config: Config = {
         id: 'tutorial',
         path: 'tutorial',
         routeBasePath: 'tutorial',
-        sidebarPath: require.resolve('./sidebarsTutorial.js'),
+        sidebarPath: './sidebarsTutorial.js',
       },
     ],
     [
@@ -68,7 +65,7 @@ const config: Config = {
         id: 'stdlib',
         path: 'stdlib',
         routeBasePath: 'stdlib',
-        sidebarPath: require.resolve('./sidebarsStdlib.js'),
+        sidebarPath: './sidebarsStdlib.js',
       },
     ],
     [
@@ -77,7 +74,7 @@ const config: Config = {
         id: 'project',
         path: 'project',
         routeBasePath: 'project',
-        sidebarPath: require.resolve('./sidebarsProject.js'),
+        sidebarPath: './sidebarsProject.js',
       },
     ],
     [
@@ -86,7 +83,7 @@ const config: Config = {
         id: 'editor',
         path: 'editor',
         routeBasePath: 'editor',
-        sidebarPath: require.resolve('./sidebarsEditor.js'),
+        sidebarPath: './sidebarsEditor.js',
       },
     ],
   ],
@@ -151,8 +148,8 @@ const config: Config = {
       copyright: `Copyright © ${new Date().getFullYear()} Mathieu Barbin. Built with Docusaurus v3.`,
     },
     prism: {
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
+      theme: themes.github,
+      darkTheme: themes.dracula,
       additionalLanguages: ['bash', 'diff', 'json', 'ocaml'],
     },
     algolia: {
