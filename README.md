@@ -27,19 +27,12 @@ a [7-segment display](project/digital-watch/).
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Install
 
-Bopkit can be installed via the [opam](https://opam.ocaml.org) package manager.
+Please note that only installation from sources is currently supported. Clone
+the repository, then build and install the code with dune:
 
-Releases for this project are published to a custom opam-repo. To add it to your
-current opam switch, run:
-
-```sh
-opam repo add mbarbin https://github.com/mbarbin/opam-repository.git
-```
-
-Then you can install `bopkit` using a normal opam workflow.
-
-```sh
-opam install bopkit
+ ```sh
+dune build
+dune install
 ```
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Documentation
