@@ -1,12 +1,10 @@
-/// https://docusaurus.io/docs/sidebar
+import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
-// @ts-check
-
-/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
-const sidebars = {
+const sidebars: SidebarsConfig = {
   sidebar: [
     { type: 'doc', id: 'README', label: 'Introduction' },
-    { type: 'category', label: 'Language Reference',
+    {
+      type: 'category', label: 'Language Reference',
       link: { type: 'doc', id: 'reference/README' },
       items: [
         { type: 'doc', id: 'reference/includes', label: 'Includes' },
@@ -21,4 +19,4 @@ const sidebars = {
   ],
 };
 
-module.exports = sidebars;
+export default sidebars;

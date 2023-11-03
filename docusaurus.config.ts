@@ -38,7 +38,7 @@ const config: Config = {
         docs: {
           path: 'doc',
           routeBasePath: 'doc',
-          sidebarPath: './sidebarsDoc.js',
+          sidebarPath: './sidebarsDoc.ts',
           editUrl: 'https://github.com/mbarbin/bopkit/tree/main/',
         },
         blog: false,
@@ -56,7 +56,7 @@ const config: Config = {
         id: 'tutorial',
         path: 'tutorial',
         routeBasePath: 'tutorial',
-        sidebarPath: './sidebarsTutorial.js',
+        sidebarPath: './sidebarsTutorial.ts',
       },
     ],
     [
@@ -65,7 +65,7 @@ const config: Config = {
         id: 'stdlib',
         path: 'stdlib',
         routeBasePath: 'stdlib',
-        sidebarPath: './sidebarsStdlib.js',
+        sidebarPath: './sidebarsStdlib.ts',
       },
     ],
     [
@@ -74,7 +74,7 @@ const config: Config = {
         id: 'project',
         path: 'project',
         routeBasePath: 'project',
-        sidebarPath: './sidebarsProject.js',
+        sidebarPath: './sidebarsProject.ts',
       },
     ],
     [
@@ -83,7 +83,7 @@ const config: Config = {
         id: 'editor',
         path: 'editor',
         routeBasePath: 'editor',
-        sidebarPath: './sidebarsEditor.js',
+        sidebarPath: './sidebarsEditor.ts',
       },
     ],
   ],
