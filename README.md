@@ -27,19 +27,19 @@ a [7-segment display](project/digital-watch/).
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Install
 
-The repo depends on unreleased packages that are found in an external
-opam-repository, which must be added to the current switch:
+Bopkit can be installed via the [opam](https://opam.ocaml.org) package manager.
+
+Releases for this project are published to a custom opam-repo. To add it to your
+current opam switch, run:
 
 ```sh
 opam repo add mbarbin https://github.com/mbarbin/opam-repository.git
 ```
 
-Please note that only installation from sources is currently supported. Clone
-the repository, then build and install the code with dune:
+Then you can install `bopkit` using a normal opam workflow.
 
 ```sh
-dune build
-dune install
+opam install bopkit
 ```
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Documentation
@@ -54,6 +54,40 @@ Check out our [tutorials](tutorial/) for an introduction to different parts of
 Bopkit, and explore our more substantive [projects](project/), including a
 digital watch, user-friendly graphical devices, and projects involving
 microprocessors, assemblers and compilers. There's plenty of fun stuff there!
+
+# ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Development
+
+## Build
+
+The repo depends on unreleased packages that are found in an external
+opam-repository which must be added to the opam switch that you use to build the
+project. For example, if you use a local opam switch this would look like this:
+
+```sh
+git clone https://github.com/mbarbin/bopkit.git
+cd bopkit
+opam switch create . 5.1.0 --no-install
+eval $(opam env)
+opam repo add mbarbin https://github.com/mbarbin/opam-repository.git
+opam install . --deps-only
+```
+
+Once this is setup, you can build with dune:
+
+```sh
+dune build
+```
+
+## Preview the doc locally
+
+In a local clone setup for development you can preview the doc locally with:
+
+```sh
+npm start
+```
+
+This will serve the doc on `http://localhost:3000/bopkit/` and update
+dynamically as you edit the sources.
 
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Origin
 
