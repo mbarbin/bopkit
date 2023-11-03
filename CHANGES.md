@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Now generating opam file from dune-project.
+
 ### Deprecated
 
 ### Fixed
