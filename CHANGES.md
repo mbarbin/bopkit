@@ -8,6 +8,8 @@
 
 ### Fixed
 
+- Fix dune-install invocation to locate shared files at runtime (#6).
+
 ### Removed
 
 ## 0.2.1 (2023-11-02)
