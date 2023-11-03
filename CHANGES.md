@@ -1,3 +1,17 @@
+## unreleased
+
+### Added
+
+### Changed
+
+- Migrate Docusaurus config files to TypeScript.
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
 ## 0.2.2 (2023-11-03)
 
 ### Changed
