@@ -1,3 +1,15 @@
+## unreleased
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
 ## 0.2.1 (2023-11-02)
 
 ### Changed
