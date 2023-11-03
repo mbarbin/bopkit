@@ -58,6 +58,8 @@
    (and
     (>= v0.16)
     (< v0.17)))
+  (command-unix-for-opam
+   (>= 0.0.1))
   (graphics
    (>= 5.1.2))
   (mdx

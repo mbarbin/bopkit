@@ -7,7 +7,7 @@
  (flags -w +a-40-42-44-66 -warn-error +a)
  (libraries
   core
-  command_unix_for_opam
+  command-unix-for-opam
   seven_segment_display
   graphics
   threads)

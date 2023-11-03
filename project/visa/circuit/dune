@@ -162,7 +162,7 @@
 (executables
  (names div10 get_date)
  (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries command_unix_for_opam core unix threads bopkit_block)
+ (libraries command-unix-for-opam core unix threads bopkit_block)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
 

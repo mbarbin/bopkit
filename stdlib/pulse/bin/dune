@@ -1,6 +1,6 @@
 (executables
  (names pulse)
- (libraries command_unix_for_opam bopkit_pulse)
+ (libraries command-unix-for-opam bopkit_pulse)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
 
