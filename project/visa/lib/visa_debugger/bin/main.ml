@@ -1,1 +1,1 @@
-let () = Command_unix.run Visa_debugger.main
+let () = Command_unix_for_opam.run Visa_debugger.main

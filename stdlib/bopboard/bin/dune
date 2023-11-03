@@ -1,7 +1,7 @@
 (executables
  (names main)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries core core_unix.command_unix bopboard)
+ (libraries command_unix_for_opam bopboard)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
 

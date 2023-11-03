@@ -1,6 +1,6 @@
 (executables
  (names main)
  (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
- (libraries core core_unix.command_unix parsing_utils)
+ (libraries core command_unix_for_opam parsing_utils)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

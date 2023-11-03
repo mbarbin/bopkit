@@ -1,1 +1,1 @@
-let () = Command_unix.run Bopkit_pulse.Pulse.main
+let () = Command_unix_for_opam.run Bopkit_pulse.Pulse.main

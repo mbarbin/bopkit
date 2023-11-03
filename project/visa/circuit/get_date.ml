@@ -29,5 +29,5 @@ let () =
        print "mon" (date |> Date.month |> Month.to_int |> pred);
        print "yea" ((date |> Date.year) % 100);
        ())
-  |> Command_unix.run
+  |> Command_unix_for_opam.run
 ;;

@@ -24,4 +24,4 @@ let main =
          done))
 ;;
 
-let () = Command_unix.run main
+let () = Command_unix_for_opam.run main

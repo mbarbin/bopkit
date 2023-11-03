@@ -1,6 +1,1 @@
-let () =
-  Command_unix.run
-    ~version:"%%VERSION%%"
-    ~build_info:"%%VCS_COMMIT_ID%%"
-    Bopkit_command.main
-;;
+let () = Command_unix_for_opam.run Bopkit_command.main

@@ -60,7 +60,7 @@ let gen_dune_cmd =
            print_endline (Sexp.to_string_hum sexp))))
 ;;
 
-let () = Command_unix.run gen_dune_cmd
+let () = Command_unix_for_opam.run gen_dune_cmd
 
 (*
    {v
