@@ -1,16 +1,14 @@
-## unreleased
-
-### Added
+## 0.2.1 (2023-11-02)
 
 ### Changed
 
 - Change changelog format to be closer to dune-release's.
+- Now building distribution with `dune-release`.
+- Internal refactoring related to -open via flags.
 
 ### Fixed
 
 - `bopkit -version` now prints the distribution version correctly.
-
-### Removed
 
 ## 0.2.0 (2023-10-30)
 
