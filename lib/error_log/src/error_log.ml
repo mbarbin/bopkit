@@ -216,7 +216,7 @@ module For_test = struct
         report_and_return_status ?config f ())
     with
     | `Ok -> ()
-    | `Error -> print_endline "[1]"
+    | `Error -> prerr_endline "[1]"
     | `Raised (e, raw_backtrace) -> Stdlib.Printexc.raise_with_backtrace e raw_backtrace
   ;;
 end
