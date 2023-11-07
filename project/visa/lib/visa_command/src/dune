@@ -1,14 +1,14 @@
 (library
  (name visa_command)
  (public_name bopkit.visa-command)
- (flags -w +a-4-40-42-44-45-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries
   core
   seven_segment_display
   visa
-  visa_syntax
   visa_assembler
   visa_pp
-  visa_simulator)
+  visa_simulator
+  visa_syntax)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

@@ -2,6 +2,6 @@
  (name main)
  (public_name subleq)
  (libraries command-unix-for-opam subleq_command)
- (flags -w +a-40-42-44-66 -warn-error +a)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

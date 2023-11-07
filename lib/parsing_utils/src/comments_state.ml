@@ -89,14 +89,14 @@ let insert_token t (token : Token.t) =
            (* If they're both a cut, only keep the existing one. Otherwise we
               decide which order makes the most sense once for all here. *)
            match previous_token.token_kind, token.token_kind with
-           | Cut, Cut -> (* Keep the existing one. *) `Dont_insert
+           | Cut, Cut -> (* Keep the existing one. *) `Do_not_insert
            | Cut, Comment _ -> `Insert_before
            | Comment _, Cut -> `Insert_after
            | Comment _, Comment _ ->
              (* The token inserted last is deemed more recent. *)
              `Insert_before)
        with
-       | `Dont_insert -> elt
+       | `Do_not_insert -> elt
        | `Insert_before -> Doubly_linked.insert_before t.tokens elt token
        | `Insert_after -> Doubly_linked.insert_after t.tokens elt token)
   in
@@ -124,7 +124,7 @@ let comment_node ~attached_to ~f =
 ;;
 
 let extract_comments t ~pos_cnum =
-  (* Find the closest cust at or before [pos_cnum], and then take all
+  (* Find the closest cut at or before [pos_cnum], and then take all
      comments that are between this cut, and the previous cut in the
      structure, without removing the cuts themselves. *)
   let comments =

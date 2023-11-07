@@ -1,7 +1,16 @@
 (library
  (name bopkit_process_interpreter)
  (public_name bopkit.process-interpreter)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Base -open Stdio)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio)
  (libraries
   base
   bit_utils

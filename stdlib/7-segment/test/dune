@@ -1,15 +1,16 @@
 (library
  (name seven_segment_display_test)
  (flags
+  :standard
   -w
-  +a-4-40-41-42-44-66
+  +a-4-40-41-42-44-45-66
   -warn-error
   +a
   -open
   Core
   -open
   Seven_segment_display)
- (libraries core bopkit.seven-segment-display expect_test_helpers_core)
+ (libraries bopkit.seven-segment-display core expect_test_helpers_core)
  (inline_tests)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

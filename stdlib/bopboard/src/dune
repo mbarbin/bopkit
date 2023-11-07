@@ -1,15 +1,15 @@
 (library
  (name bopboard)
  (public_name bopkit.bopboard)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries
-  core
-  graphics
-  threads
-  core_unix.core_thread
-  core_unix.sys_unix
   bopkit_block
   bopkit_sites
+  core
+  core_unix.core_thread
+  core_unix.sys_unix
+  graphics
+  threads
   tsdl
   tsdl-image)
  (preprocess

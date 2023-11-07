@@ -1,7 +1,7 @@
 (library
  (name bopkit_cds_optimizer)
  (public_name bopkit.cds-optimizer)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries bit_utils bopkit bopkit_circuit core)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

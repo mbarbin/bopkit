@@ -1,11 +1,11 @@
 (library
  (name bit_utils_test)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries
+  bit_utils
   core
   core_unix
   core_unix.filename_unix
-  bit_utils
   expect_test_helpers_core)
  (inline_tests)
  (preprocess

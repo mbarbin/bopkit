@@ -1,7 +1,7 @@
 (library
  (name seven_segment_display)
  (public_name bopkit.seven-segment-display)
- (flags -w +a-4-40-41-42-44-66-70 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries
   ANSITerminal
   bit_utils

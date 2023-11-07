@@ -1,7 +1,16 @@
 (library
- (name bopkit_error_log_test)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Base)
- (libraries base error_log expect_test_helpers_core)
+ (name error_log_test)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Expect_test_helpers_base)
+ (libraries base error_log expect_test_helpers_core.expect_test_helpers_base)
  (inline_tests)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

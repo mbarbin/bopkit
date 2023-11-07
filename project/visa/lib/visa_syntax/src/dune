@@ -6,7 +6,7 @@
 (library
  (name visa_syntax)
  (public_name bopkit.visa-syntax)
- (flags -w +a-4-40-42-44-45-66 -warn-error +a -open Core)
- (libraries core visa parsing_utils)
+ (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
+ (libraries core parsing_utils visa)
  (preprocess
   (pps ppx_jane)))
