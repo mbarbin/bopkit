@@ -18,7 +18,7 @@ jobs:
           sudo apt-get update -y -qq
           sudo apt-get install libsdl2-dev libsdl2-image-dev
 
-      - name: Use OCaml 5.1.x
+      - name: Setup OCaml
         uses: ocaml/setup-ocaml@v2
         with:
           ocaml-compiler: 5.1.x

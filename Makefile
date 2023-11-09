@@ -1,5 +1,8 @@
-PHONY: all
-all:
+.PHONY: all
+all: build
+
+.PHONY: build
+build:
 	opam exec -- dune build
 
 .PHONY: test
