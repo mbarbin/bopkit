@@ -11,20 +11,20 @@ bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
   "ocaml" {>= "5.1"}
   "dune" {>= "3.11" & >= "3.11"}
-  "dune-site" {>= "3.11"}
-  "appendable-list" {>= "v0.16" & < "v0.17"}
   "ANSITerminal" {>= "0.8.3"}
-  "bogue" {>= "20221112"}
+  "appendable-list" {>= "v0.16" & < "v0.17"}
   "base" {>= "v0.16" & < "v0.17"}
+  "bogue" {>= "20221112"}
+  "command-unix-for-opam" {>= "0.0.1"}
   "core" {>= "v0.16" & < "v0.17"}
   "core_unix" {>= "v0.16" & < "v0.17"}
-  "command-unix-for-opam" {>= "0.0.1"}
+  "dune-site" {>= "3.11"}
   "graphics" {>= "5.1.2"}
   "mdx" {>= "2.2"}
   "menhir" {>= "20220210"}
+  "pp" {>= "1.1.2"}
   "ppx_jane" {>= "v0.16" & < "v0.17"}
   "ppx_js_style" {>= "v0.16" & < "v0.17"}
-  "pp" {>= "1.1.2"}
   "stdio" {>= "v0.16" & < "v0.17"}
   "stdune" {>= "3.11"}
   "tsdl" {>= "0.9.8"}
