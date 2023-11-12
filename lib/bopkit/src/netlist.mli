@@ -17,9 +17,9 @@ type include_file =
      #include "my_file.bop"
     v} *)
 and include_file_kind =
-  | File_path of string
+  | File_path of Fpath.t
   | Distribution of
-      { file : string
+      { file : Fpath.t
       ; file_is_quoted : bool
       }
 [@@deriving equal, sexp_of]
@@ -50,7 +50,7 @@ type memory_kind =
 (** The different ways to specify the initial contents of memories. *)
 type memory_content =
   | Text of string
-  | File of string
+  | File of Fpath.t
   | Zero
 [@@deriving equal, sexp_of]
 

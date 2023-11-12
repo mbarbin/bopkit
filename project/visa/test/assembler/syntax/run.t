@@ -2,7 +2,7 @@ The files in this directory are not auto-formatted. We test here
 indeed the auto-formatting, as well as syntax errors that we desire to
 monitor in tests.
 
-  $ visa fmt test asm
+  $ visa fmt test
   ================================: comments-at-end-of-line.asm
   File "comments-at-end-of-line.asm", line 2, characters 14-14: syntax error.
   ================================: comments-in-macro.asm

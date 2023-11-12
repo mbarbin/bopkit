@@ -16,7 +16,7 @@ let loop () : Visa.Program.t =
 (* $MDX part-begin=loop-pp *)
 let%expect_test "loop pp" =
   let program = loop () in
-  print_endline (Fmt_command.pp_to_string (Visa_pp.Program.pp program));
+  print_endline (Pp_extended.to_string (Visa_pp.Program.pp program));
   [%expect {|
     LOOP:
       load #1, R0
@@ -93,7 +93,7 @@ let%expect_test "minus" =
       call_macro t minus (value 185, value 57);
       write t R1 (output 1))
   in
-  print_endline (Fmt_command.pp_to_string (Visa_pp.Program.pp ocaml_macro));
+  print_endline (Pp_extended.to_string (Visa_pp.Program.pp ocaml_macro));
   [%expect
     {|
     load #7, R0
@@ -112,7 +112,7 @@ let%expect_test "minus" =
     load #185, R1
     add
     write R1, 1 |}];
-  print_endline (Fmt_command.pp_to_string (Visa_pp.Program.pp visa_macro));
+  print_endline (Pp_extended.to_string (Visa_pp.Program.pp visa_macro));
   [%expect
     {|
     macro minus a, b

@@ -8,7 +8,7 @@
     The simulation logic is in [lib/bopkit_simulator]. *)
 
 type t = private
-  { filename : string
+  { path : Fpath.t
   ; main : string
   ; rom_memories : Bit_matrix.t array
   ; external_blocks : Bopkit.Expanded_netlist.external_block array
@@ -18,7 +18,7 @@ type t = private
   }
 
 val create_exn
-  :  filename:string
+  :  path:Fpath.t
   -> main:string
   -> rom_memories:Bit_matrix.t array
   -> external_blocks:Bopkit.Expanded_netlist.external_block array

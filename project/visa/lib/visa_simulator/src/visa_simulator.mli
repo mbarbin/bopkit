@@ -11,7 +11,7 @@ module Config : sig
   val create
     :  ?sleep:bool
     -> ?stop_after_n_outputs:int
-    -> ?initial_memory:string
+    -> ?initial_memory:Fpath.t
     -> unit
     -> t
 end

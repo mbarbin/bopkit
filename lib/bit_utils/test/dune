@@ -6,7 +6,8 @@
   core
   core_unix
   core_unix.filename_unix
-  expect_test_helpers_core)
+  expect_test_helpers_core
+  fpath)
  (inline_tests)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

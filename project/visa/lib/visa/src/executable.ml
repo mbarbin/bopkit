@@ -79,7 +79,7 @@ let to_machine_code (t : t) = Machine_code.of_instructions t
 module Machine_code = struct
   type t = Machine_code.t [@@deriving equal, sexp_of]
 
-  let disassemble bytes ~filename ~error_log =
-    disassemble (Machine_code.to_instructions bytes ~filename ~error_log)
+  let disassemble bytes ~path ~error_log =
+    disassemble (Machine_code.to_instructions bytes ~path ~error_log)
   ;;
 end

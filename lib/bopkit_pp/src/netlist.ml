@@ -41,12 +41,14 @@ let pp_include_file { Bopkit.Netlist.loc = _; comments; include_file_kind } =
     [ pp_comments comments
     ; (match include_file_kind with
        | File_path file ->
-         Pp.verbatim (Printf.sprintf "#include %s" (string_with_vars file))
+         Pp.verbatim
+           (Printf.sprintf "#include %s" (string_with_vars (file |> Fpath.to_string)))
        | Distribution { file; file_is_quoted } ->
          Pp.verbatim
            (if file_is_quoted
-            then Printf.sprintf "#include <%s>" (string_with_vars file)
-            else Printf.sprintf "#include <%s>" file))
+            then
+              Printf.sprintf "#include <%s>" (string_with_vars (file |> Fpath.to_string))
+            else Printf.sprintf "#include <%s>" (file |> Fpath.to_string)))
     ]
 ;;
 
@@ -101,7 +103,9 @@ let pp_memory
     ; Pp.verbatim ")"
     ; (match memory_content with
        | Zero -> Pp.nop
-       | File file -> Pp.verbatim (Printf.sprintf " = file(%s)" (string_with_vars file))
+       | File file ->
+         Pp.verbatim
+           (Printf.sprintf " = file(%s)" (string_with_vars (file |> Fpath.to_string)))
        | Text text -> Pp.verbatim (Printf.sprintf " = text {%s}" text))
     ]
 ;;
@@ -276,7 +280,7 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
   match t with
   | Block { name; arguments; functional_arguments } ->
     let name =
-      match force Fmt_command.bopkit_force_fmt with
+      match force Auto_format.allow_changes with
       | false -> name
       | true ->
         (* CR mbarbin: This allows for a transition during which we auto-correct

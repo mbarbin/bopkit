@@ -11,6 +11,13 @@
   Base
   -open
   Stdio)
- (libraries base bopkit_circuit core stdio)
+ (libraries
+  base
+  bopkit_circuit
+  core
+  core_unix
+  core_unix.sys_unix
+  fpath
+  stdio)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

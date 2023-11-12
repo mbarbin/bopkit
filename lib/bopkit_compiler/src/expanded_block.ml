@@ -12,7 +12,6 @@ type node =
 
 type t =
   { loc : Loc.t
-  ; fichier : string
   ; name : string
   ; local_variables : string list
   ; input_names : string array

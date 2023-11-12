@@ -66,7 +66,7 @@
   (with-stdout-to
    dune.inc.gen
    (pipe-stdout
-    (bash "%{bin:bopkit} fmt gen-dune .bop -- \%{bin:bopkit} fmt file")
+    (bash "%{bin:bopkit} fmt gen-dune -- \%{bin:bopkit} fmt file")
     (run dune format-dune-file)))))
 
 (rule

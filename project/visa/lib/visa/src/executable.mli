@@ -48,7 +48,7 @@ val disassemble : t -> Program.t
 module Machine_code : sig
   type t = Machine_code.t [@@deriving equal, sexp_of]
 
-  val disassemble : t -> filename:string -> error_log:Error_log.t -> Program.t
+  val disassemble : t -> path:Fpath.t -> error_log:Error_log.t -> Program.t
 end
 
 val to_machine_code : t -> Machine_code.t

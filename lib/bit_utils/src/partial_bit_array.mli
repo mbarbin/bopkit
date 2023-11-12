@@ -15,10 +15,10 @@ val of_01star_chars_in_string : string -> t
 val to_string : t -> string
 
 (** See {!val:Bit_array.of_text_file}. *)
-val of_text_file : filename:string -> t
+val of_text_file : path:Fpath.t -> t
 
 (** Save to disk, ends with a newline. *)
-val to_text_file : t -> filename:string -> unit
+val to_text_file : t -> path:Fpath.t -> unit
 
 val to_text_channel : t -> Out_channel.t -> unit
 

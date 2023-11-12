@@ -42,6 +42,8 @@
    (and
     (>= v0.16)
     (< v0.17)))
+  (auto-format
+   (>= 0.0.1))
   (base
    (and
     (>= v0.16)
@@ -60,14 +62,26 @@
     (< v0.17)))
   (dune-site
    (>= 3.11))
+  (error-log
+   (>= 0.0.1))
+  (fpath
+   (>= 0.7.3))
+  (fpath-extended
+   (>= 0.0.2))
   (graphics
    (>= 5.1.2))
+  (loc
+   (>= 0.0.1))
   (mdx
    (>= 2.2))
   (menhir
    (>= 20220210))
+  (parsing-utils
+   (>= 0.0.1))
   (pp
    (>= 1.2.0))
+  (pp-extended
+   (>= 0.0.1))
   (ppx_jane
    (and
     (>= v0.16)

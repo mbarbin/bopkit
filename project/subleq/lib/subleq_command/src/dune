@@ -6,6 +6,8 @@
   bit_utils
   bopkit_memory
   core
+  fpath
+  fpath-extended
   graphics
   subleq_debugger
   subleq_generator

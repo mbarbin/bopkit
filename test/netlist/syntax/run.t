@@ -2,7 +2,7 @@ The files in this directory are not auto-formatted. We test here
 indeed the auto-formatting, as well as syntax errors that we desire to
 monitor in tests.
 
-  $ bopkit fmt test .bop
+  $ bopkit fmt test
   ================================: block.bop
   #define N 2
   

@@ -115,9 +115,8 @@ let create_block
   ~(env : Expanded_block.env)
   =
   let loc = fd.loc in
-  let filename, name, entree_list, sortie_list, unused, corps_c =
-    ( fd.loc |> Loc.filename
-    , fd.name
+  let name, entree_list, sortie_list, unused, corps_c =
+    ( fd.name
     , fd.inputs.expanded
     , fd.outputs.expanded
     , fd.unused_variables.expanded
@@ -403,7 +402,6 @@ let create_block
     in
     detect_cycle_in_block
       { loc
-      ; fichier = filename
       ; name
       ; local_variables = variables_locales |> Set.to_list
       ; input_names = entree_list |> Array.of_list

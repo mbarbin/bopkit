@@ -254,7 +254,7 @@ test below:
 ```ocaml
 let%expect_test "loop pp" =
   let program = loop () in
-  print_endline (Fmt_command.pp_to_string (Visa_pp.Program.pp program));
+  print_endline (Pp_extended.to_string (Visa_pp.Program.pp program));
   [%expect {|
     LOOP:
       load #1, R0

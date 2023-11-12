@@ -14,15 +14,20 @@ let read_code_brut_memoire ~error_log ~loc memory_content =
          error_log
          ~loc
          [ Pp.text "Invalid memory specification"; Pp.text (Exn.to_string e) ])
-  | File filename ->
-    (try Bit_array.of_text_file ~filename with
+  | File path ->
+    (try Bit_array.of_text_file ~path with
      | Sys_error _ ->
-       Error_log.raise error_log ~loc [ Pp.textf "%S: memory file not found" filename ]
+       Error_log.raise
+         error_log
+         ~loc
+         [ Pp.textf "%S: memory file not found" (path |> Fpath.to_string) ]
      | e ->
        Error_log.raise
          error_log
          ~loc
-         [ Pp.textf "Invalid memory file '%s'" filename; Pp.text (Exn.to_string e) ])
+         [ Pp.textf "Invalid memory file '%s'" (path |> Fpath.to_string)
+         ; Pp.text (Exn.to_string e)
+         ])
 ;;
 
 let tab_bits_of_code_brut ~error_log ~loc name taille lg_mot code =
@@ -78,12 +83,13 @@ let pass memories ~error_log ~parameters =
     and code : Bopkit.Netlist.memory_content =
       match (memory_content : Bopkit.Netlist.memory_content) with
       | (Text _ | Zero) as o -> o
-      | File f ->
+      | File path ->
         File
           (Bopkit.String_with_vars.eval
-             (Bopkit.String_with_vars.parse f |> ok_eval_exn)
+             (Bopkit.String_with_vars.parse (path |> Fpath.to_string) |> ok_eval_exn)
              ~parameters
-           |> ok_eval_exn)
+           |> ok_eval_exn
+           |> Fpath.v)
     in
     match memory_kind with
     | ROM ->

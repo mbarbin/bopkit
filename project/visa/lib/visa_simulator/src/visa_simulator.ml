@@ -7,7 +7,7 @@ module Config = struct
   type t =
     { sleep : bool
     ; stop_after_n_outputs : int option
-    ; initial_memory : string option
+    ; initial_memory : Fpath_extended.t option
     }
   [@@deriving sexp_of]
 
@@ -30,7 +30,10 @@ module Config = struct
         (optional int)
         ~doc:"N stop after N outputs have been produced (default run forever)"
     and initial_memory =
-      flag "initial-memory" (optional string) ~doc:"FILE load initial memory contents"
+      flag
+        "initial-memory"
+        (optional Fpath_extended.arg_type)
+        ~doc:"FILE load initial memory contents"
     in
     { sleep; stop_after_n_outputs; initial_memory }
   ;;
@@ -54,13 +57,13 @@ let create ~(config : Config.t) ~error_log ~program =
   let code = Code.of_assembly_constructs ~assembly_constructs in
   let execution_stack = Execution_stack.create () in
   let memory = Memory.create () in
-  Option.iter config.initial_memory ~f:(fun filename ->
+  Option.iter config.initial_memory ~f:(fun path ->
     let content =
-      try Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~filename with
+      try Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~path with
       | e ->
         Error_log.raise
           error_log
-          ~loc:(Loc.in_file ~filename)
+          ~loc:(Loc.in_file ~path)
           [ Pp.text "Invalid memory file"; Pp.text (Exn.to_string e) ]
     in
     Memory.load_initial_memory memory content);
@@ -260,14 +263,12 @@ let main =
   Command.basic
     ~summary:"parse an assembler program and simulate its execution"
     (let open Command.Let_syntax in
-     let%map_open filename = anon ("FILE" %: string)
+     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
      and error_log_config = Error_log.Config.param
      and config = Config.param in
      Error_log.report_and_exit ~config:error_log_config (fun error_log ->
        let open Or_error.Let_syntax in
-       let program =
-         Parsing_utils.parse_file_exn (module Visa_syntax) ~filename ~error_log
-       in
+       let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
        let%bind visa_simulator = create ~config ~error_log ~program in
        run visa_simulator ~error_log))
 ;;

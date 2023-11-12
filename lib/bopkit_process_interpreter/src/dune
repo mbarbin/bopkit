@@ -16,7 +16,7 @@
   bit_utils
   bopkit_process
   bopkit_process_syntax
-  error_log
+  error-log
   stdio)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

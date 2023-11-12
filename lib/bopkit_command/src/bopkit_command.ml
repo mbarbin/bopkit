@@ -10,7 +10,11 @@ let print_sites_cmd =
 ;;
 
 let fmt_cmd =
-  Fmt_command.fmt_cmd
+  Auto_format.fmt_cmd
+    (module struct
+      let language_id = "bopkit"
+      let extensions = [ ".bop" ]
+    end)
     (module Bopkit.Netlist)
     (module Bopkit_syntax)
     (module Bopkit_pp.Netlist)

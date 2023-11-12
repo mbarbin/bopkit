@@ -15,11 +15,11 @@ val init_matrix_linear : dimx:int -> dimy:int -> f:(int -> 'a) -> 'a array array
 val of_bit_array : dimx:int -> dimy:int -> Bit_array.t -> t
 
 (** See {!val:Bit_array.of_text_file}. *)
-val of_text_file : dimx:int -> dimy:int -> filename:string -> t
+val of_text_file : dimx:int -> dimy:int -> path:Fpath.t -> t
 
 (** Save it to disk. To make things more readable, write things line by line in
     the file (along the dimx dimension). *)
-val to_text_file : t -> filename:string -> unit
+val to_text_file : t -> path:Fpath.t -> unit
 
 val to_text_channel : t -> Out_channel.t -> unit
 

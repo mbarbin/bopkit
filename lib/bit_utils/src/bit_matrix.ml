@@ -14,8 +14,8 @@ let of_bit_array ~dimx ~dimy code =
   init_matrix_linear ~dimx ~dimy ~f:(fun i -> i < len && code.(i))
 ;;
 
-let of_text_file ~dimx ~dimy ~filename =
-  of_bit_array ~dimx ~dimy (Bit_array.of_text_file ~filename)
+let of_text_file ~dimx ~dimy ~path =
+  of_bit_array ~dimx ~dimy (Bit_array.of_text_file ~path)
 ;;
 
 let to_text_channel t oc =
@@ -24,8 +24,8 @@ let to_text_channel t oc =
     Out_channel.newline oc)
 ;;
 
-let to_text_file t ~filename =
-  Out_channel.with_file filename ~f:(fun oc -> to_text_channel t oc)
+let to_text_file t ~path =
+  Out_channel.with_file (path |> Fpath.to_string) ~f:(fun oc -> to_text_channel t oc)
 ;;
 
 let dimx t = Array.length t

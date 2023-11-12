@@ -30,11 +30,11 @@ val to_string : t -> string
 
 (** Concat all the value read on all the lines from a file, using the function
     [of_01_chars_in_string]. *)
-val of_text_file : filename:string -> t
+val of_text_file : path:Fpath.t -> t
 
 (** Write a bunch of '0' and '1' to a file, ending with a newline character.
     This erases the previous contents of the file if it existed. *)
-val to_text_file : t -> filename:string -> unit
+val to_text_file : t -> path:Fpath.t -> unit
 
 val to_text_channel : t -> Out_channel.t -> unit
 

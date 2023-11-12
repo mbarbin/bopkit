@@ -3,7 +3,10 @@
  (public_name bopkit.visa-command)
  (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
  (libraries
+  auto-format
   core
+  fpath
+  fpath-extended
   seven_segment_display
   visa
   visa_assembler

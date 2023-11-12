@@ -167,11 +167,11 @@ val set_word_printing_style : _ t -> word_printing_style:Word_printing_style.t -
     at the format text (containing chars '0' and '1'). For more details on
     memory files, see {!val:Bit_matrix.of_text_file} which is the function used
     under the hood here. *)
-val load_text_file : _ t -> filename:string -> unit
+val load_text_file : _ t -> path:Fpath.t -> unit
 
 (** Save the current contents of the memory to a text file, using
     {!Bit_matrix.to_text_file}. *)
-val to_text_file : _ t -> filename:string -> unit
+val to_text_file : _ t -> path:Fpath.t -> unit
 
 (** {1 Reading/Writing to the memory} *)
 

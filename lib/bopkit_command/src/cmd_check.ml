@@ -2,7 +2,7 @@ let main =
   Command.basic
     ~summary:"check a bopkit project"
     (let open Command.Let_syntax in
-     let%map_open filename = anon ("FILE" %: string)
+     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
      and error_log_config = Error_log.Config.param
      and print_cds =
        flag "print-cds" no_arg ~doc:" print the cds out stdout in case of success"
@@ -12,10 +12,12 @@ let main =
        let%bind circuit =
          Bopkit_compiler.circuit_of_netlist
            ~error_log
-           ~filename
+           ~path
            ~config:bopkit_compiler_config
        in
-       Error_log.info error_log [ Pp.textf "Check of %S complete." circuit.filename ];
+       Error_log.info
+         error_log
+         [ Pp.textf "Check of %S complete." (circuit.path |> Fpath.to_string) ];
        if print_cds then print_s [%sexp (circuit.cds : Bopkit_circuit.Cds.t)];
        return ()))
 ;;

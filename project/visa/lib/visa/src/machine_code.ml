@@ -163,15 +163,15 @@ end
 
 type t = Byte.t array [@@deriving equal, sexp_of]
 
-let of_text_file_exn ~filename ~error_log =
+let of_text_file_exn ~path ~error_log =
   let q = Queue.create () in
   let lines =
-    try In_channel.read_lines filename with
+    try In_channel.read_lines (path |> Fpath.to_string) with
     | Sys_error (m : string) ->
-      Error_log.raise error_log ~loc:(Loc.in_file ~filename) [ Pp.text m ]
+      Error_log.raise error_log ~loc:(Loc.in_file ~path) [ Pp.text m ]
   in
   List.iteri lines ~f:(fun i line ->
-    let loc = Loc.in_file_at_line ~filename ~line:i in
+    let loc = Loc.in_file_at_line ~path ~line:i in
     if not (String.is_prefix line ~prefix:"//")
     then (
       let length = String.length line in
@@ -219,7 +219,7 @@ let of_instructions (instructions : int Instruction.t array) =
   machine_code
 ;;
 
-let to_instructions (bytes : t) ~filename ~error_log =
+let to_instructions (bytes : t) ~path ~error_log =
   let size = Array.length bytes in
   let label_resolution =
     (* Because some instructions are encoded on 1 byte, and others on 2, there
@@ -234,7 +234,7 @@ let to_instructions (bytes : t) ~filename ~error_log =
   while not (Queue.is_empty bytes) do
     label_resolution.(size - Queue.length bytes) <- Queue.length results;
     let line, byte = Queue.dequeue_exn bytes in
-    let loc = Loc.in_file_at_line ~filename ~line in
+    let loc = Loc.in_file_at_line ~path ~line in
     let operation =
       match Operation.of_byte byte with
       | Some operation -> operation

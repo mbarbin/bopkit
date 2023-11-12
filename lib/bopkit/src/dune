@@ -2,6 +2,14 @@
  (name bopkit)
  (public_name bopkit.bopkit)
  (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Base)
- (libraries appendable-list base bit_utils error_log parsing_utils pp)
+ (libraries
+  appendable-list
+  base
+  bit_utils
+  error-log
+  fpath
+  fpath-extended
+  parsing-utils
+  pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

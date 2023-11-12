@@ -37,19 +37,21 @@ let init ~architecture ~debug ~files_prefix ~number_of_programs =
 let next_ram (t : t) : unit =
   t.program_index <- succ t.program_index;
   let index_digits = String.length (Int.to_string t.number_of_programs) in
-  let source_file = sprintf "%s%0*d.input" t.files_prefix index_digits t.program_index in
+  let source_file =
+    sprintf "%s%0*d.input" t.files_prefix index_digits t.program_index |> Fpath.v
+  in
   if t.program_index >= 2
   then (
     let save_file =
-      sprintf "%s%0*d.img" t.files_prefix index_digits (t.program_index - 1)
+      sprintf "%s%0*d.img" t.files_prefix index_digits (t.program_index - 1) |> Fpath.v
     in
-    Printf.fprintf stderr "[ --> ] Saving RAM --> %S\n" save_file;
+    Printf.fprintf stderr "[ --> ] Saving RAM --> %S\n" (save_file |> Fpath.to_string);
     Out_channel.flush stderr;
-    Bopkit_memory.to_text_file t.mem ~filename:save_file);
+    Bopkit_memory.to_text_file t.mem ~path:save_file);
   if t.program_index > t.number_of_programs then exit 0;
-  Printf.fprintf stderr "[ <-- ] Loading RAM <-- %S\n" source_file;
+  Printf.fprintf stderr "[ <-- ] Loading RAM <-- %S\n" (source_file |> Fpath.to_string);
   Out_channel.flush stderr;
-  Bopkit_memory.load_text_file t.mem ~filename:source_file
+  Bopkit_memory.load_text_file t.mem ~path:source_file
 ;;
 
 let main t =

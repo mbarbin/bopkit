@@ -17,13 +17,13 @@ val create_block
   -> Expanded_block.t
 
 val expand_netlist
-  :  filename:string
+  :  path:Fpath.t
   -> error_log:Error_log.t
   -> config:Config.t
   -> (Primitive.env * Bopkit.Expanded_netlist.t) Or_error.t
 
 val circuit_of_netlist
-  :  filename:string
+  :  path:Fpath.t
   -> error_log:Error_log.t
   -> config:Config.t
   -> Bopkit_circuit.Circuit.t Or_error.t

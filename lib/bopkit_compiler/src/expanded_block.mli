@@ -21,10 +21,8 @@ type node =
   }
 [@@deriving sexp_of]
 
-(* CR mbarbin: Remove [fichier], keep only [loc]. *)
 type t =
   { loc : Loc.t
-  ; fichier : string
   ; name : string
   ; local_variables : string list
   ; input_names : string array

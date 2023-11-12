@@ -1,7 +1,15 @@
 (library
  (name visa_dsl_test)
  (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
- (libraries core parsing_utils pp visa visa_dsl visa_pp visa_simulator)
+ (libraries
+  core
+  parsing-utils
+  pp
+  pp-extended
+  visa
+  visa_dsl
+  visa_pp
+  visa_simulator)
  (inline_tests)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

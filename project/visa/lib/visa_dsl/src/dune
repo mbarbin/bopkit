@@ -2,7 +2,7 @@
  (name visa_dsl)
  (public_name bopkit.visa-dsl)
  (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
- (libraries bit_utils core error_log parsing_utils pp visa visa_pp)
+ (libraries bit_utils core error-log parsing-utils pp visa visa_pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))
 

@@ -8,7 +8,7 @@
    dune.inc.gen
    (pipe-stdout
     (bash
-     "%{bin:bopkit} process fmt gen-dune .bpp -- \%{bin:bopkit} process fmt file")
+     "%{bin:bopkit} process fmt gen-dune -- \%{bin:bopkit} process fmt file")
     (run dune format-dune-file)))))
 
 (rule

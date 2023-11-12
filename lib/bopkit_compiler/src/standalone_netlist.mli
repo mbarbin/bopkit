@@ -5,7 +5,7 @@
     is what is called here a [Standalone_netlist.t]. *)
 
 type t =
-  { filenames : string list
+  { paths : Fpath.t list
   ; parameters : Bopkit.Netlist.parameter list
   ; memories : Bopkit.Netlist.memory list
   ; external_blocks : Bopkit.Netlist.external_block list

@@ -43,10 +43,10 @@ let%expect_test "to_string roundtrip" =
 
 let%expect_test "text files" =
   let test t =
-    let filename = Filename_unix.temp_file "test__bit_array" "text" in
-    Bit_array.to_text_file t ~filename;
-    let contents = In_channel.read_all filename in
-    let t2 = Bit_array.of_text_file ~filename in
+    let path = Filename_unix.temp_file "test__bit_array" "text" |> Fpath.v in
+    Bit_array.to_text_file t ~path;
+    let contents = In_channel.read_all (path |> Fpath.to_string) in
+    let t2 = Bit_array.of_text_file ~path in
     if not ([%equal: Bit_array.t] t t2)
     then raise_s [%sexp "Value does not roundtrip", { t : Bit_array.t; t2 : Bit_array.t }];
     let contents2 = Bit_array.to_string t ^ "\n" in
@@ -55,7 +55,7 @@ let%expect_test "text files" =
       raise_s
         [%sexp "String contents not equal", { contents : string; contents2 : string }];
     print_endline contents;
-    Core_unix.unlink filename
+    Core_unix.unlink (path |> Fpath.to_string)
   in
   test [||];
   [%expect {||}];

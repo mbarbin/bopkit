@@ -7,6 +7,9 @@
   core
   core_unix
   core_unix.core_thread
+  core_unix.sys_unix
+  fpath
+  fpath-extended
   visa
   visa_assembler
   visa_syntax)

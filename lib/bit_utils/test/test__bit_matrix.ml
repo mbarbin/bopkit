@@ -38,13 +38,13 @@ let%expect_test "of_bit_array" =
 ;;
 
 let%expect_test "of_text_file" =
-  let filename = Filename_unix.temp_file "test__bit_matrix" "text" in
-  Out_channel.with_file filename ~f:(fun oc ->
+  let path = Filename_unix.temp_file "test__bit_matrix" "text" |> Fpath.v in
+  Out_channel.with_file (path |> Fpath.to_string) ~f:(fun oc ->
     Printf.fprintf oc "// Hello comment\n";
     Printf.fprintf oc "010101010101\n";
     Printf.fprintf oc "011111111110\n");
   let test ~dimx ~dimy =
-    let t = Bit_matrix.of_text_file ~dimx ~dimy ~filename in
+    let t = Bit_matrix.of_text_file ~dimx ~dimy ~path in
     Bit_matrix.to_text_channel t stdout
   in
   test ~dimx:2 ~dimy:12;
@@ -63,6 +63,6 @@ let%expect_test "of_text_file" =
     0101
     0101
     0111 |}];
-  Core_unix.unlink filename;
+  Core_unix.unlink (path |> Fpath.to_string);
   ()
 ;;

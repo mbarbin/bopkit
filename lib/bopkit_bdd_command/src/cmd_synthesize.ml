@@ -2,8 +2,11 @@ let main =
   Command.basic
     ~summary:"generate a .bop circuit from a boolean function with partial specification"
     (let open Command.Let_syntax in
-     let%map_open filename =
-       flag "f" (required string) ~doc:"FILE input file with boolean function (ascii)"
+     let%map_open path =
+       flag
+         "f"
+         (required Fpath_extended.arg_type)
+         ~doc:"FILE input file with boolean function (ascii)"
      and address = flag "AD" (required int) ~doc:"N number of bits of addresses"
      and word_length =
        flag "WL" (required int) ~doc:"N word length - number of bits of results"
@@ -17,7 +20,7 @@ let main =
      in
      fun () ->
        let len = Int.pow 2 address in
-       let pbm = Partial_bit_matrix.of_text_file ~dimx:len ~dimy:word_length ~filename in
+       let pbm = Partial_bit_matrix.of_text_file ~dimx:len ~dimy:word_length ~path in
        let muxtrees = Bopkit_bdd.Muxtree.of_partial_bit_matrix pbm in
        let bloc =
          if tree_option
@@ -39,7 +42,7 @@ let main =
          then sprintf "[%d|%d]" full_gates num_gates
          else sprintf "[%d|%d|%d]" full_gates normalized_gates num_gates
        in
-       Printf.printf "// Block synthesized by bopkit from %S\n" filename;
+       Printf.printf "// Block synthesized by bopkit from %S\n" (path |> Fpath.to_string);
        Printf.printf "// Gate count: %s (%2.3f %c)\n" gate_count prop '%';
        print_endline "";
        Format.printf "%a" Bopkit_bdd.Block.pp bloc;

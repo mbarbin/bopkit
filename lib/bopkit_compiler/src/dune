@@ -14,9 +14,10 @@
   bopkit_topological_sort
   core
   core_unix.command_unix
-  error_log
+  error-log
+  fpath
   graphics
-  parsing_utils
+  parsing-utils
   unix)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

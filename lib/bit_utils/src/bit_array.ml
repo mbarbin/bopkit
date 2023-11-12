@@ -38,9 +38,9 @@ let to_string (t : t) =
   String.init (Array.length t) ~f:(fun i -> Bit_string_encoding.Bit.to_char t.(i))
 ;;
 
-let of_text_file ~filename =
+let of_text_file ~path =
   let q = Queue.create () in
-  In_channel.with_file filename ~f:(fun ic ->
+  In_channel.with_file (path |> Fpath.to_string) ~f:(fun ic ->
     with_return (fun { return } ->
       while true do
         match In_channel.input_line ic with
@@ -52,8 +52,8 @@ let of_text_file ~filename =
 
 let to_text_channel t oc = Printf.fprintf oc "%s\n" (to_string t)
 
-let to_text_file t ~filename =
-  Out_channel.with_file filename ~f:(fun oc -> to_text_channel t oc)
+let to_text_file t ~path =
+  Out_channel.with_file (path |> Fpath.to_string) ~f:(fun oc -> to_text_channel t oc)
 ;;
 
 let to_int bits =

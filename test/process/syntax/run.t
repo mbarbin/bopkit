@@ -2,7 +2,7 @@ The files in this directory are not auto-formatted. We test here
 indeed the auto-formatting, as well as syntax errors that we desire to
 monitor in tests.
 
-  $ bopkit process fmt test .bpp
+  $ bopkit process fmt test
   ================================: comments-and-newlines.bpp
   // Empty lines at the top
   // And in the middle of the file

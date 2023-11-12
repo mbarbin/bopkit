@@ -108,7 +108,7 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
   Map.iteri env ~f:(fun ~key:name ~data:fd ->
     if (not (String.equal name main_block_name))
        && (not (Hash_set.mem fonctions_utilisees name))
-       && String.equal fd.fichier main.fichier
+       && Fpath.equal (fd.loc |> Loc.path) (main.loc |> Loc.path)
        && Option.is_none (Config.main config)
     then Error_log.warning error_log ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]);
   array_of_file_node ()

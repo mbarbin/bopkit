@@ -8,7 +8,7 @@
    dune.inc.gen
    (pipe-stdout
     (bash
-     "%{bin:bopkit} fmt gen-dune .bop -exclude div.bop,div_opt.bop -- \%{bin:bopkit} fmt file")
+     "%{bin:bopkit} fmt gen-dune --exclude div.bop,div_opt.bop -- \%{bin:bopkit} fmt file")
     (run dune format-dune-file)))))
 
 (rule

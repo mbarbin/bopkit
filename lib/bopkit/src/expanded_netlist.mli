@@ -80,7 +80,7 @@ type block =
   }
 
 type t =
-  { filenames : string list
+  { paths : Fpath.t list
   ; rom_memories : Bit_matrix.t array
   ; memories : memory array
   ; external_blocks : external_block list

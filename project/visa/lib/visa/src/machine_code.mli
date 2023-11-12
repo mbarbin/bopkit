@@ -10,7 +10,7 @@ end
 
 type t = Byte.t array [@@deriving equal, sexp_of]
 
-val of_text_file_exn : filename:string -> error_log:Error_log.t -> t
+val of_text_file_exn : path:Fpath.t -> error_log:Error_log.t -> t
 
 (** Compile down instructions into a binary encoding that can be read by the
     microprocessor. *)
@@ -20,7 +20,7 @@ val of_instructions : int Instruction.t array -> t
     instructions. *)
 val to_instructions
   :  t
-  -> filename:string
+  -> path:Fpath.t
   -> error_log:Error_log.t
   -> int Instruction.t array
 

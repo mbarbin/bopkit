@@ -31,10 +31,10 @@ let has_main_attribute (fd : Bopkit.Netlist.block) =
     | _ -> false)
 ;;
 
-let expand_netlist ~filename ~error_log ~config =
-  let loc = Loc.in_file ~filename in
-  let { Standalone_netlist.filenames; parameters; memories; external_blocks; blocks } =
-    Pass_includes.pass ~filename ~error_log
+let expand_netlist ~path ~error_log ~config =
+  let loc = Loc.in_file ~path in
+  let { Standalone_netlist.paths; parameters; memories; external_blocks; blocks } =
+    Pass_includes.pass ~path ~error_log
   in
   let parameters =
     parameters
@@ -95,7 +95,7 @@ let expand_netlist ~filename ~error_log ~config =
   return
     ( primitives
     , Bopkit.Expanded_netlist.
-        { filenames
+        { paths
         ; rom_memories
         ; memories
         ; external_blocks = external_blocks @ inline_external_blocks
@@ -104,10 +104,10 @@ let expand_netlist ~filename ~error_log ~config =
         } )
 ;;
 
-let circuit_of_netlist ~filename ~error_log ~config =
-  let loc = Loc.in_file ~filename in
+let circuit_of_netlist ~path ~error_log ~config =
+  let loc = Loc.in_file ~path in
   Queue.clear Pass_expanded_block.global_cycle_hints;
-  let%bind primitives, expanded_netlist = expand_netlist ~filename ~error_log ~config in
+  let%bind primitives, expanded_netlist = expand_netlist ~path ~error_log ~config in
   let main_block_name = expanded_netlist.main_block_name in
   let env =
     Pass_expanded_block.create_env expanded_netlist.blocks ~error_log ~primitives
@@ -177,7 +177,7 @@ let circuit_of_netlist ~filename ~error_log ~config =
     ];
   return
     (Bopkit_circuit.Circuit.create_exn
-       ~filename
+       ~path
        ~main:main.name
        ~cds
        ~rom_memories:expanded_netlist.rom_memories

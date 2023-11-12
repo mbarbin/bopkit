@@ -43,5 +43,5 @@
 
 text_or_file:
   | TEXT CODE                                                        { Text $2 }
-  | FILE LPAREN STRING RPAREN                                        { File $3 }
+  | FILE LPAREN STRING RPAREN                                        { File ($3 |> Fpath.v) }
 ;

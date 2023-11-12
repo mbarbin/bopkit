@@ -1,6 +1,12 @@
 (executables
  (names main)
  (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
- (libraries core command-unix-for-opam parsing_utils)
+ (libraries
+  auto-format
+  core
+  command-unix-for-opam
+  eio
+  eio_main
+  parsing-utils)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

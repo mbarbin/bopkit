@@ -451,16 +451,22 @@ let read_user_value t ~address:addr =
        | Some iv -> Bit_array.blit_int ~dst:t.mem.(addr) ~src:iv))
 ;;
 
-let to_text_file t ~filename =
+let to_text_file t ~path =
   prerr_endline
-    (Printf.sprintf "Save memory \"%s\" to \"%s\" (text file)" t.name filename);
-  Bit_matrix.to_text_file t.mem ~filename
+    (Printf.sprintf
+       "Save memory \"%s\" to \"%s\" (text file)"
+       t.name
+       (path |> Fpath.to_string));
+  Bit_matrix.to_text_file t.mem ~path
 ;;
 
-let load_text_file t ~filename =
+let load_text_file t ~path =
   prerr_endline
-    (Printf.sprintf "Load memory \"%s\" from \"%s\" (text file)" t.name filename);
-  let bin = Bit_matrix.of_text_file ~dimx:t.length ~dimy:t.data_width ~filename in
+    (Printf.sprintf
+       "Load memory \"%s\" from \"%s\" (text file)"
+       t.name
+       (path |> Fpath.to_string));
+  let bin = Bit_matrix.of_text_file ~dimx:t.length ~dimy:t.data_width ~path in
   for i = 0 to Int.pred t.length do
     for j = 0 to Int.pred t.data_width do
       t.mem.(i).(j) <- bin.(i).(j)
@@ -535,16 +541,16 @@ let event_loop_internal t ~loop ~read_only =
             true
           | 's' ->
             let prompt = Printf.sprintf "Save memory \"%s\" as : " t.name in
-            let filename = read_string t ~at_coordinates:(0, 0) ~prompt () in
-            to_text_file t ~filename;
+            let path = read_string t ~at_coordinates:(0, 0) ~prompt () |> Fpath.v in
+            to_text_file t ~path;
             true
           | 'l' ->
             if read_only
             then false
             else (
               let prompt = Printf.sprintf "Load memory \"%s\" from : " t.name in
-              let filename = read_string t ~at_coordinates:(0, 0) ~prompt () in
-              load_text_file t ~filename;
+              let path = read_string t ~at_coordinates:(0, 0) ~prompt () |> Fpath.v in
+              load_text_file t ~path;
               true)
           | o when Char.equal o ' ' || Char.to_int o = 13 (* '\n' *) ->
             (match loop with

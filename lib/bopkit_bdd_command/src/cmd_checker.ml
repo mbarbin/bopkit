@@ -1,6 +1,6 @@
-let main ~ad ~wl ~filename =
+let main ~ad ~wl ~path =
   let num_addr = Int.pow 2 ad in
-  let rom = Partial_bit_matrix.of_text_file ~dimx:num_addr ~dimy:wl ~filename in
+  let rom = Partial_bit_matrix.of_text_file ~dimx:num_addr ~dimy:wl ~path in
   Bopkit_block.Method.main
     ~input_arity:(Tuple_2 (Bus { width = ad }, Bus { width = wl }))
     ~output_arity:Empty
@@ -30,6 +30,8 @@ exception. It is meant to be used as unit-test in a bopkit simulation.
     (let open Command.Let_syntax in
      let%map_open ad = flag "AD" (required int) ~doc:"N number of bits of addresses"
      and wl = flag "WL" (required int) ~doc:"N number of bits of output words"
-     and filename = flag "f" (required string) ~doc:"FILE the file to load" in
-     Bopkit_block.create ~name:"bdd-checker" ~main:(main ~ad ~wl ~filename) ())
+     and path =
+       flag "f" (required Fpath_extended.arg_type) ~doc:"FILE the file to load"
+     in
+     Bopkit_block.create ~name:"bdd-checker" ~main:(main ~ad ~wl ~path) ())
 ;;

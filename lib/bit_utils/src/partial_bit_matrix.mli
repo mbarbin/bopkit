@@ -8,7 +8,7 @@ type t = Partial_bit_array.t array [@@deriving compare, equal, sexp_of]
 val of_partial_bit_array : dimx:int -> dimy:int -> Partial_bit_array.t -> t
 
 (** See {!val:Partial_bit_array.of_text_file}. *)
-val of_text_file : dimx:int -> dimy:int -> filename:string -> t
+val of_text_file : dimx:int -> dimy:int -> path:Fpath.t -> t
 
-val to_text_file : t -> filename:string -> unit
+val to_text_file : t -> path:Fpath.t -> unit
 val to_text_channel : t -> Out_channel.t -> unit

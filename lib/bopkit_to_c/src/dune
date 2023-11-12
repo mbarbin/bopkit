@@ -7,7 +7,8 @@
   bopkit_circuit
   bopkit_compiler
   core_unix.command_unix
-  parsing_utils
-  pp)
+  parsing-utils
+  pp
+  pp-extended)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

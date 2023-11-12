@@ -46,6 +46,8 @@ let run ~circuit ~error_log ~config =
          done)
    with
    | Sys_unix.Break | End_of_file -> ());
-  Error_log.info error_log [ Pp.textf "End of simulation (%S)" circuit.filename ];
+  Error_log.info
+    error_log
+    [ Pp.textf "End of simulation (%S)" (circuit.path |> Fpath.to_string) ];
   Circuit_simulator.quit circuit_simulator
 ;;

@@ -26,13 +26,13 @@ Checkout: bopkit fmt file -help
 
 ```sh
 $ bopkit fmt file -help
-autoformat a bopkit file
+autoformat bopkit files
 
   bopkit fmt file FILE
 
-This is a pretty-print command for bopkit files (extension *.bop).
+This is a pretty-print command for bopkit files (extensions .bop).
 
-This reads the contents of a bopkit file supplied in the command line, and
+This reads the contents of a file supplied in the command line, and
 pretty-print it on stdout, leaving the original file unchanged.
 
 If [-read-contents-from-stdin] is supplied, then the contents of the file is
@@ -44,18 +44,17 @@ to stdout, however the exit code will be non zero (typically [1]). Errors are
 printed on stderr.
 
 The hope for this command is for it to be compatible with editors and build
-systems so that you can integrate autoformatting of bopkit files into your
-workflow.
+systems so that you can integrate autoformatting of files into your workflow.
 
-It is used by [dune fmt] throughout the bopkit project, and has been tested
-with vscode. Because this command has been tested with a vscode extension that
-strips the last newline, a flag has been added to add an extra blank line,
-shall you run into this issue.
+Because this command has been tested with a vscode extension that strips the
+last newline, a flag has been added to add an extra blank line, shall you run
+into this issue.
 
 === flags ===
 
-  [-add-extra-blank-line]    . add an extra blank line at the end
-  [-read-contents-from-stdin]
+  [--add-extra-blank-line], -add-extra-blank-line
+                             . add an extra blank line at the end
+  [--read-contents-from-stdin], -read-contents-from-stdin
                              . read contents from stdin rather than from the
                                file
   [-help], -?                . print this help text and exit

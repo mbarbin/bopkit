@@ -3,12 +3,15 @@
  (public_name bopkit.process-command)
  (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Base)
  (libraries
+  auto-format
   base
   bopkit_process
   bopkit_process_interpreter
   bopkit_process_pp
   bopkit_process_syntax
   core.command
+  fpath
+  fpath-extended
   pp)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

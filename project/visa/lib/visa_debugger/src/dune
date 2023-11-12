@@ -8,6 +8,8 @@
   core
   core_unix
   core_unix.core_thread
+  fpath
+  fpath-extended
   visa
   visa_assembler
   visa_simulator

@@ -1,5 +1,5 @@
 type t =
-  { filename : string
+  { path : Fpath.t
   ; main : string
   ; rom_memories : Bit_matrix.t array
   ; external_blocks : Bopkit.Expanded_netlist.external_block array
@@ -40,18 +40,8 @@ let verify_input_position_exn t =
         , { gate_kind : Gate_kind.t }]
 ;;
 
-let create_exn
-  ~filename
-  ~main
-  ~rom_memories
-  ~external_blocks
-  ~cds
-  ~input_names
-  ~output_names
-  =
-  let t =
-    { filename; main; cds; rom_memories; external_blocks; input_names; output_names }
-  in
+let create_exn ~path ~main ~rom_memories ~external_blocks ~cds ~input_names ~output_names =
+  let t = { path; main; cds; rom_memories; external_blocks; input_names; output_names } in
   verify_input_position_exn t;
   verify_input_output_gate_count_exn t;
   t
