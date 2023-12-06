@@ -17,7 +17,7 @@
 
 (using dune_site 0.1)
 
-(using mdx 0.2)
+(using mdx 0.4)
 
 (using menhir 2.1)
 
@@ -73,7 +73,7 @@
   (loc
    (>= 0.0.1))
   (mdx
-   (>= 2.2))
+   (>= 2.3))
   (menhir
    (>= 20220210))
   (parsing-utils
