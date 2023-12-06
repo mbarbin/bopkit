@@ -20,4 +20,6 @@
   (glob_files *.bop)
   (package bopkit)))
 
-(mdx)
+(mdx
+ (deps
+  (package bopkit)))
