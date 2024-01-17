@@ -1,7 +1,7 @@
 (library
  (name bopkit)
  (public_name bopkit.bopkit)
- (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Base)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
  (libraries
   appendable-list
   base

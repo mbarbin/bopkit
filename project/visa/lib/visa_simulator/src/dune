@@ -1,7 +1,7 @@
 (library
  (name visa_simulator)
  (public_name bopkit.visa-simulator)
- (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries
   bit_utils
   core

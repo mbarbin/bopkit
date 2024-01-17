@@ -1,7 +1,7 @@
 (library
  (name subleq_generator)
  (public_name bopkit.subleq-generator)
- (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries
   bit_utils
   bopkit_memory

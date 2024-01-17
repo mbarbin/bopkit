@@ -2,7 +2,7 @@
  (name bit_utils)
  (public_name bopkit.bit-utils)
  (wrapped false)
- (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Core)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries core fpath)
  (preprocess
   (pps ppx_jane ppx_js_style -check-doc-comments)))

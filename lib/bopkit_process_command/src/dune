@@ -1,7 +1,7 @@
 (library
  (name bopkit_process_command)
  (public_name bopkit.process-command)
- (flags :standard -w +a-4-40-41-42-44-45-66 -warn-error +a -open Base)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
  (libraries
   auto-format
   base
