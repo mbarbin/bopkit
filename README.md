@@ -10,7 +10,6 @@
 <p align="center">
   <a href="https://github.com/mbarbin/bopkit/actions/workflows/ci.yml"><img src="https://github.com/mbarbin/bopkit/workflows/ci/badge.svg" alt="CI Status"/></a>
   <a href="https://github.com/mbarbin/bopkit/actions/workflows/deploy-doc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/deploy-doc/badge.svg" alt="Deploy Doc Status"/></a>
-  <a href="https://github.com/mbarbin/bopkit/actions/workflows/build-odoc.yml"><img src="https://github.com/mbarbin/bopkit/workflows/build-odoc/badge.svg" alt="Build odoc Status"/></a>
 </p>
 
 Welcome to Bopkit, an educational project that provides a description language
