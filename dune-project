@@ -26,7 +26,6 @@
 (package
  (name bopkit)
  (synopsis "An educational project for digital circuits programming")
- (description "An educational project for digital circuits programming")
  (sites
   (share stdlib)
   (share bopboard)
