@@ -1,4 +1,4 @@
-(lang dune 3.11)
+(lang dune 3.12)
 
 (name bopkit)
 
@@ -33,8 +33,6 @@
  (depends
   (ocaml
    (>= 5.1))
-  (dune
-   (>= 3.11))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
@@ -60,7 +58,7 @@
     (>= v0.16)
     (< v0.17)))
   (dune-site
-   (>= 3.11))
+   (>= 3.12))
   (error-log
    (>= 0.0.1))
   (fpath
@@ -94,7 +92,7 @@
     (>= v0.16)
     (< v0.17)))
   (stdune
-   (>= 3.11))
+   (>= 3.12))
   (tsdl
    (>= 0.9.8))
   (tsdl-image
