@@ -1,3 +1,13 @@
+## 0.2.4 (2024-01-18)
+
+### Changed
+
+- Internal changes related to build and release process.
+- Rename most file path variables from [filename] to [path] and switch from type
+  [string] to [Fpath.t] (#7, @mbarbin).
+- Extract some libraries into their own packages to reuse in other projects:
+  `auto-format`, `error-log`, `loc`, `parsing-utils` (#7, @mbarbin).
+
 ## 0.2.3 (2023-11-03)
 
 ### Changed
