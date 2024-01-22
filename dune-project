@@ -1,4 +1,4 @@
-(lang dune 3.12)
+(lang dune 3.13)
 
 (name bopkit)
 
@@ -58,7 +58,7 @@
     (>= v0.16)
     (< v0.17)))
   (dune-site
-   (>= 3.12))
+   (>= 3.13))
   (error-log
    (>= 0.0.1))
   (fpath
@@ -92,7 +92,7 @@
     (>= v0.16)
     (< v0.17)))
   (stdune
-   (>= 3.12))
+   (>= 3.13))
   (tsdl
    (>= 0.9.8))
   (tsdl-image
