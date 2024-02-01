@@ -29,21 +29,14 @@ let sort
   =
   let nodes_table = Hashtbl.create (module Key) in
   let nodes =
-    let rec aux acc = function
-      | [] -> acc
-      | node :: tl ->
-        let acc =
-          let key = Node.key node in
-          if Hashtbl.mem nodes_table key
-          then acc
-          else (
-            let node = { Node_and_key.key; node } in
-            Hashtbl.set nodes_table ~key ~data:node;
-            node :: acc)
-        in
-        aux acc tl
-    in
-    aux [] (List.rev nodes)
+    List.fold_right nodes ~init:[] ~f:(fun node acc ->
+      let key = Node.key node in
+      if Hashtbl.mem nodes_table key
+      then acc
+      else (
+        let node = { Node_and_key.key; node } in
+        Hashtbl.set nodes_table ~key ~data:node;
+        node :: acc))
   in
   let visited = Hash_set.create (module Key) in
   let ordered = Queue.create ~capacity:(List.length nodes) () in
