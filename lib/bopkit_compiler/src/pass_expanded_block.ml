@@ -59,7 +59,7 @@ let detect_cycle_in_block (fd : Expanded_block.t) =
   let edges =
     let rec aux acc = function
       | [] -> acc
-      | { Expanded_block.call = typ; inputs = ent; outputs = sor } :: q ->
+      | { Expanded_block.loc = _; call = typ; inputs = ent; outputs = sor } :: q ->
         (match typ with
          | Primitive { gate_kind = Reg _ | Regr _ | Regt } -> aux acc q
          | _ ->
@@ -317,7 +317,8 @@ let create_block
         match call with
         | External_block
             { name = bloc_name; method_name; external_arguments = string_args } ->
-          { Expanded_block.call =
+          { Expanded_block.loc
+          ; call =
               Primitive
                 { gate_kind =
                     External
@@ -360,7 +361,7 @@ let create_block
                      (List.length sor)
                  ]
              else ();
-             { call = Primitive { gate_kind = prim }; inputs = ent; outputs = sor }
+             { loc; call = Primitive { gate_kind = prim }; inputs = ent; outputs = sor }
            | None ->
              (* It wasn't a primitive, so it must be a call to a block. Otherwise it's an error. *)
              (match Map.find env call_name with
@@ -396,7 +397,7 @@ let create_block
                         (List.length sor)
                     ]
                 else ();
-                { call = Block { name = call_name }; inputs = ent; outputs = sor }))
+                { loc; call = Block { name = call_name }; inputs = ent; outputs = sor }))
       in
       List.map corps_c ~f:make_appel
     in

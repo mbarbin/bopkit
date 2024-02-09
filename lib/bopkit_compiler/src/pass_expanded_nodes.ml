@@ -69,8 +69,9 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
       (* cf commentaire ci-dessus : partition des variables de la fonction *)
     in
     Hash_set.add fonctions_utilisees des_ant.name;
-    List.map des_ant.nodes ~f:(fun { call = f; inputs = el; outputs = sl } ->
-      { Expanded_block.call = f
+    List.map des_ant.nodes ~f:(fun { loc; call = f; inputs = el; outputs = sl } ->
+      { Expanded_block.loc
+      ; call = f
       ; inputs = List.map el ~f:subst
       ; outputs = List.map sl ~f:subst
       })
@@ -84,7 +85,7 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
   (* La fonction TRAITE figurant dans le rapport latex.
      Cette fonction travaille par induction sur les listes d'appels des corps.
      Elle renvoit la table des liaisons *)
-  let rec aux_node { Expanded_block.call; inputs; outputs } =
+  let rec aux_node { Expanded_block.loc = _; call; inputs; outputs } =
     match call with
     | Primitive { gate_kind } ->
       Queue.enqueue

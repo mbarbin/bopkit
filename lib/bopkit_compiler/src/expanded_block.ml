@@ -4,7 +4,8 @@ type call =
 [@@deriving sexp_of]
 
 type node =
-  { call : call
+  { loc : Loc.t
+  ; call : call
   ; inputs : string list
   ; outputs : string list
   }

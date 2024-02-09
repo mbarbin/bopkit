@@ -1,3 +1,18 @@
+## 0.2.6 (unreleased)
+
+### Added
+
+### Changed
+
+- Clarify handling of deprecated aliases for primitives. Internal refactor only,
+  no behavior change.
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
 ## 0.2.5 (2024-02-09)
 
 ### Changed

@@ -13,9 +13,9 @@ type call =
   | Primitive of { gate_kind : Bopkit_circuit.Gate_kind.t }
 [@@deriving sexp_of]
 
-(* CR mbarbin: Does it serve to keep the [loc] in here? *)
 type node =
-  { call : call
+  { loc : Loc.t
+  ; call : call
   ; inputs : string list
   ; outputs : string list
   }
