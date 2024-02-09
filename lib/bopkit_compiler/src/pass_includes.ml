@@ -19,10 +19,11 @@ let find_distribution_file ~path ~loc ~error_log =
         ]
 ;;
 
-(* CR mbarbin: Currently this logic uses the notion of module_name_of_path to
-   avoid including files multiple times. I would like to change this to a more
-   straight-forward mechanism, perhaps using simply the basename. TBD. *)
-
+(* The current logic employs the concept of [module_name_of_path] to prevent the
+   inclusion of files multiple times. The actual transformation was originally
+   inspired by OCaml's convention of converting filenames into module names. The
+   name computed by [module_name_of_path] is used as a unique identifier to
+   ensure each file is included only once. *)
 let module_name_of_path ~path:f =
   f |> Fpath.rem_ext |> Fpath.filename |> String.capitalize
 ;;
