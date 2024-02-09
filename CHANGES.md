@@ -1,3 +1,10 @@
+## 0.2.5 (2024-02-09)
+
+### Changed
+
+- Internal changes related to the release process.
+- Upgrade dune and internal dependencies.
+
 ## 0.2.4 (2024-01-18)
 
 ### Changed
