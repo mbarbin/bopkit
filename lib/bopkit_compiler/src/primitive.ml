@@ -12,7 +12,9 @@ let initial_env =
     (List.fold
        (force Bopkit_circuit.Gate_kind.Primitive.all)
        ~init:(Map.empty (module String))
-       ~f:(fun env { gate_kind; input_width; output_width; aliases = keys } ->
-         List.fold keys ~init:env ~f:(fun env key ->
+       ~f:
+         (fun
+           env { gate_kind; input_width; output_width; keyword; deprecated_aliases } ->
+         List.fold (keyword :: deprecated_aliases) ~init:env ~f:(fun env key ->
            Map.set env ~key ~data:{ gate_kind; input_width; output_width })))
 ;;

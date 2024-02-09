@@ -45,11 +45,19 @@ type t =
 val pp_debug : t -> _ Pp.t
 
 module Primitive : sig
+  (** Starting from version [2.0], the syntax for primitives underwent a change:
+      all lowercase identifiers were capitalized. For instance, "and" was
+      replaced by "And". The pretty-printer now generates this new syntax for
+      primitives. However, to ensure backward compatibility and facilitate a
+      smooth transition, the parser still accepts the old lowercase
+      identifiers as deprecated aliases. *)
+
   type nonrec t =
     { gate_kind : t
     ; input_width : int
     ; output_width : int
-    ; aliases : string list
+    ; keyword : string
+    ; deprecated_aliases : string list
     }
   [@@deriving sexp_of]
 

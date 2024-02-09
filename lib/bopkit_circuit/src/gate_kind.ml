@@ -77,13 +77,11 @@ module Primitive = struct
     { gate_kind : t
     ; input_width : int
     ; output_width : int
-    ; aliases : string list
+    ; keyword : string
+    ; deprecated_aliases : string list
     }
   [@@deriving sexp_of]
 
-  (* CR mbarbin: This is a transition state, I'd like for it to be a single
-     canonical representation for each primitive, and it to be pretty-printed as
-     such. In the meantime, several variations are allowed. *)
   let all =
     lazy
       ([ Not, (1, 1), [ "Not"; "not"; "~" ]
@@ -101,6 +99,9 @@ module Primitive = struct
        ; Vdd, (0, 1), [ "Vdd"; "vdd" ]
        ]
        |> List.map ~f:(fun (gate_kind, (input_width, output_width), aliases) ->
-         { gate_kind; input_width; output_width; aliases }))
+         match aliases with
+         | [] -> assert false
+         | keyword :: deprecated_aliases ->
+           { gate_kind; input_width; output_width; keyword; deprecated_aliases }))
   ;;
 end

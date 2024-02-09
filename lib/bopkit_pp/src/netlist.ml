@@ -283,14 +283,17 @@ let rec pp_call (t : Bopkit.Netlist.call) ~(inputs : Bopkit.Netlist.nested_input
       match force Auto_format.allow_changes with
       | false -> name
       | true ->
-        (* CR mbarbin: This allows for a transition during which we auto-correct
-           netlist to the new primitive names *)
+        (*  When [Auto_format.allow_changes] is set to true, the pretty printer
+            will automatically replace any deprecated aliases it encounters with
+            their corresponding new keywords. This is part of a strategy for a
+            smooth transition from the old syntax to the new syntax. *)
         let primitives = force Bopkit_circuit.Gate_kind.Primitive.all in
         (match
-           List.find primitives ~f:(fun t -> List.mem t.aliases name ~equal:String.equal)
+           List.find primitives ~f:(fun t ->
+             List.mem t.deprecated_aliases name ~equal:String.equal)
          with
          | None -> name
-         | Some t -> List.hd_exn t.aliases)
+         | Some t -> t.keyword)
     in
     let call =
       Pp.concat
