@@ -6,14 +6,6 @@ module Constant_kind = struct
 end
 
 module Top_level_construct = struct
-  (* CR mbarbin: Keep in the ast whether there're empty lines before
-     or after a comment, and keep one line in that case in the [pp].
-  *)
-  (* CR mbarbin: Add the ability to have comments inside macros.
-     Currently this yields a syntax error. *)
-  (* CR mbarbin: Change the parser. Enforce the order of section.
-     Currently it is confusing in that you may define a constant after
-     it is used. *)
   type t =
     | Newline
     | Comment of { text : string }

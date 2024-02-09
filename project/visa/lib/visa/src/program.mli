@@ -6,6 +6,17 @@ module Constant_kind : sig
 end
 
 module Top_level_construct : sig
+  (** Current Limitations:
+
+      1. The Abstract Syntax Tree (AST) does not retain information about empty
+      lines before or after a comment. Consequently, the pretty printer
+      ([pp]) does not preserve these empty lines.
+
+      2. Comments inside macros are not supported. Attempting to include a
+      comment inside a macro will result in a syntax error.
+
+      3. The parser does not enforce the order of sections. This can lead to
+      confusion as it allows a constant to be defined after it is used. *)
   type t =
     | Newline
     | Comment of { text : string }
