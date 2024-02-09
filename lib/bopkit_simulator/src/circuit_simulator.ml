@@ -254,6 +254,7 @@ let or_exit_error e =
 ;;
 
 let quit t =
+  let uncaught_exceptions = Queue.create () in
   for i = 0 to Int.pred (Array.length t.external_process) do
     let process = t.external_process.(i) in
     Error_log.debug
@@ -293,10 +294,15 @@ let quit t =
             (-1)
         ]
     | exception e ->
-      (* CR mbarbin: This prevents other processes from being properly closed. *)
       prerr_endline "Circuit#quit error";
-      raise e
-  done
+      Queue.enqueue uncaught_exceptions e
+  done;
+  if not (Queue.is_empty uncaught_exceptions)
+  then
+    raise_s
+      [%sexp
+        "Uncaught exceptions during external process termination"
+        , (Queue.to_list uncaught_exceptions : exn list)]
 ;;
 
 (* For each [Regr], update its matching [Regt]. Called at the end of each cycle. *)
