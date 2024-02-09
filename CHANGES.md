@@ -11,6 +11,8 @@
 
 ### Fixed
 
+- Fixed behavior of the `GOF` instruction in the visa simulator.
+
 ### Removed
 
 ## 0.2.5 (2024-02-09)

@@ -25,6 +25,7 @@ end
 type t =
   { mutable register_R0 : int
   ; mutable register_R1 : int
+  ; mutable overflow_flag : bool
   ; output_device : Output_device.t
   ; memory : Ram.t
   }
@@ -33,6 +34,7 @@ type t =
 let create () =
   { register_R0 = 0
   ; register_R1 = 0
+  ; overflow_flag = false
   ; memory = Ram.create ()
   ; output_device = Output_device.create ~len:8
   }
@@ -88,7 +90,14 @@ let write t ~register_name ~address =
   return ()
 ;;
 
-let add t = t.register_R1 <- (t.register_R0 + t.register_R1) mod 256
+let add t =
+  let result = t.register_R0 + t.register_R1 in
+  t.overflow_flag <- result > 255;
+  t.register_R1 <- result % 256
+;;
+
+let overflow_flag t = t.overflow_flag
+let gof t = t.register_R1 <- (if t.overflow_flag then 1 else 0)
 let and_ t = t.register_R1 <- t.register_R0 land t.register_R1
 
 let switch t =

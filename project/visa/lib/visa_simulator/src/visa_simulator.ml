@@ -111,9 +111,7 @@ let execute_instruction t ~instruction =
     Memory.not_ t.memory ~register_name;
     return (increment_code_pointer t)
   | Gof ->
-    (* CR mbarbin: Gof is not used in the calendar, and implemented as Nop in
-       the simulator. It's supposed to set R1 with the overflow_flag of the last
-       register operation, that is set R1 to 1 iif [Add] produced a carry. *)
+    Memory.gof t.memory;
     return (increment_code_pointer t)
   | (Jmp { label } | Jmn { label } | Jmz { label }) as jump_instruction ->
     let%bind code_pointer =

@@ -63,3 +63,21 @@ val switch : t -> unit
 val cmp : t -> unit
 
 val not_ : t -> register_name:Visa.Register_name.t -> unit
+
+(** The [overflow_flag] function returns a boolean value indicating whether the
+    last arithmetic operation performed on the registers resulted in an
+    overflow. Currently, the only operation that can cause an overflow is
+    "add".
+
+    Specifically, the [overflow_flag] is initially set to [false]. It is updated
+    every time the [add] operation is performed: if the result of the addition
+    strictly exceeds 255, the flag is set to [true], indicating an overflow;
+    otherwise, it is reset to [false].
+
+    This function provides a way to check the current state of the overflow
+    flag. *)
+val overflow_flag : t -> bool
+
+(** [gof t] ("Get Overflow Flag") sets [R1] to the current value of the
+    [overflow_flag] (1 for true and 0 for false). *)
+val gof : t -> unit
