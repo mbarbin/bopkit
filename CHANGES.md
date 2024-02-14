@@ -1,6 +1,4 @@
-## 0.2.6 (unreleased)
-
-### Added
+## 0.2.6 (2024-02-14)
 
 ### Changed
 
@@ -9,13 +7,9 @@
 - Clarify handling of deprecated aliases for primitives. Internal refactor only,
   no behavior change.
 
-### Deprecated
-
 ### Fixed
 
 - Fixed behavior of the `GOF` instruction in the visa simulator.
-
-### Removed
 
 ## 0.2.5 (2024-02-09)
 
