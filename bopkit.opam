@@ -8,7 +8,7 @@ homepage: "https://github.com/mbarbin/bopkit"
 doc: "https://mbarbin.github.io/bopkit/"
 bug-reports: "https://github.com/mbarbin/bopkit/issues"
 depends: [
-  "dune" {>= "3.13"}
+  "dune" {>= "3.14"}
   "ocaml" {>= "5.1"}
   "ANSITerminal" {>= "0.8.3"}
   "appendable-list" {>= "v0.16" & < "v0.17"}
@@ -18,8 +18,8 @@ depends: [
   "command-unix-for-opam" {>= "0.0.2"}
   "core" {>= "v0.16" & < "v0.17"}
   "core_unix" {>= "v0.16" & < "v0.17"}
-  "dune-site" {>= "3.13"}
-  "error-log" {>= "0.0.2"}
+  "dune-site" {>= "3.14"}
+  "error-log" {>= "0.0.4"}
   "fpath" {>= "0.7.3"}
   "fpath-extended" {>= "0.0.3"}
   "graphics" {>= "5.1.2"}
@@ -32,7 +32,7 @@ depends: [
   "ppx_jane" {>= "v0.16" & < "v0.17"}
   "ppx_js_style" {>= "v0.16" & < "v0.17"}
   "stdio" {>= "v0.16" & < "v0.17"}
-  "stdune" {>= "3.13"}
+  "stdune" {>= "3.14"}
   "tsdl" {>= "0.9.8"}
   "tsdl-image" {>= "0.6"}
   "odoc" {with-doc}
