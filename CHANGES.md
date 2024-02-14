@@ -4,6 +4,8 @@
 
 ### Changed
 
+- Upgrade dune to `3.14`.
+- Build the doc with sherlodoc available to enable the doc search bar.
 - Clarify handling of deprecated aliases for primitives. Internal refactor only,
   no behavior change.
 
