@@ -2,7 +2,7 @@ let main =
   Command.basic
     ~summary:"check a bopkit project"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and error_log_config = Error_log.Config.param
      and print_cds =
        flag "print-cds" no_arg ~doc:" print the cds out stdout in case of success"

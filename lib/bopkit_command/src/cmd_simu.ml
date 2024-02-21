@@ -5,7 +5,7 @@ let main =
   Command.basic
     ~summary:"simulate the execution of a bopkit project"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and error_log_config = Error_log.Config.param
      and bopkit_compiler_config = Bopkit_compiler.Config.param
      and bopkit_simulator_config = Bopkit_simulator.Config.param in

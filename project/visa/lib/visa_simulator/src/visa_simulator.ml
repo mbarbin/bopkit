@@ -7,7 +7,7 @@ module Config = struct
   type t =
     { sleep : bool
     ; stop_after_n_outputs : int option
-    ; initial_memory : Fpath_extended.t option
+    ; initial_memory : Fpath.t option
     }
   [@@deriving sexp_of]
 
@@ -32,7 +32,7 @@ module Config = struct
     and initial_memory =
       flag
         "initial-memory"
-        (optional Fpath_extended.arg_type)
+        (optional (Arg_type.create Fpath.v))
         ~doc:"FILE load initial memory contents"
     in
     { sleep; stop_after_n_outputs; initial_memory }
@@ -261,7 +261,7 @@ let main =
   Command.basic
     ~summary:"parse an assembler program and simulate its execution"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and error_log_config = Error_log.Config.param
      and config = Config.param in
      Error_log.report_and_exit ~config:error_log_config (fun error_log ->

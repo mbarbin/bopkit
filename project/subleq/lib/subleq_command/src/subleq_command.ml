@@ -31,7 +31,7 @@ let simulate_cmd =
      let%map_open debugger = flag "g" no_arg ~doc:" run a graphic debugger"
      and architecture =
        flag "ar" (optional_with_default 4 int) ~doc:"N architecture (default 4)"
-     and path = anon ("FILE" %: Fpath_extended.arg_type) in
+     and path = anon ("FILE" %: Arg_type.create Fpath.v) in
      fun () ->
        let initial_memory =
          Bit_matrix.of_text_file ~dimx:(Int.pow 2 architecture) ~dimy:architecture ~path

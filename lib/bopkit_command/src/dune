@@ -1,7 +1,16 @@
 (library
  (name bopkit_command)
  (public_name bopkit.command)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Fpath_extended
+  -open
+  Core)
  (libraries
   bopkit_bdd_command
   bopkit_compiler

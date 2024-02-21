@@ -2,7 +2,7 @@ let parse_cmd =
   Command.basic
     ~summary:"parse and dump an assembler program ast"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and config = Error_log.Config.param in
      Error_log.report_and_exit ~config (fun error_log ->
        let open Or_error.Let_syntax in
@@ -26,7 +26,7 @@ let process_cmd =
   Command.basic
     ~summary:"parse and print an assembler program after processing"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and config = Error_log.Config.param in
      Error_log.report_and_exit ~config (fun error_log ->
        let open Or_error.Let_syntax in
@@ -41,7 +41,7 @@ let check_cmd =
   Command.basic
     ~summary:"parse and check an assembler program"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and config = Error_log.Config.param in
      Error_log.report_and_exit ~config (fun error_log ->
        let open Or_error.Let_syntax in
@@ -56,7 +56,7 @@ let assemble_cmd =
   Command.basic
     ~summary:"parse and transform an assembler program into machine code"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and config = Error_log.Config.param in
      Error_log.report_and_exit ~config (fun error_log ->
        let open Or_error.Let_syntax in
@@ -71,7 +71,7 @@ let disassemble_cmd =
   Command.basic
     ~summary:"recreate an assembler program from machine code"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and config = Error_log.Config.param in
      Error_log.report_and_exit ~config (fun error_log ->
        let open Or_error.Let_syntax in

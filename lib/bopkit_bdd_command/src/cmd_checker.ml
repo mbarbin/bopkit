@@ -31,7 +31,7 @@ exception. It is meant to be used as unit-test in a bopkit simulation.
      let%map_open ad = flag "AD" (required int) ~doc:"N number of bits of addresses"
      and wl = flag "WL" (required int) ~doc:"N number of bits of output words"
      and path =
-       flag "f" (required Fpath_extended.arg_type) ~doc:"FILE the file to load"
+       flag "f" (required (Arg_type.create Fpath.v)) ~doc:"FILE the file to load"
      in
      Bopkit_block.create ~name:"bdd-checker" ~main:(main ~ad ~wl ~path) ())
 ;;

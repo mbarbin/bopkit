@@ -164,7 +164,7 @@ let bogue_cmd =
   Command.basic
     ~summary:"parse an assembler program and simulate its execution in a bogue window"
     (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Fpath_extended.arg_type)
+     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
      and error_log_config = Error_log.Config.param
      and visa_simulator_config = Visa_simulator.Config.param in
      Error_log.report_and_exit ~config:error_log_config (fun error_log ->

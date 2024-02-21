@@ -1,5 +1,5 @@
 type t =
-  { paths : Fpath_extended.t list
+  { paths : Fpath.t list
   ; parameters : Bopkit.Netlist.parameter list
   ; memories : Bopkit.Netlist.memory list
   ; external_blocks : Bopkit.Netlist.external_block list

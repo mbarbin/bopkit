@@ -5,7 +5,7 @@ let main =
      let%map_open path =
        flag
          "f"
-         (required Fpath_extended.arg_type)
+         (required (Arg_type.create Fpath.v))
          ~doc:"FILE input file with boolean function (ascii)"
      and address = flag "AD" (required int) ~doc:"N number of bits of addresses"
      and word_length =

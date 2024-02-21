@@ -6,9 +6,9 @@ type include_file =
 [@@deriving equal, sexp_of]
 
 and include_file_kind =
-  | File_path of Fpath_extended.t
+  | File_path of Fpath.t
   | Distribution of
-      { file : Fpath_extended.t
+      { file : Fpath.t
       ; file_is_quoted : bool
       }
 [@@deriving equal, sexp_of]
@@ -36,7 +36,7 @@ type memory_kind =
 
 type memory_content =
   | Text of string
-  | File of Fpath_extended.t
+  | File of Fpath.t
   | Zero
 [@@deriving equal, sexp_of]
 
