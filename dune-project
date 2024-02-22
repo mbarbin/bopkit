@@ -64,7 +64,7 @@
   (fpath
    (>= 0.7.3))
   (fpath-extended
-   (>= 0.0.6))
+   (>= 0.0.7))
   (graphics
    (>= 5.1.2))
   (loc
