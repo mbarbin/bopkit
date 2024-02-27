@@ -4,4 +4,13 @@
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries bit_utils bopkit_memory core graphics threads unix)
  (preprocess
-  (pps ppx_jane ppx_js_style -check-doc-comments)))
+  (pps
+   ppx_compare
+   ppx_enumerate
+   ppx_hash
+   ppx_here
+   ppx_let
+   ppx_sexp_conv
+   ppx_sexp_value
+   ppx_js_style
+   -check-doc-comments)))

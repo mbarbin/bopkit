@@ -5,4 +5,15 @@
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries core fpath)
  (preprocess
-  (pps ppx_jane ppx_js_style -check-doc-comments)))
+  (pps
+   ppx_compare
+   ppx_enumerate
+   ppx_fields_conv
+   ppx_hash
+   ppx_here
+   ppx_let
+   base_quickcheck.ppx_quickcheck
+   ppx_sexp_conv
+   ppx_sexp_value
+   ppx_js_style
+   -check-doc-comments)))
