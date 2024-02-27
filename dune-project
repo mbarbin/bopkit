@@ -45,6 +45,10 @@
    (and
     (>= v0.16)
     (< v0.17)))
+  (base_quickcheck
+   (and
+    (>= v0.16)
+    (< v0.17)))
   (bogue
    (>= 20221112))
   (command-unix-for-opam
@@ -90,6 +94,10 @@
   (ppx_expect
    (and
     :with-test
+    (>= v0.16)
+    (< v0.17)))
+  (ppx_fields_conv
+   (and
     (>= v0.16)
     (< v0.17)))
   (ppx_hash
