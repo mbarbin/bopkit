@@ -12,7 +12,7 @@ depends: [
   "ocaml" {>= "5.1"}
   "ANSITerminal" {>= "0.8.3"}
   "appendable-list" {>= "v0.16" & < "v0.17"}
-  "auto-format" {>= "0.0.4"}
+  "auto-format" {>= "0.0.5"}
   "base" {>= "v0.16" & < "v0.17"}
   "base_quickcheck" {>= "v0.16" & < "v0.17"}
   "bogue" {>= "20221112"}
