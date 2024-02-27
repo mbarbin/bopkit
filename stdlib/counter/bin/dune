@@ -1,8 +1,6 @@
 (executables
  (names counter)
- (libraries command-unix-for-opam bopkit_counter)
- (preprocess
-  (pps ppx_jane ppx_js_style -check-doc-comments)))
+ (libraries command-unix-for-opam bopkit_counter))
 
 (install
  (section

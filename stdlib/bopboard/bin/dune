@@ -1,9 +1,7 @@
 (executables
  (names main)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries command-unix-for-opam bopboard)
- (preprocess
-  (pps ppx_jane ppx_js_style -check-doc-comments)))
+ (libraries command-unix-for-opam bopboard))
 
 (install
  (section

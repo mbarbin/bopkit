@@ -7,6 +7,4 @@
  (name bopkit_process_syntax)
  (public_name bopkit.process-syntax)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries bopkit_process core parsing-utils)
- (preprocess
-  (pps ppx_jane)))
+ (libraries bopkit_process core parsing-utils))
