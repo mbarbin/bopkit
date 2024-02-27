@@ -1,9 +1,8 @@
 type t = Gate.t array
 
 let sexp_of_t t =
-  Array.mapi t ~f:(fun i gate -> [%sexp (i : int), (gate : Gate.t)])
-  |> Array.to_list
-  |> Sexp.List
+  Sexp.List
+    (Array.mapi t ~f:(fun i gate -> [%sexp (i : int), (gate : Gate.t)]) |> Array.to_list)
 ;;
 
 let topological_sort ~error_log (cds : t) =

@@ -10,9 +10,8 @@ end
 type t = Node.t array
 
 let sexp_of_t t =
-  Array.mapi t ~f:(fun i node -> [%sexp (i : int), (node : Node.t)])
-  |> Array.to_list
-  |> Sexp.List
+  Sexp.List
+    (Array.mapi t ~f:(fun i node -> [%sexp (i : int), (node : Node.t)]) |> Array.to_list)
 ;;
 
 let output_wires (t : t) =

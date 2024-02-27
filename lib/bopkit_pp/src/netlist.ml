@@ -524,7 +524,7 @@ let pp
     | [] -> None
     | _ :: _ ->
       List.mapi include_files ~f:(fun i t -> i, t)
-      |> Pp.concat_map ~f:(fun (i, include_file) ->
+      |> Pp.concat_map ~f:(fun (i, (include_file : Bopkit.Netlist.include_file)) ->
         (if i > 0 && not (Bopkit.Comments.is_empty include_file.comments)
          then Pp.newline
          else Pp.nop)
@@ -537,7 +537,7 @@ let pp
     | [] -> None
     | _ :: _ ->
       List.mapi parameters ~f:(fun i t -> i, t)
-      |> Pp.concat_map ~f:(fun (i, parameter) ->
+      |> Pp.concat_map ~f:(fun (i, (parameter : Bopkit.Netlist.parameter)) ->
         (if i > 0 && not (Bopkit.Comments.is_empty parameter.comments)
          then Pp.newline
          else Pp.nop)
@@ -550,7 +550,7 @@ let pp
     | [] -> None
     | _ :: _ ->
       List.mapi memories ~f:(fun i t -> i, t)
-      |> Pp.concat_map ~f:(fun (i, memory) ->
+      |> Pp.concat_map ~f:(fun (i, (memory : Bopkit.Netlist.memory)) ->
         (if i > 0 && not (Bopkit.Comments.is_empty memory.comments)
          then Pp.newline
          else Pp.nop)

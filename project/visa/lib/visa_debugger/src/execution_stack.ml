@@ -10,7 +10,7 @@ module Macro_frame = struct
       ; sprintf
           "| %s"
           (t.bindings
-           |> List.map ~f:(fun (parameter_name, argument) ->
+           |> List.map ~f:(fun (parameter_name, (argument : _ With_loc.t)) ->
              sprintf
                "%s=>%s"
                (Visa.Parameter_name.to_string parameter_name)

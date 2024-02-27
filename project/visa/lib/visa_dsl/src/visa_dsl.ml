@@ -122,7 +122,8 @@ module O = struct
     let body =
       macro.f session (Parameters.input macro.parameters);
       Queue.to_list session.program
-      |> List.map ~f:(function
+      |> List.map ~f:(fun top_level_construct ->
+        match (top_level_construct : Visa.Program.Top_level_construct.t) with
         | ( Newline
           | Comment _
           | Constant_definition _
