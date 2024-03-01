@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Upgrade `mdx` to `2.4`. Add `skip` to non-executable ocaml sections.
 - Run `ppx_js_style` as a linter & make it a `dev` dependency.
 - Upgrade GitHub workflows `actions/checkout` to v4.
 - In CI, specify build target `@all`, and add `@lint`.

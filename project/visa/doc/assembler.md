@@ -52,7 +52,7 @@ In this section you'll find the microprocessor instructions, with their expected
 Below is the definition of the instructions along with their expected arguments,
 as defined in the source code of visa.
 
-<!-- $MDX file=instruction.ml,part=instructions -->
+<!-- $MDX file=instruction.ml,part=instructions,skip -->
 ```ocaml
   | Nop
   | Sleep
@@ -99,7 +99,7 @@ the list of all of them, along with their syntax.
 
 Below is the definition of the arguments as defined in the source code of visa.
 
-<!-- $MDX file=assembly_instruction.ml,part=arguments -->
+<!-- $MDX file=assembly_instruction.ml,part=arguments,skip -->
 ```ocaml
     | Value of { value : int }
     | Address of { address : Address.t }
@@ -233,7 +233,7 @@ designs and ways assembly programs may be written.
 Let's check out a simple example. We are going to rewrite the small loop
 executable that we used to illustrate labels in the section above.
 
-<!-- $MDX file=test__visa_dsl.ml,part=program -->
+<!-- $MDX file=test__visa_dsl.ml,part=program,skip -->
 ```ocaml
 let loop () : Visa.Program.t =
   Visa_dsl.program (fun t ->
@@ -250,7 +250,7 @@ Once you've defined a program that way, you may materialize it into a
 visa-assembly program written in concrete syntax, as it is done in the expect
 test below:
 
-<!-- $MDX file=test__visa_dsl.ml,part=loop-pp -->
+<!-- $MDX file=test__visa_dsl.ml,part=loop-pp,skip -->
 ```ocaml
 let%expect_test "loop pp" =
   let program = loop () in
@@ -269,7 +269,7 @@ parsed from concrete syntax) in the command line or in unit tests. In the
 example below, we simulate the execution of the loop program for enough cycles
 to generate 20 different outputs.
 
-<!-- $MDX file=test__visa_dsl.ml,part=loop-run -->
+<!-- $MDX file=test__visa_dsl.ml,part=loop-run,skip -->
 ```ocaml
 let%expect_test "loop run" =
   let program = loop () in
@@ -507,7 +507,7 @@ that can be executed on the visa microprocessor.
 
 For a reference of instruction machine codes, see below:
 
-<!-- $MDX file=test__machine_code.ml,part=machineCodes -->
+<!-- $MDX file=test__machine_code.ml,part=machineCodes,skip -->
 ```ocaml
     {|
               Nop : 00000000 - opcode=00
