@@ -8,6 +8,8 @@
  (public_name bopkit.block)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries bit_utils command-unix-for-opam core)
+ (lint
+  (pps ppx_js_style))
  (preprocess
   (pps
    ppx_compare
@@ -16,5 +18,4 @@
    ppx_here
    ppx_let
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style)))
+   ppx_sexp_value)))

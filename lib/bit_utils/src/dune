@@ -1,6 +1,8 @@
 (library
  (name bit_utils)
  (public_name bopkit.bit-utils)
+ (lint
+  (pps ppx_js_style -check-doc-comments))
  (wrapped false)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries core fpath)
@@ -14,6 +16,4 @@
    ppx_let
    base_quickcheck.ppx_quickcheck
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style
-   -check-doc-comments)))
+   ppx_sexp_value)))

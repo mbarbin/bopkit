@@ -9,6 +9,8 @@
   expect_test_helpers_core
   fpath)
  (inline_tests)
+ (lint
+  (pps ppx_js_style -check-doc-comments))
  (preprocess
   (pps
    ppx_compare
@@ -18,6 +20,4 @@
    ppx_here
    ppx_let
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style
-   -check-doc-comments)))
+   ppx_sexp_value)))
