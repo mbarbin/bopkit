@@ -65,6 +65,11 @@
    (>= 3.14))
   (error-log
    (>= 0.0.4))
+  (expect-test-helpers
+   (and
+    :with-test
+    (>= v0.16)
+    (< v0.17)))
   (fpath
    (>= 0.7.3))
   (fpath-extended

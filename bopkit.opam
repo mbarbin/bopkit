@@ -21,6 +21,7 @@ depends: [
   "core_unix" {>= "v0.16" & < "v0.17"}
   "dune-site" {>= "3.14"}
   "error-log" {>= "0.0.4"}
+  "expect-test-helpers" {with-test & >= "v0.16" & < "v0.17"}
   "fpath" {>= "0.7.3"}
   "fpath-extended" {>= "0.0.7"}
   "graphics" {>= "5.1.2"}

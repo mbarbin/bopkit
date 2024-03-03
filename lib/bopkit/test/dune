@@ -9,10 +9,10 @@
   -open
   Base
   -open
-  Stdio
+  Expect_test_helpers
   -open
   Bopkit)
- (libraries base bopkit pp stdio)
+ (libraries base bopkit expect-test-helpers pp)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

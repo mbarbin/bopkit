@@ -30,16 +30,26 @@ let%expect_test "eval" =
   test "Hello %{N}" [ "Ni", Parameter.Value.Int 2 ];
   [%expect
     {|
-    (Ok ((parts ((Text "Hello ") (Var N)))))
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  N)))))
     (Error (Free_variable (name N) (candidates (Ni)))) |}];
   test "Hello %{N}" [ "N", String "World" ];
-  [%expect {|
-    (Ok ((parts ((Text "Hello ") (Var N)))))
+  [%expect
+    {|
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  N)))))
     (Ok "Hello World") |}];
   test "%{N} Hello" [];
   [%expect
     {|
-    (Ok ((parts ((Var N) (Text " Hello")))))
+    (Ok ((
+      parts (
+        (Var  N)
+        (Text " Hello")))))
     (Error (Free_variable (name N) (candidates ()))) |}];
   test "%{N}" [];
   [%expect
@@ -63,12 +73,19 @@ let%expect_test "eval" =
   test "Hello %{hey%{nest}bou}" [];
   [%expect
     {|
-    (Ok ((parts ((Text "Hello ") (Var hey%{nest) (Text bou})))))
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  hey%{nest)
+        (Text bou})))))
     (Error (Free_variable (name hey%{nest) (candidates ()))) |}];
   test "Hello %{hey$(nest)bou}" [];
   [%expect
     {|
-    (Ok ((parts ((Text "Hello ") (Var "hey$(nest)bou")))))
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  "hey$(nest)bou")))))
     (Error (Free_variable (name "hey$(nest)bou") (candidates ()))) |}];
   ()
 ;;
@@ -98,16 +115,26 @@ let%expect_test "eval" =
   test "Hello $(N)" [];
   [%expect
     {|
-    (Ok ((parts ((Text "Hello ") (Var N)))))
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  N)))))
     (Error (Free_variable (name N) (candidates ()))) |}];
   test "Hello $(N)" [ "N", String "World" ];
-  [%expect {|
-    (Ok ((parts ((Text "Hello ") (Var N)))))
+  [%expect
+    {|
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  N)))))
     (Ok "Hello World") |}];
   test "$(N) Hello" [];
   [%expect
     {|
-    (Ok ((parts ((Var N) (Text " Hello")))))
+    (Ok ((
+      parts (
+        (Var  N)
+        (Text " Hello")))))
     (Error (Free_variable (name N) (candidates ()))) |}];
   test "$(N)" [];
   [%expect
@@ -131,7 +158,11 @@ let%expect_test "eval" =
   test "Hello $(hey$(nest)bou)" [];
   [%expect
     {|
-    (Ok ((parts ((Text "Hello ") (Var "hey$(nest") (Text "bou)")))))
+    (Ok ((
+      parts (
+        (Text "Hello ")
+        (Var  "hey$(nest")
+        (Text "bou)")))))
     (Error (Free_variable (name "hey$(nest") (candidates ()))) |}];
   ()
 ;;
