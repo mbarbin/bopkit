@@ -4,6 +4,7 @@
 
 ### Changed
 
+- Uses `expect-test-helpers` (reduce core dependencies)
 - Upgrade `mdx` to `2.4`. Add `skip` to non-executable ocaml sections.
 - Run `ppx_js_style` as a linter & make it a `dev` dependency.
 - Upgrade GitHub workflows `actions/checkout` to v4.
