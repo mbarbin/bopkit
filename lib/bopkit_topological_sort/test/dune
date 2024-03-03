@@ -9,11 +9,8 @@
   -open
   Base
   -open
-  Expect_test_helpers_base)
- (libraries
-  base
-  bopkit_topological_sort
-  expect_test_helpers_core.expect_test_helpers_base)
+  Expect_test_helpers)
+ (libraries base bopkit_topological_sort expect-test-helpers)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))
