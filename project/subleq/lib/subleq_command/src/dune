@@ -8,7 +8,7 @@
   -warn-error
   +a
   -open
-  Fpath_extended
+  Fpath_base
   -open
   Core)
  (libraries
@@ -16,7 +16,7 @@
   bopkit_memory
   core
   fpath
-  fpath-extended
+  fpath-base
   graphics
   subleq_debugger
   subleq_generator

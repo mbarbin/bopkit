@@ -10,7 +10,7 @@
   -open
   Base
   -open
-  Fpath_extended)
+  Fpath_base)
  (libraries
   auto-format
   base
@@ -20,7 +20,7 @@
   bopkit_process_syntax
   core.command
   fpath
-  fpath-extended
+  fpath-base
   pp)
  (lint
   (pps ppx_js_style -check-doc-comments))

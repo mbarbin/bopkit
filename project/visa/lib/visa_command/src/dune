@@ -8,14 +8,14 @@
   -warn-error
   +a
   -open
-  Fpath_extended
+  Fpath_base
   -open
   Core)
  (libraries
   auto-format
   core
   fpath
-  fpath-extended
+  fpath-base
   seven_segment_display
   visa
   visa_assembler

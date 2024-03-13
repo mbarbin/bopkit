@@ -72,8 +72,8 @@
     (< v0.17)))
   (fpath
    (>= 0.7.3))
-  (fpath-extended
-   (>= 0.0.7))
+  (fpath-base
+   (>= 0.0.8))
   (graphics
    (>= 5.1.2))
   (loc

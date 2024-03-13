@@ -23,7 +23,7 @@ depends: [
   "error-log" {>= "0.0.4"}
   "expect-test-helpers" {with-test & >= "v0.16" & < "v0.17"}
   "fpath" {>= "0.7.3"}
-  "fpath-extended" {>= "0.0.7"}
+  "fpath-base" {>= "0.0.8"}
   "graphics" {>= "5.1.2"}
   "loc" {>= "0.0.2"}
   "mdx" {>= "2.4"}

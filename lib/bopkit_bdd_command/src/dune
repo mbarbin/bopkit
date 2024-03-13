@@ -8,10 +8,10 @@
   -warn-error
   +a
   -open
-  Fpath_extended
+  Fpath_base
   -open
   Core)
- (libraries bit_utils bopkit_bdd bopkit_block core fpath fpath-extended pp)
+ (libraries bit_utils bopkit_bdd bopkit_block core fpath fpath-base pp)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

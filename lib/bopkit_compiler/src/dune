@@ -8,7 +8,7 @@
   -warn-error
   +a
   -open
-  Fpath_extended
+  Fpath_base
   -open
   Core)
  (libraries
@@ -25,7 +25,7 @@
   core_unix.command_unix
   error-log
   fpath
-  fpath-extended
+  fpath-base
   graphics
   parsing-utils
   unix)

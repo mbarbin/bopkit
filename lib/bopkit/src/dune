@@ -10,14 +10,14 @@
   -open
   Base
   -open
-  Fpath_extended)
+  Fpath_base)
  (libraries
   appendable-list
   base
   bit_utils
   error-log
   fpath
-  fpath-extended
+  fpath-base
   parsing-utils
   pp)
  (lint
