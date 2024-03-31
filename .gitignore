@@ -1,7 +1,9 @@
-_build
 _opam
-*.merlin
-bopkit.install
-node_modules
+_build
+_coverage
+.worktree
+*.install
 build
 .docusaurus
+*.merlin
+node_modules
