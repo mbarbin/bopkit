@@ -1,11 +1,12 @@
 (include dune.inc)
 
 (rule
+ (target dune.inc.gen)
  (deps
   (glob_files *.bpp))
  (action
   (with-stdout-to
-   dune.inc.gen
+   %{target}
    (pipe-stdout
     (bash
      "%{bin:bopkit} process fmt gen-dune -- \%{bin:bopkit} process fmt file")

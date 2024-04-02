@@ -3,21 +3,23 @@
 (include dune.bop.inc)
 
 (rule
+ (target dune.asm.inc.gen)
  (deps
   (glob_files *.asm))
  (action
   (with-stdout-to
-   dune.asm.inc.gen
+   %{target}
    (pipe-stdout
     (bash "%{bin:visa} fmt gen-dune -- \%{bin:visa} fmt file")
     (run dune format-dune-file)))))
 
 (rule
+ (target dune.bop.inc.gen)
  (deps
   (glob_files *.bop))
  (action
   (with-stdout-to
-   dune.bop.inc.gen
+   %{target}
    (pipe-stdout
     (bash
      "%{bin:bopkit} fmt gen-dune --exclude div10.bop -- \%{bin:bopkit} fmt file")
