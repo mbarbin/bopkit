@@ -33,40 +33,37 @@
    -check-doc-comments)))
 
 (rule
+ (target div.txt)
  (deps
   (package bopkit)
   div.exe)
+ (mode promote)
  (action
   (with-stdout-to
-   div.txt.output
+   %{target}
    (run %{bin:bopkit} simu %{dep:generate.bop} -num-counter-cycles 1 -o))))
 
 (rule
- (alias runtest)
+ (target div_opt.txt)
+ (mode promote)
  (action
-  (diff div.txt div.txt.output)))
+  (with-stdout-to
+   %{target}
+   (bash "%{bin:bopkit} counter -ni -c 256 -N 8 | ./%{dep:div_opt.exe} -N 4"))))
 
 (rule
- (with-stdout-to
-  div_opt.txt.output
-  (bash "%{bin:bopkit} counter -ni -c 256 -N 8 | ./%{dep:div_opt.exe} -N 4")))
-
-(rule
- (alias runtest)
- (action
-  (diff div_opt.txt div_opt.txt.output)))
-
-(rule
- (target div.bop.output)
+ (target div.bop)
  (deps div.txt)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
    (run %{bin:bopkit} bdd synthesize -block-name Div -AD 8 -WL 4 -f %{deps}))))
 
 (rule
- (target div_opt.bop.output)
+ (target div_opt.bop)
  (deps div_opt.txt)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -82,16 +79,6 @@
     4
     -f
     %{deps}))))
-
-(rule
- (alias runtest)
- (action
-  (diff div.bop div.bop.output)))
-
-(rule
- (alias runtest)
- (action
-  (diff div_opt.bop div_opt.bop.output)))
 
 (rule
  (target div_check.output.corrected)

@@ -94,16 +94,12 @@
   (diff test/calendar.processed calendar.disassembled)))
 
 (rule
- (target initial-memory.txt.corrected)
+ (target initial-memory.txt)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
    (run %{dep:get_date.exe} "23:59:56" "1999/12/31"))))
-
-(rule
- (alias runtest)
- (action
-  (diff initial-memory.txt initial-memory.txt.corrected)))
 
 (rule
  (alias visa-simulation-soft-mapping)
@@ -135,9 +131,10 @@
    (bash "%{bin:bopkit} counter -ni -c 100 -N 7 | ./%{dep:div10.exe}"))))
 
 (rule
- (target div10.bop.corrected)
+ (target div10.bop)
  (deps
   (package bopkit))
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -153,11 +150,6 @@
     8
     -f
     %{dep:div10.txt}))))
-
-(rule
- (alias runtest)
- (action
-  (diff div10.bop div10.bop.corrected)))
 
 (executables
  (names div10 get_date)

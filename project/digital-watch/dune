@@ -34,16 +34,12 @@
    "%{bin:bopkit} counter -ni -N 1 -c 345600 | %{bin:bopkit} simu %{dep:watch.bop} -o | ./%{dep:remove_duplicates.exe}")))
 
 (rule
- (target watch_in_c.c.output)
+ (target watch_in_c.c)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
    (run %{bin:bopkit} bop2c %{dep:watch.bop} -optimize-cds false))))
-
-(rule
- (alias runtest)
- (action
-  (diff watch_in_c.c watch_in_c.c.output)))
 
 (rule
  (target watch_in_c)
