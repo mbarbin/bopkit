@@ -35,6 +35,7 @@
 
 (rule
  (target watch_in_c.c)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to

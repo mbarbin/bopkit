@@ -97,6 +97,7 @@
 
 (rule
  (target initial-memory.txt)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to
@@ -136,6 +137,7 @@
  (target div10.bop)
  (deps
   (package bopkit))
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to

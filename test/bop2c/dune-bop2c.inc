@@ -2,6 +2,7 @@
 
 (rule
  (target empty.c)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to
@@ -15,6 +16,7 @@
 
 (rule
  (target hello_ram.c)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to
@@ -28,6 +30,7 @@
 
 (rule
  (target hello_register.c)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to
@@ -41,6 +44,7 @@
 
 (rule
  (target hello_rom.c)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to

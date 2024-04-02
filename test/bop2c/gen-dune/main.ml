@@ -23,6 +23,7 @@ let gen_dune_cmd =
            list
              [ atom "rule"
              ; list (atoms [ "target"; c_file ])
+             ; list (atoms [ "alias"; "runtest" ])
              ; list (atoms [ "mode"; "promote" ])
              ; list
                  [ atom "action"

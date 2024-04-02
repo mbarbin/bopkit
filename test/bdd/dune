@@ -8,6 +8,7 @@
 
 (rule
  (target all-star.bop)
+ (alias runtest)
  (mode promote)
  (action
   (with-stdout-to
