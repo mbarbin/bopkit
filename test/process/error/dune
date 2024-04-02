@@ -1,9 +1,11 @@
 (include dune.inc)
 
 (rule
- (target dune.inc.gen)
+ (target dune.inc)
  (deps
   (glob_files *.bpp))
+ (alias runtest)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -11,11 +13,6 @@
     (bash
      "%{bin:bopkit} process fmt gen-dune -- \%{bin:bopkit} process fmt file")
     (run dune format-dune-file)))))
-
-(rule
- (alias runtest)
- (action
-  (diff dune.inc dune.inc.gen)))
 
 (cram
  (deps

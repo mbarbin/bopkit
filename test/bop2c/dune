@@ -1,9 +1,11 @@
 (include dune.inc)
 
 (rule
- (target dune.inc.gen)
+ (target dune.inc)
  (deps
   (glob_files *.bop))
+ (alias runtest)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -12,31 +14,23 @@
     (run dune format-dune-file)))))
 
 (rule
- (alias runtest)
- (action
-  (diff dune.inc dune.inc.gen)))
-
-(rule
  (copy gen-dune/main.exe gen-dune.exe))
 
 (include dune-bop2c.inc)
 
 (rule
- (target dune-bop2c.inc.gen)
+ (target dune-bop2c.inc)
  (deps
   gen-dune.exe
   (glob_files *.bop))
+ (alias runtest)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
    (pipe-stdout
     (bash "./gen-dune.exe")
     (run dune format-dune-file)))))
-
-(rule
- (alias runtest)
- (action
-  (diff dune-bop2c.inc dune-bop2c.inc.gen)))
 
 (cram
  (deps

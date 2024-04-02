@@ -3,9 +3,11 @@
 (include dune.bop.inc)
 
 (rule
- (target dune.asm.inc.gen)
+ (target dune.asm.inc)
  (deps
   (glob_files *.asm))
+ (alias runtest)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -14,9 +16,11 @@
     (run dune format-dune-file)))))
 
 (rule
- (target dune.bop.inc.gen)
+ (target dune.bop.inc)
  (deps
   (glob_files *.bop))
+ (alias runtest)
+ (mode promote)
  (action
   (with-stdout-to
    %{target}
@@ -24,16 +28,6 @@
     (bash
      "%{bin:bopkit} fmt gen-dune --exclude div10.bop -- \%{bin:bopkit} fmt file")
     (run dune format-dune-file)))))
-
-(rule
- (alias runtest)
- (action
-  (diff dune.asm.inc dune.asm.inc.gen)))
-
-(rule
- (alias runtest)
- (action
-  (diff dune.bop.inc dune.bop.inc.gen)))
 
 (rule
  (with-stdout-to
