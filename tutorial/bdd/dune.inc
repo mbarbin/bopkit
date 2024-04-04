@@ -1,7 +1,7 @@
 (rule
  (with-stdout-to
   check_dec7.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:check_dec7.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:check_dec7.bop})))
 
 (rule
  (alias fmt)
@@ -11,7 +11,7 @@
 (rule
  (with-stdout-to
   check_starred.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:check_starred.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:check_starred.bop})))
 
 (rule
  (alias fmt)

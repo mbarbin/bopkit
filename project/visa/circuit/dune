@@ -12,7 +12,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "%{bin:visa} fmt gen-dune -- \%{bin:visa} fmt file")
+    (run %{bin:visa} fmt gen-dune -- "\%{bin:visa}" fmt file)
     (run dune format-dune-file)))))
 
 (rule
@@ -25,14 +25,22 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash
-     "%{bin:bopkit} fmt gen-dune --exclude div10.bop -- \%{bin:bopkit} fmt file")
+    (run
+     %{bin:bopkit}
+     fmt
+     gen-dune
+     --exclude
+     div10.bop
+     --
+     "\%{bin:bopkit}"
+     fmt
+     file)
     (run dune format-dune-file)))))
 
 (rule
  (with-stdout-to
   calendar.sexp.corrected
-  (bash "%{bin:visa} parse %{dep:calendar.asm}")))
+  (run %{bin:visa} parse %{dep:calendar.asm})))
 
 (rule
  (alias runtest)
@@ -42,7 +50,7 @@
 (rule
  (with-stdout-to
   calendar.processed.corrected
-  (bash "%{bin:visa} process %{dep:calendar.asm} --quiet")))
+  (run %{bin:visa} process %{dep:calendar.asm} --quiet)))
 
 (rule
  (alias runtest)
@@ -52,7 +60,7 @@
 (rule
  (with-stdout-to
   calendar.bin.corrected
-  (bash "%{bin:visa} assemble %{dep:calendar.asm}")))
+  (run %{bin:visa} assemble %{dep:calendar.asm})))
 
 (rule
  (alias runtest)
@@ -62,7 +70,7 @@
 (rule
  (with-stdout-to
   calendar.processed.bin.corrected
-  (bash "%{bin:visa} assemble %{dep:test/calendar.processed} --quiet")))
+  (run %{bin:visa} assemble %{dep:test/calendar.processed} --quiet)))
 
 (rule
  (alias runtest)
@@ -72,7 +80,7 @@
 (rule
  (with-stdout-to
   calendar.processed.processed
-  (bash "%{bin:visa} process %{dep:test/calendar.processed} --quiet")))
+  (run %{bin:visa} process %{dep:test/calendar.processed} --quiet)))
 
 (rule
  (alias runtest)
@@ -82,7 +90,7 @@
 (rule
  (with-stdout-to
   calendar.disassembled
-  (bash "%{bin:visa} disassemble %{dep:calendar.bin} --quiet")))
+  (run %{bin:visa} disassemble %{dep:calendar.bin} --quiet)))
 
 (rule
  (alias runtest)
@@ -105,8 +113,10 @@
   initial-memory.txt
   (package bopkit))
  (action
-  (bash
-   "%{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change | %{bin:bopkit} digital-calendar map-raw-input | %{bin:bopkit} digital-calendar display -no")))
+  (pipe-stdout
+   (run %{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change)
+   (run %{bin:bopkit} digital-calendar map-raw-input)
+   (run %{bin:bopkit} digital-calendar display -no))))
 
 (rule
  (alias visa-simulation)
@@ -115,8 +125,10 @@
   initial-memory.txt
   (package bopkit))
  (action
-  (bash
-   "%{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change | %{bin:bopkit} simu %{dep:calendar-output.bop} -p | %{bin:bopkit} digital-calendar display -no")))
+  (pipe-stdout
+   (run %{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change)
+   (run %{bin:bopkit} simu %{dep:calendar-output.bop} -p)
+   (run %{bin:bopkit} digital-calendar display -no))))
 
 (rule
  (target div10.txt)
@@ -125,7 +137,9 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} counter -ni -c 100 -N 7 | ./%{dep:div10.exe}"))))
+   (pipe-stdout
+    (run %{bin:bopkit} counter -ni -c 100 -N 7)
+    (run %{dep:div10.exe})))))
 
 (rule
  (target div10.bop)

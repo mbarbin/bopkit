@@ -15,5 +15,5 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "%{bin:bopkit} fmt gen-dune -- \%{bin:bopkit} fmt file")
+    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))

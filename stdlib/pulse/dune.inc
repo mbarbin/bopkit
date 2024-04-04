@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   example.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:example.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:example.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   pulse.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:pulse.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:pulse.bop})))
 
 (rule
  (alias fmt)

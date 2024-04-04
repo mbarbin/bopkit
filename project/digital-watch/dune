@@ -20,7 +20,7 @@
   (package bopkit)
   watch.bop)
  (action
-  (bash "%{bin:bopkit} simu %{dep:main.bop}")))
+  (run %{bin:bopkit} simu %{dep:main.bop})))
 
 (rule
  (with-stdout-to
@@ -30,8 +30,10 @@
 (rule
  (with-stdout-to
   "watch.via-bop.output"
-  (bash
-   "%{bin:bopkit} counter -ni -N 1 -c 345600 | %{bin:bopkit} simu %{dep:watch.bop} -o | ./%{dep:remove_duplicates.exe}")))
+  (pipe-stdout
+   (run %{bin:bopkit} counter -ni -N 1 -c 345600)
+   (run %{bin:bopkit} simu %{dep:watch.bop} -o)
+   (run %{dep:remove_duplicates.exe}))))
 
 (rule
  (target watch_in_c.c)
@@ -50,8 +52,10 @@
 (rule
  (with-stdout-to
   "watch.via-bop2c.output"
-  (bash
-   "%{bin:bopkit} counter -ni -N 1 -c 345600 | ./%{dep:watch_in_c} 345600 | ./%{dep:remove_duplicates.exe}")))
+  (pipe-stdout
+   (run %{bin:bopkit} counter -ni -N 1 -c 345600)
+   (run %{dep:watch_in_c} 345600)
+   (run %{dep:remove_duplicates.exe}))))
 
 (rule
  (alias runtest)
@@ -75,7 +79,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "%{bin:bopkit} fmt gen-dune -- \%{bin:bopkit} fmt file")
+    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))
 
 (cram

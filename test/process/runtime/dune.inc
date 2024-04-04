@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   runtime-error.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:runtime-error.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:runtime-error.bpp})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   sp1.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:sp1.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:sp1.bpp})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   sp2.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:sp2.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:sp2.bpp})))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   sp3.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:sp3.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:sp3.bpp})))
 
 (rule
  (alias fmt)

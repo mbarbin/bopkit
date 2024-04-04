@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   bopboard.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:bopboard.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:bopboard.bop})))
 
 (rule
  (alias fmt)

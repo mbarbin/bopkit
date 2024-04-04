@@ -10,8 +10,16 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash
-     "%{bin:bopkit} fmt gen-dune --exclude div.bop,div_opt.bop -- \%{bin:bopkit} fmt file")
+    (run
+     %{bin:bopkit}
+     fmt
+     gen-dune
+     --exclude
+     div.bop,div_opt.bop
+     --
+     "\%{bin:bopkit}"
+     fmt
+     file)
     (run dune format-dune-file)))))
 
 (executables
@@ -49,7 +57,9 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} counter -ni -c 256 -N 8 | ./%{dep:div_opt.exe} -N 4"))))
+   (pipe-stdout
+    (run %{bin:bopkit} counter -ni -c 256 -N 8)
+    (run %{dep:div_opt.exe} -N 4)))))
 
 (rule
  (target div.bop)

@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   calendar.asm.pp.output
-  (bash "%{bin:visa} fmt file %{dep:calendar.asm}")))
+  (run %{bin:visa} fmt file %{dep:calendar.asm})))
 
 (rule
  (alias fmt)

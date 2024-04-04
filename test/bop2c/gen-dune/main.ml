@@ -31,8 +31,10 @@ let gen_dune_cmd =
                      [ atom "with-stdout-to"
                      ; atom "%{target}"
                      ; list
-                         [ atom "bash"
-                         ; atom (sprintf "%%{bin:bopkit} bop2c %%{dep:%s}" file)
+                         [ atom "run"
+                         ; atom "%{bin:bopkit}"
+                         ; atom "bop2c"
+                         ; atom (sprintf "%%{dep:%s}" file)
                          ]
                      ]
                  ]

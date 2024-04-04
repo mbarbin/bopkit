@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   arity-error.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:arity-error.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:arity-error.bpp})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   unassigned-output.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:unassigned-output.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:unassigned-output.bpp})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   unassigned-var.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:unassigned-var.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:unassigned-var.bpp})))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   undefined-operator.bpp.pp.output
-  (bash "%{bin:bopkit} process fmt file %{dep:undefined-operator.bpp}")))
+  (run %{bin:bopkit} process fmt file %{dep:undefined-operator.bpp})))
 
 (rule
  (alias fmt)

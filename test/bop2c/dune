@@ -10,7 +10,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "%{bin:bopkit} fmt gen-dune -- \%{bin:bopkit} fmt file")
+    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))
 
 (rule
@@ -21,7 +21,6 @@
 (rule
  (target dune-bop2c.inc)
  (deps
-  gen-dune.exe
   (glob_files *.bop))
  (alias runtest)
  (mode promote)
@@ -29,7 +28,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "./gen-dune.exe")
+    (run %{dep:gen-dune.exe})
     (run dune format-dune-file)))))
 
 (cram

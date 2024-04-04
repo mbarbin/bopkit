@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   calendar-output.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:calendar-output.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:calendar-output.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   main.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:main.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:main.bop})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   visa.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:visa.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:visa.bop})))
 
 (rule
  (alias fmt)

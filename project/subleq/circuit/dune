@@ -29,7 +29,7 @@
   (glob_files *.exe)
   (glob_files test/*.input))
  (action
-  (bash "%{bin:bopkit} simu %{dep:main.bop} -parameter 'WithPulse=1'")))
+  (run %{bin:bopkit} simu %{dep:main.bop} -parameter 'WithPulse=1')))
 
 (cram
  (deps
@@ -52,5 +52,5 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (bash "%{bin:bopkit} fmt gen-dune -- \%{bin:bopkit} fmt file")
+    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))

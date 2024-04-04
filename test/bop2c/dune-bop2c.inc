@@ -7,7 +7,7 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} bop2c %{dep:empty.bop}"))))
+   (run %{bin:bopkit} bop2c %{dep:empty.bop}))))
 
 (rule
  (target empty.exe)
@@ -21,7 +21,7 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} bop2c %{dep:hello_ram.bop}"))))
+   (run %{bin:bopkit} bop2c %{dep:hello_ram.bop}))))
 
 (rule
  (target hello_ram.exe)
@@ -35,7 +35,7 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} bop2c %{dep:hello_register.bop}"))))
+   (run %{bin:bopkit} bop2c %{dep:hello_register.bop}))))
 
 (rule
  (target hello_register.exe)
@@ -49,7 +49,7 @@
  (action
   (with-stdout-to
    %{target}
-   (bash "%{bin:bopkit} bop2c %{dep:hello_rom.bop}"))))
+   (run %{bin:bopkit} bop2c %{dep:hello_rom.bop}))))
 
 (rule
  (target hello_rom.exe)
