@@ -1,9 +1,7 @@
 _opam
 _build
 _coverage
-.worktree
 *.install
-dune-workspace
 build
 .docusaurus
 *.merlin
