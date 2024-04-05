@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   constant.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:constant.asm})))
+  (bash "%{bin:visa} fmt file %{dep:constant.asm}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   loop.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:loop.asm})))
+  (bash "%{bin:visa} fmt file %{dep:loop.asm}")))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   minus.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:minus.asm})))
+  (bash "%{bin:visa} fmt file %{dep:minus.asm}")))
 
 (rule
  (alias fmt)

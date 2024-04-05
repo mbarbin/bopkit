@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   counter-input.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:counter-input.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:counter-input.bop}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   empty-input.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:empty-input.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:empty-input.bop}")))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   empty-output.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:empty-output.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:empty-output.bop}")))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   main-override.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:main-override.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:main-override.bop}")))
 
 (rule
  (alias fmt)
@@ -43,7 +43,7 @@
 (rule
  (with-stdout-to
   parameter-override.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:parameter-override.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:parameter-override.bop}")))
 
 (rule
  (alias fmt)
@@ -53,7 +53,7 @@
 (rule
  (with-stdout-to
   using-empty-output.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:using-empty-output.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:using-empty-output.bop}")))
 
 (rule
  (alias fmt)

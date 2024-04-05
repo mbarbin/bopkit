@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   cycle.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:cycle.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:cycle.bop}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   iii.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:iii.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:iii.bop}")))
 
 (rule
  (alias fmt)

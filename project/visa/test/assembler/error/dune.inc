@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   duplicated-constant.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:duplicated-constant.asm})))
+  (bash "%{bin:visa} fmt file %{dep:duplicated-constant.asm}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   duplicated-label.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:duplicated-label.asm})))
+  (bash "%{bin:visa} fmt file %{dep:duplicated-label.asm}")))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   duplicated-macro-parameter.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:duplicated-macro-parameter.asm})))
+  (bash "%{bin:visa} fmt file %{dep:duplicated-macro-parameter.asm}")))
 
 (rule
  (alias fmt)
@@ -35,7 +35,7 @@
 (rule
  (with-stdout-to
   duplicated-macro.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:duplicated-macro.asm})))
+  (bash "%{bin:visa} fmt file %{dep:duplicated-macro.asm}")))
 
 (rule
  (alias fmt)
@@ -45,7 +45,7 @@
 (rule
  (with-stdout-to
   invalid-arguments.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:invalid-arguments.asm})))
+  (bash "%{bin:visa} fmt file %{dep:invalid-arguments.asm}")))
 
 (rule
  (alias fmt)
@@ -55,7 +55,7 @@
 (rule
  (with-stdout-to
   label-without-instruction.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:label-without-instruction.asm})))
+  (bash "%{bin:visa} fmt file %{dep:label-without-instruction.asm}")))
 
 (rule
  (alias fmt)
@@ -67,7 +67,7 @@
 (rule
  (with-stdout-to
   undefined-macro.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:undefined-macro.asm})))
+  (bash "%{bin:visa} fmt file %{dep:undefined-macro.asm}")))
 
 (rule
  (alias fmt)
@@ -77,7 +77,7 @@
 (rule
  (with-stdout-to
   unused-label.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:unused-label.asm})))
+  (bash "%{bin:visa} fmt file %{dep:unused-label.asm}")))
 
 (rule
  (alias fmt)
@@ -87,7 +87,7 @@
 (rule
  (with-stdout-to
   unused-macro-parameter.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:unused-macro-parameter.asm})))
+  (bash "%{bin:visa} fmt file %{dep:unused-macro-parameter.asm}")))
 
 (rule
  (alias fmt)
@@ -97,7 +97,7 @@
 (rule
  (with-stdout-to
   unused-macro.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:unused-macro.asm})))
+  (bash "%{bin:visa} fmt file %{dep:unused-macro.asm}")))
 
 (rule
  (alias fmt)
@@ -107,7 +107,7 @@
 (rule
  (with-stdout-to
   unused-var.asm.pp.output
-  (run %{bin:visa} fmt file %{dep:unused-var.asm})))
+  (bash "%{bin:visa} fmt file %{dep:unused-var.asm}")))
 
 (rule
  (alias fmt)
