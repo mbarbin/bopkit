@@ -1,4 +1,4 @@
-(lang dune 3.14)
+(lang dune 3.15)
 
 (name bopkit)
 
@@ -62,7 +62,7 @@
     (>= v0.16)
     (< v0.17)))
   (dune-site
-   (>= 3.14))
+   (>= 3.15))
   (error-log
    (>= 0.0.4))
   (expect-test-helpers
@@ -135,7 +135,7 @@
     (>= v0.16)
     (< v0.17)))
   (stdune
-   (>= 3.14))
+   (>= 3.15))
   (tsdl
    (>= 0.9.8))
   (tsdl-image
