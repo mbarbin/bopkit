@@ -44,7 +44,9 @@ jobs:
         run: opam exec -- dune build @all @lint
 
       - name: Run tests
-        run: opam exec -- dune runtest
+        run: |
+          opam exec -- dune runtest
+          git diff --exit-code
 
       - name: Lint opam
         uses: ocaml/setup-ocaml/lint-opam@v2
