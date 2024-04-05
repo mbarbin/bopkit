@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   argsfcts.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:argsfcts.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:argsfcts.bop}")))
 
 (rule
  (alias fmt)

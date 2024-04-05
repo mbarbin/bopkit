@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   empty.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:empty.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:empty.bop}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   hello_ram.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:hello_ram.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:hello_ram.bop}")))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   hello_register.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:hello_register.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:hello_register.bop}")))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   hello_rom.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:hello_rom.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:hello_rom.bop}")))
 
 (rule
  (alias fmt)

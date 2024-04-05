@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   div_check.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:div_check.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:div_check.bop}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   generate.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:generate.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:generate.bop}")))
 
 (rule
  (alias fmt)

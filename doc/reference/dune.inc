@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   and2_recursive.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:and2_recursive.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:and2_recursive.bop}")))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   one-of-each.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:one-of-each.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:one-of-each.bop}")))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   parametrized-block.bop.pp.output
-  (run %{bin:bopkit} fmt file %{dep:parametrized-block.bop})))
+  (bash "%{bin:bopkit} fmt file %{dep:parametrized-block.bop}")))
 
 (rule
  (alias fmt)
