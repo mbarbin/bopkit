@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   cyclic-include-a.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:cyclic-include-a.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:cyclic-include-a.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   cyclic-include-b.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:cyclic-include-b.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:cyclic-include-b.bop})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   define-order.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:define-order.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:define-order.bop})))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   duplicated-block.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:duplicated-block.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:duplicated-block.bop})))
 
 (rule
  (alias fmt)
@@ -43,7 +43,7 @@
 (rule
  (with-stdout-to
   duplicated-parametrized-block.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:duplicated-parametrized-block.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:duplicated-parametrized-block.bop})))
 
 (rule
  (alias fmt)
@@ -55,7 +55,7 @@
 (rule
  (with-stdout-to
   eval-funarg-1.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:eval-funarg-1.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:eval-funarg-1.bop})))
 
 (rule
  (alias fmt)
@@ -65,7 +65,7 @@
 (rule
  (with-stdout-to
   eval-funarg-2.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:eval-funarg-2.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:eval-funarg-2.bop})))
 
 (rule
  (alias fmt)
@@ -75,7 +75,7 @@
 (rule
  (with-stdout-to
   eval-funarg-3.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:eval-funarg-3.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:eval-funarg-3.bop})))
 
 (rule
  (alias fmt)
@@ -85,7 +85,7 @@
 (rule
  (with-stdout-to
   external-nested-arity-specified.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:external-nested-arity-specified.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:external-nested-arity-specified.bop})))
 
 (rule
  (alias fmt)
@@ -97,7 +97,7 @@
 (rule
  (with-stdout-to
   memory-too-short.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:memory-too-short.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:memory-too-short.bop})))
 
 (rule
  (alias fmt)
@@ -107,7 +107,7 @@
 (rule
  (with-stdout-to
   pipe-nested-arity-specified.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:pipe-nested-arity-specified.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:pipe-nested-arity-specified.bop})))
 
 (rule
  (alias fmt)
@@ -119,7 +119,7 @@
 (rule
  (with-stdout-to
   ram-rom.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:ram-rom.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:ram-rom.bop})))
 
 (rule
  (alias fmt)
@@ -129,7 +129,7 @@
 (rule
  (with-stdout-to
   unused-external.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:unused-external.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:unused-external.bop})))
 
 (rule
  (alias fmt)
@@ -139,7 +139,7 @@
 (rule
  (with-stdout-to
   unused-parameter.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:unused-parameter.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:unused-parameter.bop})))
 
 (rule
  (alias fmt)
@@ -149,7 +149,7 @@
 (rule
  (with-stdout-to
   using-any.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:using-any.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:using-any.bop})))
 
 (rule
  (alias fmt)

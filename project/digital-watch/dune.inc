@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   main.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:main.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:main.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   watch.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:watch.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:watch.bop})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   watch_with_bopboard.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:watch_with_bopboard.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:watch_with_bopboard.bop})))
 
 (rule
  (alias fmt)

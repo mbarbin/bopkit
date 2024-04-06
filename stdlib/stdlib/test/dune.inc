@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   add.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:add.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:add.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   and.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:and.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:and.bop})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   andn.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:andn.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:andn.bop})))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   clock_divider.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:clock_divider.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:clock_divider.bop})))
 
 (rule
  (alias fmt)
@@ -43,7 +43,7 @@
 (rule
  (with-stdout-to
   clock_divider2.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:clock_divider2.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:clock_divider2.bop})))
 
 (rule
  (alias fmt)
@@ -53,7 +53,7 @@
 (rule
  (with-stdout-to
   cm2.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:cm2.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:cm2.bop})))
 
 (rule
  (alias fmt)
@@ -63,7 +63,7 @@
 (rule
  (with-stdout-to
   cm4.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:cm4.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:cm4.bop})))
 
 (rule
  (alias fmt)
@@ -73,7 +73,7 @@
 (rule
  (with-stdout-to
   equals.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:equals.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:equals.bop})))
 
 (rule
  (alias fmt)
@@ -83,7 +83,7 @@
 (rule
  (with-stdout-to
   full_adder.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:full_adder.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:full_adder.bop})))
 
 (rule
  (alias fmt)
@@ -93,7 +93,7 @@
 (rule
  (with-stdout-to
   or.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:or.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:or.bop})))
 
 (rule
  (alias fmt)
@@ -103,7 +103,7 @@
 (rule
  (with-stdout-to
   orn.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:orn.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:orn.bop})))
 
 (rule
  (alias fmt)
@@ -113,7 +113,7 @@
 (rule
  (with-stdout-to
   pred.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:pred.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:pred.bop})))
 
 (rule
  (alias fmt)
@@ -123,7 +123,7 @@
 (rule
  (with-stdout-to
   reverse_bdd.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:reverse_bdd.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:reverse_bdd.bop})))
 
 (rule
  (alias fmt)
@@ -133,7 +133,7 @@
 (rule
  (with-stdout-to
   sub.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:sub.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:sub.bop})))
 
 (rule
  (alias fmt)
@@ -143,7 +143,7 @@
 (rule
  (with-stdout-to
   succ.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:succ.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:succ.bop})))
 
 (rule
  (alias fmt)
@@ -153,7 +153,7 @@
 (rule
  (with-stdout-to
   xor.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:xor.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:xor.bop})))
 
 (rule
  (alias fmt)
@@ -163,7 +163,7 @@
 (rule
  (with-stdout-to
   xorn.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:xorn.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:xorn.bop})))
 
 (rule
  (alias fmt)

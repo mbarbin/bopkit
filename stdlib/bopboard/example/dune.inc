@@ -3,7 +3,7 @@
 (rule
  (with-stdout-to
   bit_shift.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:bit_shift.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:bit_shift.bop})))
 
 (rule
  (alias fmt)
@@ -13,7 +13,7 @@
 (rule
  (with-stdout-to
   lights.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:lights.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:lights.bop})))
 
 (rule
  (alias fmt)
@@ -23,7 +23,7 @@
 (rule
  (with-stdout-to
   lights_bdd.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:lights_bdd.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:lights_bdd.bop})))
 
 (rule
  (alias fmt)
@@ -33,7 +33,7 @@
 (rule
  (with-stdout-to
   ram.bop.pp.output
-  (bash "%{bin:bopkit} fmt file %{dep:ram.bop}")))
+  (run %{bin:bopkit} fmt file %{dep:ram.bop})))
 
 (rule
  (alias fmt)
