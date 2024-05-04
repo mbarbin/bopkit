@@ -1,5 +1,0 @@
-(executables
- (names main)
- (public_names visa-debugger)
- (libraries command-unix-for-opam visa_debugger)
- (flags -w +a-4-40-42-44-66 -warn-error +a))

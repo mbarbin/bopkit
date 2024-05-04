@@ -487,10 +487,9 @@ $ visa-debugger bogue minus.asm
 </p>
 
 The debugger is pretty basic and experimental, but it turned out to be a
-valuable asset while working on some refactoring on the `calendar.asm` program,
-so we decided to include it to the project deliverables. It is implemented with
-[bogue](https://github.com/sanette/bogue), so perhaps in fact, we can call it
-the visa-deboguer.
+valuable asset while working on some refactoring on the `calendar.asm` program.
+
+It is available as a standalone project [here](https://github.com/mbarbin/visa-debugger).
 
 :::tip
 

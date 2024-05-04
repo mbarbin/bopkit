@@ -49,8 +49,6 @@
    (and
     (>= v0.16)
     (< v0.17)))
-  (bogue
-   (>= 20221112))
   (command-unix-for-opam
    (>= 0.0.2))
   (core

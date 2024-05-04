@@ -1,3 +1,17 @@
+## 0.2.8 (unreleased)
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Fixed
+
+### Removed
+
+- Moved `visa-debugger` into a [standalone repo](https://github.com/mbarbin/visa-debugger), with the goal of removing `bogue` from the `bopkit`'s dependencies.
+
 ## 0.2.7 (2024-03-13)
 
 ### Changed

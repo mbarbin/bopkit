@@ -15,7 +15,6 @@ depends: [
   "auto-format" {>= "0.0.7"}
   "base" {>= "v0.16" & < "v0.17"}
   "base_quickcheck" {>= "v0.16" & < "v0.17"}
-  "bogue" {>= "20221112"}
   "command-unix-for-opam" {>= "0.0.2"}
   "core" {>= "v0.16" & < "v0.17"}
   "core_unix" {>= "v0.16" & < "v0.17"}
