@@ -1,12 +1,4 @@
-## 0.2.8 (unreleased)
-
-### Added
-
-### Changed
-
-### Deprecated
-
-### Fixed
+## 0.2.8 (2024-05-05)
 
 ### Removed
 
