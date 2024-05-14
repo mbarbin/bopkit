@@ -32,7 +32,7 @@
   (libexec stdbin))
  (depends
   (ocaml
-   (>= 5.1))
+   (>= 5.2))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
