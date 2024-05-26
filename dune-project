@@ -37,28 +37,28 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (auto-format
    (>= 0.0.7))
   (base
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (base_quickcheck
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (command-unix-for-opam
    (>= 0.0.2))
   (core
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (core_unix
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (dune-site
    (>= 3.15))
   (error-log
@@ -66,8 +66,8 @@
   (expect-test-helpers
    (and
     :with-test
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -88,50 +88,50 @@
    (>= 0.0.2))
   (ppx_compare
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_enumerate
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_expect
    (and
     :with-test
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_fields_conv
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_hash
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_here
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_js_style
    (and
     :dev
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_let
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_sexp_conv
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (ppx_sexp_value
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (stdio
    (and
-    (>= v0.16)
-    (< v0.17)))
+    (>= v0.17)
+    (< v0.18)))
   (stdune
    (>= 3.15))
   (tsdl
