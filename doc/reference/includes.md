@@ -30,7 +30,7 @@ which should print out the location of the stdlib files:
 <!-- $MDX skip -->
 ```sh
 $ bopkit print-sites
-(stdlib (/home/$USER/.opam/5.1.0/share/bopkit/stdlib))
+(stdlib (/home/$USER/.opam/$SWITCH/share/bopkit/stdlib))
  ...
 ```
 

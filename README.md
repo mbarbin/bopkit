@@ -65,7 +65,7 @@ project. For example, if you use a local opam switch this would look like this:
 ```sh
 git clone https://github.com/mbarbin/bopkit.git
 cd bopkit
-opam switch create . 5.1.0 --no-install
+opam switch create . 5.2.0 --no-install
 eval $(opam env)
 opam repo add mbarbin https://github.com/mbarbin/opam-repository.git
 opam install . --deps-only
