@@ -12,6 +12,7 @@
   (pps ppx_js_style))
  (preprocess
   (pps
+   -unused-type-warnings=force
    ppx_compare
    ppx_enumerate
    ppx_hash
