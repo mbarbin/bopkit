@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbopkit=self.webpackChunkbopkit||[]).push([[4483],{4483:(e,k,a)=>{a.r(k),a.d(k,{DocSearchModal:()=>c.He});var c=a(4443)}}]);
