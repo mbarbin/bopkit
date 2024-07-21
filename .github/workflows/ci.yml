@@ -27,7 +27,7 @@ jobs:
           sudo apt-get install libsdl2-dev libsdl2-image-dev
 
       - name: Setup OCaml
-        uses: ocaml/setup-ocaml@v2
+        uses: ocaml/setup-ocaml@v3
         with:
           ocaml-compiler: ${{ matrix.ocaml-compiler }}
           opam-repositories: |
