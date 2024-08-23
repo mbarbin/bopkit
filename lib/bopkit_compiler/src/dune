@@ -8,11 +8,20 @@
   -warn-error
   +a
   -open
+  Base
+  -open
+  Loc0
+  -open
+  Err0
+  -open
   Fpath_base
   -open
-  Core)
+  Or_error.Let_syntax
+  -open
+  Commandlang)
  (libraries
   appendable-list
+  base
   bit_utils
   bopkit
   bopkit_cds_optimizer
@@ -21,12 +30,13 @@
   bopkit_sites
   bopkit_syntax
   bopkit_topological_sort
+  commandlang
   core
-  core_unix.command_unix
-  error-log
+  err0
   fpath
   fpath-base
   graphics
+  loc0
   parsing-utils
   unix)
  (lint

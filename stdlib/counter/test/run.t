@@ -1,6 +1,6 @@
 Hello
 
-  $ bopkit simu -n 24 main.bop -show-input
+  $ bopkit simu -n 24 main.bop --show-input
      Cycle | | out[0] out[1] out[2] out[3]
          0 | | 0 0 0 0
          1 | | 1 0 0 0

@@ -23,7 +23,7 @@ where
   // Here we check the result of both blocks with the bdd checker. It would
   // raise an exception and stops the simulation in case of an invalid result.
   for i = 1 to 2
-    external("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
+    external("bopkit bdd checker --AD %{AD} --WL %{WL} -f %{FILENAME}",
       a:[AD],
       block[i]:[WL]);
   end for;

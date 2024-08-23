@@ -4,7 +4,7 @@
 
 type t
 
-val of_circuit : circuit:Bopkit_circuit.Circuit.t -> error_log:Error_log.t -> t
+val of_circuit : circuit:Bopkit_circuit.Circuit.t -> t
 
 (** Access the input and output of the simulated circuit. *)
 

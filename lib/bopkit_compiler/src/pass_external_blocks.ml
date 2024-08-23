@@ -1,8 +1,6 @@
-let pass (external_block : Bopkit.Netlist.external_block) ~error_log ~parameters =
+let pass (external_block : Bopkit.Netlist.external_block) ~parameters =
   let eval_string ~parameters str =
-    let ok_eval_exn res =
-      Bopkit.Or_eval_error.ok_exn res ~error_log ~loc:external_block.loc
-    in
+    let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc:external_block.loc in
     Bopkit.String_with_vars.eval
       (Bopkit.String_with_vars.parse str |> ok_eval_exn)
       ~parameters
@@ -24,7 +22,7 @@ let pass (external_block : Bopkit.Netlist.external_block) ~error_log ~parameters
   in
   let api =
     List.concat_map external_block.api ~f:(fun element ->
-      Bopkit.Control_structure.expand element ~error_log ~parameters ~f:eval_api)
+      Bopkit.Control_structure.expand element ~parameters ~f:eval_api)
   in
   let init_messages = Queue.create () in
   let methods = Queue.create () in

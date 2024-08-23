@@ -1,10 +1,21 @@
-(executables
- (names main)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
+(executable
+ (name main)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Commandlang)
  (libraries
   auto-format
-  core
-  command-unix-for-opam
+  base
+  cmdliner
+  commandlang
+  commandlang-to-cmdliner
   eio
   eio_main
   parsing-utils)

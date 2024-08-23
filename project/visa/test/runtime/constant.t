@@ -61,15 +61,15 @@
   $ touch constant-initial-memory.txt
 
   $ bopkit simu visa.bop \
-  >   -parameter 'Executable=constant.bin' \
-  >   -parameter 'InitialMemory=constant-initial-memory.txt' \
-  >   -num-cycles 120 \
-  >   -output-only-on-change \
+  >   --parameter 'Executable=constant.bin' \
+  >   --parameter 'InitialMemory=constant-initial-memory.txt' \
+  >   --num-cycles 120 \
+  >   --output-only-on-change \
   > | cut -c 1-16
   0000000000000000
   1100000000000000
   1100000011100000
 
-  $ visa run constant.asm -stop-after-n-outputs 2 | cut -c 1-16
+  $ visa run constant.asm --stop-after-n-outputs 2 | cut -c 1-16
   1100000000000000
   1100000011100000

@@ -27,7 +27,7 @@ let init ~architecture ~debug ~files_prefix ~number_of_programs =
         ~on_uncaught_exn:`Kill_whole_process
         (fun () ->
           Bopkit_memory.event_loop mem ~read_only:true;
-          exit 0)
+          Stdlib.exit 0)
         ()
     in
     Bopkit_memory.draw mem);
@@ -35,21 +35,28 @@ let init ~architecture ~debug ~files_prefix ~number_of_programs =
 ;;
 
 let next_ram (t : t) : unit =
-  t.program_index <- succ t.program_index;
+  t.program_index <- Int.succ t.program_index;
   let index_digits = String.length (Int.to_string t.number_of_programs) in
   let source_file =
-    sprintf "%s%0*d.input" t.files_prefix index_digits t.program_index |> Fpath.v
+    Printf.sprintf "%s%0*d.input" t.files_prefix index_digits t.program_index |> Fpath.v
   in
   if t.program_index >= 2
   then (
     let save_file =
-      sprintf "%s%0*d.img" t.files_prefix index_digits (t.program_index - 1) |> Fpath.v
+      Printf.sprintf "%s%0*d.img" t.files_prefix index_digits (t.program_index - 1)
+      |> Fpath.v
     in
-    Printf.fprintf stderr "[ --> ] Saving RAM --> %S\n" (save_file |> Fpath.to_string);
+    Stdlib.Printf.fprintf
+      stderr
+      "[ --> ] Saving RAM --> %S\n"
+      (save_file |> Fpath.to_string);
     Out_channel.flush stderr;
     Bopkit_memory.to_text_file t.mem ~path:save_file);
-  if t.program_index > t.number_of_programs then exit 0;
-  Printf.fprintf stderr "[ <-- ] Loading RAM <-- %S\n" (source_file |> Fpath.to_string);
+  if t.program_index > t.number_of_programs then Stdlib.exit 0;
+  Stdlib.Printf.fprintf
+    stderr
+    "[ <-- ] Loading RAM <-- %S\n"
+    (source_file |> Fpath.to_string);
   Out_channel.flush stderr;
   Bopkit_memory.load_text_file t.mem ~path:source_file
 ;;
@@ -66,7 +73,7 @@ let main t =
       was_standby := standby;
       if reset
       then (
-        Printf.fprintf stderr "RESET !!\n";
+        Stdlib.Printf.fprintf stderr "RESET !!\n";
         Out_channel.flush stderr);
       Bopkit_memory.reset_all_color t.mem;
       if write
@@ -88,15 +95,18 @@ let main t =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open debug =
-       flag "DEBUG" (optional_with_default 1 int) ~doc:" activate debug graphics"
+    (let%map_open.Command debug =
+       Arg.named_with_default
+         [ "DEBUG" ]
+         Param.int
+         ~default:1
+         ~doc:"activate debug graphics"
        >>| Int.equal 1
-     and architecture = flag "AR" (required int) ~doc:" architecture"
+     and architecture = Arg.named [ "AR" ] Param.int ~doc:"architecture"
      and files_prefix =
-       flag "files-prefix" (required string) ~doc:"PREF input files prefix"
+       Arg.named [ "files-prefix" ] Param.string ~docv:"PREF" ~doc:"input files prefix"
      and number_of_programs =
-       flag "num-programs" (required int) ~doc:"N number of programs to load"
+       Arg.named [ "num-programs" ] Param.int ~docv:"N" ~doc:"number of programs to load"
      in
      let t = init ~architecture ~debug ~files_prefix ~number_of_programs in
      Bopkit_block.create ~name:"disk_interface" ~main:(main t) ())

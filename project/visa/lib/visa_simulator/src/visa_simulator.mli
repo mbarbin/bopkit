@@ -5,7 +5,7 @@ module Memory = Memory
 module Config : sig
   type t [@@deriving sexp_of]
 
-  val param : t Command.Param.t
+  val arg : t Command.Arg.t
   val default : t
 
   val create
@@ -20,8 +20,7 @@ end
     debug an assembly code, or to quickly compute its resulting execution. *)
 
 type t = private
-  { error_log : Error_log.t
-  ; environment : Visa_assembler.Environment.t
+  { environment : Visa_assembler.Environment.t
   ; code : Code.t
   ; execution_stack : Execution_stack.t
   ; memory : Memory.t
@@ -35,11 +34,7 @@ type t = private
 
     You may simulate the execution of an executable by disassembling it first
     (see {!val:Visa.Executable.disassemble}). *)
-val create
-  :  config:Config.t
-  -> error_log:Error_log.t
-  -> program:Visa.Program.t
-  -> t Or_error.t
+val create : config:Config.t -> program:Visa.Program.t -> t
 
 module Step_result : sig
   type t =
@@ -51,6 +46,6 @@ module Step_result : sig
   [@@deriving sexp_of]
 end
 
-val step : t -> error_log:Error_log.t -> Step_result.t Or_error.t
-val run : t -> error_log:Error_log.t -> unit Or_error.t
-val main : Command.t
+val step : t -> Step_result.t Or_error.t
+val run : t -> unit Or_error.t
+val main : unit Command.t

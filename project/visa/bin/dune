@@ -1,5 +1,6 @@
-(executables
- (names visa)
- (public_names visa)
- (libraries command-unix-for-opam visa_command)
- (flags -w +a-4-40-42-44-66 -warn-error +a))
+(executable
+ (name main)
+ (package visa)
+ (public_name visa)
+ (libraries commandlang-to-cmdliner visa_command)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a))

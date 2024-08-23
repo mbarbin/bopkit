@@ -1,1 +1,6 @@
-let () = Command_unix_for_opam.run Seven_segment_display.Main.digital_calendar
+let () =
+  Commandlang_to_cmdliner.run
+    Seven_segment_display.Main.digital_calendar
+    ~name:"bopkit"
+    ~version:"%%VERSION%%"
+;;

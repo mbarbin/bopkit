@@ -5,10 +5,10 @@ regressions of the visa-simulator itself. This test does not involve the
 microprocessor circuit.
 
   $ visa_run () {
-  >   visa run calendar.asm -sleep false -stop-after-n-outputs $1 \
-  >     -initial-memory test-memory.txt \
+  >   visa run calendar.asm --sleep false --stop-after-n-outputs $1 \
+  >     --initial-memory test-memory.txt \
   >   | bopkit digital-calendar map-raw-input \
-  >   | bopkit digital-calendar print -print-index
+  >   | bopkit digital-calendar print --print-index
   > }
 
   $ visa_run_date () {

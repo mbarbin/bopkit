@@ -10,3 +10,9 @@ type t =
   | Memories
   | Parameters
 [@@deriving enumerate, equal, sexp_of]
+
+let to_string t =
+  match sexp_of_t t with
+  | Atom s -> s
+  | List _ -> assert false
+;;

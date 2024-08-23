@@ -1,4 +1,4 @@
-  $ bopkit simu xor.bop -num-counter-cycles 1
+  $ bopkit simu xor.bop --num-counter-cycles 1
      Cycle | a[0] a[1] a[2] a[3] | s
          0 | 0 0 0 0 | 0
          1 | 1 0 0 0 | 1
@@ -17,7 +17,7 @@
         14 | 0 1 1 1 | 0
         15 | 1 1 1 1 | 0
 
-  $ bopkit simu xorn.bop -num-counter-cycles 1
+  $ bopkit simu xorn.bop --num-counter-cycles 1
      Cycle | a[0][0] a[0][1] a[1][0] a[1][1] a[2][0] a[2][1] | s[0] s[1]
          0 | 0 0 0 0 0 0 | 0 0
          1 | 1 0 0 0 0 0 | 1 0

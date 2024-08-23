@@ -38,7 +38,7 @@ type t = Instruction_pointer.t Instruction.t array [@@deriving equal, sexp_of]
 
 let with_labels (t : t) : With_labels.t =
   let int_len = Array.length t |> Int.to_string |> String.length in
-  let make_label i = sprintf "%0*d" int_len i |> Label.of_string in
+  let make_label i = Printf.sprintf "%0*d" int_len i |> Label.of_string in
   let labels = Hashtbl.create (module Int) in
   let instructions =
     Array.map t ~f:(fun instruction ->
@@ -79,7 +79,5 @@ let to_machine_code (t : t) = Machine_code.of_instructions t
 module Machine_code = struct
   type t = Machine_code.t [@@deriving equal, sexp_of]
 
-  let disassemble bytes ~path ~error_log =
-    disassemble (Machine_code.to_instructions bytes ~path ~error_log)
-  ;;
+  let disassemble bytes ~path = disassemble (Machine_code.to_instructions bytes ~path)
 end

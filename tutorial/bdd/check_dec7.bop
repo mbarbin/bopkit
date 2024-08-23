@@ -10,7 +10,7 @@ where
   block[1]:[WL] = Block(a:[AD]);
   block[2]:[WL] = external("bopkit simu dec7-tree.bop -p", a:[AD]);
   for i = 1 to 2
-    external("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
+    external("bopkit bdd checker --AD %{AD} --WL %{WL} -f %{FILENAME}",
       a:[AD],
       block[i]:[WL]);
   end for;

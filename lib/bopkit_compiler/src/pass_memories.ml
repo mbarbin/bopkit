@@ -4,47 +4,40 @@ type output =
   ; primitives : Primitive.env
   }
 
-let read_code_brut_memoire ~error_log ~loc memory_content =
+let read_code_brut_memoire ~loc memory_content =
   match (memory_content : Bopkit.Netlist.memory_content) with
   | Zero -> [||]
   | Text text ->
     (try Bit_array.of_01_chars_in_string text with
      | e ->
-       Error_log.raise
-         error_log
+       Err.raise
          ~loc
          [ Pp.text "Invalid memory specification"; Pp.text (Exn.to_string e) ])
   | File path ->
     (try Bit_array.of_text_file ~path with
      | Sys_error _ ->
-       Error_log.raise
-         error_log
-         ~loc
-         [ Pp.textf "%S: memory file not found" (path |> Fpath.to_string) ]
+       Err.raise ~loc [ Pp.textf "%S: memory file not found" (path |> Fpath.to_string) ]
      | e ->
-       Error_log.raise
-         error_log
+       Err.raise
          ~loc
          [ Pp.textf "Invalid memory file '%s'" (path |> Fpath.to_string)
          ; Pp.text (Exn.to_string e)
          ])
 ;;
 
-let tab_bits_of_code_brut ~error_log ~loc name taille lg_mot code =
+let tab_bits_of_code_brut ~loc name taille lg_mot code =
   let len_attendue = taille * lg_mot
   and len_donnee = Array.length code in
   if len_donnee > len_attendue
   then
-    Error_log.raise
-      error_log
+    Err.raise
       ~loc
       [ Pp.textf "Memory '%s' specification:" name
       ; Pp.textf "Number of bits expected: %d - given: %d" len_attendue len_donnee
       ]
   else (
     let ff i = if i < len_donnee then code.(i) else false in
-    Error_log.debug
-      error_log
+    Err.debug
       ~loc
       [ Pp.textf
           "Memory '%s' specification: ( %d / %d ) bits specified"
@@ -55,7 +48,7 @@ let tab_bits_of_code_brut ~error_log ~loc name taille lg_mot code =
     Bit_matrix.init_matrix_linear ~dimx:taille ~dimy:lg_mot ~f:ff)
 ;;
 
-let pass memories ~error_log ~parameters =
+let pass memories ~parameters =
   let index_rom = ref 0
   and valeurs_memoires = Queue.create ()
   and table_export = Queue.create () in
@@ -74,7 +67,7 @@ let pass memories ~error_log ~parameters =
      } :
       Bopkit.Netlist.memory)
     =
-    let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~error_log ~loc in
+    let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc in
     let address_width, data_width =
       Bopkit.Or_eval_error.both
         (Bopkit.Arithmetic_expression.eval address_width ~parameters)
@@ -95,14 +88,9 @@ let pass memories ~error_log ~parameters =
     | ROM ->
       let rom_name = Printf.sprintf "rom_%s" name in
       if Map.mem arit rom_name
-      then
-        Error_log.raise
-          error_log
-          ~loc
-          [ Pp.textf "A memory with name '%s' is already defined." name ]
+      then Err.raise ~loc [ Pp.textf "A memory with name '%s' is already defined." name ]
       else (
-        Error_log.debug
-          error_log
+        Err.debug
           ~loc
           [ Pp.textf
               "Definition of a new memory 'rom_%s(%d, %d)'."
@@ -110,10 +98,10 @@ let pass memories ~error_log ~parameters =
               address_width
               data_width
           ];
-        let code_brut_rom = read_code_brut_memoire ~error_log ~loc code in
+        let code_brut_rom = read_code_brut_memoire ~loc code in
         let taille_adr = Int.pow 2 address_width in
         let code_complet =
-          tab_bits_of_code_brut ~error_log ~loc name taille_adr data_width code_brut_rom
+          tab_bits_of_code_brut ~loc name taille_adr data_width code_brut_rom
         in
         (* construction du code complet a mettre dans la file *)
         let export =
@@ -128,29 +116,24 @@ let pass memories ~error_log ~parameters =
         in
         Queue.enqueue table_export export;
         Queue.enqueue valeurs_memoires code_complet;
-        incr index_rom;
+        Int.incr index_rom;
         (* rendre la nouvelle table completee *)
         Map.set
           arit
           ~key:rom_name
           ~data:
-            { Primitive.gate_kind = Rom { loc; name; index = pred !index_rom }
+            { Primitive.gate_kind = Rom { loc; name; index = Int.pred !index_rom }
             ; input_width = address_width
             ; output_width = data_width
             })
     | RAM ->
       let ram_name = Printf.sprintf "ram_%s" name in
       if Map.mem arit ram_name
-      then
-        Error_log.raise
-          error_log
-          ~loc
-          [ Pp.textf "A memory with name '%s' is already defined." name ]
+      then Err.raise ~loc [ Pp.textf "A memory with name '%s' is already defined." name ]
       else (
         let taille_adr = Int.pow 2 address_width in
         let code_complet, description_code =
-          Error_log.debug
-            error_log
+          Err.debug
             ~loc
             [ Pp.textf
                 "Definition of a new memory 'ram_%s(%d, %d)'."
@@ -164,15 +147,9 @@ let pass memories ~error_log ~parameters =
                 false)
             , None )
           | (File _ | Text _) as code ->
-            let code_brut_ram = read_code_brut_memoire ~error_log ~loc code in
+            let code_brut_ram = read_code_brut_memoire ~loc code in
             let code_sortie =
-              tab_bits_of_code_brut
-                ~error_log
-                ~loc
-                name
-                taille_adr
-                data_width
-                code_brut_ram
+              tab_bits_of_code_brut ~loc name taille_adr data_width code_brut_ram
             in
             code_sortie, Some code_sortie
         in

@@ -6,8 +6,24 @@
 (library
  (name bopkit_block)
  (public_name bopkit.block)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries bit_utils command-unix-for-opam core)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Stdio
+  -open
+  Commandlang)
+ (libraries
+  bit_utils
+  cmdliner
+  commandlang
+  commandlang-to-cmdliner
+  core
+  core_unix
+  stdio)
  (lint
   (pps ppx_js_style))
  (preprocess

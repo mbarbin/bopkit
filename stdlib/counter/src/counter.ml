@@ -2,7 +2,7 @@ let counter ~width ~frequency =
   let bit_counter = Bit_counter.create ~len:width in
   let bopkit_sleeper =
     Bopkit_sleeper.create
-      ~frequency:(float_of_int (Option.value frequency ~default:1))
+      ~frequency:(Float.of_int (Option.value frequency ~default:1))
       ~as_if_started_at_midnight:false
   in
   Bopkit_block.Method.main
@@ -15,10 +15,9 @@ let counter ~width ~frequency =
 
 let main =
   Bopkit_block.main
-    (let open Command.Let_syntax in
-     let%map_open width = flag "N" (required int) ~doc:" number of bits"
+    (let%map_open.Command width = Arg.named [ "N" ] Param.int ~doc:"number of bits"
      and frequency =
-       flag "f" (optional int) ~doc:" number of cycles per second (default to max)"
+       Arg.named_opt [ "f" ] Param.int ~doc:"number of cycles per second (default to max)"
      in
      Bopkit_block.create ~name:"counter" ~main:(counter ~width ~frequency) ())
 ;;

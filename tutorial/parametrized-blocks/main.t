@@ -1,6 +1,6 @@
 Hello
 
-  $ bopkit simu example.bop -num-counter-cycles 1 -show-input
+  $ bopkit simu example.bop --num-counter-cycles 1 --show-input
      Cycle | a[0] a[1] a[2] a[3] a[4] | o t e
          0 | 0 0 0 0 0 | 0 1 0
          1 | 1 0 0 0 0 | 1 0 0

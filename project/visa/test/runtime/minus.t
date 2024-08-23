@@ -67,15 +67,15 @@
   $ touch minus-initial-memory.txt
 
   $ bopkit simu visa.bop \
-  >   -parameter 'Executable=minus.bin' \
-  >   -parameter 'InitialMemory=minus-initial-memory.txt' \
-  >   -num-cycles 120 \
-  >   -output-only-on-change \
+  >   --parameter 'Executable=minus.bin' \
+  >   --parameter 'InitialMemory=minus-initial-memory.txt' \
+  >   --num-cycles 120 \
+  >   --output-only-on-change \
   > | cut -c 1-16
   0000000000000000
   0001000000000000
   0001000000000001
 
-  $ visa run minus.asm -stop-after-n-outputs 2 | cut -c 1-16
+  $ visa run minus.asm --stop-after-n-outputs 2 | cut -c 1-16
   0001000000000000
   0001000000000001

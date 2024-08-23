@@ -81,7 +81,7 @@ constant_name:
 
 macro_parameters :
  | ident_list=separated_list(COMMA, IDENT)
-   { List.map ident_list ~f:Visa.Parameter_name.of_string }
+   { ident_list |> List.map Visa.Parameter_name.of_string }
 ;
 
 assembly_instructions :

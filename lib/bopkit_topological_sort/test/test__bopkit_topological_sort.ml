@@ -7,19 +7,19 @@ module T = struct
     }
 
   let key t = t.name
-  let parents t ~error_log:_ = Appendable_list.of_list t.parents
+  let parents t = Appendable_list.of_list t.parents
 end
 
 let%expect_test "sort" =
   let test nodes =
-    Error_log.For_test.report (fun error_log ->
+    Err_handler.For_test.protect (fun () ->
       let nodes =
         List.map
-          (Bopkit_topological_sort.sort (module T) (module String) nodes ~error_log)
+          (Bopkit_topological_sort.sort (module T) (module String) nodes)
           ~f:(fun node -> node.name)
       in
       print_s [%sexp (nodes : string list)];
-      Ok ())
+      ())
   in
   test [];
   [%expect {| () |}];

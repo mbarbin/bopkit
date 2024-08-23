@@ -44,7 +44,7 @@ We can simulate this circuit to generate the truth table of `div.exe`.
 </summary>
 
 ```sh
-$ bopkit simu generate.bop -num-counter-cycle 1 -o | tail -n 20
+$ bopkit simu generate.bop --num-counter-cycle 1 -o | tail -n 20
 0000
 0000
 1000
@@ -80,14 +80,14 @@ partial specification, implemented in the external block
 #### [div.txt](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.txt)
 
 ```sh
-$ bopkit counter -ni -c 256 -N 8 | ./div.exe -N 4 | wc -l
+$ bopkit counter --ni -c 256 -N 8 | ./div.exe -N 4 | wc -l
 256
 ```
 
 #### [div_opt.txt](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.txt)
 
 ```sh
-$ bopkit counter -ni -c 256 -N 8 | ./div_opt.exe -N 4 | wc -l
+$ bopkit counter --ni -c 256 -N 8 | ./div_opt.exe -N 4 | wc -l
 256
 ```
 
@@ -101,7 +101,7 @@ when dividing by zero.
 ### [div.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div.bop)
 
 ```sh
-$ bopkit bdd synthesize -block-name Div -AD 8 -WL 4 -f div.txt | head -n 5
+$ bopkit bdd synthesize --block-name=Div --AD=8 --WL=4 -f div.txt | head -n 5
 // Block synthesized by bopkit from "div.txt"
 // Gate count: [1020|197|67] (6.569 %)
 
@@ -112,7 +112,7 @@ where
 ### [div_opt.bop](https://github.com/mbarbin/bopkit/tree/main/tutorial/bdd/division/div_opt.bop)
 
 ```sh
-$ bopkit bdd synthesize -block-name Div_opt -AD 8 -WL 4 -f div_opt.txt | head -n 5
+$ bopkit bdd synthesize --block-name=Div_opt --AD=8 --WL=4 -f div_opt.txt | head -n 5
 // Block synthesized by bopkit from "div_opt.txt"
 // Gate count: [1020|185|62] (6.078 %)
 
@@ -192,7 +192,7 @@ to the other implementations. This does not cause the simulation to fail, since
 the `test` method ignores the results when dividing by zero.
 
 ```sh
-$ bopkit simu div_check.bop -num-counter-cycles 1 | head -n 20
+$ bopkit simu div_check.bop --num-counter-cycles 1 | head -n 20
    Cycle | a[0] a[1] a[2] a[3] b[0] b[1] b[2] b[3] | s_reference[0] s_reference[1] s_reference[2] s_reference[3] s_rom[0] s_rom[1] s_rom[2] s_rom[3] s_bdd[0] s_bdd[1] s_bdd[2] s_bdd[3] s_bdd_star[0] s_bdd_star[1] s_bdd_star[2] s_bdd_star[3]
        0 | 0 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
        1 | 1 0 0 0 0 0 0 0 | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0

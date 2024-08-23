@@ -10,14 +10,25 @@
   -open
   Base
   -open
-  Stdio)
+  Loc0
+  -open
+  Err0
+  -open
+  Stdio
+  -open
+  Or_error.Let_syntax
+  -open
+  Commandlang)
  (libraries
   base
   bopkit_circuit
+  commandlang
   core
   core_unix
   core_unix.sys_unix
+  err0
   fpath
+  loc0
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

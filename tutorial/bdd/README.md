@@ -52,7 +52,7 @@ whose semantics equals that of the combinatorial function.
 Let's check it out!
 
 ```sh
-$ bopkit bdd synthesize -AD 2 -WL 4 -f fct01.txt | tee my_block.bop
+$ bopkit bdd synthesize --AD 2 --WL 4 -f fct01.txt | tee my_block.bop
 // Block synthesized by bopkit from "fct01.txt"
 // Gate count: [12|4|4] (33.333 %)
 
@@ -74,7 +74,7 @@ end where;
 And now we can simulate it and check the output against the original truth table.
 
 ```sh
-$ bopkit simu my_block.bop -num-counter-cycles 1
+$ bopkit simu my_block.bop --num-counter-cycles 1
    Cycle | a[0] a[1] | out[0] out[1] out[2] out[3]
        0 | 0 0 | 0 1 0 1
        1 | 1 0 | 1 0 0 1

@@ -36,8 +36,4 @@ type t = private
   }
 [@@deriving sexp_of]
 
-val of_program
-  :  error_log:Error_log.t
-  -> architecture:int
-  -> program:Bopkit_process.Program.t
-  -> t Or_error.t
+val of_program : architecture:int -> program:Bopkit_process.Program.t -> t

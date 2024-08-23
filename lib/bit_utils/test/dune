@@ -1,5 +1,6 @@
 (library
  (name bit_utils_test)
+ (public_name bopkit-tests.bit_utils_test)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries
   bit_utils

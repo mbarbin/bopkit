@@ -1,5 +1,3 @@
-open! Import
-
 module Expanded_block_node :
   Bopkit_topological_sort.Node
   with type t = Bopkit.Expanded_netlist.block
@@ -9,7 +7,7 @@ module Expanded_block_node :
 
   let key (t : t) = t.name
 
-  let parents (fct : t) ~error_log:_ =
+  let parents (fct : t) =
     let nodes = fct.nodes in
     let rec aux_call : Bopkit.Expanded_netlist.call -> _ = function
       | External_block _ -> Appendable_list.empty
@@ -21,10 +19,6 @@ module Expanded_block_node :
   ;;
 end
 
-let sort blocks ~error_log =
-  Bopkit_topological_sort.sort
-    (module Expanded_block_node)
-    (module String)
-    blocks
-    ~error_log
+let sort blocks =
+  Bopkit_topological_sort.sort (module Expanded_block_node) (module String) blocks
 ;;

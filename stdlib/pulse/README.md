@@ -44,7 +44,7 @@ Pulse defines an external block that allows you to control the frequency at whic
  * |   ...
  * | end where;
  */
-external pulse "pulse.exe -cycles-per-second %{PULSE__CYCLES_PER_SECOND} -as-if-started-at-midnight %{PULSE__AS_IF_STARTED_AT_MIDNIGHT}"
+external pulse "pulse.exe --cycles-per-second %{PULSE__CYCLES_PER_SECOND} --as-if-started-at-midnight %{PULSE__AS_IF_STARTED_AT_MIDNIGHT}"
 ```
 
 ## Example

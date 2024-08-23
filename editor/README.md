@@ -21,43 +21,84 @@ this command to `dune fmt`.
 <details open>
 
 <summary>
-Checkout: bopkit fmt file -help
+Checkout: bopkit fmt file --help=plain
 </summary>
 
 ```sh
-$ bopkit fmt file -help
-autoformat bopkit files
+$ bopkit fmt file --help=plain
+NAME
+       bopkit-fmt-file - autoformat bopkit files
 
-  bopkit fmt file FILE
+SYNOPSIS
+       bopkit fmt file [--add-extra-blank-line] [--read-contents-from-stdin]
+       [OPTION]… FILE
 
-This is a pretty-print command for bopkit files (extensions .bop).
 
-This reads the contents of a file supplied in the command line, and
-pretty-print it on stdout, leaving the original file unchanged.
 
-If [-read-contents-from-stdin] is supplied, then the contents of the file is
-read from stdin. In this case the filename must still be supplied, and will be
-used for located error messages only.
+       This is a pretty-print command for bopkit files (extensions .bop).
 
-In case of syntax errors or other issues, some contents may still be printed
-to stdout, however the exit code will be non zero (typically [1]). Errors are
-printed on stderr.
 
-The hope for this command is for it to be compatible with editors and build
-systems so that you can integrate autoformatting of files into your workflow.
 
-Because this command has been tested with a vscode extension that strips the
-last newline, a flag has been added to add an extra blank line, shall you run
-into this issue.
+       This reads the contents of a file supplied in the command line, and
+       pretty-print it on stdout, leaving the original file unchanged.
 
-=== flags ===
 
-  [--add-extra-blank-line], -add-extra-blank-line
-                             . add an extra blank line at the end
-  [--read-contents-from-stdin], -read-contents-from-stdin
-                             . read contents from stdin rather than from the
-                               file
-  [-help], -?                . print this help text and exit
+
+       If [-read-contents-from-stdin] is supplied, then the contents of the
+       file is read from stdin. In this case the filename must still be
+       supplied, and will be used for located error messages only.
+
+
+
+       In case of syntax errors or other issues, some contents may still be
+       printed to stdout, however the exit code will be non zero (typically
+       [1]). Errors are printed on stderr.
+
+
+
+       The hope for this command is for it to be compatible with editors and
+       build systems so that you can integrate autoformatting of files into
+       your workflow.
+
+
+
+       Because this command has been tested with a vscode extension that
+       strips the last newline, a flag has been added to add an extra blank
+       line, shall you run into this issue.
+
+ARGUMENTS
+       FILE (required)
+           file to format.
+
+OPTIONS
+       --add-extra-blank-line
+           add an extra blank line at the end.
+
+       --read-contents-from-stdin
+           read contents from stdin rather than from the file.
+
+COMMON OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of auto,
+           pager, groff or plain. With auto, the format is pager or plain
+           whenever the TERM env var is dumb or undefined.
+
+       --version
+           Show version information.
+
+EXIT STATUS
+       bopkit fmt file exits with:
+
+       0   on success.
+
+       123 on indiscriminate errors reported on standard error.
+
+       124 on command line parsing errors.
+
+       125 on unexpected internal errors (bugs).
+
+SEE ALSO
+       bopkit(1)
 
 ```
 

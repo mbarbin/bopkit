@@ -1,7 +1,25 @@
-(executables
- (names remove_duplicates)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries core command-unix-for-opam graphics threads)
+(executable
+ (name remove_duplicates)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
+ (libraries
+  base
+  cmdliner
+  commandlang
+  commandlang-to-cmdliner
+  graphics
+  stdio
+  threads)
  (preprocess
   (pps
    ppx_compare
@@ -31,7 +49,7 @@
  (with-stdout-to
   "watch.via-bop.output"
   (pipe-stdout
-   (run %{bin:bopkit} counter -ni -N 1 -c 345600)
+   (run %{bin:bopkit} counter --ni -N 1 -c 345600)
    (run %{bin:bopkit} simu %{dep:watch.bop} -o)
    (run %{dep:remove_duplicates.exe}))))
 
@@ -42,7 +60,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bop2c %{dep:watch.bop} -optimize-cds false))))
+   (run %{bin:bopkit} bop2c %{dep:watch.bop} --optimize-cds=false))))
 
 (rule
  (target watch_in_c)
@@ -53,7 +71,7 @@
  (with-stdout-to
   "watch.via-bop2c.output"
   (pipe-stdout
-   (run %{bin:bopkit} counter -ni -N 1 -c 345600)
+   (run %{bin:bopkit} counter --ni -N 1 -c 345600)
    (run %{dep:watch_in_c} 345600)
    (run %{dep:remove_duplicates.exe}))))
 
@@ -79,7 +97,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
+    (run %{bin:bopkit} fmt gen-dune "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))
 
 (cram

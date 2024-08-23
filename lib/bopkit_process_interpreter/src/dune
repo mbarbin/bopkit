@@ -10,13 +10,18 @@
   -open
   Base
   -open
+  Loc0
+  -open
+  Err0
+  -open
   Stdio)
  (libraries
   base
   bit_utils
   bopkit_process
   bopkit_process_syntax
-  error-log
+  err0
+  loc0
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

@@ -1,5 +1,3 @@
-open! Import
-
 module Block_node :
   Bopkit_topological_sort.Node with type t = Bopkit.Netlist.block and type key = string =
 struct
@@ -12,7 +10,7 @@ struct
     | Parametrized { name; _ } -> Printf.sprintf "%s[]" name
   ;;
 
-  let parents (fct : t) ~error_log:_ =
+  let parents (fct : t) =
     let nodes = fct.nodes in
     let functional_args =
       match fct.name with
@@ -47,6 +45,4 @@ struct
   ;;
 end
 
-let sort blocks ~error_log =
-  Bopkit_topological_sort.sort (module Block_node) (module String) blocks ~error_log
-;;
+let sort blocks = Bopkit_topological_sort.sort (module Block_node) (module String) blocks

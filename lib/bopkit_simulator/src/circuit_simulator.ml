@@ -53,15 +53,14 @@ module External_process = struct
 end
 
 type t =
-  { error_log : Error_log.t
-  ; circuit : Bopkit_circuit.Circuit.t
+  { circuit : Bopkit_circuit.Circuit.t
   ; mutable external_process : External_process.t array
   ; regr_indexes : int array
   ; input : Bit_array.t
   ; output : Bit_array.t
   }
 
-let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) ~error_log =
+let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) =
   let cds = circuit.cds in
   let regr_indexes =
     Array.foldi cds ~init:[] ~f:(fun index accu node ->
@@ -90,7 +89,7 @@ let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) ~error_log =
     | Some gate -> gate.input
     | None -> failwith "No Output node found in the cds"
   in
-  { error_log; circuit; external_process = [||]; regr_indexes; input; output }
+  { circuit; external_process = [||]; regr_indexes; input; output }
 ;;
 
 let input t = t.input
@@ -137,8 +136,7 @@ let init t =
         with
         | Some x -> x
         | None ->
-          Error_log.raise
-            t.error_log
+          Err.raise
             ~loc
             [ Pp.textf "The external block '%s' is undefined." name ]
             ~hints:[ Pp.text "Did you forget to include a file in which it is defined?" ]
@@ -152,8 +150,7 @@ let init t =
            with
            | Some { method_name; attributes = _ } -> Some method_name
            | None ->
-             Error_log.warning
-               t.error_log
+             Err.warning
                ~loc
                [ Pp.textf
                    "External block method '%s.%s' is not defined and will be passed to \
@@ -183,10 +180,7 @@ let init t =
       in
       (match Hashtbl.find external_blocks_table name with
        | Some block_index ->
-         Error_log.debug
-           t.error_log
-           ~loc
-           [ Pp.textf "External process[%d] already started." block_index ];
+         Err.debug ~loc [ Pp.textf "External process[%d] already started." block_index ];
          (* Even though this gate is unique in the cds, it is possible that its
             gate_kind has been shared between several gates. This happens when a
             block is called multiple times at different part of the program.
@@ -197,8 +191,7 @@ let init t =
        | None ->
          let this_index = !external_index in
          Int.incr external_index;
-         Error_log.debug
-           t.error_log
+         Err.debug
            ~loc
            [ Pp.textf "Starting external process[%d] = '%s'." this_index command ];
          Hashtbl.set external_blocks_table ~key:name ~data:this_index;
@@ -222,8 +215,7 @@ let init t =
              match In_channel.input_line output_pipe with
              | Some (_ : string) -> external_process.pending_input <- None
              | None ->
-               Error_log.error
-                 t.error_log
+               Err.error
                  ~loc
                  [ Pp.textf "External process[%d] ('%s')" this_index command
                  ; Pp.textf "received: '%s' and exited abnormally." message
@@ -239,9 +231,9 @@ let init t =
        blocks define in the same file, and if they never appear, regardless of
        parameters. Disabled for now. *)
     if (not (Hashtbl.mem external_blocks_table a)) && false
-    then Error_log.warning t.error_log ~loc [ Pp.textf "Unused external block '%s'" a ]);
+    then Err.warning ~loc [ Pp.textf "Unused external block '%s'" a ]);
   t.external_process <- Queue.to_array external_processes;
-  Error_log.info t.error_log [ Pp.textf " Simulation <'%s'>" (main t) ]
+  Err.info [ Pp.textf " Simulation <'%s'>" (main t) ]
 ;;
 
 let or_exit_error e =
@@ -257,8 +249,7 @@ let quit t =
   let uncaught_exceptions = Queue.create () in
   for i = 0 to Int.pred (Array.length t.external_process) do
     let process = t.external_process.(i) in
-    Error_log.debug
-      t.error_log
+    Err.debug
       ~loc:process.loc
       [ Pp.textf "Closing external process[%d] = '%s'." i process.command ];
     match
@@ -271,8 +262,7 @@ let quit t =
         | None -> process.loc
         | Some t -> t.loc
       in
-      Error_log.error
-        t.error_log
+      Err.error
         ~loc
         [ Pp.textf "External process[%d] ('%s')" i process.command
         ; Pp.textf
@@ -283,8 +273,7 @@ let quit t =
         ; Pp.textf "%s" (Error.to_string_hum e)
         ]
     | exception End_of_file ->
-      Error_log.debug
-        t.error_log
+      Err.debug
         ~loc:process.loc
         [ Pp.textf
             "Closing external process[%d] = '%s'. (status : %s [%d])"
@@ -419,8 +408,7 @@ let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
         match bits_of_string reponse with
         | Some b -> b
         | None ->
-          Error_log.error
-            t.error_log
+          Err.error
             ~loc
             [ Pp.textf "External process[%d] ('%s')" index process.command
             ; Pp.textf " received: '%s'" protocol
@@ -431,8 +419,7 @@ let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
       let expected_len = Array.length gate.output in
       if len_sortie < expected_len
       then (
-        Error_log.error
-          t.error_log
+        Err.error
           ~loc
           [ Pp.textf "External process[%d] ('%s')" index process.command
           ; Pp.textf " received: '%s'" protocol

@@ -1,3 +1,5 @@
+open! Base
+
 module Method_kind = struct
   type t =
     | Main

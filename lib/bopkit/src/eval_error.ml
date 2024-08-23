@@ -7,15 +7,14 @@ type t =
   | Syntax_error of { in_ : string }
 [@@deriving sexp_of]
 
-let raise t ~error_log ~loc =
+let raise t ~loc =
   match t with
   | Syntax_error { in_ = m } ->
-    Error_log.raise error_log ~loc [ Pp.textf "In: '%s'" m; Pp.text "Syntax error." ]
+    Err.raise ~loc [ Pp.textf "In: '%s'" m; Pp.text "Syntax error." ]
   | Free_variable { name; candidates } ->
-    Error_log.raise
-      error_log
+    Err.raise
       ~loc
       [ Pp.textf "Unbound variable '%s'." name ]
-      ~hints:(Error_log.did_you_mean name ~candidates)
-  | Type_clash { message = m } -> Error_log.raise error_log ~loc [ Pp.text m ]
+      ~hints:(Err.did_you_mean name ~candidates)
+  | Type_clash { message = m } -> Err.raise ~loc [ Pp.text m ]
 ;;

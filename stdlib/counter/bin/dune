@@ -1,8 +1,9 @@
 (executables
  (names counter)
- (libraries command-unix-for-opam bopkit_counter))
+ (libraries bopkit_counter cmdliner commandlang-to-cmdliner))
 
 (install
+ (package bopkit)
  (section
   (site
    (bopkit stdbin)))

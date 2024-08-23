@@ -1,3 +1,5 @@
+open! Base
+open! Stdio
 open! Or_error.Let_syntax
 
 module Arity = struct
@@ -52,7 +54,7 @@ module Arity = struct
     | Signal ->
       check_read_bits_exn ~input ~from:!index ~len:1;
       let i = input.(!index) in
-      incr index;
+      Int.incr index;
       i
     | Bus { width } ->
       check_read_bits_exn ~input ~from:!index ~len:width;
@@ -265,80 +267,82 @@ let create ~name ~main ?(methods = []) ?(is_multi_threaded = false) () =
 ;;
 
 let main ?readme t_param =
-  let open Command.Let_syntax in
-  Command.basic
+  Command.make
     ~summary:"external block"
     ?readme
-    (let%map_open _verbose = flag "verbose" no_arg ~doc:"be more verbose"
-     and stop_at_cycle = flag "c" (optional int) ~doc:"N stop at cycle N"
-     and no_input = flag "ni" no_arg ~doc:"block will read no input"
-     and no_output = flag "no" no_arg ~doc:"block will print no output"
+    (let%map_open.Command _verbose = Arg.flag [ "verbose" ] ~doc:"be more verbose"
+     and stop_at_cycle = Arg.named_opt [ "c" ] Param.int ~docv:"N" ~doc:"stop at cycle N"
+     and no_input = Arg.flag [ "no-input"; "ni" ] ~doc:"block will read no input"
+     and no_output = Arg.flag [ "no-output"; "no" ] ~doc:"block will print no output"
      and { name; main; methods; is_multi_threaded } = t_param in
-     fun () ->
-       let index_cycle = ref 0 in
-       let context = { Context.name; index_cycle } in
-       let run_line input =
-         let open Or_error.Let_syntax in
-         let%bind protocol =
-           match Parser.protocol Lexer.read (Lexing.from_string input) with
-           | protocol -> Ok protocol
-           | exception e ->
-             Or_error.error_s
-               [%sexp
-                 "parsing error"
-                 , [%here]
-                 , { context : Context.t; input : string }
-                 , (e : Exn.t)]
-         in
-         let line = protocol.bits in
-         match protocol.method_kind with
-         | Main -> run_line main ~context ~no_output ~arguments:() ~line
-         | Named { method_name; arguments } ->
-           (match
-              List.find methods ~f:(fun (T t) ->
-                match t.kind with
-                | Named { method_name = method_name' } ->
-                  String.equal method_name method_name')
-            with
-            | Some t -> run_line t ~context ~no_output ~arguments ~line
-            | None ->
-              Or_error.error_s
-                [%sexp
-                  "method not found", (context : Context.t), { method_name : string }])
+     let index_cycle = ref 0 in
+     let context = { Context.name; index_cycle } in
+     let run_line input =
+       let open Or_error.Let_syntax in
+       let%bind (protocol : Protocol.t) =
+         match Parser.protocol Lexer.read (Lexing.from_string input) with
+         | protocol -> Ok protocol
+         | exception e ->
+           Or_error.error_s
+             [%sexp
+               "parsing error"
+               , [%here]
+               , { context : Context.t; input : string }
+               , (e : Exn.t)]
        in
-       let stop_at_cycle = Option.value stop_at_cycle ~default:(-1) in
-       with_return (fun { return } ->
-         while !index_cycle <> stop_at_cycle do
-           incr index_cycle;
-           match
-             if no_input
-             then Some ""
-             else (
-               if is_multi_threaded
-               then
-                 ignore
-                   (Core_unix.select
-                      ~restart:true
-                      ~read:[ Core_unix.stdin ]
-                      ~write:[]
-                      ~except:[]
-                      ~timeout:`Never
-                      ()
-                    : Core_unix.Select_fds.t);
-               In_channel.input_line In_channel.stdin)
-           with
-           | None -> return (Ok ())
-           | Some line ->
-             (match run_line line with
-              | Error _ as error -> return error
-              | Ok () -> ())
-         done;
-         Ok ())
-       |> function
-       | Ok () -> ()
-       | Error error ->
-         prerr_endline (Error.to_string_hum error);
-         exit 1)
+       let line = protocol.bits in
+       match protocol.method_kind with
+       | Main -> run_line main ~context ~no_output ~arguments:() ~line
+       | Named { method_name; arguments } ->
+         (match
+            List.find methods ~f:(fun (T t) ->
+              match t.kind with
+              | Named { method_name = method_name' } ->
+                String.equal method_name method_name')
+          with
+          | Some t -> run_line t ~context ~no_output ~arguments ~line
+          | None ->
+            Or_error.error_s
+              [%sexp "method not found", (context : Context.t), { method_name : string }])
+     in
+     let stop_at_cycle = Option.value stop_at_cycle ~default:(-1) in
+     With_return.with_return (fun { return } ->
+       while !index_cycle <> stop_at_cycle do
+         Int.incr index_cycle;
+         match
+           if no_input
+           then Some ""
+           else (
+             if is_multi_threaded
+             then
+               ignore
+                 (Core_unix.select
+                    ~restart:true
+                    ~read:[ Core_unix.stdin ]
+                    ~write:[]
+                    ~except:[]
+                    ~timeout:`Never
+                    ()
+                  : Core_unix.Select_fds.t);
+             In_channel.input_line In_channel.stdin)
+         with
+         | None -> return (Ok ())
+         | Some line ->
+           (match run_line line with
+            | Error _ as error -> return error
+            | Ok () -> ())
+       done;
+       Ok ())
+     |> function
+     | Ok () -> ()
+     | Error error ->
+       prerr_endline (Error.to_string_hum error);
+       Stdlib.exit 1)
 ;;
 
-let run ?readme t_param = Command_unix_for_opam.run (main ?readme t_param)
+let run ?readme t_param =
+  Commandlang_to_cmdliner.run
+    (main ?readme t_param)
+    ~name:"bopkit.block"
+    ~version:"%%VERSION%%"
+;;

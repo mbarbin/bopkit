@@ -1,22 +1,17 @@
-open! Import
-open! Or_error.Let_syntax
-
 let main =
-  Command.basic
+  Command.make
     ~summary:"simulate the execution of a bopkit project"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and error_log_config = Error_log.Config.param
-     and bopkit_compiler_config = Bopkit_compiler.Config.param
-     and bopkit_simulator_config = Bopkit_simulator.Config.param in
-     Error_log.report_and_exit ~config:error_log_config (fun error_log ->
-       let open! Or_error.Let_syntax in
-       let%bind circuit =
-         Bopkit_compiler.circuit_of_netlist
-           ~error_log
-           ~path
-           ~config:bopkit_compiler_config
-       in
-       Bopkit_simulator.run ~circuit ~error_log ~config:bopkit_simulator_config;
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"file to simulate"
+     and () = Err_handler.set_config ()
+     and bopkit_compiler_config = Bopkit_compiler.Config.arg
+     and bopkit_simulator_config = Bopkit_simulator.Config.arg in
+     let circuit =
+       Bopkit_compiler.circuit_of_netlist ~path ~config:bopkit_compiler_config
+     in
+     Bopkit_simulator.run ~circuit ~config:bopkit_simulator_config)
 ;;

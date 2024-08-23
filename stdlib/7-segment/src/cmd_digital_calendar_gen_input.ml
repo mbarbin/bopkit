@@ -44,15 +44,13 @@ let print (t : t) =
 ;;
 
 let main =
-  Command.basic
+  Command.make
     ~summary:"generate digital-calendar input"
-    (let open Command.Let_syntax in
-     let%map_open () = return () in
-     fun () ->
-       let t = Array.create ~len:91 false in
-       while true do
-         Core_thread.delay 0.2;
-         blit_time t (now ());
-         print t
-       done)
+    (let%map_open.Command () = Arg.return () in
+     let t = Array.create ~len:91 false in
+     while true do
+       Core_thread.delay 0.2;
+       blit_time t (now ());
+       print t
+     done)
 ;;

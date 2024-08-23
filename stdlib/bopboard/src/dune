@@ -1,10 +1,23 @@
 (library
  (name bopboard)
  (public_name bopkit.bopboard)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
  (libraries
+  base
   bopkit_block
   bopkit_sites
+  commandlang
   core
   core_unix.core_thread
   core_unix.sys_unix

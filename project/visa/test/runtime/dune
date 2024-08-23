@@ -10,7 +10,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:visa} fmt gen-dune -- "\%{bin:visa}" fmt file)
+    (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file)
     (run dune format-dune-file)))))
 
 (rule

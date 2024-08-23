@@ -1,5 +1,3 @@
-open! Import
-open! Or_error.Let_syntax
 module Config = Config
 module Expanded_block = Expanded_block
 module Primitive = Primitive
@@ -31,10 +29,10 @@ let has_main_attribute (fd : Bopkit.Netlist.block) =
     | _ -> false)
 ;;
 
-let expand_netlist ~path ~error_log ~config =
+let expand_netlist ~path ~config =
   let loc = Loc.in_file ~path in
   let { Standalone_netlist.paths; parameters; memories; external_blocks; blocks } =
-    Pass_includes.pass ~path ~error_log
+    Pass_includes.pass ~path
   in
   let parameters =
     parameters
@@ -61,24 +59,23 @@ let expand_netlist ~path ~error_log ~config =
     | Some _ as some -> some
     | None -> !default_main
   in
-  let parameters = Pass_parameters.pass parameters ~error_log in
+  let parameters = Pass_parameters.pass parameters in
   let external_blocks =
     List.map external_blocks ~f:(fun external_block ->
-      Pass_external_blocks.pass external_block ~error_log ~parameters)
+      Pass_external_blocks.pass external_block ~parameters)
   in
   let { Pass_memories.rom_memories; memories; primitives } =
-    Pass_memories.pass memories ~error_log ~parameters
+    Pass_memories.pass memories ~parameters
   in
   let main_block_name =
     match Option.first_some (Config.main config) main_block_name with
     | Some name -> name
-    | None -> Error_log.raise error_log ~loc [ Pp.textf "Project has no main block." ]
+    | None -> Err.raise ~loc [ Pp.textf "Project has no main block." ]
   in
   let { Pass_expanded_netlist.inline_external_blocks; blocks } =
-    Pass_expanded_netlist.pass blocks ~error_log ~primitives ~parameters
+    Pass_expanded_netlist.pass blocks ~primitives ~parameters
   in
-  Error_log.debug
-    error_log
+  Err.debug
     ~loc
     [ Pp.textf
         "Returning the blocks in this order:\n%s"
@@ -86,40 +83,33 @@ let expand_netlist ~path ~error_log ~config =
     ];
   if Config.print_pass_output config ~pass_name:Expanded_netlist
   then
-    Error_log.debug
-      error_log
+    Err.debug
       ~loc
       [ Pp.textf "Result of Pass_expanded_netlist:"
       ; Pp.concat_map blocks ~sep:Pp.newline ~f:Bopkit_pp.Expanded_netlist.pp_block
       ];
-  return
-    ( primitives
-    , Bopkit.Expanded_netlist.
-        { paths
-        ; rom_memories
-        ; memories
-        ; external_blocks = external_blocks @ inline_external_blocks
-        ; blocks
-        ; main_block_name
-        } )
+  ( primitives
+  , Bopkit.Expanded_netlist.
+      { paths
+      ; rom_memories
+      ; memories
+      ; external_blocks = external_blocks @ inline_external_blocks
+      ; blocks
+      ; main_block_name
+      } )
 ;;
 
-let circuit_of_netlist ~path ~error_log ~config =
+let circuit_of_netlist ~path ~config =
   let loc = Loc.in_file ~path in
   Queue.clear Pass_expanded_block.global_cycle_hints;
-  let%bind primitives, expanded_netlist = expand_netlist ~path ~error_log ~config in
+  let primitives, expanded_netlist = expand_netlist ~path ~config in
   let main_block_name = expanded_netlist.main_block_name in
-  let env =
-    Pass_expanded_block.create_env expanded_netlist.blocks ~error_log ~primitives
-  in
-  let%bind () = Error_log.checkpoint error_log in
-  let expanded_nodes =
-    Pass_expanded_nodes.pass ~env ~main_block_name ~config ~error_log
-  in
+  let env = Pass_expanded_block.create_env expanded_netlist.blocks ~primitives in
+  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  let expanded_nodes = Pass_expanded_nodes.pass ~env ~main_block_name ~config in
   if Config.print_pass_output config ~pass_name:Expanded_nodes
   then
-    Error_log.debug
-      error_log
+    Err.debug
       ~loc
       [ Pp.textf "Result of Pass_expanded_nodes:"
       ; Expanded_nodes.pp_debug expanded_nodes
@@ -128,60 +118,51 @@ let circuit_of_netlist ~path ~error_log ~config =
   let cds = Bopkit_circuit.Cds.split_registers cds in
   if Config.print_pass_output config ~pass_name:Cds_split_registers
   then
-    Error_log.debug
-      error_log
+    Err.debug
       ~loc
       [ Pp.textf "Result of Pass_cds+split-registers:"
       ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
       ];
-  let%bind () =
+  let () =
     if Bopkit_circuit.Cds.detect_cycle cds
     then (
-      Error_log.error
-        error_log
+      Err.error
         ~loc
         [ Pp.text "The circuit has a cycle." ]
         ~hints:[ Pp.text "Below are some hints to try and find it:" ];
       Queue.iter Pass_expanded_block.global_cycle_hints ~f:(fun (fd, lines) ->
-        Error_log.error
-          error_log
+        Err.error
           ~loc:fd.loc
           (Pp.text "In this block, these variables may create a dependency cycle:"
            :: Pp.cut
            :: List.map lines ~f:Pp.verbatim));
-      Error_log.checkpoint error_log)
-    else return ()
+      if Err.State.had_errors Err.the_state then Err.exit Some_error)
   in
-  Bopkit_circuit.Cds.topological_sort ~error_log cds;
+  Bopkit_circuit.Cds.topological_sort cds;
   if Config.print_pass_output config ~pass_name:Cds_topological_sort
   then
-    Error_log.debug
-      error_log
+    Err.debug
       ~loc
       [ Pp.textf "Result of Pass_cds+topological-sort:"
       ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
       ];
   let cds =
-    if Config.optimize_cds config
-    then Bopkit_cds_optimizer.optimize ~error_log cds
-    else cds
+    if Config.optimize_cds config then Bopkit_cds_optimizer.optimize cds else cds
   in
   let main = Map.find env main_block_name |> Option.value_exn ~here:[%here] in
-  Error_log.info
-    error_log
+  Err.info
     ~loc
     [ Pp.textf
         "Final circuit: %d gates (~%d transistors)."
         (Array.length cds - 2)
         (transistors_of_circuit cds)
     ];
-  return
-    (Bopkit_circuit.Circuit.create_exn
-       ~path
-       ~main:main.name
-       ~cds
-       ~rom_memories:expanded_netlist.rom_memories
-       ~external_blocks:(expanded_netlist.external_blocks |> Array.of_list)
-       ~input_names:main.input_names
-       ~output_names:main.output_names)
+  Bopkit_circuit.Circuit.create_exn
+    ~path
+    ~main:main.name
+    ~cds
+    ~rom_memories:expanded_netlist.rom_memories
+    ~external_blocks:(expanded_netlist.external_blocks |> Array.of_list)
+    ~input_names:main.input_names
+    ~output_names:main.output_names
 ;;

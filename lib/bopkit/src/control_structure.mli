@@ -27,7 +27,6 @@ val map : 'a t -> f:('a -> 'b) -> 'b t
 
 val expand
   :  'a t
-  -> error_log:Error_log.t
   -> parameters:Parameters.t
   -> f:(parameters:Parameters.t -> 'a -> 'b)
   -> 'b list

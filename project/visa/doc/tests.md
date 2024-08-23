@@ -9,10 +9,10 @@ We've created expect tests for both execution styles of the calendar:
 <!-- $MDX skip -->
 ```sh
   $ visa_run () {
-  >   visa run calendar.asm -sleep false -stop-after-n-outputs $1 \
-  >     -initial-memory test-memory.txt \
+  >   visa run calendar.asm --sleep false --stop-after-n-outputs $1 \
+  >     --initial-memory test-memory.txt \
   >   | bopkit digital-calendar map-raw-input \
-  >   | bopkit digital-calendar print -print-index
+  >   | bopkit digital-calendar print --print-index
   > }
 
   $ visa_run_date () {
@@ -26,12 +26,12 @@ We've created expect tests for both execution styles of the calendar:
 <!-- $MDX skip -->
 ```sh
   $ visa_run () {
-  >   bopkit simu visa.bop -num-cycles $1 \
-  >     -parameter 'InitialMemory=test-memory.txt' \
-  >     -parameter 'WithPulse=0' \
-  >     -output-only \
+  >   bopkit simu visa.bop --num-cycles $1 \
+  >     --parameter 'InitialMemory=test-memory.txt' \
+  >     --parameter 'WithPulse=0' \
+  >     --output-only \
   >   | bopkit digital-calendar map-raw-input \
-  >   | bopkit digital-calendar print -print-index -print-on-change
+  >   | bopkit digital-calendar print --print-index --print-on-change
   > }
 
   $ visa_run_date () {

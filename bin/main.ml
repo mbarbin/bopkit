@@ -1,1 +1,3 @@
-let () = Command_unix_for_opam.run Bopkit_command.main
+let () =
+  Commandlang_to_cmdliner.run Bopkit_command.main ~name:"bopkit" ~version:"%%VERSION%%"
+;;

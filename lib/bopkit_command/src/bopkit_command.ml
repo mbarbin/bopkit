@@ -1,12 +1,10 @@
 let print_sites_cmd =
-  Command.basic
+  Command.make
     ~summary:"print stdlib sites"
-    (let open Command.Let_syntax in
-     let%map_open () = return () in
-     fun () ->
-       let open Bopkit_sites.Sites in
-       print_s
-         [%sexp { stdlib : string list; bopboard : string list; stdbin : string list }])
+    (let%map_open.Command () = Arg.return () in
+     let open Bopkit_sites.Sites in
+     print_s
+       [%sexp { stdlib : string list; bopboard : string list; stdbin : string list }])
 ;;
 
 let fmt_cmd =

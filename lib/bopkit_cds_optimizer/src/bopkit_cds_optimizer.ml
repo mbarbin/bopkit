@@ -76,7 +76,7 @@ let rec traverse_ids (cds : Cds.t) ~output_wire =
   | _ -> [ output_wire ]
 ;;
 
-let optimize ~error_log:_ (cds : Cds.t) =
+let optimize (cds : Cds.t) =
   let tagged_cds = Array.map cds ~f:(fun gate -> Tagged_gate.make gate) in
   Array.iter tagged_cds ~f:(fun t ->
     t.gate

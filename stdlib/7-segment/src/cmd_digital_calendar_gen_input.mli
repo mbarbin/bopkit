@@ -1,1 +1,1 @@
-val main : Command.t
+val main : unit Command.t

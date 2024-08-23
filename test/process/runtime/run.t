@@ -4,7 +4,7 @@ pipe01 application. The architecture of the process is set using the
 The size of the input expected is then equals to (N * #V) where #V is
 the number of parameters of the function.
 
-  $ bopkit counter -N 4 -c 16 -ni 2> /dev/null | bopkit process exec -f sp1.bpp -N 2
+  $ bopkit counter -N 4 -c 16 --ni 2> /dev/null | bopkit process exec -f sp1.bpp -N 2
   00
   10
   01
@@ -22,7 +22,7 @@ the number of parameters of the function.
   00
   01
 
-  $ bopkit counter -N 8 -c 64 -ni 2> /dev/null | bopkit process exec -f sp1.bpp -N 4 2> /dev/null
+  $ bopkit counter -N 8 -c 64 --ni 2> /dev/null | bopkit process exec -f sp1.bpp -N 4 2> /dev/null
   0011
   1011
   0111
@@ -88,7 +88,7 @@ the number of parameters of the function.
   0011
   0111
 
-  $ bopkit counter -N 4 -c 16 -ni 2> /dev/null | bopkit process exec -f sp2.bpp -N 4 2> /dev/null
+  $ bopkit counter -N 4 -c 16 --ni 2> /dev/null | bopkit process exec -f sp2.bpp -N 4 2> /dev/null
   1111
   0111
   1011
@@ -106,7 +106,7 @@ the number of parameters of the function.
   1000
   0000
 
-  $ bopkit counter -N 3 -c 8 -ni 2> /dev/null | bopkit process exec -f sp2.bpp -N 3 2> /dev/null
+  $ bopkit counter -N 3 -c 8 --ni 2> /dev/null | bopkit process exec -f sp2.bpp -N 3 2> /dev/null
   111
   011
   101
@@ -122,11 +122,13 @@ the number of parameters of the function.
   > 0
   0
   1
+  Error: Aborted execution
   Error: Unexpected input length.
   ((expected_length 2) (input_length 1) (input 0))
-  [1]
+  [123]
 
   $ echo "111" | bopkit process exec -f runtime-error.bpp -N 1
+  Error: Aborted execution
   Error: Unexpected input length.
   ((expected_length 2) (input_length 3) (input 111))
-  [1]
+  [123]

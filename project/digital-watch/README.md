@@ -79,7 +79,7 @@ this file takes a 1 bit input, which it ignores.
 Simulate for example with:
 
 ```bash
-$ bopkit simu watch.bop -num-counter-cycles 3 -o
+$ bopkit simu watch.bop --num-counter-cycles 3 -o
 101111110111111011111101111110111111011111
 101111110111111011111101111110111111011111
 101111110111111011111101111110111110000110
@@ -99,7 +99,9 @@ add it to the pipe command below:
 
 <!-- $MDX skip -->
 ```bash
-$ bopkit counter -N 1 -ni -f 2 | bopkit simu watch.bop -o | bopkit digital-watch display -no
+$ bopkit counter -N 1 --no-input -f 2 \
+  | bopkit simu watch.bop -o \
+  | bopkit digital-watch display --no-output
 ```
 
 ### Putting it all together in a circuit
@@ -132,7 +134,7 @@ You may integrate the C file into a simulation with these commands:
 <!-- $MDX skip -->
 ```bash
 $ gcc /tmp/watch.c -o /tmp/watch.out
-$ bopkit counter -N 1 -ni -f 2 | /tmp/watch.out | bopkit digital-watch display -no
+$ bopkit counter -N 1 --ni -f 2 | /tmp/watch.out | bopkit digital-watch display --no
 ```
 
 ## The digital-watch + bopboard combo

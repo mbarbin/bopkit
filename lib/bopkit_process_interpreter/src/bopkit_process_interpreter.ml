@@ -55,9 +55,7 @@ let execute_code ~interpreted_code:{ Interpreted_code.architecture; memory; code
     return ())
 ;;
 
-let run_program ~error_log ~architecture ~program =
-  let%bind interpreted_code =
-    Interpreted_code.of_program ~error_log ~architecture ~program
-  in
+let run_program ~architecture ~program =
+  let interpreted_code = Interpreted_code.of_program ~architecture ~program in
   execute_code ~interpreted_code
 ;;

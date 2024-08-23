@@ -1,5 +1,3 @@
-open! Import
-
 module Topo_parameter :
   Bopkit_topological_sort.Node
   with type t = Bopkit.Netlist.parameter
@@ -9,10 +7,9 @@ module Topo_parameter :
 
   let key (m : t) = m.name
 
-  let parents (m : t) ~error_log =
+  let parents (m : t) =
     let ok_eval_exn res =
-      Bopkit.Or_eval_error.ok res ~f:(fun t ->
-        Bopkit.Eval_error.raise ~error_log ~loc:m.loc t)
+      Bopkit.Or_eval_error.ok res ~f:(fun t -> Bopkit.Eval_error.raise ~loc:m.loc t)
     in
     match m.parameter_value with
     | DefCondInt (cond_exp, exp1, exp2) ->
@@ -35,15 +32,11 @@ module Topo_parameter :
   ;;
 end
 
-let sort parameters ~error_log =
-  Bopkit_topological_sort.sort
-    (module Topo_parameter)
-    (module String)
-    parameters
-    ~error_log
+let sort parameters =
+  Bopkit_topological_sort.sort (module Topo_parameter) (module String) parameters
 ;;
 
-let pass parameters ~error_log =
+let pass parameters =
   let parameters =
     (* We add a variable to allow the user to know on which OS it is executing. *)
     let current_os =
@@ -57,10 +50,10 @@ let pass parameters ~error_log =
            | _ -> DefInt (CST 2))
       }
     in
-    sort (current_os :: parameters) ~error_log
+    sort (current_os :: parameters)
   in
   List.fold_left parameters ~init:[] ~f:(fun env (m : Bopkit.Netlist.parameter) ->
-    let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~error_log ~loc:m.loc in
+    let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc:m.loc in
     let eval_expr e =
       Bopkit.Arithmetic_expression.eval e ~parameters:env |> ok_eval_exn
     in

@@ -1,3 +1,14 @@
+## 0.3.0 (2024-08-23)
+
+### Changed
+
+- Switch from `Error_log` to `Err` for error handling.
+- Internal refactors, switch from `Core` to `Base` in assorted places.
+- Split main packages into separate smaller ones.
+- Switch to `commandlang` with `cmdliner` as a backend for all commands. Breaking changes:
+  - Flags and named command line arguments now have 2 '--' instead of 1.
+  - Exit code changes, using now cmdliner default conventions (123, 124, 125).
+
 ## 0.2.9 (2024-07-26)
 
 ### Added

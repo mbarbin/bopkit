@@ -12,7 +12,7 @@
     hasn't been ported to the new version yet, so this is not done here.
 
     Also note that because this code hasn't been tested extensively, this code
-    is not turned on by default. To be activated with [-optimize-cds true] in
+    is not turned on by default. To be activated with [--optimize-cds true] in
     the command line. *)
 
-val optimize : error_log:Error_log.t -> Bopkit_circuit.Cds.t -> Bopkit_circuit.Cds.t
+val optimize : Bopkit_circuit.Cds.t -> Bopkit_circuit.Cds.t

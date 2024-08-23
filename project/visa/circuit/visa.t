@@ -6,12 +6,12 @@ simulation of the `calendar.asm` program with the visa-simulator.
 The test cases are adapted from `visa-simulator.t`.
 
   $ visa_run () {
-  >   bopkit simu visa.bop -num-cycles $1 \
-  >     -parameter 'InitialMemory=test-memory.txt' \
-  >     -parameter 'WithPulse=0' \
-  >     -output-only \
+  >   bopkit simu visa.bop --num-cycles $1 \
+  >     --parameter 'InitialMemory=test-memory.txt' \
+  >     --parameter 'WithPulse=0' \
+  >     --output-only \
   >   | bopkit digital-calendar map-raw-input \
-  >   | bopkit digital-calendar print -print-index -print-on-change
+  >   | bopkit digital-calendar print --print-index --print-on-change
   > }
 
   $ visa_run_date () {

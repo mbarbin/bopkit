@@ -30,8 +30,8 @@ type t =
       ; name : string
       ; method_name : string option
       ; arguments : string list
-      ; protocol_prefix : string Set_once.t
-      ; index : int Set_once.t
+      ; protocol_prefix : string Core.Set_once.t
+      ; index : int Core.Set_once.t
       }
 [@@deriving sexp_of]
 
@@ -44,32 +44,32 @@ let pp_debug = function
   | Or -> Pp.verbatim "or"
   | Xor -> Pp.verbatim "xor"
   | Mux -> Pp.verbatim "xor"
-  | Rom { loc = _; name; index } -> Pp.verbatim (sprintf "rom_%s[%d]" name index)
+  | Rom { loc = _; name; index } -> Pp.verbatim (Printf.sprintf "rom_%s[%d]" name index)
   | Ram { loc = _; name; address_width = _; data_width = _; contents = _ } ->
-    Pp.verbatim (sprintf "ram_%s" name)
+    Pp.verbatim (Printf.sprintf "ram_%s" name)
   | Reg { initial_value } -> Pp.verbatim (if initial_value then "nreg" else "reg")
-  | Regr { index_of_regt } -> Pp.verbatim (sprintf "regr[%d]" index_of_regt)
+  | Regr { index_of_regt } -> Pp.verbatim (Printf.sprintf "regr[%d]" index_of_regt)
   | Regt -> Pp.verbatim "regt"
   | Clock -> Pp.verbatim "clock"
   | Gnd -> Pp.verbatim "gnd"
   | Vdd -> Pp.verbatim "vdd"
   | External { loc = _; name; method_name; arguments; protocol_prefix = _; index } ->
     Pp.verbatim
-      (sprintf
+      (Printf.sprintf
          "$%s%s%s%s"
          name
          (match method_name with
           | None -> ""
-          | Some m -> sprintf ".%s" m)
+          | Some m -> Printf.sprintf ".%s" m)
          (match arguments with
           | [] -> ""
           | _ :: _ ->
-            sprintf
+            Printf.sprintf
               "<%s>"
-              (String.concat ~sep:", " (List.map arguments ~f:(sprintf "%S"))))
-         (match Set_once.get index with
+              (String.concat ~sep:", " (List.map arguments ~f:(Printf.sprintf "%S"))))
+         (match Core.Set_once.get index with
           | None -> ""
-          | Some d -> sprintf "[%d]" d))
+          | Some d -> Printf.sprintf "[%d]" d))
 ;;
 
 module Primitive = struct

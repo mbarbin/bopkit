@@ -21,9 +21,8 @@ let keys (t : t) =
 ;;
 
 let overrides =
-  let open Command.Let_syntax in
-  let%map_open overrides =
-    flag "-parameter" (listed Parameter.arg_type) ~doc:"name=value override parameter"
+  let%map_open.Command overrides =
+    Arg.named_multi [ "parameter" ] Parameter.param ~doc:"override parameter"
   in
   overrides
 ;;

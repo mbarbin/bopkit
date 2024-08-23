@@ -14,7 +14,7 @@ let init ~title ~address_width ~data_width =
       ~on_uncaught_exn:`Kill_whole_process
       (fun () ->
         Bopkit_memory.event_loop mem ~read_only:false;
-        exit 0)
+        Stdlib.exit 0)
       ()
   in
   Bopkit_memory.draw mem;
@@ -105,20 +105,19 @@ let main ({ address_width; data_width; mem } as t) =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open address_width =
-       flag
-         "addresses-width"
-         ~aliases:[ "addresses-len"; "a" ]
-         (required int)
-         ~doc:"N number of bit of addresses"
+    (let%map_open.Command address_width =
+       Arg.named
+         [ "addresses-width"; "addresses-len"; "a" ]
+         Param.int
+         ~doc:"number of bit of addresses"
      and data_width =
-       flag
-         "words-width"
-         ~aliases:[ "words-len"; "w" ]
-         (required int)
-         ~doc:"N number of bits of words"
-     and title = flag "title" (optional string) ~doc:"TITLE set window title" in
+       Arg.named
+         [ "words-width"; "words-len"; "w" ]
+         Param.int
+         ~doc:"number of bits of words"
+     and title =
+       Arg.named_opt [ "title" ] Param.string ~docv:"TITLE" ~doc:"set window title"
+     in
      let t = init ~title ~address_width ~data_width in
      Bopkit_block.create ~name:"ram_memory" ~main:(main t) ~is_multi_threaded:true ())
 ;;

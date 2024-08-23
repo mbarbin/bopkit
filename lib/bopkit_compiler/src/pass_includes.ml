@@ -1,15 +1,14 @@
 open! Or_error.Let_syntax
 
-let find_distribution_file ~path ~loc ~error_log =
+let find_distribution_file ~path ~loc =
   Bopkit_sites.Sites.stdlib
   |> List.find_map ~f:(fun stdlib_directory ->
-    let rfile = Filename.concat stdlib_directory (path |> Fpath.to_string) in
-    if Sys_unix.file_exists_exn rfile then Some rfile else None)
+    let rfile = Stdlib.Filename.concat stdlib_directory (path |> Fpath.to_string) in
+    if Stdlib.Sys.file_exists rfile then Some rfile else None)
   |> function
   | Some rfile -> rfile |> Fpath.v
   | None ->
-    Error_log.raise
-      error_log
+    Err.raise
       ~loc
       [ Pp.textf "%S: included file not found." (path |> Fpath.to_string) ]
       ~hints:
@@ -28,17 +27,14 @@ let module_name_of_path ~path:f =
   f |> Fpath.rem_ext |> Fpath.filename |> String.capitalize
 ;;
 
-let pass ~path ~error_log =
+let pass ~path =
   let netlists : Standalone_netlist.t Stack.t = Stack.create () in
   let included_modules = Hash_set.create (module String) in
   let rec include_file ~loc ~path =
     let module_name = module_name_of_path ~path in
     if not (Hash_set.mem included_modules module_name)
     then (
-      Error_log.debug
-        error_log
-        ~loc
-        [ Pp.textf "--> #include file = %S" (path |> Fpath.to_string) ];
+      Err.debug ~loc [ Pp.textf "--> #include file = %S" (path |> Fpath.to_string) ];
       let { Bopkit.Netlist.include_files
           ; parameters
           ; memories
@@ -47,7 +43,7 @@ let pass ~path ~error_log =
           ; eof_comments = _
           }
         =
-        Parsing_utils.parse_file_exn (module Bopkit_syntax) ~path ~error_log
+        Parsing_utils.parse_file_exn (module Bopkit_syntax) ~path
       in
       Hash_set.add included_modules module_name;
       Stack.push
@@ -62,7 +58,7 @@ let pass ~path ~error_log =
     let module_name = module_name_of_path ~path in
     if not (Hash_set.mem included_modules module_name)
     then (
-      let path = find_distribution_file ~path ~loc ~error_log in
+      let path = find_distribution_file ~path ~loc in
       include_file ~loc ~path)
   in
   include_file ~loc:(Loc.in_file ~path) ~path;

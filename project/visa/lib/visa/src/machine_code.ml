@@ -163,12 +163,11 @@ end
 
 type t = Byte.t array [@@deriving equal, sexp_of]
 
-let of_text_file_exn ~path ~error_log =
+let of_text_file_exn ~path =
   let q = Queue.create () in
   let lines =
-    try In_channel.read_lines (path |> Fpath.to_string) with
-    | Sys_error (m : string) ->
-      Error_log.raise error_log ~loc:(Loc.in_file ~path) [ Pp.text m ]
+    try Stdio.In_channel.read_lines (path |> Fpath.to_string) with
+    | Sys_error (m : string) -> Err.raise ~loc:(Loc.in_file ~path) [ Pp.text m ]
   in
   List.iteri lines ~f:(fun i line ->
     let loc = Loc.in_file_at_line ~path ~line:i in
@@ -182,8 +181,7 @@ let of_text_file_exn ~path ~error_log =
       in
       if length <> 8 || not all_01
       then
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc
           [ Pp.text "Invalid line, expected a line of length 8 containing chars 0-1 only."
           ];
@@ -219,7 +217,7 @@ let of_instructions (instructions : int Instruction.t array) =
   machine_code
 ;;
 
-let to_instructions (bytes : t) ~path ~error_log =
+let to_instructions (bytes : t) ~path =
   let size = Array.length bytes in
   let label_resolution =
     (* Because some instructions are encoded on 1 byte, and others on 2, there
@@ -239,17 +237,13 @@ let to_instructions (bytes : t) ~path ~error_log =
       match Operation.of_byte byte with
       | Some operation -> operation
       | None ->
-        Error_log.raise
-          error_log
-          ~loc
-          [ Pp.textf "Invalid byte code '%s'." (Bit_array.to_string byte) ]
+        Err.raise ~loc [ Pp.textf "Invalid byte code '%s'." (Bit_array.to_string byte) ]
     in
     let second_byte () =
       match Queue.dequeue bytes with
       | Some (_, byte) -> byte |> Bit_array.to_int
       | None ->
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc
           [ Pp.text "Invalid executable."
           ; Pp.textf

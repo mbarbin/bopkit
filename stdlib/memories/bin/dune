@@ -1,7 +1,19 @@
 (executables
  (names ram_memory)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
+ (flags
+  -w
+  +a-4-40-41-42-44-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
  (libraries
+  base
+  commandlang
   core
   core_unix.core_thread
   bopkit_block
@@ -23,6 +35,7 @@
    -check-doc-comments)))
 
 (install
+ (package bopkit)
  (section
   (site
    (bopkit stdbin)))

@@ -74,6 +74,7 @@ $ bopkit simu cycle.bop
 File "cycle.bop", line 1, characters 0-0:
 Error: The circuit has a cycle.
 Hint: Below are some hints to try and find it:
+
 File "cycle.bop", line 2, characters 0-5:
 2 | Cycle(a, b) = s
     ^^^^^
@@ -85,5 +86,5 @@ Error: In this block, these variables may create a dependency cycle:
 
   ..g.. = ..Or(..#0#..);
 
-[1]
+[123]
 ```

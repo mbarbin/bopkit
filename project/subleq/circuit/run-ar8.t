@@ -5,10 +5,10 @@ Hello
   [2]
 
   $ bopkit simu main.bop \
-  >   -parameter 'DEBUG=0' \
-  >   -parameter 'AR=8' \
-  >   -parameter 'NumberOfPrograms=10' \
-  >   -parameter 'FilesPrefix=test/ar8-'
+  >   --parameter 'DEBUG=0' \
+  >   --parameter 'AR=8' \
+  >   --parameter 'NumberOfPrograms=10' \
+  >   --parameter 'FilesPrefix=test/ar8-'
   [ <-- ] Loading RAM <-- "test/ar8-01.input"
   Load memory "mem" from "test/ar8-01.input" (text file)
   RESET !!

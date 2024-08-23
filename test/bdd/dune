@@ -13,4 +13,4 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 3 -WL 8 -f %{dep:all-star.txt}))))
+   (run %{bin:bopkit} bdd synthesize --AD 3 --WL 8 -f %{dep:all-star.txt}))))

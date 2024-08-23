@@ -11,7 +11,6 @@ let main =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open () = return () in
+    (let%map_open.Command () = Arg.return () in
      Bopkit_block.create ~name:"div10" ~main ())
 ;;

@@ -1,9 +1,10 @@
 (executables
  (names main)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries command-unix-for-opam bopboard))
+ (libraries bopboard cmdliner commandlang-to-cmdliner))
 
 (install
+ (package bopkit)
  (section
   (site
    (bopkit stdbin)))

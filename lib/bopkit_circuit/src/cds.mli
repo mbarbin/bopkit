@@ -23,7 +23,7 @@ type t = Gate.t array [@@deriving sexp_of]
 val detect_cycle : t -> bool
 
 (** Perform a topological sort of the cds in place. *)
-val topological_sort : error_log:Error_log.t -> t -> unit
+val topological_sort : t -> unit
 
 (** Divide all [Reg _] gates into a pair of register transmitter and receiver
     ([Regr] and [Regt]), with the receiver pointing to the index of the

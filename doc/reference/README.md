@@ -88,7 +88,7 @@ end where;
 We can go over a round of simulation with the following invocation:
 
 ```sh
-$ bopkit simu one-of-each.bop -counter-input -num-counter-cycles 1
+$ bopkit simu one-of-each.bop --counter-input --num-counter-cycles 1
    Cycle | a[0] a[1] | b[0] b[1] b[2] b[3]
        0 | 0 0 | 0 0 1 0
        1 | 1 0 | 1 1 0 0

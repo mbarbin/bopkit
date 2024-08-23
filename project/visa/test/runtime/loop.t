@@ -24,10 +24,10 @@
   $ touch loop-initial-memory.txt
 
   $ bopkit simu visa.bop \
-  >   -parameter 'Executable=loop.bin' \
-  >   -parameter 'InitialMemory=loop-initial-memory.txt' \
-  >   -num-cycles 120 \
-  >   -output-only-on-change \
+  >   --parameter 'Executable=loop.bin' \
+  >   --parameter 'InitialMemory=loop-initial-memory.txt' \
+  >   --num-cycles 120 \
+  >   --output-only-on-change \
   > | cut -c 1-5
   00000
   10000
@@ -48,7 +48,7 @@
   00001
   10001
 
-  $ visa run loop.asm -stop-after-n-outputs 17 | cut -c 1-5
+  $ visa run loop.asm --stop-after-n-outputs 17 | cut -c 1-5
   10000
   01000
   11000

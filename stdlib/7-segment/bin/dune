@@ -5,12 +5,7 @@
   digital_calendar
   digital_calendar_display)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries
-  core
-  command-unix-for-opam
-  seven_segment_display
-  graphics
-  threads)
+ (libraries base commandlang-to-cmdliner seven_segment_display)
  (preprocess
   (pps
    ppx_compare
@@ -24,6 +19,7 @@
    -check-doc-comments)))
 
 (install
+ (package bopkit)
  (section
   (site
    (bopkit stdbin)))
@@ -34,14 +30,14 @@
  (action
   (pipe-stdout
    (run %{dep:digital_watch.exe} gen-input)
-   (run %{dep:digital_watch_display.exe} -no))))
+   (run %{dep:digital_watch_display.exe} --no))))
 
 (rule
  (alias digital-calendar-display-test)
  (action
   (pipe-stdout
    (run %{dep:digital_calendar.exe} gen-input)
-   (run %{dep:digital_calendar_display.exe} -no))))
+   (run %{dep:digital_calendar_display.exe} --no))))
 
 (rule
  (alias digital-calendar-display-raw-input-test)
@@ -49,4 +45,4 @@
   (pipe-stdout
    (run %{dep:digital_calendar.exe} gen-raw-input)
    (run %{dep:digital_calendar.exe} map-raw-input)
-   (run %{dep:digital_calendar_display.exe} -no))))
+   (run %{dep:digital_calendar_display.exe} --no))))

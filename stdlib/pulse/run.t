@@ -11,4 +11,4 @@ Check that the files don't have errors in them.
   ================================: pulse.bop
   File "pulse.bop", line 1, characters 0-0:
   Error: Project has no main block.
-  [1]
+  [123]

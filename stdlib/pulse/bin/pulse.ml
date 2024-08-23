@@ -1,1 +1,3 @@
-let () = Command_unix_for_opam.run Bopkit_pulse.Pulse.main
+let () =
+  Commandlang_to_cmdliner.run Bopkit_pulse.Pulse.main ~name:"pulse" ~version:"%%VERSION%%"
+;;

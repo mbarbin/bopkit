@@ -1,12 +1,10 @@
 let transf_fresh_inline = Printf.sprintf "$%d$"
 
-let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
-  : Expanded_nodes.t
-  =
+let pass ~(env : Expanded_block.env) ~main_block_name ~config : Expanded_nodes.t =
   let fresh_name =
     let index = ref 0 in
     fun () ->
-      incr index;
+      Int.incr index;
       transf_fresh_inline !index
   in
   let main =
@@ -16,10 +14,9 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
       (* The request for that specific block_name as the main entry point may
          have been overridden by the user via the command line, and so it may
          contain some typos. Let's try and give a helpful error message here. *)
-      Error_log.raise
-        error_log
+      Err.raise
         [ Pp.textf "Failed to find main block name '%s'." main_block_name ]
-        ~hints:(Error_log.did_you_mean main_block_name ~candidates:(Map.keys env))
+        ~hints:(Err.did_you_mean main_block_name ~candidates:(Map.keys env))
   in
   let expanded_nodes : Expanded_nodes.Node.t Queue.t = Queue.create () in
   (* Appellee file Q dans le rapport latex *)
@@ -104,14 +101,14 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config ~error_log
       aux_node node;
       aux_nodes tl
   in
-  Error_log.debug error_log [ Pp.text "Inlining blocks." ];
+  Err.debug [ Pp.text "Inlining blocks." ];
   aux_nodes main.nodes;
   Map.iteri env ~f:(fun ~key:name ~data:fd ->
     if (not (String.equal name main_block_name))
        && (not (Hash_set.mem fonctions_utilisees name))
        && Fpath.equal (fd.loc |> Loc.path) (main.loc |> Loc.path)
        && Option.is_none (Config.main config)
-    then Error_log.warning error_log ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]);
+    then Err.warning ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]);
   array_of_file_node ()
 ;;
 

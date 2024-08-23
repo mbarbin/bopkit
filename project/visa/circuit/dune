@@ -12,7 +12,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:visa} fmt gen-dune -- "\%{bin:visa}" fmt file)
+    (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file)
     (run dune format-dune-file)))))
 
 (rule
@@ -31,7 +31,6 @@
      gen-dune
      --exclude
      div10.bop
-     --
      "\%{bin:bopkit}"
      fmt
      file)
@@ -50,7 +49,7 @@
 (rule
  (with-stdout-to
   calendar.processed.corrected
-  (run %{bin:visa} process %{dep:calendar.asm} --quiet)))
+  (run %{bin:visa} process %{dep:calendar.asm})))
 
 (rule
  (alias runtest)
@@ -70,7 +69,7 @@
 (rule
  (with-stdout-to
   calendar.processed.bin.corrected
-  (run %{bin:visa} assemble %{dep:test/calendar.processed} --quiet)))
+  (run %{bin:visa} assemble %{dep:test/calendar.processed})))
 
 (rule
  (alias runtest)
@@ -80,7 +79,7 @@
 (rule
  (with-stdout-to
   calendar.processed.processed
-  (run %{bin:visa} process %{dep:test/calendar.processed} --quiet)))
+  (run %{bin:visa} process %{dep:test/calendar.processed})))
 
 (rule
  (alias runtest)
@@ -90,7 +89,7 @@
 (rule
  (with-stdout-to
   calendar.disassembled
-  (run %{bin:visa} disassemble %{dep:calendar.bin} --quiet)))
+  (run %{bin:visa} disassemble %{dep:calendar.bin})))
 
 (rule
  (alias runtest)
@@ -114,9 +113,9 @@
   (package bopkit))
  (action
   (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change)
+   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
    (run %{bin:bopkit} digital-calendar map-raw-input)
-   (run %{bin:bopkit} digital-calendar display -no))))
+   (run %{bin:bopkit} digital-calendar display --no-output))))
 
 (rule
  (alias visa-simulation)
@@ -126,9 +125,9 @@
   (package bopkit))
  (action
   (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} -output-only-on-change)
+   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
    (run %{bin:bopkit} simu %{dep:calendar-output.bop} -p)
-   (run %{bin:bopkit} digital-calendar display -no))))
+   (run %{bin:bopkit} digital-calendar display --no-output))))
 
 (rule
  (target div10.txt)
@@ -138,7 +137,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:bopkit} counter -ni -c 100 -N 7)
+    (run %{bin:bopkit} counter --ni -c 100 -N 7)
     (run %{dep:div10.exe})))))
 
 (rule
@@ -154,19 +153,26 @@
     %{bin:bopkit}
     bdd
     synthesize
-    -block-name
-    Div10
-    -AD
-    7
-    -WL
-    8
+    --block-name=Div10
+    --AD=7
+    --WL=8
     -f
     %{dep:div10.txt}))))
 
 (executables
  (names div10 get_date)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
- (libraries command-unix-for-opam core unix threads bopkit_block)
+ (flags
+  -w
+  +a-4-40-42-44-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
+ (libraries base bopkit_block commandlang core stdio unix threads)
  (preprocess
   (pps
    ppx_compare

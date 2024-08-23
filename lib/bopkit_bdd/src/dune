@@ -1,8 +1,17 @@
 (library
  (name bopkit_bdd)
  (public_name bopkit.bdd)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
- (libraries base bit_utils bopkit bopkit_pp pp)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Loc0)
+ (libraries base bit_utils bopkit bopkit_pp loc0 pp)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

@@ -73,7 +73,7 @@ let main ar =
     let index = ref 0 in
     let blit_ref r =
       output.(!index) <- !r;
-      incr index
+      Int.incr index
     in
     let blit_arr t =
       Array.blit ~src:t ~src_pos:0 ~dst:output ~dst_pos:!index ~len:ar;
@@ -110,14 +110,14 @@ let main ar =
          Bit_array.blit_int ~src:0 ~dst:cr_address;
          cr_write := false;
          current_state := LOADING 0
-       | LOADING k when k < pred length ->
+       | LOADING k when k < Int.pred length ->
          sl_run := false;
          sl_set_pc := false;
          sl_write := true;
          Bit_array.blit_int ~src:k ~dst:sl_address;
          cr_write := false;
-         Bit_array.blit_int ~src:(succ k) ~dst:cr_address;
-         current_state := LOADING (succ k)
+         Bit_array.blit_int ~src:(Int.succ k) ~dst:cr_address;
+         current_state := LOADING (Int.succ k)
        | LOADING k ->
          sl_run := false;
          sl_set_pc := true;
@@ -138,14 +138,14 @@ let main ar =
          else (
            sl_run := true;
            cr_write := false)
-       | SAVING k when k < pred length ->
+       | SAVING k when k < Int.pred length ->
          sl_run := false;
          sl_set_pc := false;
          sl_write := false;
          cr_write := true;
          Bit_array.blit_int ~src:k ~dst:cr_address;
-         Bit_array.blit_int ~src:(succ k) ~dst:sl_address;
-         current_state := SAVING (succ k)
+         Bit_array.blit_int ~src:(Int.succ k) ~dst:sl_address;
+         current_state := SAVING (Int.succ k)
        | SAVING k ->
          sl_run := false;
          sl_set_pc := false;
@@ -165,7 +165,6 @@ let main ar =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open ar = flag "AR" (required int) ~doc:" architecture" in
+    (let%map_open.Command ar = Arg.named [ "AR" ] Param.int ~doc:"architecture" in
      Bopkit_block.create ~name:"controller" ~main:(main ar) ())
 ;;

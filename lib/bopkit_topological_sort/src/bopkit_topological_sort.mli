@@ -9,7 +9,7 @@ module type Node = sig
   type key
 
   val key : t -> key
-  val parents : t -> error_log:Error_log.t -> key Appendable_list.t
+  val parents : t -> key Appendable_list.t
 end
 
 module type Key = sig
@@ -26,5 +26,4 @@ val sort
   :  (module Node with type t = 'node and type key = 'key)
   -> (module Key with type t = 'key)
   -> 'node list
-  -> error_log:Error_log.t
   -> 'node list

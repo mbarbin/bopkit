@@ -2,7 +2,7 @@
   >   file="ar8-$num.input"
   >   img="ar8-$num.img"
   >   echo "===================================: $file"
-  >   subleq simulate -ar 8 $file > $img
+  >   subleq simulate --ar 8 $file > $img
   >   code=$?
   >   diff $img "ar8-$num.output"
   >   echo "[${code}]"
