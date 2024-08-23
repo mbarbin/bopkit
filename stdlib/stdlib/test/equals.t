@@ -1,4 +1,4 @@
-  $ bopkit simu equals.bop -num-counter-cycles 1
+  $ bopkit simu equals.bop --num-counter-cycles 1
      Cycle | a[0] a[1] a[2] b[0] b[1] b[2] | s
          0 | 0 0 0 0 0 0 | 1
          1 | 1 0 0 0 0 0 | 0

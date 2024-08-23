@@ -27,7 +27,7 @@ any analysis error. We do not check for runtime errors.
   ================================: external-nested-arity-specified.bop
   File "calc.bop", line 1, characters 0-0:
   Error: calc.bop: No such file or directory.
-  [1]
+  [123]
   ================================: memory-too-short.bop
   [0]
   ================================: pipe-nested-arity-specified.bop

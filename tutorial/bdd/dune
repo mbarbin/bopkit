@@ -7,7 +7,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 2 -WL 4 -f %{dep:v4.txt}))))
+   (run %{bin:bopkit} bdd synthesize --AD 2 --WL 4 -f %{dep:v4.txt}))))
 
 (rule
  (target v4-tree.bop)
@@ -16,7 +16,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -tree -AD 2 -WL 4 -f %{dep:v4.txt}))))
+   (run %{bin:bopkit} bdd synthesize --tree --AD 2 --WL 4 -f %{dep:v4.txt}))))
 
 (rule
  (target dec7.bop)
@@ -25,7 +25,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 4 -WL 7 -f %{dep:dec7.txt}))))
+   (run %{bin:bopkit} bdd synthesize --AD 4 --WL 7 -f %{dep:dec7.txt}))))
 
 (rule
  (target dec7-tree.bop)
@@ -34,7 +34,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -tree -AD 4 -WL 7 -f %{dep:dec7.txt}))))
+   (run %{bin:bopkit} bdd synthesize --tree --AD 4 --WL 7 -f %{dep:dec7.txt}))))
 
 (rule
  (alias runtest)
@@ -52,7 +52,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -AD 4 -WL 7 -f %{dep:starred.txt}))))
+   (run %{bin:bopkit} bdd synthesize --AD 4 --WL 7 -f %{dep:starred.txt}))))
 
 (rule
  (target starred-tree.bop)
@@ -61,7 +61,15 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -tree -AD 4 -WL 7 -f %{dep:starred.txt}))))
+   (run
+    %{bin:bopkit}
+    bdd
+    synthesize
+    --tree
+    --AD=4
+    --WL=7
+    -f
+    %{dep:starred.txt}))))
 
 (rule
  (alias runtest)

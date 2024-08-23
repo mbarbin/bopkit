@@ -61,5 +61,5 @@ val create
   -> unit
   -> t
 
-val main : ?readme:(unit -> string) -> t Command.Param.t -> Command.t
-val run : ?readme:(unit -> string) -> t Command.Param.t -> unit
+val main : ?readme:(unit -> string) -> t Command.Arg.t -> unit Command.t
+val run : ?readme:(unit -> string) -> t Command.Arg.t -> unit

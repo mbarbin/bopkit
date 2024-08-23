@@ -17,7 +17,7 @@ let create ~config ~expected_input_length =
   }
 ;;
 
-let read_and_blit_input t ~dst ~error_log =
+let read_and_blit_input t ~dst =
   if t.expected_input_length > 0 || t.as_external_block
   then (
     let dst_len = Array.length dst in
@@ -29,8 +29,7 @@ let read_and_blit_input t ~dst ~error_log =
     let input_len = String.length input in
     if input_len <> dst_len
     then
-      Error_log.raise
-        error_log
+      Err.raise
         [ Pp.text "Unexpected stdin input length."
         ; Pp.textf
             "Input was %S - length %d - expected %d char(s)."
@@ -45,8 +44,7 @@ let read_and_blit_input t ~dst ~error_log =
           | '0' -> false
           | '1' -> true
           | c ->
-            Error_log.raise
-              error_log
+            Err.raise
               [ Pp.text "Unexpected input character."
               ; Pp.textf
                   "Input was %S - At pos %d, char %c: expected char '0' or '1'."
@@ -59,8 +57,8 @@ let read_and_blit_input t ~dst ~error_log =
       done)
 ;;
 
-let blit_input t ~dst ~error_log =
+let blit_input t ~dst =
   match t.counter_input with
-  | None -> read_and_blit_input t ~dst ~error_log
+  | None -> read_and_blit_input t ~dst
   | Some bit_counter -> Bit_counter.blit_next_value bit_counter ~dst ~dst_pos:0
 ;;

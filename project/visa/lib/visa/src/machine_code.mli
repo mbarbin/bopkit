@@ -10,7 +10,7 @@ end
 
 type t = Byte.t array [@@deriving equal, sexp_of]
 
-val of_text_file_exn : path:Fpath.t -> error_log:Error_log.t -> t
+val of_text_file_exn : path:Fpath.t -> t
 
 (** Compile down instructions into a binary encoding that can be read by the
     microprocessor. *)
@@ -18,11 +18,7 @@ val of_instructions : int Instruction.t array -> t
 
 (** Disassemble the binary code to produce back an original sequence of
     instructions. *)
-val to_instructions
-  :  t
-  -> path:Fpath.t
-  -> error_log:Error_log.t
-  -> int Instruction.t array
+val to_instructions : t -> path:Fpath.t -> int Instruction.t array
 
 module For_testing : sig
   module Operation : sig

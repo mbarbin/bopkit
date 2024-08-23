@@ -54,8 +54,8 @@ let rec map t ~f =
       }
 ;;
 
-let expand t ~error_log ~parameters ~f =
-  let ok_eval_exn ~loc res = Or_eval_error.ok_exn res ~error_log ~loc in
+let expand t ~parameters ~f =
+  let ok_eval_exn ~loc res = Or_eval_error.ok_exn res ~loc in
   let rec aux parameters = function
     | Node alpha -> [ f ~parameters alpha ]
     | For_loop
@@ -68,8 +68,7 @@ let expand t ~error_log ~parameters ~f =
         ; nodes = node_list
         } ->
       Option.iter (Parameters.find parameters ~parameter_name:j) ~f:(fun previous_value ->
-        Error_log.debug
-          error_log
+        Err.debug
           ~loc
           [ Pp.textf
               "This shadows the previous value of '%s' (=> %s)."

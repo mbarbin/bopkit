@@ -1,8 +1,21 @@
 (executables
  (names controller disk_interface subleq_ram)
- (flags -w +a-4-40-42-44-66 -warn-error +a -open Core)
+ (flags
+  -w
+  +a-4-40-42-44-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
  (libraries
+  base
+  commandlang
   core
+  core_unix.core_thread
   bopkit_block
   bopkit_sleeper
   graphics
@@ -25,15 +38,17 @@
  (alias subleq-simulation)
  (deps
   (package bopkit)
+  (package subleq)
   (glob_files *.bop)
   (glob_files *.exe)
   (glob_files test/*.input))
  (action
-  (run %{bin:bopkit} simu %{dep:main.bop} -parameter 'WithPulse=1')))
+  (run %{bin:bopkit} simu %{dep:main.bop} --parameter 'WithPulse=1')))
 
 (cram
  (deps
   (package bopkit)
+  (package subleq)
   (glob_files *.bop)
   (glob_files *.exe)
   (glob_files test/*.input)
@@ -52,5 +67,5 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:bopkit} fmt gen-dune -- "\%{bin:bopkit}" fmt file)
+    (run %{bin:bopkit} fmt gen-dune "\%{bin:bopkit}" fmt file)
     (run dune format-dune-file)))))

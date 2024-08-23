@@ -47,16 +47,18 @@ module Decoded = struct
     }
   [@@deriving equal, sexp_of]
 
-  let to_string { hour; minute; second } = sprintf "%02d:%02d:%02d" hour minute second
+  let to_string { hour; minute; second } =
+    Printf.sprintf "%02d:%02d:%02d" hour minute second
+  ;;
 
   let blit (t : t) ~dst =
     let blit pos d = Seven_segment_code.blit ~digit:d ~dst ~dst_pos:pos in
     blit 0 (t.hour / 10);
-    blit 7 (t.hour mod 10);
+    blit 7 (t.hour % 10);
     blit 14 (t.minute / 10);
-    blit 21 (t.minute mod 10);
+    blit 21 (t.minute % 10);
     blit 28 (t.second / 10);
-    blit 35 (t.second mod 10)
+    blit 35 (t.second % 10)
   ;;
 end
 

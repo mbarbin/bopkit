@@ -31,9 +31,9 @@ let%expect_test "loop pp" =
 let%expect_test "loop run" =
   let program = loop () in
   let config = Visa_simulator.Config.create ~sleep:false ~stop_after_n_outputs:20 () in
-  Error_log.For_test.report (fun error_log ->
-    let%bind visa_simulator = Visa_simulator.create ~config ~error_log ~program in
-    Visa_simulator.run visa_simulator ~error_log);
+  Err_handler.For_test.protect (fun () ->
+    let visa_simulator = Visa_simulator.create ~config ~program in
+    Visa_simulator.run visa_simulator |> Or_error.ok_exn);
   [%expect
     {|
     1000000000000000000000000000000000000000000000000000000000000000
@@ -130,9 +130,9 @@ let%expect_test "minus" =
     write R1, 1 |}];
   let run program =
     let config = Visa_simulator.Config.create ~sleep:false ~stop_after_n_outputs:2 () in
-    Error_log.For_test.report (fun error_log ->
-      let%bind visa_simulator = Visa_simulator.create ~config ~error_log ~program in
-      Visa_simulator.run visa_simulator ~error_log)
+    Err_handler.For_test.protect (fun () ->
+      let visa_simulator = Visa_simulator.create ~config ~program in
+      Visa_simulator.run visa_simulator |> Or_error.ok_exn)
   in
   run ocaml_macro;
   [%expect
@@ -144,22 +144,23 @@ let%expect_test "minus" =
     {|
     0001000000000000000000000000000000000000000000000000000000000000
     0001000000000001000000000000000000000000000000000000000000000000 |}];
-  Error_log.For_test.report (fun error_log ->
-    let%bind executable_with_ocaml_macro =
-      Visa_assembler.program_to_executable ~program:ocaml_macro ~error_log
-    in
-    let%bind executable_with_visa_macro =
-      Visa_assembler.program_to_executable ~program:visa_macro ~error_log
-    in
-    if Visa.Executable.equal executable_with_ocaml_macro executable_with_visa_macro
-    then return ()
-    else
-      Or_error.error_s
-        [%sexp
-          "Executable differ"
-          , { executable_with_ocaml_macro : Visa.Executable.t
-            ; executable_with_visa_macro : Visa.Executable.t
-            }]);
+  (Err_handler.For_test.protect
+   @@ fun () ->
+   let executable_with_ocaml_macro =
+     Visa_assembler.program_to_executable ~program:ocaml_macro
+   in
+   let executable_with_visa_macro =
+     Visa_assembler.program_to_executable ~program:visa_macro
+   in
+   if Visa.Executable.equal executable_with_ocaml_macro executable_with_visa_macro
+   then ()
+   else
+     raise_s
+       [%sexp
+         "Executable differ"
+         , { executable_with_ocaml_macro : Visa.Executable.t
+           ; executable_with_visa_macro : Visa.Executable.t
+           }]);
   [%expect {||}];
   ()
 ;;

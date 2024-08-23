@@ -1,4 +1,4 @@
-  $ bopkit simu cm2.bop -num-counter-cycles 3
+  $ bopkit simu cm2.bop --num-counter-cycles 3
      Cycle | a b | s r
          0 | 0 0 | 0 0
          1 | 1 0 | 1 0

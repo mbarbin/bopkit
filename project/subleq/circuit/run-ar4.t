@@ -5,10 +5,10 @@ Hello
   [2]
 
   $ bopkit simu main.bop \
-  >   -parameter 'DEBUG=0' \
-  >   -parameter 'AR=4' \
-  >   -parameter 'NumberOfPrograms=30' \
-  >   -parameter 'FilesPrefix=test/ar4-' \
+  >   --parameter 'DEBUG=0' \
+  >   --parameter 'AR=4' \
+  >   --parameter 'NumberOfPrograms=30' \
+  >   --parameter 'FilesPrefix=test/ar4-' \
   >  2> trace.stderr
 
   $ tail -n 20 trace.stderr

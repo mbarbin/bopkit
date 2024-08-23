@@ -10,25 +10,27 @@ let default =
   { optimize_cds = false; print_pass_output = []; parameters_overrides = []; main = None }
 ;;
 
-let param =
+let arg =
   let%map_open.Command optimize_cds =
-    flag
-      "optimize-cds"
-      (optional_with_default false bool)
-      ~doc:"BOOL perform cds optimization (def: false)"
+    Arg.named_with_default
+      [ "optimize-cds" ]
+      Param.bool
+      ~default:false
+      ~doc:"perform cds optimization (def: false)"
   and print_pass_output =
-    flag
-      "print-pass-output"
-      (optional_with_default
-         []
-         (Arg_type.enumerated_sexpable (module Pass_name) |> Arg_type.comma_separated))
-      ~doc:"PASS[,PASS]* supply pass names whose output to print"
+    Arg.named_with_default
+      [ "print-pass-output" ]
+      (Param.enumerated (module Pass_name) |> Param.comma_separated)
+      ~default:[]
+      ~docv:"PASS"
+      ~doc:"supply pass names whose output to print"
   and parameters_overrides = Bopkit.Parameters.overrides
   and main =
-    flag
-      "main"
-      (optional string)
-      ~doc:"NAME override block name to simulate as the circuit entry point"
+    Arg.named_opt
+      [ "main" ]
+      Param.string
+      ~docv:"NAME"
+      ~doc:"override block name to simulate as the circuit entry point"
   in
   { optimize_cds; print_pass_output; parameters_overrides; main }
 ;;

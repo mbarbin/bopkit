@@ -40,7 +40,7 @@ module Coordinates = struct
     }
 
   let create ~size:d ~x ~y =
-    let p = float_of_int d /. 5. in
+    let p = Float.of_int d /. 5. in
     let cm = 2 * d in
     let hh = horizontal_segment_polygon d
     and vv = vertical_segment_polygon d d in
@@ -54,7 +54,7 @@ module Coordinates = struct
        ; hh (x + (7 * cm) + d) (y + (35 * cm))
       |]
     and text =
-      let ip = int_of_float p in
+      let ip = Int.of_float p in
       let dy = if d >= 3 then 4 * d else 3 * d in
       [| x + (5 * cm) + ip, y + dy
        ; x + (7 * cm) + ip, y + dy
@@ -66,37 +66,37 @@ module Coordinates = struct
       |]
     and wires =
       [| [| x + (5 * cm), y + (23 * cm) + d
-          ; x + int_of_float (33. *. p), y + (23 * cm) + d
-          ; x + int_of_float (16. *. p), y + (6 * cm) + d
+          ; x + Int.of_float (33. *. p), y + (23 * cm) + d
+          ; x + Int.of_float (16. *. p), y + (6 * cm) + d
           ; x + (5 * cm) + d, y + (6 * cm) + d
           ; x + (5 * cm) + d, y + (5 * cm)
          |]
        ; [| x + (6 * cm) + d, y + (22 * cm)
-          ; x + int_of_float (42. *. p), y + (22 * cm)
-          ; x + int_of_float (26. *. p), y + (7 * cm)
+          ; x + Int.of_float (42. *. p), y + (22 * cm)
+          ; x + Int.of_float (26. *. p), y + (7 * cm)
           ; x + (7 * cm) + d, y + (7 * cm)
           ; x + (7 * cm) + d, y + (5 * cm)
          |]
        ; [| x + (5 * cm), y + (9 * cm) + d
-          ; x + int_of_float (47. *. p), y + (7 * cm) + d
+          ; x + Int.of_float (47. *. p), y + (7 * cm) + d
           ; x + (9 * cm) + d, y + (7 * cm) + d
           ; x + (9 * cm) + d, y + (5 * cm)
          |]
        ; [| x + (11 * cm) + d, y + (8 * cm); x + (11 * cm) + d, y + (5 * cm) |]
        ; [| x + (18 * cm), y + (9 * cm) + d
-          ; x + int_of_float (178. *. p), y + (7 * cm) + d
+          ; x + Int.of_float (178. *. p), y + (7 * cm) + d
           ; x + (13 * cm) + d, y + (7 * cm) + d
           ; x + (13 * cm) + d, y + (5 * cm)
          |]
        ; [| x + (20 * cm), y + (23 * cm) + d
-          ; x + int_of_float (213. *. p), y + (23 * cm) + d
-          ; x + int_of_float (197. *. p), y + (7 * cm)
+          ; x + Int.of_float (213. *. p), y + (23 * cm) + d
+          ; x + Int.of_float (197. *. p), y + (7 * cm)
           ; x + (15 * cm) + d, y + (7 * cm)
           ; x + (15 * cm) + d, y + (5 * cm)
          |]
        ; [| x + (19 * cm) + d, y + (35 * cm)
-          ; x + int_of_float (234. *. p), y + (35 * cm)
-          ; x + int_of_float (207. *. p), y + (6 * cm) + d
+          ; x + Int.of_float (234. *. p), y + (35 * cm)
+          ; x + Int.of_float (207. *. p), y + (6 * cm) + d
           ; x + (17 * cm) + d, y + (6 * cm) + d
           ; x + (17 * cm) + d, y + (5 * cm)
          |]

@@ -1,1 +1,3 @@
-let () = Command_unix_for_opam.run Subleq_command.main
+let () =
+  Commandlang_to_cmdliner.run Subleq_command.main ~name:"subleq" ~version:"%%VERSION%%"
+;;

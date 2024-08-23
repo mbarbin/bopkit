@@ -28,12 +28,8 @@ type t =
   }
 [@@deriving sexp_of]
 
-let unknown_operator_error
-  ~error_log
-  ~(operator_name : Bopkit_process.Operator_name.t With_loc.t)
-  =
-  Error_log.error
-    error_log
+let unknown_operator_error ~(operator_name : Bopkit_process.Operator_name.t With_loc.t) =
+  Err.error
     ~loc:operator_name.loc
     [ Pp.textf
         "operator '%s' is not defined"
@@ -42,13 +38,11 @@ let unknown_operator_error
 ;;
 
 let operator_arity_error
-  ~error_log
   ~(operator_name : Bopkit_process.Operator_name.t With_loc.t)
   ~arity
   ~number_of_arguments
   =
-  Error_log.error
-    error_log
+  Err.error
     ~loc:operator_name.loc
     [ Pp.textf
         "Operator '%s' has arity %d but is applied to %d argument%s"
@@ -59,7 +53,7 @@ let operator_arity_error
     ]
 ;;
 
-let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
+let of_program ~architecture ~(program : Bopkit_process.Program.t) =
   let next_memory_index =
     let index = ref (-1) in
     fun () ->
@@ -84,8 +78,7 @@ let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
        | None ->
          if not is_assigned
          then
-           Error_log.error
-             error_log
+           Err.error
              ~loc:ident.loc
              [ Pp.textf
                  "Variable '%s' is read before assignment"
@@ -115,12 +108,12 @@ let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
         |> Array.mapi ~f:(fun i operand -> var_map ~is_assigned:(i = 0) operand)
       in
       match Map.find (force Operator.primitives) operator_name.symbol with
-      | None -> unknown_operator_error ~error_log ~operator_name
+      | None -> unknown_operator_error ~operator_name
       | Some operator ->
         let arity = Operator.arity operator in
         let number_of_arguments = Array.length arguments in
         if arity <> number_of_arguments
-        then operator_arity_error ~error_log ~operator_name ~arity ~number_of_arguments
+        then operator_arity_error ~operator_name ~arity ~number_of_arguments
         else Queue.enqueue code (Operation { operator; operands }));
   Queue.enqueue
     code
@@ -135,6 +128,6 @@ let of_program ~error_log ~architecture ~(program : Bopkit_process.Program.t) =
     Array.init num_addresses ~f:(fun i ->
       Hashtbl.find memory i |> Option.value_exn ~here:[%here])
   in
-  let%bind () = Error_log.checkpoint error_log in
-  return { architecture; memory; code }
+  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  { architecture; memory; code }
 ;;

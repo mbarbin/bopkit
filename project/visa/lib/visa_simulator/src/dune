@@ -8,17 +8,33 @@
   -warn-error
   +a
   -open
+  Base
+  -open
+  Loc0
+  -open
+  Err0
+  -open
+  Err0_handler
+  -open
   Fpath_base
   -open
-  Core)
+  Stdio
+  -open
+  Commandlang)
  (libraries
+  base
   bit_utils
+  commandlang
   core
   core_unix
   core_unix.core_thread
   core_unix.sys_unix
+  err0
+  err0-handler
   fpath
   fpath-base
+  loc0
+  stdio
   visa
   visa_assembler
   visa_syntax)

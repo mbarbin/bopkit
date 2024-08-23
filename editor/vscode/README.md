@@ -36,7 +36,7 @@ following lines:
         "language": "bopkit",
         // The command that will be run to format files with the language id specified above
         // $FILE is replaced with the path of the file to be formatted
-        "command": "bopkit fmt file $FILE -read-contents-from-stdin -add-extra-blank-line"
+        "command": "bopkit fmt file $FILE --read-contents-from-stdin"
     },
 ]
 ```

@@ -27,28 +27,26 @@ let print (t : t) =
 ;;
 
 let main =
-  Command.basic
+  Command.make
     ~summary:"generate digital-calendar input"
-    (let open Command.Let_syntax in
-     let%map_open gen_unit_test_output =
-       flag "--gen-unit-test-output" no_arg ~doc:" generate expected output"
+    (let%map_open.Command gen_unit_test_output =
+       Arg.flag [ "gen-unit-test-output" ] ~doc:"generate expected output"
      in
-     fun () ->
-       let t : t = Array.create ~len:42 false in
-       if gen_unit_test_output
-       then
-         for hour = 0 to 47 do
-           for min = 0 to 59 do
-             for sec = 0 to 59 do
-               blit_time t { hour = hour mod 24; min; sec };
-               print t
-             done
+     let t : t = Array.create ~len:42 false in
+     if gen_unit_test_output
+     then
+       for hour = 0 to 47 do
+         for min = 0 to 59 do
+           for sec = 0 to 59 do
+             blit_time t { hour = hour % 24; min; sec };
+             print t
            done
          done
-       else
-         while true do
-           ignore (Caml_threads.Thread.delay 0.5 : unit);
-           blit_time t (Time_of_day.now ());
-           print t
-         done)
+       done
+     else
+       while true do
+         ignore (Caml_threads.Thread.delay 0.5 : unit);
+         blit_time t (Time_of_day.now ());
+         print t
+       done)
 ;;

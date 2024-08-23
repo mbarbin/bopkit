@@ -3,7 +3,7 @@ module type Node = sig
   type key
 
   val key : t -> key
-  val parents : t -> error_log:Error_log.t -> key Appendable_list.t
+  val parents : t -> key Appendable_list.t
 end
 
 module type Key = sig
@@ -25,7 +25,6 @@ let sort
   (module Node : Node with type t = node and type key = key)
   (module Key : Key with type t = key)
   (nodes : node list)
-  ~error_log
   =
   let nodes_table = Hashtbl.create (module Key) in
   let nodes =
@@ -44,7 +43,7 @@ let sort
     if not (Hash_set.mem visited key)
     then (
       Hash_set.add visited key;
-      Appendable_list.iter (Node.parents node ~error_log) ~f:(fun parent ->
+      Appendable_list.iter (Node.parents node) ~f:(fun parent ->
         Hashtbl.find nodes_table parent |> Option.iter ~f:visit);
       Queue.enqueue ordered node)
   in

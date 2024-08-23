@@ -3,7 +3,7 @@ type token = Parser.token
 
 let lexer = Lexer.read
 
-let parser_ lexem lexbuf =
+let parser lexem lexbuf =
   (* I couldn't find a way to indicate in the parser without creating a
      shift/reduce conflict that NEWLINE after label introduction were optional.
      Thus I am post-processing the resulting AST to remove any NEWLINE that

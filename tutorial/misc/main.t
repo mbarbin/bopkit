@@ -1,6 +1,6 @@
 Hello
 
-  $ bopkit simu iii.bop -num-counter-cycles 2
+  $ bopkit simu iii.bop --num-counter-cycles 2
      Cycle | i[0] i[1] i[2] | i
          0 | 0 0 0 | 0
          1 | 1 0 0 | 0
@@ -23,6 +23,7 @@ Hello
   File "cycle.bop", line 1, characters 0-0:
   Error: The circuit has a cycle.
   Hint: Below are some hints to try and find it:
+  
   File "cycle.bop", line 2, characters 0-5:
   2 | Cycle(a, b) = s
       ^^^^^
@@ -34,4 +35,4 @@ Hello
   
     ..g.. = ..Or(..#0#..);
   
-  [1]
+  [123]

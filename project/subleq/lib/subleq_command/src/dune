@@ -8,16 +8,25 @@
   -warn-error
   +a
   -open
+  Base
+  -open
   Fpath_base
   -open
-  Core)
+  Stdio
+  -open
+  Commandlang)
  (libraries
+  base
   bit_utils
   bopkit_memory
+  cmdliner
+  commandlang
+  commandlang-to-cmdliner
   core
   fpath
   fpath-base
   graphics
+  stdio
   subleq_debugger
   subleq_generator
   subleq_simulator

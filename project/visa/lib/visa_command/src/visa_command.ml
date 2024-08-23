@@ -1,14 +1,15 @@
 let parse_cmd =
-  Command.basic
+  Command.make
     ~summary:"parse and dump an assembler program ast"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let p = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
-       print_s [%sexp (p : Visa.Program.t)];
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"assembler program to process"
+     and () = Err_handler.set_config () in
+     let p = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     print_s [%sexp (p : Visa.Program.t)])
 ;;
 
 let fmt_cmd =
@@ -23,64 +24,67 @@ let fmt_cmd =
 ;;
 
 let process_cmd =
-  Command.basic
+  Command.make
     ~summary:"parse and print an assembler program after processing"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
-       let%bind executable = Visa_assembler.program_to_executable ~error_log ~program in
-       let program = Visa.Executable.disassemble executable in
-       Format.printf "%a%!" Pp.to_fmt (Visa_pp.Program.pp program);
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"assembler program to process"
+     and () = Err_handler.set_config () in
+     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let executable = Visa_assembler.program_to_executable ~program in
+     let program = Visa.Executable.disassemble executable in
+     print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))
 ;;
 
 let check_cmd =
-  Command.basic
+  Command.make
     ~summary:"parse and check an assembler program"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
-       let%bind executable = Visa_assembler.program_to_executable ~error_log ~program in
-       let machine_code = Visa.Executable.to_machine_code executable in
-       ignore (machine_code : Visa.Executable.Machine_code.t);
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"assembler program to process"
+     and () = Err_handler.set_config () in
+     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let executable = Visa_assembler.program_to_executable ~program in
+     let machine_code = Visa.Executable.to_machine_code executable in
+     ignore (machine_code : Visa.Executable.Machine_code.t))
 ;;
 
 let assemble_cmd =
-  Command.basic
+  Command.make
     ~summary:"parse and transform an assembler program into machine code"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
-       let%bind executable = Visa_assembler.program_to_executable ~error_log ~program in
-       let machine_code = Visa.Executable.to_machine_code executable in
-       Format.printf "%a%!" Pp.to_fmt (Visa_pp.Executable.Machine_code.pp machine_code);
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"assembler program to process"
+     and () = Err_handler.set_config () in
+     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let executable = Visa_assembler.program_to_executable ~program in
+     let machine_code = Visa.Executable.to_machine_code executable in
+     print_string
+       (Pp_extended.to_string (Visa_pp.Executable.Machine_code.pp machine_code)))
 ;;
 
 let disassemble_cmd =
-  Command.basic
+  Command.make
     ~summary:"recreate an assembler program from machine code"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let machine_code = Visa.Machine_code.of_text_file_exn ~path ~error_log in
-       let program =
-         Visa.Executable.Machine_code.disassemble machine_code ~path ~error_log
-       in
-       Format.printf "%a%!" Pp.to_fmt (Visa_pp.Program.pp program);
-       return ()))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"machine code to process"
+     and () = Err_handler.set_config () in
+     let machine_code = Visa.Machine_code.of_text_file_exn ~path in
+     let program = Visa.Executable.Machine_code.disassemble machine_code ~path in
+     print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))
 ;;
 
 let main =

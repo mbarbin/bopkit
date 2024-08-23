@@ -10,13 +10,9 @@ module Config : sig
   type t
 
   val default : t
-  val param : t Command.Param.t
+  val arg : t Command.Arg.t
 end
 
 (** Run cycles of the simulation in a loop. See [Config.t] to toggle various
     settings. *)
-val run
-  :  circuit:Bopkit_circuit.Circuit.t
-  -> error_log:Error_log.t
-  -> config:Config.t
-  -> unit
+val run : circuit:Bopkit_circuit.Circuit.t -> config:Config.t -> unit

@@ -17,31 +17,32 @@ module Config = struct
 
   let default = create ()
 
-  let param =
-    let open Command.Let_syntax in
-    let%map_open sleep =
-      flag
-        "sleep"
-        (optional_with_default true bool)
-        ~doc:"BOOL whether to wait for sleep instruction or skip (default true)"
+  let arg =
+    let%map_open.Command sleep =
+      Arg.named_with_default
+        [ "sleep" ]
+        Param.bool
+        ~default:true
+        ~doc:"whether to wait for sleep instruction or skip (default true)"
     and stop_after_n_outputs =
-      flag
-        "stop-after-n-outputs"
-        (optional int)
-        ~doc:"N stop after N outputs have been produced (default run forever)"
+      Arg.named_opt
+        [ "stop-after-n-outputs" ]
+        Param.int
+        ~docv:"N"
+        ~doc:"stop after N outputs have been produced (default run forever)"
     and initial_memory =
-      flag
-        "initial-memory"
-        (optional (Arg_type.create Fpath.v))
-        ~doc:"FILE load initial memory contents"
+      Arg.named_opt
+        [ "initial-memory" ]
+        (Param.validated_string (module Fpath))
+        ~docv:"FILE"
+        ~doc:"load initial memory contents"
     in
     { sleep; stop_after_n_outputs; initial_memory }
   ;;
 end
 
 type t =
-  { error_log : Error_log.t
-  ; environment : Visa_assembler.Environment.t
+  { environment : Visa_assembler.Environment.t
   ; code : Code.t
   ; execution_stack : Execution_stack.t
   ; memory : Memory.t
@@ -49,11 +50,9 @@ type t =
   }
 [@@deriving sexp_of]
 
-let create ~(config : Config.t) ~error_log ~program =
-  let environment, assembly_constructs =
-    Visa_assembler.build_environment ~error_log ~program
-  in
-  let%map () = Error_log.checkpoint error_log in
+let create ~(config : Config.t) ~program =
+  let environment, assembly_constructs = Visa_assembler.build_environment ~program in
+  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
   let code = Code.of_assembly_constructs ~assembly_constructs in
   let execution_stack = Execution_stack.create () in
   let memory = Memory.create () in
@@ -61,13 +60,12 @@ let create ~(config : Config.t) ~error_log ~program =
     let content =
       try Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~path with
       | e ->
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc:(Loc.in_file ~path)
           [ Pp.text "Invalid memory file"; Pp.text (Exn.to_string e) ]
     in
     Memory.load_initial_memory memory content);
-  { error_log; environment; code; execution_stack; memory; config }
+  { environment; code; execution_stack; memory; config }
 ;;
 
 let rec increment_code_pointer (t : t) =
@@ -154,7 +152,7 @@ module Step_result = struct
   [@@deriving sexp_of]
 end
 
-let step (t : t) ~error_log:_ =
+let step (t : t) =
   let environment = t.environment in
   let assembly_instruction =
     match Stack.top t.execution_stack.macro_frames with
@@ -215,16 +213,16 @@ let step (t : t) ~error_log:_ =
     return (Step_result.Macro_call { macro_name })
 ;;
 
-let run (t : t) ~error_log =
+let run (t : t) =
   let last_output = ref "" in
   let output_device = Memory.output_device t.memory in
   let count_output = ref 0 in
-  with_return (fun return ->
+  With_return.with_return (fun return ->
     (* Make it possible to interrupt the simulation on SIGINT. *)
     Sys_unix.catch_break true;
     (try
        while true do
-         match step t ~error_log with
+         match step t with
          | Error e -> return.return (Error e)
          | Ok (Macro_call { macro_name = _ }) -> ()
          | Ok (Executed { instruction; continue }) ->
@@ -243,7 +241,7 @@ let run (t : t) ~error_log =
               then (
                 last_output := output;
                 print_endline output;
-                incr count_output)
+                Int.incr count_output)
             | _ -> ());
            if (not continue)
               ||
@@ -258,15 +256,19 @@ let run (t : t) ~error_log =
 ;;
 
 let main =
-  Command.basic
+  Command.make
     ~summary:"parse an assembler program and simulate its execution"
-    (let open Command.Let_syntax in
-     let%map_open path = anon ("FILE" %: Arg_type.create Fpath.v)
-     and error_log_config = Error_log.Config.param
-     and config = Config.param in
-     Error_log.report_and_exit ~config:error_log_config (fun error_log ->
-       let open Or_error.Let_syntax in
-       let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path ~error_log in
-       let%bind visa_simulator = create ~config ~error_log ~program in
-       run visa_simulator ~error_log))
+    (let%map_open.Command path =
+       Arg.pos
+         ~pos:0
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"assembler program to execute"
+     and () = Err_handler.set_config ()
+     and config = Config.arg in
+     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let visa_simulator = create ~config ~program in
+     match run visa_simulator with
+     | Ok () -> ()
+     | Error e -> Err.raise_s "Aborted simulation" [%sexp (e : Error.t)])
 ;;

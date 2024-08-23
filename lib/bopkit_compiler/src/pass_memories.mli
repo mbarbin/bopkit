@@ -4,8 +4,4 @@ type output =
   ; primitives : Primitive.env
   }
 
-val pass
-  :  Bopkit.Netlist.memory list
-  -> error_log:Error_log.t
-  -> parameters:Bopkit.Parameters.t
-  -> output
+val pass : Bopkit.Netlist.memory list -> parameters:Bopkit.Parameters.t -> output

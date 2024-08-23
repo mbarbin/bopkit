@@ -21,7 +21,7 @@ end where;
 You can simulate it for the whole range of its input using the built-in counter of `bopkit simu`.
 
 ```sh
-$ bopkit simu and.bop -num-counter-cycles 2
+$ bopkit simu and.bop --num-counter-cycles 2
    Cycle | a b | s
        0 | 0 0 | 0
        1 | 1 0 | 0
@@ -39,7 +39,7 @@ The external block is also available as `bopkit counter`. The simulation above
 can be obtained using the following equivalent command:
 
 ```sh
-$ bopkit counter -N 2 -ni -c 8 |  bopkit simu and.bop
+$ bopkit counter -N 2 --ni -c 8 |  bopkit simu and.bop
    Cycle | a b | s
        0 | 0 0 | 0
        1 | 1 0 | 0
@@ -69,7 +69,7 @@ end where;
 ```
 
 ```sh
-$ bopkit simu out.bop -num-cycles 8
+$ bopkit simu out.bop --num-cycles 8
    Cycle | | out[0] out[1] out[2] out[3]
        0 | | 0 0 0 0
        1 | | 1 0 0 0

@@ -1,7 +1,18 @@
 (library
  (name bopkit_counter)
  (public_name bopkit.counter)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
  (libraries bopkit_block bopkit_sleeper core graphics threads unix)
  (lint
   (pps ppx_js_style -check-doc-comments))

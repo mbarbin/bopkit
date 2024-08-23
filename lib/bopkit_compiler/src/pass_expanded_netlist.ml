@@ -14,7 +14,7 @@ let empty_env () =
    Perhaps we can consider emitting a warning in some cases. TBD. *)
 let disable_duplicated_block_check = true
 
-let make_env blocks ~error_log =
+let make_env blocks =
   let env = empty_env () in
   List.iter blocks ~f:(fun (block : Bopkit.Netlist.block) ->
     match block.name with
@@ -25,8 +25,7 @@ let make_env blocks ~error_log =
          else Hashtbl.find env.standard_blocks name
        with
        | Some previous_block ->
-         Error_log.raise
-           error_log
+         Err.raise
            ~loc:block.loc
            [ Pp.textf "Duplicated block name '%s'." name
            ; Pp.textf
@@ -41,8 +40,7 @@ let make_env blocks ~error_log =
          else Hashtbl.find env.parametrized_blocks name
        with
        | Some previous_block ->
-         Error_log.raise
-           error_log
+         Err.raise
            ~loc:block.loc
            [ Pp.textf "Duplicated parametrized block name '%s[]'." name
            ; Pp.textf
@@ -69,7 +67,7 @@ module Specialisation_key = struct
   let of_specialisation_request (sr : Specialisation_request.t) =
     let suff =
       List.fold_left sr.arguments ~init:"" ~f:(fun accu s ->
-        accu ^ "[" ^ string_of_int s ^ "]")
+        accu ^ "[" ^ Int.to_string s ^ "]")
     in
     let args =
       List.fold_left sr.functional_arguments ~init:"" ~f:(fun accu s -> accu ^ "_" ^ s)
@@ -107,7 +105,6 @@ end
     no more work to do, the result can be extracted from the state. *)
 type t =
   { env : env
-  ; error_log : Error_log.t
   ; primitives : Primitive.env
   ; parameters : Bopkit.Parameters.t
   ; resulting_blocks : Bopkit.Expanded_netlist.block Queue.t
@@ -118,13 +115,14 @@ type t =
   }
 
 let fresh_internal (t : t) =
-  incr t.fresh_internal_counter;
+  Int.incr t.fresh_internal_counter;
   t.fresh_internal_counter.contents
 ;;
 
 let new_inline_external_block (t : t) ~loc ~command =
   let name =
-    Loc.to_file_colon_line loc ^ sprintf "[%d]" (Queue.length t.inline_external_blocks)
+    Loc.to_file_colon_line loc
+    ^ Printf.sprintf "[%d]" (Queue.length t.inline_external_blocks)
   in
   Queue.enqueue
     t.inline_external_blocks
@@ -132,9 +130,8 @@ let new_inline_external_block (t : t) ~loc ~command =
   name
 ;;
 
-let nested_external_inferred_output_size_error (t : t) ~loc =
-  Error_log.raise
-    t.error_log
+let nested_external_inferred_output_size_error (_ : t) ~loc =
+  Err.raise
     ~loc
     [ Pp.text "Bopkit won't infer the output size of a nested external call." ]
     ~hints:
@@ -149,12 +146,11 @@ let nested_external_inferred_output_size_error (t : t) ~loc =
       ]
 ;;
 
-let unknown_block_name (t : t) ~name ~loc ~candidates =
-  Error_log.raise
-    t.error_log
+let unknown_block_name (_ : t) ~name ~loc ~candidates =
+  Err.raise
     ~loc
     [ Pp.textf "Unknown block name '%s'." name ]
-    ~hints:(Error_log.did_you_mean name ~candidates)
+    ~hints:(Err.did_you_mean name ~candidates)
 ;;
 
 let variables_of_original_grouping original_grouping =
@@ -164,9 +160,9 @@ let variables_of_original_grouping original_grouping =
   { Bopkit.Expanded_netlist.expanded; original_grouping }
 ;;
 
-let expand_variables (t : t) ~variables ~parameters =
+let expand_variables (_ : t) ~variables ~parameters =
   List.map variables ~f:(fun variable ->
-    Bopkit.Expand_utils.eval_variable variable ~error_log:t.error_log ~parameters)
+    Bopkit.Expand_utils.eval_variable variable ~parameters)
   |> variables_of_original_grouping
 ;;
 
@@ -230,8 +226,7 @@ let request_specialisation
         in
         if not (List.is_empty duplicated_parameters)
         then
-          Error_log.raise
-            t.error_log
+          Err.raise
             ~loc
             [ Pp.textf
                 "Duplication of block parameter(s) '%s'."
@@ -239,8 +234,7 @@ let request_specialisation
             ];
         if not (List.is_empty duplicated_functional_parameters)
         then
-          Error_log.raise
-            t.error_log
+          Err.raise
             ~loc
             [ Pp.textf
                 "Duplication of block functional parameter(s): '%s'."
@@ -253,8 +247,7 @@ let request_specialisation
       let applied_to = List.length arguments in
       if expected <> applied_to
       then
-        Error_log.raise
-          t.error_log
+        Err.raise
           ~loc
           [ Pp.textf
               "Block '%s[_]' expects %d parameters but is applied to %d"
@@ -271,8 +264,7 @@ let request_specialisation
       let applied_to = List.length functional_arguments in
       if expected <> applied_to
       then
-        Error_log.raise
-          t.error_log
+        Err.raise
           ~loc
           [ Pp.textf
               "Block '%s<_>' expects %d functional parameters but is applied to %d"
@@ -295,12 +287,9 @@ let request_specialisation
     expanded_interface
 ;;
 
-let expand_nodes_control_structure (t : t) node ~parameters =
-  Bopkit.Control_structure.expand
-    node
-    ~error_log:t.error_log
-    ~parameters
-    ~f:(fun ~parameters node -> parameters, node)
+let expand_nodes_control_structure (_ : t) node ~parameters =
+  Bopkit.Control_structure.expand node ~parameters ~f:(fun ~parameters node ->
+    parameters, node)
 ;;
 
 module Or_unknown = struct
@@ -309,8 +298,8 @@ module Or_unknown = struct
     | Unknown
 end
 
-let eval_string_with_vars (t : t) str ~loc ~parameters =
-  let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~error_log:t.error_log ~loc in
+let eval_string_with_vars (_ : t) str ~loc ~parameters =
+  let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc in
   Bopkit.String_with_vars.eval
     (Bopkit.String_with_vars.parse str |> ok_eval_exn)
     ~parameters
@@ -360,7 +349,7 @@ let expand_call
   ~expected_output_width
   : expanded_call
   =
-  let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~error_log:t.error_log ~loc in
+  let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc in
   match call with
   | Block { name; arguments; functional_arguments } ->
     let name =
@@ -501,10 +490,9 @@ let expand_node_nesting
   Queue.to_list nodes
 ;;
 
-let create_state blocks ~error_log ~primitives ~parameters =
-  let env = make_env blocks ~error_log in
+let create_state blocks ~primitives ~parameters =
+  let env = make_env blocks in
   { env
-  ; error_log
   ; primitives
   ; parameters
   ; resulting_blocks = Queue.create ()
@@ -575,18 +563,18 @@ type output =
   ; blocks : Bopkit.Expanded_netlist.block list
   }
 
-let pass blocks ~error_log ~primitives ~parameters =
-  let blocks = Block_sort.sort blocks ~error_log in
-  let t = create_state blocks ~error_log ~primitives ~parameters in
+let pass blocks ~primitives ~parameters =
+  let blocks = Block_sort.sort blocks in
+  let t = create_state blocks ~primitives ~parameters in
   List.iter blocks ~f:(fun block ->
     (* We expand all blocks, so as to produce all warnings for all blocks. *)
     match block.name with
     | Parametrized _ -> ()
     | Standard { name } ->
-      Error_log.debug error_log [ Pp.textf "requesting expansion of %s." name ];
+      Err.debug [ Pp.textf "requesting expansion of %s." name ];
       ignore (request_expansion t ~name ~loc:Loc.dummy_pos : Expanded_interface.t));
   work_until_finished t;
   let blocks = Queue.to_list t.resulting_blocks in
-  let blocks = Expanded_block_sort.sort blocks ~error_log:t.error_log in
+  let blocks = Expanded_block_sort.sort blocks in
   { inline_external_blocks = Queue.to_list t.inline_external_blocks; blocks }
 ;;

@@ -51,7 +51,7 @@ connect the two applications together using a unix pipe:
 
 <!-- $MDX skip -->
 ```sh
-$ visa digital-calendar gen-input | visa digital-calendar display -no
+$ visa digital-calendar gen-input | visa digital-calendar display --no-output
 ```
 
 ### Using a textual format
@@ -94,7 +94,7 @@ To exercise this all, run:
 ```sh
 $ visa digital-calendar gen-raw-input \
 >   | visa digital-calendar map-raw-input \
->   | visa digital-calendar display -no
+>   | visa digital-calendar display --no-output
 ```
 
 ## Assembly program
@@ -295,7 +295,7 @@ map it. For now, we're still doing that with our software version
 ```
 $ visa run circuit/calendar.asm \
    | visa digital-calendar map-raw-input \
-   | visa digital-calendar print -clear-on-reprint
+   | visa digital-calendar print --clear-on-reprint
 00/01/00 - 00:00:00
 00/01/00 - 00:00:00
 00/01/00 - 00:00:00
@@ -331,9 +331,9 @@ and supply the filename to the simulator:
 ```sh
 $ ./get_date.exe '23:59:58' '2023/01/30' > my-initial-memory.txt
 $ visa run calendar.asm \
->     -sleep false \
->     -stop-after-n-outputs 20 \
->     -initial-memory my-initial-memory.txt \
+>     --sleep false \
+>     --stop-after-n-outputs 20 \
+>     --initial-memory my-initial-memory.txt \
 >   | visa digital-calendar map-raw-input \
 >   | visa digital-calendar print
 01/01/00 - 00:00:58

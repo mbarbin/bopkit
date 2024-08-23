@@ -1,3 +1,5 @@
+open! Base
+
 module Method_kind : sig
   type t =
     | Main

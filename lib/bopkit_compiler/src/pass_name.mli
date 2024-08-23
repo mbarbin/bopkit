@@ -13,3 +13,5 @@ type t =
   | Memories
   | Parameters
 [@@deriving enumerate, equal, sexp_of]
+
+val to_string : t -> string

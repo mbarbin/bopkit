@@ -36,8 +36,8 @@ let ok t ~f =
   | Error e -> f e
 ;;
 
-let ok_exn t ~error_log ~loc =
+let ok_exn t ~loc =
   match t with
   | Ok e -> e
-  | Error e -> Eval_error.raise e ~error_log ~loc
+  | Error e -> Eval_error.raise e ~loc
 ;;

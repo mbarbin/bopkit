@@ -1,4 +1,4 @@
-  $ bopkit simu reverse_bdd.bop -num-counter-cycles 1
+  $ bopkit simu reverse_bdd.bop --num-counter-cycles 1
      Cycle | in dec[0] dec[1] dec[2] | out[0] out[1] out[2] out[3] out[4] out[5] out[6] out[7]
          0 | 0 0 0 0 | 0 0 0 0 0 0 0 0
          1 | 1 0 0 0 | 1 0 0 0 0 0 0 0

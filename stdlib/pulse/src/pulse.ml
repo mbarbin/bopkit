@@ -11,32 +11,32 @@ let pulse ~bopkit_sleeper =
 
 let main =
   Bopkit_block.main
-    (let open Command.Let_syntax in
-     let%map_open cycles_per_second =
-       flag
-         "cycles-per-second"
-         (required string)
-         ~doc:"max|%d number of cycles per second"
+    (let%map_open.Command cycles_per_second =
+       Arg.named
+         [ "cycles-per-second" ]
+         Param.string
+         ~docv:"max|%d"
+         ~doc:"number of cycles per second"
        >>| function
        | "max" -> `Max
        | d ->
          `Value
-           (match int_of_string d with
-            | d -> d
-            | exception _ ->
-              raise_s [%sexp "(max|%d) value expected for [cycles-per-second]"])
+           (match Int.of_string_opt d with
+            | Some d -> d
+            | None -> raise_s [%sexp "(max|%d) value expected for [cycles-per-second]"])
      and midnight =
-       flag
-         "as-if-started-at-midnight"
-         (optional_with_default false bool)
-         ~doc:"bool catch-up as if it had run from midnight"
+       Arg.named_with_default
+         [ "as-if-started-at-midnight" ]
+         Param.bool
+         ~default:false
+         ~doc:"catch-up as if it had run from midnight"
      in
      let bopkit_sleeper =
        match cycles_per_second with
        | `Max -> None
        | `Value f ->
          Bopkit_sleeper.create
-           ~frequency:(float_of_int f)
+           ~frequency:(Float.of_int f)
            ~as_if_started_at_midnight:midnight
          |> Option.return
      in

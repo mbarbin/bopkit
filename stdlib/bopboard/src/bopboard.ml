@@ -69,6 +69,7 @@ module Board = struct
 end
 
 let find_image ~image =
+  let ( ^/ ) = Stdlib.Filename.concat in
   List.find_map Bopkit_sites.Sites.bopboard ~f:(fun bopboard_directory ->
     let file = bopboard_directory ^/ "images" ^/ Image.basename image in
     if Sys_unix.file_exists_exn file then Some file else None)
@@ -226,12 +227,12 @@ let destroy_and_quit (t : t) =
   Sdl.destroy_renderer t.renderer;
   Sdl.destroy_window t.window;
   Sdl.quit ();
-  exit 0
+  Stdlib.exit 0
 ;;
 
 let stress_test (t : t) =
   let event = Sdl.Event.create () in
-  with_return (fun return ->
+  With_return.with_return (fun return ->
     while true do
       redraw t;
       let () =
@@ -256,14 +257,14 @@ let stress_test (t : t) =
 let event_loop (t : t) =
   let event = Sdl.Event.create () in
   let needs_redraw = ref true in
-  with_return (fun return ->
+  With_return.with_return (fun return ->
     while true do
       if !needs_redraw
       then (
         needs_redraw := false;
         redraw t);
       match Sdl.wait_event (Some event) with
-      | Error (`Msg e) -> Printf.eprintf "wait event error %S\n%!" e
+      | Error (`Msg e) -> Stdlib.Printf.eprintf "wait event error %S\n%!" e
       | Ok () ->
         (match Sdl.Event.(enum (get event typ)) with
          | `Quit -> return.return ()
@@ -326,7 +327,7 @@ let light_method (t : t) =
                , { expected_length : int; input_length : int }];
          Array.iter2_exn t.board.lights input ~f:set_light
        | [ index ] ->
-         let index = int_of_string index in
+         let index = Int.of_string index in
          if index < 0 || index >= Array.length t.board.lights
          then raise_s [%sexp "light index out of bounds", [%here], { index : int }];
          let input_length = Array.length input in
@@ -359,7 +360,7 @@ let button_method (t : t) ~name ~which_buttons =
       match arguments with
       | [] -> Array.iter buttons ~f:output_button
       | [ index ] ->
-        let index = int_of_string index in
+        let index = Int.of_string index in
         if index < 0 || index >= Array.length buttons
         then
           raise_s
@@ -378,12 +379,13 @@ let main_method (_ : t) =
 
 let run_cmd =
   Bopkit_block.main
-    (let open Command.Let_syntax in
-     let%map_open title =
-       flag
-         "title"
-         (optional_with_default "bopboard" string)
-         ~doc:"TITLE set window title"
+    (let%map_open.Command title =
+       Arg.named_with_default
+         [ "title" ]
+         Param.string
+         ~default:"bopboard"
+         ~docv:"TITLE"
+         ~doc:"set window title"
      in
      let t = init ~title in
      let (_ : Core_thread.t) =
@@ -402,14 +404,12 @@ let run_cmd =
 ;;
 
 let stress_test_cmd =
-  Command.basic
+  Command.make
     ~summary:"a stress test for the bopboard"
-    (let open Command.Let_syntax in
-     let%map_open () = return () in
-     fun () ->
-       let t = init ~title:"Bopboard Stress Test" in
-       stress_test t;
-       destroy_and_quit t)
+    (let%map_open.Command () = Arg.return () in
+     let t = init ~title:"Bopboard Stress Test" in
+     stress_test t;
+     destroy_and_quit t)
 ;;
 
 let main =

@@ -24,7 +24,7 @@ module Environment = struct
   [@@deriving sexp_of]
 end
 
-let build_environment ~(program : Visa.Program.t) ~error_log =
+let build_environment ~(program : Visa.Program.t) =
   let constants = Hashtbl.create (module Visa.Constant_name) in
   let macros = Hashtbl.create (module Visa.Macro_name) in
   let labels = Hashtbl.create (module Visa.Label) in
@@ -44,8 +44,7 @@ let build_environment ~(program : Visa.Program.t) ~error_log =
     | Constant_definition { constant_name; constant_kind } ->
       if Hashtbl.mem constants constant_name.symbol
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc:constant_name.loc
           [ Pp.text "Multiple definition of constants is not allowed"
           ; Pp.text
@@ -55,12 +54,11 @@ let build_environment ~(program : Visa.Program.t) ~error_log =
       Hashtbl.set
         constants
         ~key:constant_name.symbol
-        ~data:(With_loc.map constant_name ~f:(const constant_kind))
+        ~data:(With_loc.map constant_name ~f:(Fn.const constant_kind))
     | Macro_definition { macro_name; parameters; body } ->
       if Hashtbl.mem macros macro_name.symbol
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc:macro_name.loc
           [ Pp.text "Multiple definition of macros is not allowed"
           ; Pp.text
@@ -74,8 +72,7 @@ let build_environment ~(program : Visa.Program.t) ~error_log =
       (match !pending_label_introduction with
        | None -> ()
        | Some label ->
-         Error_log.error
-           error_log
+         Err.error
            ~loc:label.loc
            [ Pp.textf
                "Label '%s' was not followed by any instruction"
@@ -84,8 +81,7 @@ let build_environment ~(program : Visa.Program.t) ~error_log =
       pending_label_introduction := Some label;
       if Hashtbl.mem labels label.symbol
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc:label.loc
           [ Pp.text "Multiple definition of label is not allowed"
           ; Pp.text (Sexp.to_string_hum [%sexp { label : Visa.Label.t With_loc.t }])
@@ -103,7 +99,7 @@ let build_environment ~(program : Visa.Program.t) ~error_log =
   environment, code
 ;;
 
-let check_unused_macro_parameters ~(environment : Environment.t) ~error_log =
+let check_unused_macro_parameters ~(environment : Environment.t) =
   Map.iter environment.macros ~f:(fun { macro_name; parameters; body } ->
     let used_parameters = Hash_set.create (module Visa.Parameter_name) in
     List.iter body ~f:(function { loc = _; operation_kind = _; arguments } ->
@@ -117,8 +113,7 @@ let check_unused_macro_parameters ~(environment : Environment.t) ~error_log =
     in
     if not (List.is_empty unused_parameters)
     then
-      Error_log.warning
-        error_log
+      Err.warning
         ~loc:macro_name.loc
         [ Pp.text "Unused macro parameters"
         ; Pp.text
@@ -133,7 +128,6 @@ let check_unused_macro_parameters ~(environment : Environment.t) ~error_log =
 let check_unused_definitions
   ~(environment : Environment.t)
   ~(assembly_constructs : Assembly_construct.t list)
-  ~error_log
   =
   let used_constants = Hash_set.create (module Visa.Constant_name) in
   let used_macros = Hash_set.create (module Visa.Macro_name) in
@@ -158,22 +152,19 @@ let check_unused_definitions
   Map.iteri environment.constants ~f:(fun ~key:constant_name ~data:constant ->
     if not (Hash_set.mem used_constants constant_name)
     then
-      Error_log.warning
-        error_log
+      Err.warning
         ~loc:constant.loc
         [ Pp.textf "Unused constant '%s'" (Visa.Constant_name.to_string constant_name) ]);
   Map.iter environment.macros ~f:(fun { macro_name; _ } ->
     if not (Hash_set.mem used_macros macro_name.symbol)
     then
-      Error_log.warning
-        error_log
+      Err.warning
         ~loc:macro_name.loc
         [ Pp.textf "Unused macro '%s'" (Visa.Macro_name.to_string macro_name.symbol) ]);
   Map.iter environment.labels ~f:(fun label ->
     if not (Hash_set.mem used_labels label.symbol)
     then
-      Error_log.warning
-        error_log
+      Err.warning
         ~loc:label.loc
         [ Pp.textf "Unused label '%s'" (Visa.Label.to_string label.symbol) ]);
   ()
@@ -350,10 +341,10 @@ let rec lookup_argument
   | Value _ | Address _ | Label _ | Register _ -> return argument
 ;;
 
-let program_to_executable_with_labels ~(program : Visa.Program.t) ~error_log =
-  let environment, assembly_constructs = build_environment ~program ~error_log in
-  check_unused_definitions ~environment ~assembly_constructs ~error_log;
-  check_unused_macro_parameters ~environment ~error_log;
+let program_to_executable_with_labels ~(program : Visa.Program.t) =
+  let environment, assembly_constructs = build_environment ~program in
+  check_unused_definitions ~environment ~assembly_constructs;
+  check_unused_macro_parameters ~environment;
   let executable : Visa.Executable.With_labels.Line.t Queue.t = Queue.create () in
   let pending_label_introduction : Visa.Label.t With_loc.t option ref = ref None in
   let emit_instruction ~instruction =
@@ -374,14 +365,13 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) ~error_log =
     with
     | Error errors ->
       List.iter errors ~f:(fun (loc, e) ->
-        Error_log.error error_log ~loc [ Pp.text (Error.to_string_hum e) ])
+        Err.error ~loc [ Pp.text (Error.to_string_hum e) ])
     | Ok arguments ->
       (match operation_kind with
        | Instruction { instruction_name } ->
          (match build_instruction ~environment ~loc ~instruction_name ~arguments with
           | Ok instruction -> emit_instruction ~instruction
-          | Error (loc, e) ->
-            Error_log.error error_log ~loc [ Pp.text (Error.to_string_hum e) ])
+          | Error (loc, e) -> Err.error ~loc [ Pp.text (Error.to_string_hum e) ])
        | Macro_call { macro_name } ->
          (match Map.find environment.macros macro_name with
           | None ->
@@ -389,19 +379,17 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) ~error_log =
             let candidates =
               Map.keys environment.macros |> List.map ~f:Visa.Macro_name.to_string
             in
-            Error_log.error
-              error_log
+            Err.error
               ~loc
               [ Pp.textf "Undefined macro '%s'" macro_name ]
-              ~hints:(Error_log.did_you_mean macro_name ~candidates)
+              ~hints:(Err.did_you_mean macro_name ~candidates)
           | Some { macro_name; parameters; body } ->
             (match List.zip parameters arguments with
              | Ok bindings ->
                List.iter body ~f:(fun assembly_instruction ->
                  process_assembly_instruction ~bindings ~assembly_instruction)
              | Unequal_lengths ->
-               Error_log.error
-                 error_log
+               Err.error
                  ~loc
                  [ Pp.text "Invalid number of macro arguments"
                  ; Pp.text
@@ -417,11 +405,10 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) ~error_log =
     | Label_introduction { label } -> pending_label_introduction := Some label
     | Assembly_instruction { assembly_instruction } ->
       process_assembly_instruction ~bindings:[] ~assembly_instruction);
-  let%bind () = Error_log.checkpoint error_log in
-  return (Queue.to_array executable)
+  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  Queue.to_array executable
 ;;
 
-let program_to_executable ~program ~error_log =
-  program_to_executable_with_labels ~program ~error_log
-  |> Or_error.map ~f:Visa.Executable.resolve_labels
+let program_to_executable ~program =
+  program_to_executable_with_labels ~program |> Visa.Executable.resolve_labels
 ;;

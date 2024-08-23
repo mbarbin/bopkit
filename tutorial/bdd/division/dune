@@ -16,7 +16,6 @@
      gen-dune
      --exclude
      div.bop,div_opt.bop
-     --
      "\%{bin:bopkit}"
      fmt
      file)
@@ -24,8 +23,18 @@
 
 (executables
  (names div div_opt)
- (flags -w +a-4-40-41-42-44-66 -warn-error +a -open Core)
- (libraries core graphics unix threads bopkit_block)
+ (flags
+  -w
+  +a-4-40-41-42-44-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Commandlang)
+ (libraries base commandlang bopkit_block core graphics stdio unix threads)
  (preprocess
   (pps
    ppx_compare
@@ -48,7 +57,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} simu %{dep:generate.bop} -num-counter-cycles 1 -o))))
+   (run %{bin:bopkit} simu %{dep:generate.bop} --num-counter-cycles 1 -o))))
 
 (rule
  (target div_opt.txt)
@@ -58,7 +67,7 @@
   (with-stdout-to
    %{target}
    (pipe-stdout
-    (run %{bin:bopkit} counter -ni -c 256 -N 8)
+    (run %{bin:bopkit} counter --ni -c 256 -N 8)
     (run %{dep:div_opt.exe} -N 4)))))
 
 (rule
@@ -69,7 +78,15 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} bdd synthesize -block-name Div -AD 8 -WL 4 -f %{deps}))))
+   (run
+    %{bin:bopkit}
+    bdd
+    synthesize
+    --block-name=Div
+    --AD=8
+    --WL=4
+    -f
+    %{deps}))))
 
 (rule
  (target div_opt.bop)
@@ -83,12 +100,9 @@
     %{bin:bopkit}
     bdd
     synthesize
-    -block-name
-    Div_opt
-    -AD
-    8
-    -WL
-    4
+    --block-name=Div_opt
+    --AD=8
+    --WL=4
     -f
     %{deps}))))
 
@@ -103,7 +117,7 @@
  (action
   (with-stdout-to
    %{target}
-   (run %{bin:bopkit} simu %{dep:div_check.bop} -num-counter-cycles 1))))
+   (run %{bin:bopkit} simu %{dep:div_check.bop} --num-counter-cycles 1))))
 
 (rule
  (alias runtest)

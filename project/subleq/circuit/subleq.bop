@@ -116,7 +116,7 @@ where
 
   // DEBUG external GRAPHICS
   if DEBUG then
-    external("./subleq_ram.exe -AR %{AR} -CL %{CL} -DEBUG %{DEBUG}",
+    external("./subleq_ram.exe --AR %{AR} --CL %{CL} --DEBUG %{DEBUG}",
       step:[CL],
       mem_address:[AR],
       mem_write_mode,

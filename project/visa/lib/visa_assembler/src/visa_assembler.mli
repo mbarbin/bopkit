@@ -34,7 +34,6 @@ end
 
 val build_environment
   :  program:Visa.Program.t
-  -> error_log:Error_log.t
   -> Environment.t * Assembly_construct.t list
 
 val lookup_argument
@@ -53,10 +52,6 @@ val build_instruction
 
 val program_to_executable_with_labels
   :  program:Visa.Program.t
-  -> error_log:Error_log.t
-  -> Visa.Executable.With_labels.t Or_error.t
+  -> Visa.Executable.With_labels.t
 
-val program_to_executable
-  :  program:Visa.Program.t
-  -> error_log:Error_log.t
-  -> Visa.Executable.t Or_error.t
+val program_to_executable : program:Visa.Program.t -> Visa.Executable.t

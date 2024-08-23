@@ -5,7 +5,7 @@
 type t
 
 val default : t
-val param : t Command.Param.t
+val arg : t Command.Arg.t
 
 (** {1 Getters} *)
 

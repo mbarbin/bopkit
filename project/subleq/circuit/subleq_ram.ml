@@ -23,7 +23,7 @@ let init ~architecture ~cl ~debug =
         ~on_uncaught_exn:`Kill_whole_process
         (fun () ->
           Bopkit_memory.event_loop mem ~read_only:true;
-          exit 0)
+          Stdlib.exit 0)
         ()
     in
     Bopkit_memory.draw mem);
@@ -90,12 +90,15 @@ let main { architecture = ar; cl; debug; mem } =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open debug =
-       flag "DEBUG" (optional_with_default 1 int) ~doc:" activate debug graphics"
+    (let%map_open.Command debug =
+       Arg.named_with_default
+         [ "DEBUG" ]
+         Param.int
+         ~default:1
+         ~doc:"activate debug graphics"
        >>| Int.equal 1
-     and architecture = flag "AR" (required int) ~doc:" architecture"
-     and cl = flag "CL" (required int) ~doc:" number of bits of cycle index" in
+     and architecture = Arg.named [ "AR" ] Param.int ~doc:"architecture"
+     and cl = Arg.named [ "CL" ] Param.int ~doc:"number of bits of cycle index" in
      let t = init ~architecture ~cl ~debug in
      Bopkit_block.create ~name:"subleq_ram" ~main:(main t) ())
 ;;

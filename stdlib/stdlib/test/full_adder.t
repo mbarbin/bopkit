@@ -1,4 +1,4 @@
-  $ bopkit simu full_adder.bop -num-counter-cycles 1
+  $ bopkit simu full_adder.bop --num-counter-cycles 1
      Cycle | a b c | s r
          0 | 0 0 0 | 0 0
          1 | 1 0 0 | 1 0

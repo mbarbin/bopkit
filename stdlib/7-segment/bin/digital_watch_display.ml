@@ -1,1 +1,6 @@
-let () = Command_unix_for_opam.run Seven_segment_display.digital_watch_display
+let () =
+  Commandlang_to_cmdliner.run
+    Seven_segment_display.digital_watch_display
+    ~name:"digital_watch_display"
+    ~version:"%%VERSION%%"
+;;

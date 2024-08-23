@@ -105,7 +105,7 @@ $ cat ar4-01.input
 You can invoke the simulator with this command:
 
 ```sh
-$ subleq simulate -ar 4 ar4-01.input
+$ subleq simulate --ar 4 ar4-01.input
 Subleq simulator: running...
 [ ;-) ] Program terminated after 9 steps. IM 15.62 % diff.
 0011
@@ -135,7 +135,7 @@ file which we know doesn't terminate:
 
 
 ```sh
-$ subleq simulate -ar 4 cycle01.input
+$ subleq simulate --ar 4 cycle01.input
 Subleq simulator: running...
 [ ;-( ] Cycle detected : Aborting computation.
 Program does not terminate
@@ -150,7 +150,7 @@ the command line.
 
 <!-- $MDX skip -->
 ```sh
-$ subleq simulate -ar 4 ar4-01.input -g
+$ subleq simulate --ar 4 ar4-01.input -g
 ```
 
 <p>

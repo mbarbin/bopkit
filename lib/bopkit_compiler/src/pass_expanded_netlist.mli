@@ -5,7 +5,6 @@ type output =
 
 val pass
   :  Bopkit.Netlist.block list
-  -> error_log:Error_log.t
   -> primitives:Primitive.env
   -> parameters:Bopkit.Parameters.t
   -> output

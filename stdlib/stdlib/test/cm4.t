@@ -1,4 +1,4 @@
-  $ bopkit simu cm4.bop -num-counter-cycles 6
+  $ bopkit simu cm4.bop --num-counter-cycles 6
      Cycle | a b | s[0] s[1] s[2] s[3]
          0 | 0 0 | 0 0 0 0
          1 | 1 0 | 1 0 0 0

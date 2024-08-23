@@ -1,8 +1,31 @@
 (library
  (name visa)
  (public_name bopkit.visa)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries bit_utils core error-log fpath parsing-utils pp)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Loc0
+  -open
+  Err0
+  -open
+  Stdio)
+ (libraries
+  base
+  bit_utils
+  commandlang
+  core ;; For [Core.String_id]
+  err0
+  fpath
+  loc0
+  parsing-utils
+  pp
+  stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

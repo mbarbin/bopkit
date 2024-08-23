@@ -1,8 +1,9 @@
 (executables
  (names pulse)
- (libraries command-unix-for-opam bopkit_pulse))
+ (libraries bopkit_pulse cmdliner commandlang-to-cmdliner))
 
 (install
+ (package bopkit)
  (section
   (site
    (bopkit stdbin)))

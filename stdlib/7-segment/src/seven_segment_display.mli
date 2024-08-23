@@ -4,12 +4,12 @@ module Seven_segment_code = Seven_segment_code
 
 (** {1 Display commands} *)
 
-val digital_calendar_display : Command.t
-val digital_watch_display : Command.t
+val digital_calendar_display : unit Command.t
+val digital_watch_display : unit Command.t
 
 (** {1 Main commands} *)
 
 module Main : sig
-  val digital_calendar : Command.t
-  val digital_watch : Command.t
+  val digital_calendar : unit Command.t
+  val digital_watch : unit Command.t
 end

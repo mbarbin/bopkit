@@ -1,8 +1,19 @@
 (library
  (name visa_assembler)
  (public_name bopkit.visa-assembler)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries core error-log visa)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Loc0
+  -open
+  Err0)
+ (libraries base err0 loc0 visa)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

@@ -6,4 +6,4 @@ second part.
   File "missing-byte.bin", line 1, characters 0-0:
   Error: Invalid executable.
   Operation 'Jmp' is expected to be followed by another byte.
-  [1]
+  [123]

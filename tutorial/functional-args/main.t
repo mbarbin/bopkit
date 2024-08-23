@@ -1,6 +1,6 @@
 Hello
 
-  $ bopkit simu argsfcts.bop -num-counter-cycles 1
+  $ bopkit simu argsfcts.bop --num-counter-cycles 1
      Cycle | a[0] a[1] a[2] a[3] | u v
          0 | 0 0 0 0 | 0 0
          1 | 1 0 0 0 | 0 1

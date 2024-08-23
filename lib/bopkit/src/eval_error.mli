@@ -10,4 +10,4 @@ type t =
   | Syntax_error of { in_ : string }
 [@@deriving sexp_of]
 
-val raise : t -> error_log:Error_log.t -> loc:Loc.t -> _
+val raise : t -> loc:Loc.t -> _

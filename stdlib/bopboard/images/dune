@@ -1,4 +1,5 @@
 (install
+ (package bopkit)
  (section
   (site
    (bopkit bopboard)))

@@ -1,16 +1,18 @@
 let exec_cmd =
-  Command.basic
+  Command.make
     ~summary:"execute a process file as an external bloc"
-    (let open Command.Let_syntax in
-     let%map_open n = flag "N" (required int) ~doc:"N architecture"
+    (let%map_open.Command n = Arg.named [ "N" ] Param.int ~docv:"N" ~doc:"architecture"
      and path =
-       flag "f" (required (Arg_type.create Fpath.v)) ~doc:"FILE input process file"
-     and config = Error_log.Config.param in
-     Error_log.report_and_exit ~config (fun error_log ->
-       let program =
-         Parsing_utils.parse_file_exn (module Bopkit_process_syntax) ~path ~error_log
-       in
-       Bopkit_process_interpreter.run_program ~error_log ~architecture:n ~program))
+       Arg.named
+         [ "f" ]
+         (Param.validated_string (module Fpath))
+         ~docv:"FILE"
+         ~doc:"input process file"
+     and () = Err_handler.set_config () in
+     let program = Parsing_utils.parse_file_exn (module Bopkit_process_syntax) ~path in
+     match Bopkit_process_interpreter.run_program ~architecture:n ~program with
+     | Ok () -> ()
+     | Error e -> Err.raise_s "Aborted execution" [%sexp (e : Error.t)])
 ;;
 
 let fmt_cmd =

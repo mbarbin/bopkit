@@ -32,7 +32,6 @@ let main n =
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open n = flag "N" (required int) ~doc:" architecture" in
+    (let%map_open.Command n = Arg.named [ "N" ] Param.int ~doc:"architecture" in
      Bopkit_block.create ~name:"div" ~main:(main n) ~methods:[ test n ] ())
 ;;

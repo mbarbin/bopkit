@@ -1,5 +1,6 @@
 (library
  (name bopkit_test)
+ (public_name bopkit-tests.bopkit_test)
  (flags
   :standard
   -w
@@ -9,10 +10,10 @@
   -open
   Base
   -open
-  Expect_test_helpers
+  Expect_test_helpers_base
   -open
   Bopkit)
- (libraries base bopkit expect-test-helpers pp)
+ (libraries base bopkit expect_test_helpers_core.expect_test_helpers_base pp)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

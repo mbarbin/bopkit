@@ -1,4 +1,4 @@
-  $ bopkit simu clock_divider.bop -num-counter-cycles 6
+  $ bopkit simu clock_divider.bop --num-counter-cycles 6
      Cycle | a b | s
          0 | 0 0 | 1
          1 | 1 0 | 0
@@ -54,7 +54,7 @@
         11 | 0 0 | 1
         12 | 0 0 | 1
 
-  $ bopkit simu clock_divider2.bop -num-cycles 25
+  $ bopkit simu clock_divider2.bop --num-cycles 25
      Cycle | | s
          0 | | 0
          1 | | 0

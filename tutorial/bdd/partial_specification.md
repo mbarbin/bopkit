@@ -22,7 +22,7 @@ remaining of the specification is interpreted as unspecified as well.
 Let's synthesize the circuit from this partial specification:
 
 ```sh
-$ bopkit bdd synthesize -AD 4 -WL 7 -f starred.txt
+$ bopkit bdd synthesize --AD 4 --WL 7 -f starred.txt
 // Block synthesized by bopkit from "starred.txt"
 // Gate count: [105|8|6] (5.714 %)
 
@@ -53,25 +53,66 @@ This time we'll use a testing program to checks the result of the circuit.
 That's what `bopkit bdd checker` is about!
 
 ```sh
-$ bopkit bdd checker -help
-external block
+$ bopkit bdd checker --help=plain
+NAME
+       bopkit-bdd-checker - external block
 
-  bopkit bdd checker
+SYNOPSIS
+       bopkit bdd checker [OPTION]…
 
-This block takes in a BDD truth table, an address and a result. It checks
-whether the result agrees with the truth table, and if not raises an
-exception. It is meant to be used as unit-test in a bopkit simulation.
 
-=== flags ===
 
-  -AD N                      . number of bits of addresses
-  -WL N                      . number of bits of output words
-  -f FILE                    . the file to load
-  [-c N]                     . stop at cycle N
-  [-ni]                      . block will read no input
-  [-no]                      . block will print no output
-  [-verbose]                 . be more verbose
-  [-help], -?                . print this help text and exit
+       This block takes in a BDD truth table, an address and a result. It
+       checks whether the result agrees with the truth table, and if not
+       raises an exception. It is meant to be used as unit-test in a bopkit
+       simulation.
+
+
+
+OPTIONS
+       --AD=N (required)
+           number of bits of addresses.
+
+       -c N
+           stop at cycle N.
+
+       -f FILE (required)
+           the file to load.
+
+       --no-input, --ni
+           block will read no input.
+
+       --no-output, --no
+           block will print no output.
+
+       --verbose
+           be more verbose.
+
+       --WL=N (required)
+           number of bits of output words.
+
+COMMON OPTIONS
+       --help[=FMT] (default=auto)
+           Show this help in format FMT. The value FMT must be one of auto,
+           pager, groff or plain. With auto, the format is pager or plain
+           whenever the TERM env var is dumb or undefined.
+
+       --version
+           Show version information.
+
+EXIT STATUS
+       bopkit bdd checker exits with:
+
+       0   on success.
+
+       123 on indiscriminate errors reported on standard error.
+
+       124 on command line parsing errors.
+
+       125 on unexpected internal errors (bugs).
+
+SEE ALSO
+       bopkit(1)
 
 ```
 
@@ -88,14 +129,14 @@ The first 4 bits will be the address of that first line (zero), followed by the
 7 bits of the word we'd like to check:
 
 ```sh
-$ echo '00001011101' | bopkit bdd checker -AD 4 -WL 7 -f starred.txt
+$ echo '00001011101' | bopkit bdd checker --AD 4 --WL 7 -f starred.txt
 
 ```
 
 Now let's try with an invalid input (an invalid bit at the very last position):
 
 ```sh
-$ echo '00001011100' | bopkit bdd checker -AD 4 -WL 7 -f starred.txt
+$ echo '00001011100' | bopkit bdd checker --AD 4 --WL 7 -f starred.txt
 Conflict for bdd at addr '0000' (0)
 Expected = '101*1*1'
 Received = '1011100'
@@ -137,7 +178,7 @@ where
   // Here we check the result of both blocks with the bdd checker. It would
   // raise an exception and stops the simulation in case of an invalid result.
   for i = 1 to 2
-    external("bopkit bdd checker -AD %{AD} -WL %{WL} -f %{FILENAME}",
+    external("bopkit bdd checker --AD %{AD} --WL %{WL} -f %{FILENAME}",
       a:[AD],
       block[i]:[WL]);
   end for;
@@ -148,7 +189,7 @@ And now we just have to let the simulation run through a complete input cycle to
 check it all.
 
 ```sh
-$ bopkit simu check_starred.bop -num-counter-cycle 1
+$ bopkit simu check_starred.bop --num-counter-cycle 1
    Cycle | a[0] a[1] a[2] a[3] |
        0 | 0 0 0 0 |
        1 | 1 0 0 0 |

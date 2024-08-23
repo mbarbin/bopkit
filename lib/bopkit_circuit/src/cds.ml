@@ -5,14 +5,14 @@ let sexp_of_t t =
     (Array.mapi t ~f:(fun i gate -> [%sexp (i : int), (gate : Gate.t)]) |> Array.to_list)
 ;;
 
-let topological_sort ~error_log (cds : t) =
+let topological_sort (cds : t) =
   let ncds = Array.length cds in
   (* [order] is the new order of gates. For example, [order.(0)] is the index of
      the first node. [order_inv] is the reciprocal bijection. *)
   let order = Array.create ~len:ncds 0 in
   let order_inv = Array.create ~len:ncds 0 in
   let visited = Array.create ~len:ncds false in
-  let no = ref (pred ncds) in
+  let no = ref (Int.pred ncds) in
   (* Run a dfs traversal and set [order] and [order_inf]. *)
   let rec dfs n =
     visited.(n) <- true;
@@ -21,11 +21,11 @@ let topological_sort ~error_log (cds : t) =
         if not visited.(gate_index) then dfs gate_index));
     order.(!no) <- n;
     order_inv.(n) <- !no;
-    decr no
+    Int.decr no
   in
   (* Using [order] and [order_inv], update the output_wires of a given gate. *)
   let update_output_wires (gate : Gate.t) =
-    for i = 0 to pred (Array.length gate.output_wires) do
+    for i = 0 to Int.pred (Array.length gate.output_wires) do
       gate.output_wires.(i)
       <- List.map gate.output_wires.(i) ~f:(fun { gate_index = n; input_index = c } ->
            { Output_wire.gate_index = order_inv.(n); input_index = c })
@@ -43,7 +43,7 @@ let topological_sort ~error_log (cds : t) =
   let reorder_cds () =
     Array.init ncds ~f:(fun i -> update_output_wires cds.(order.(i)))
   in
-  Error_log.debug error_log [ Pp.text "Running topological sort of circuit" ];
+  Err.debug [ Pp.text "Running topological sort of circuit" ];
   (match cds.(0).gate_kind with
    | Input -> ()
    | gate_kind ->
@@ -52,11 +52,11 @@ let topological_sort ~error_log (cds : t) =
          "Unexpected gate_kind at index 0, expected input gate"
          , [%here]
          , { gate_kind : Gate_kind.t }]);
-  for i = pred ncds downto 0 do
+  for i = Int.pred ncds downto 0 do
     if not visited.(i) then dfs i
   done;
   let newcds = reorder_cds () in
-  for i = 0 to pred ncds do
+  for i = 0 to Int.pred ncds do
     cds.(i) <- newcds.(i)
   done
 ;;
@@ -120,7 +120,7 @@ let split_registers (cds : t) =
          ; output = [||]
          ; output_wires = [||]
          };
-      incr new_node_no
+      Int.incr new_node_no
     | _ -> new_cds.(i) <- gate);
   new_cds
 ;;

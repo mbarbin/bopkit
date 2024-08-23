@@ -6,8 +6,4 @@
     instantiation of the circuit, from the final CDS data structure obtained
     from the initial design. *)
 
-val emit_c_code
-  :  circuit:Bopkit_circuit.Circuit.t
-  -> error_log:Error_log.t
-  -> to_:Out_channel.t
-  -> unit
+val emit_c_code : circuit:Bopkit_circuit.Circuit.t -> to_:Out_channel.t -> unit

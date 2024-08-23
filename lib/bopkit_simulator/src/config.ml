@@ -20,51 +20,56 @@ type t =
 
 let default = { num_cycles = Unbounded; counter_input = false; output_kind = Show_input }
 
-let param =
+let arg =
   let open Command.Let_syntax in
-  let%map_open num_cycles =
-    let num_cycles =
-      flag
-        "num-cycles"
-        ~aliases:[ "n" ]
-        (optional int)
-        ~doc:"N number of cycles to run (default: infinity)"
+  let%map_open.Command num_cycles =
+    let%map num_cycles =
+      Arg.named_opt
+        [ "num-cycles"; "n" ]
+        Param.int
+        ~doc:"number of cycles to run (default: infinity)"
       >>| Option.map ~f:(fun i -> Num_cycles.Cycles i)
     and num_counter_cycles =
-      flag
-        "num-counter-cycles"
-        (optional int)
-        ~doc:"N number of counter cycles to run. Enforces: -counter-input"
+      Arg.named_opt
+        [ "num-counter-cycles" ]
+        Param.int
+        ~doc:"number of counter cycles to run. Enforces: --counter-input"
       >>| Option.map ~f:(fun i -> Num_cycles.Counter_cycles i)
     in
-    choose_one
-      [ num_cycles; num_counter_cycles ]
-      ~if_nothing_chosen:(Default_to Unbounded)
-  and counter_input = flag "counter-input" no_arg ~doc:" use a counter as circuit inputs"
+    match List.filter_opt [ num_cycles; num_counter_cycles ] with
+    | [] -> Num_cycles.Unbounded
+    | [ a ] -> a
+    | _ :: _ :: _ ->
+      Err.raise
+        ~exit_code:Cli_error
+        [ Pp.text "Cannot specify both --num-cycles and --num-counter-cycles" ]
+  and counter_input = Arg.flag [ "counter-input" ] ~doc:"use a counter as circuit inputs"
   and output_kind =
-    let output_only_on_change =
-      if%map flag "output-only-on-change" no_arg ~doc:" only print output when it changes"
+    let%map output_only_on_change =
+      if%map Arg.flag [ "output-only-on-change" ] ~doc:"only print output when it changes"
       then Some (Output_kind.Default { output_only_on_change = true })
       else None
     and output_only =
-      if%map
-        flag "output-only" ~aliases:[ "-o" ] no_arg ~doc:" only show output on stdout"
+      if%map Arg.flag [ "output-only"; "o" ] ~doc:"only show output on stdout"
       then Some (Output_kind.Default { output_only_on_change = false })
       else None
     and show_input =
       if%map
-        flag "show-input" no_arg ~doc:" also show input on stdout (this is the default)"
+        Arg.flag [ "show-input" ] ~doc:"also show input on stdout (this is the default)"
       then Some Output_kind.Show_input
       else None
     and external_block =
-      if%map
-        flag "external-block" ~aliases:[ "p" ] no_arg ~doc:" behave as an external-block"
+      if%map Arg.flag [ "external-block"; "p" ] ~doc:"behave as an external-block"
       then Some Output_kind.As_external_block
       else None
     in
-    choose_one
-      [ output_only_on_change; show_input; output_only; external_block ]
-      ~if_nothing_chosen:(Default_to default.output_kind)
+    match
+      List.filter_opt [ output_only_on_change; show_input; output_only; external_block ]
+    with
+    | [] -> default.output_kind
+    | [ a ] -> a
+    | _ :: _ :: _ ->
+      Err.raise ~exit_code:Cli_error [ Pp.text "Cannot specify multiple output kinds" ]
   in
   { num_cycles
   ; counter_input =

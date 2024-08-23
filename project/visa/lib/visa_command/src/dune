@@ -8,15 +8,28 @@
   -warn-error
   +a
   -open
+  Base
+  -open
+  Err0
+  -open
+  Err0_handler
+  -open
   Fpath_base
   -open
-  Core)
+  Stdio
+  -open
+  Commandlang)
  (libraries
   auto-format
+  base
+  commandlang
   core
+  err0
+  err0-handler
   fpath
   fpath-base
   seven_segment_display
+  stdio
   visa
   visa_assembler
   visa_pp

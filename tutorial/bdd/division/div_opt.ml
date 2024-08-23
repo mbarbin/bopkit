@@ -20,15 +20,14 @@ let main n =
     ~output_arity:Output_buffer
     ~f:(fun ~input:(a, b) ~output ->
       if !t >= num_addr
-      then exit 0
+      then Stdlib.exit 0
       else (
-        incr t;
+        Int.incr t;
         div_opt_fct a b ~output))
 ;;
 
 let () =
   Bopkit_block.run
-    (let open Command.Let_syntax in
-     let%map_open n = flag "N" (required int) ~doc:" architecture" in
+    (let%map_open.Command n = Arg.named [ "N" ] Param.int ~doc:"architecture" in
      Bopkit_block.create ~name:"div_opt" ~main:(main n) ())
 ;;

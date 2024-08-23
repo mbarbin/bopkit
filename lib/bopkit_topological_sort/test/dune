@@ -1,5 +1,6 @@
 (library
  (name bopkit_topological_sort_test)
+ (public_name bopkit-tests.bopkit_topological_sort_test)
  (flags
   :standard
   -w
@@ -9,8 +10,17 @@
   -open
   Base
   -open
-  Expect_test_helpers)
- (libraries base bopkit_topological_sort expect-test-helpers)
+  Err0
+  -open
+  Err0_handler
+  -open
+  Expect_test_helpers_base)
+ (libraries
+  base
+  bopkit_topological_sort
+  err0
+  err0-handler
+  expect_test_helpers_core.expect_test_helpers_base)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

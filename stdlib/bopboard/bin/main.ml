@@ -1,1 +1,1 @@
-let () = Command_unix_for_opam.run Bopboard.main
+let () = Commandlang_to_cmdliner.run Bopboard.main ~name:"bopboard" ~version:"%%VERSION%%"

@@ -15,7 +15,6 @@
      process
      fmt
      gen-dune
-     --
      "\%{bin:bopkit}"
      process
      fmt

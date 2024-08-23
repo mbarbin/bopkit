@@ -9,11 +9,9 @@ let expand_indexes (indexes : Expanded_netlist.index list) ~f =
   Interval.expand_list intervals ~f |> List.map ~f:(fun li -> String.concat li)
 ;;
 
-let eval_index (index : Netlist.index) ~loc ~error_log ~parameters
-  : Expanded_netlist.index
-  =
+let eval_index (index : Netlist.index) ~loc ~parameters : Expanded_netlist.index =
   let eval_expr expr =
-    Arithmetic_expression.eval expr ~parameters |> Or_eval_error.ok_exn ~error_log ~loc
+    Arithmetic_expression.eval expr ~parameters |> Or_eval_error.ok_exn ~loc
   in
   match index with
   | Index e -> Index (eval_expr e)
@@ -23,15 +21,11 @@ let eval_index (index : Netlist.index) ~loc ~error_log ~parameters
     if e < 0 then Interval (-e - 1, 0) else Interval (0, e - 1)
 ;;
 
-let eval_variable (variable : Netlist.variable) ~error_log ~parameters
-  : Expanded_netlist.variable
-  =
+let eval_variable (variable : Netlist.variable) ~parameters : Expanded_netlist.variable =
   match variable with
   | Signal { name } -> Signal { name }
   | Bus { loc; name; indexes } ->
-    let indexes =
-      List.map indexes ~f:(fun index -> eval_index index ~loc ~error_log ~parameters)
-    in
+    let indexes = List.map indexes ~f:(fun index -> eval_index index ~loc ~parameters) in
     Bus { loc; name; indexes }
 ;;
 
@@ -44,6 +38,6 @@ let expand_const_variable (variable : Expanded_netlist.variable) =
     List.map suffixes ~f:(fun suffix -> name ^ suffix)
 ;;
 
-let expand_variable (variable : Netlist.variable) ~error_log ~parameters =
-  expand_const_variable (eval_variable variable ~error_log ~parameters)
+let expand_variable (variable : Netlist.variable) ~parameters =
+  expand_const_variable (eval_variable variable ~parameters)
 ;;

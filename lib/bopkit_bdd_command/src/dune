@@ -8,10 +8,26 @@
   -warn-error
   +a
   -open
+  Base
+  -open
   Fpath_base
   -open
-  Core)
- (libraries bit_utils bopkit_bdd bopkit_block core fpath fpath-base pp)
+  Stdio
+  -open
+  Or_error.Let_syntax
+  -open
+  Commandlang)
+ (libraries
+  base
+  bit_utils
+  bopkit_bdd
+  bopkit_block
+  commandlang
+  core
+  fpath
+  fpath-base
+  pp
+  stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

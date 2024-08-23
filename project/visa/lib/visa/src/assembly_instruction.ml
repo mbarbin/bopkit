@@ -17,13 +17,13 @@ module Argument = struct
   [@@deriving equal, sexp_of]
 
   let to_string = function
-    | Value { value } -> sprintf "#%d" value
+    | Value { value } -> Printf.sprintf "#%d" value
     | Address { address } -> Address.to_string address
     | Constant { constant_name } -> Constant_name.to_string constant_name
-    | Label { label } -> sprintf "@%s" (Label.to_string label)
+    | Label { label } -> Printf.sprintf "@%s" (Label.to_string label)
     | Register { register_name } -> Register_name.to_string register_name
     | Parameter { parameter_name } ->
-      sprintf "$%s" (Parameter_name.to_string parameter_name)
+      Printf.sprintf "$%s" (Parameter_name.to_string parameter_name)
   ;;
 end
 

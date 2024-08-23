@@ -1,5 +1,3 @@
-open! Import
-
 (** Topological sort for Blocks. *)
 
-val sort : Bopkit.Netlist.block list -> error_log:Error_log.t -> Bopkit.Netlist.block list
+val sort : Bopkit.Netlist.block list -> Bopkit.Netlist.block list

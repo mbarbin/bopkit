@@ -42,7 +42,7 @@ To run through more inputs, you may pipe on stdin a program that generates valid
 input lines. You can do so using the `bopkit counter` command.
 
 ```sh
-$ bopkit counter -N 2 -ni -c 4
+$ bopkit counter -N 2 --ni -c 4
 00
 10
 01
@@ -53,7 +53,7 @@ This invocation means : print the output of a counter on 2 bits, for 4 cycles,
 and then stops. You may connect these applications using:
 
 ```sh
-$ bopkit counter -N 2 -ni -c 4 | bopkit simu hello.bop
+$ bopkit counter -N 2 --ni -c 4 | bopkit simu hello.bop
    Cycle | a b | s
        0 | 0 0 | 0
        1 | 1 0 | 0
@@ -67,7 +67,7 @@ Testing circuits with a counter is common, so there's a built-in option in `bopk
 simu` that will do the equivalent of this. Try with the following:
 
 ```sh
-$ bopkit simu hello.bop -n 8 -counter-input
+$ bopkit simu hello.bop -n 8 --counter-input
    Cycle | a b | s
        0 | 0 0 | 0
        1 | 1 0 | 0
@@ -114,7 +114,7 @@ counter rounds you want to simulate, rather than the actual number of cycles.
 Let's try that on `hello-stdlib.bop`:
 
 ```sh
-$ bopkit simu hello-stdlib.bop -num-counter-cycles 2
+$ bopkit simu hello-stdlib.bop --num-counter-cycles 2
    Cycle | a b c | s
        0 | 0 0 0 | 0
        1 | 1 0 0 | 0

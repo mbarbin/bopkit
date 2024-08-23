@@ -2,8 +2,8 @@ let expected_octets = 8
 
 let set_binary_value_in_array ~dst ~dst_pos ~value ~len =
   let cv = ref value in
-  for i = 0 to pred len do
-    let rem = !cv mod 2 in
+  for i = 0 to Int.pred len do
+    let rem = !cv % 2 in
     dst.(dst_pos + i) <- rem;
     cv := !cv / 2
   done
@@ -19,9 +19,9 @@ let blit_time (t : t) (tm : Core_unix.tm) =
   set tm.tm_sec 0;
   set tm.tm_min 8;
   set tm.tm_hour 16;
-  set (pred tm.tm_mday) 32;
+  set (Int.pred tm.tm_mday) 32;
   set tm.tm_mon 40;
-  set (tm.tm_year mod 100) 48
+  set (tm.tm_year % 100) 48
 ;;
 
 let print (t : t) =
@@ -31,15 +31,13 @@ let print (t : t) =
 ;;
 
 let main =
-  Command.basic
+  Command.make
     ~summary:"generate digital-calendar raw-input"
-    (let open Command.Let_syntax in
-     let%map_open () = return () in
-     fun () ->
-       let t = Array.create ~len:(expected_octets * 8) 0 in
-       while true do
-         Core_thread.delay 0.2;
-         blit_time t (now ());
-         print t
-       done)
+    (let%map_open.Command () = Arg.return () in
+     let t = Array.create ~len:(expected_octets * 8) 0 in
+     while true do
+       Core_thread.delay 0.2;
+       blit_time t (now ());
+       print t
+     done)
 ;;

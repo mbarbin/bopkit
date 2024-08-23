@@ -10,4 +10,4 @@ val create : config:Config.t -> expected_input_length:int -> t
 
 (** This function is called at each cycle to mutate the input of the circuit. It
     raises [End_of_file] if there are no more chars to read on [stdin]. *)
-val blit_input : t -> dst:bool array -> error_log:Error_log.t -> unit
+val blit_input : t -> dst:bool array -> unit

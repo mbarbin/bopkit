@@ -8,10 +8,21 @@
   -warn-error
   +a
   -open
+  Base
+  -open
+  Err0
+  -open
+  Err0_handler
+  -open
   Fpath_base
   -open
-  Core)
+  Stdio
+  -open
+  Or_error.Let_syntax
+  -open
+  Commandlang)
  (libraries
+  base
   bopkit_bdd_command
   bopkit_compiler
   bopkit_counter
@@ -23,10 +34,14 @@
   bopkit_sleeper
   bopkit_syntax
   bopkit_to_c
+  commandlang
   core
+  err0
+  err0-handler
   fpath
   fpath-base
-  seven_segment_display)
+  seven_segment_display
+  stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

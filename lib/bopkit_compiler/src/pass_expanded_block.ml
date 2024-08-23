@@ -1,18 +1,16 @@
-let using_any ~error_log ~loc =
-  Error_log.raise
-    error_log
+let using_any ~loc =
+  Err.raise
     ~loc
     [ Pp.text "Do not use '_' as a ident for a block, input or output."
     ; Pp.text "It is reserved for unused variables."
     ]
 ;;
 
-let unknown_block_name ~error_log ~loc ~name ~candidates =
-  Error_log.raise
-    error_log
+let unknown_block_name ~loc ~name ~candidates =
+  Err.raise
     ~loc
     [ Pp.textf "Unknown block name '%s'." name ]
-    ~hints:(Error_log.did_you_mean name ~candidates)
+    ~hints:(Err.did_you_mean name ~candidates)
 ;;
 
 exception Non_distinct of string
@@ -110,7 +108,6 @@ let detect_cycle_in_block (fd : Expanded_block.t) =
 
 let create_block
   (fd : Bopkit.Expanded_netlist.block)
-  ~error_log
   ~(primitives : Primitive.env)
   ~(env : Expanded_block.env)
   =
@@ -122,17 +119,15 @@ let create_block
     , fd.unused_variables.expanded
     , fd.nodes )
   in
-  if String.equal name "_" then using_any ~error_log ~loc;
+  if String.equal name "_" then using_any ~loc;
   if Map.mem primitives name
   then
-    Error_log.raise
-      error_log
+    Err.raise
       ~loc
       [ Pp.textf "Invalid block name. '%s' is a primitive and cannot be redefined." name ]
   else if Map.mem env name
   then
-    Error_log.raise
-      error_log
+    Err.raise
       ~loc
       [ Pp.textf "Duplicated block name '%s'. A block with this name already exists." name
       ]
@@ -142,10 +137,9 @@ let create_block
         ( stringSet_of_list_distinct [ "_" ] entree_list
         , stringSet_of_list_distinct [ "_" ] sortie_list )
       with
-      | Non_distinct s when String.equal s "_" -> using_any ~error_log ~loc
+      | Non_distinct s when String.equal s "_" -> using_any ~loc
       | Non_distinct s ->
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc
           [ Pp.textf
               "Duplicated block variable '%s'. Input/Output names should be unique."
@@ -156,14 +150,12 @@ let create_block
       match stringSet_of_list_distinct [ "_" ] unused with
       | unused -> Set.add unused "_"
       | exception Non_distinct s when String.equal s "_" ->
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc
           [ Pp.text "Do not declare '_' as an unused variable. It is implicit." ]
           ~hints:[ Pp.text "Simply remove '_' from the unused variables declaration." ]
       | exception Non_distinct s ->
-        Error_log.raise
-          error_log
+        Err.raise
           ~loc
           [ Pp.textf
               "Duplicated block unused variable '%s'. Unused variable names should be \
@@ -187,8 +179,7 @@ let create_block
       , List.fold_left s_l ~init:set_s ~f:(fun set s ->
           if Set.mem set s && String.( <> ) s "_"
           then
-            Error_log.raise
-              error_log
+            Err.raise
               ~loc
               [ Pp.textf
                   "In block '%s': conflicting connections of block variable '%s'."
@@ -226,8 +217,7 @@ let create_block
       then (
         if Set.mem unused_decl x
         then
-          Error_log.error
-            error_log
+          Err.error
             ~loc
             [ Pp.textf
                 "Block variable '%s' belongs to the block unused variables but it is \
@@ -236,11 +226,10 @@ let create_block
             ]
             ~hints:
               (Pp.text "Remove it from the unused variables declaration."
-               :: Error_log.did_you_mean x ~candidates:actually_unused_variables))
+               :: Err.did_you_mean x ~candidates:actually_unused_variables))
       else if not (Set.mem unused_decl x || Char.equal x.[0] '?')
       then
-        Error_log.warning
-          error_log
+        Err.warning
           ~loc
           [ Pp.textf "Unused block variable '%s'." x ]
           ~hints:
@@ -252,15 +241,13 @@ let create_block
     and variable_non_assignee x =
       if not (Set.mem sorties_appel x)
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc
           [ Pp.textf "Block variable '%s' is not assigned to any node output." x ]
     and entree_modifiee x =
       if Set.mem sorties_appel x
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc
           [ Pp.textf
               "In block '%s', input variable '%s' is connected to a node output. Block \
@@ -289,8 +276,7 @@ let create_block
          && (not (Set.mem sorties_appel unused_var))
          && not (Set.mem ensemble_entree unused_var)
       then
-        Error_log.error
-          error_log
+        Err.error
           ~loc
           [ Pp.textf
               "In block '%s', variable '%s' is declared as unused but is actually \
@@ -300,7 +286,7 @@ let create_block
           ]
           ~hints:
             (Pp.text "Remove it from the unused variables declaration."
-             :: Error_log.did_you_mean unused_var ~candidates:actually_unused_variables));
+             :: Err.did_you_mean unused_var ~candidates:actually_unused_variables));
     (* Creation du corps en verifiant les arites *)
     let corps =
       (* Le corps d'une fonction est par convention la liste des appels. *)
@@ -326,8 +312,8 @@ let create_block
                       ; name = bloc_name
                       ; method_name
                       ; arguments = string_args
-                      ; protocol_prefix = Set_once.create ()
-                      ; index = Set_once.create ()
+                      ; protocol_prefix = Core.Set_once.create ()
+                      ; index = Core.Set_once.create ()
                       }
                 }
           ; inputs = ent
@@ -339,8 +325,7 @@ let create_block
            | Some { gate_kind = prim; input_width = e; output_width = s } ->
              if e <> List.length ent
              then
-               Error_log.error
-                 error_log
+               Err.error
                  ~loc
                  [ Pp.textf
                      "The primitive '%s' expects %d inputs but is applied to %d \
@@ -351,8 +336,7 @@ let create_block
                  ]
              else if s <> List.length sor
              then
-               Error_log.error
-                 error_log
+               Err.error
                  ~loc
                  [ Pp.textf
                      "The primitive '%s' has %d outputs but is connected to %d variables."
@@ -367,7 +351,6 @@ let create_block
              (match Map.find env call_name with
               | None ->
                 unknown_block_name
-                  ~error_log
                   ~loc
                   ~name:call_name
                   ~candidates:(Map.keys primitives @ Map.keys env)
@@ -376,8 +359,7 @@ let create_block
                 let output_width = Array.length output_names in
                 if input_width <> List.length ent
                 then
-                  Error_log.error
-                    error_log
+                  Err.error
                     ~loc
                     [ Pp.textf
                         "Block '%s' expects %d inputs but is applied to %d variables."
@@ -387,8 +369,7 @@ let create_block
                     ]
                 else if output_width <> List.length sor
                 then
-                  Error_log.error
-                    error_log
+                  Err.error
                     ~loc
                     [ Pp.textf
                         "Block '%s' has %d outputs but is connected to %d variables."
@@ -411,12 +392,12 @@ let create_block
       })
 ;;
 
-let create_env list ~error_log ~primitives =
-  Error_log.debug error_log [ Pp.text "Analyzing circuit's blocks." ];
+let create_env list ~primitives =
+  Err.debug [ Pp.text "Analyzing circuit's blocks." ];
   List.fold_left
     list
     ~init:(Map.empty (module String))
     ~f:(fun env fd ->
-      let t = create_block fd ~error_log ~primitives ~env in
+      let t = create_block fd ~primitives ~env in
       Map.set env ~key:t.name ~data:t)
 ;;

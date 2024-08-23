@@ -9,9 +9,9 @@
 #define NumberOfPrograms 30
 #define FilesPrefix "test/ar4-"
 
-external controller "./controller.exe -AR %{AR}"
+external controller "./controller.exe --AR %{AR}"
 
-external disk_interface "./disk_interface.exe -AR %{AR} -DEBUG %{DEBUG} -num-programs %{NumberOfPrograms} -files-prefix %{FilesPrefix}"
+external disk_interface "./disk_interface.exe --AR %{AR} --DEBUG %{DEBUG} --num-programs %{NumberOfPrograms} --files-prefix %{FilesPrefix}"
 
 Main() = ()
 where

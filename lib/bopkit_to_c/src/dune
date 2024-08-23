@@ -1,12 +1,21 @@
 (library
  (name bopkit_to_c)
  (public_name bopkit.to_c)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Err0)
  (libraries
   base
   bopkit_circuit
   bopkit_compiler
-  core_unix.command_unix
+  err0
   parsing-utils
   pp
   pp-extended)

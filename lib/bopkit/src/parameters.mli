@@ -12,4 +12,4 @@ val keys : t -> string list
 
 (** Defining command line parameters that can be used to supply overriding
     values for parameters contained in a circuit. *)
-val overrides : t Command.Param.t
+val overrides : t Command.Arg.t

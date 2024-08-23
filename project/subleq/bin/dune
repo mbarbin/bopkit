@@ -1,5 +1,6 @@
 (executable
  (name main)
+ (package subleq)
  (public_name subleq)
- (libraries command-unix-for-opam subleq_command)
+ (libraries commandlang-to-cmdliner subleq_command)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a))

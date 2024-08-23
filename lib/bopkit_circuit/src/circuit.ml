@@ -14,8 +14,8 @@ let verify_input_output_gate_count_exn t =
   let () =
     Array.iter t.cds ~f:(fun gate ->
       match gate.gate_kind with
-      | Input -> incr inputs
-      | Output -> incr outputs
+      | Input -> Int.incr inputs
+      | Output -> Int.incr outputs
       | _ -> ())
   in
   let inputs = !inputs
