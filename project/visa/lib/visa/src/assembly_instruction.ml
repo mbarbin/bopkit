@@ -30,7 +30,7 @@ end
 type t =
   { loc : Loc.t
   ; operation_kind : Operation_kind.t
-  ; arguments : Argument.t With_loc.t list
+  ; arguments : Argument.t Loc.Txt.t list
   }
 [@@deriving equal, sexp_of]
 
@@ -40,7 +40,7 @@ let to_string { loc = _; operation_kind; arguments } =
     | Macro_call { macro_name } -> Macro_name.to_string macro_name
     | Instruction { instruction_name } -> Instruction_name.to_string instruction_name
   in
-  let arguments = List.map arguments ~f:(fun t -> Argument.to_string t.symbol) in
+  let arguments = List.map arguments ~f:(fun t -> Argument.to_string t.txt) in
   match arguments with
   | [] -> operator
   | _ :: _ -> String.concat [ operator; String.concat arguments ~sep:", " ] ~sep:" "

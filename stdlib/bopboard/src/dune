@@ -12,12 +12,12 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
   bopkit_block
   bopkit_sites
-  commandlang
+  cmdlang
   core
   core_unix.core_thread
   core_unix.sys_unix

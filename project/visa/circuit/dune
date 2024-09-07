@@ -171,8 +171,8 @@
   -open
   Stdio
   -open
-  Commandlang)
- (libraries base bopkit_block commandlang core stdio unix threads)
+  Cmdlang)
+ (libraries base bopkit_block cmdlang core stdio unix threads)
  (preprocess
   (pps
    ppx_compare
@@ -186,6 +186,7 @@
    -check-doc-comments)))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   get_date.exe

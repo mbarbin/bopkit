@@ -132,7 +132,10 @@ monitor in tests.
   where
   end where;
   ================================: external-arity.bop
-  File "external-arity.bop", line 8, characters 16-16: syntax error.
+  File "external-arity.bop", line 8, characters 16-17:
+  8 |   out = $cal.add[2](a, b);
+                      ^
+  Error:  syntax error.
   ================================: external-call.bop
   #define N 4
   
@@ -209,7 +212,10 @@ monitor in tests.
     s = FoldLeft[N]<"And", "Map", "Id">(a:[N]);
   end where;
   ================================: include-dash-file.bop
-  File "include-dash-file.bop", line 2, characters 16-16: syntax error.
+  File "include-dash-file.bop", line 2, characters 16-17:
+  2 | #include <stdlib-file-with-dashes.bop>
+                      ^
+  Error:  syntax error.
   ================================: include.bop
   #include "user-file.bop"
   #include <distribution_file.bop>
@@ -296,7 +302,10 @@ monitor in tests.
               Gnd()))));
   end where;
   ================================: pipe-arity.bop
-  File "pipe-arity.bop", line 5, characters 12-12: syntax error.
+  File "pipe-arity.bop", line 5, characters 12-13:
+  5 |   out = pipe[2]("./external.exe", f);
+                  ^
+  Error:  syntax error.
   ================================: pipe.bop
   A(a, b) = out
   where

@@ -31,7 +31,7 @@ let%expect_test "loop pp" =
 let%expect_test "loop run" =
   let program = loop () in
   let config = Visa_simulator.Config.create ~sleep:false ~stop_after_n_outputs:20 () in
-  Err_handler.For_test.protect (fun () ->
+  Err.For_test.protect (fun () ->
     let visa_simulator = Visa_simulator.create ~config ~program in
     Visa_simulator.run visa_simulator |> Or_error.ok_exn);
   [%expect
@@ -130,7 +130,7 @@ let%expect_test "minus" =
     write R1, 1 |}];
   let run program =
     let config = Visa_simulator.Config.create ~sleep:false ~stop_after_n_outputs:2 () in
-    Err_handler.For_test.protect (fun () ->
+    Err.For_test.protect (fun () ->
       let visa_simulator = Visa_simulator.create ~config ~program in
       Visa_simulator.run visa_simulator |> Or_error.ok_exn)
   in
@@ -144,7 +144,7 @@ let%expect_test "minus" =
     {|
     0001000000000000000000000000000000000000000000000000000000000000
     0001000000000001000000000000000000000000000000000000000000000000 |}];
-  (Err_handler.For_test.protect
+  (Err.For_test.protect
    @@ fun () ->
    let executable_with_ocaml_macro =
      Visa_assembler.program_to_executable ~program:ocaml_macro

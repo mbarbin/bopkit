@@ -73,4 +73,4 @@ let gen_dune_cmd =
          Stdlib.print_endline (Sexp.to_string_hum sexp))))
 ;;
 
-let () = Commandlang_to_cmdliner.run gen_dune_cmd ~name:"gen-dune" ~version:"%%VERSION%%"
+let () = Cmdlang_to_cmdliner.run gen_dune_cmd ~name:"gen-dune" ~version:"%%VERSION%%"

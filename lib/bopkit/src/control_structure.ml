@@ -70,11 +70,12 @@ let expand t ~parameters ~f =
       Option.iter (Parameters.find parameters ~parameter_name:j) ~f:(fun previous_value ->
         Err.debug
           ~loc
-          [ Pp.textf
-              "This shadows the previous value of '%s' (=> %s)."
-              j
-              (Parameter.Value.to_syntax previous_value)
-          ]);
+          (lazy
+            [ Pp.textf
+                "This shadows the previous value of '%s' (=> %s)."
+                j
+                (Parameter.Value.to_syntax previous_value)
+            ]));
       let inf, sup =
         ( Arithmetic_expression.eval exp_inf ~parameters |> ok_eval_exn ~loc
         , Arithmetic_expression.eval exp_sup ~parameters |> ok_eval_exn ~loc )

@@ -17,6 +17,7 @@
  (copy ../../circuit/visa.bop visa.bop))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.txt)
@@ -25,6 +26,7 @@
   (glob_files *.bop)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   get_date.exe

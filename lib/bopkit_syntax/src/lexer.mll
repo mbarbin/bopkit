@@ -12,11 +12,11 @@ let one_line_comment = ['/'] ['/'] [^'\n']* newline
 rule read = parse
   | (['/'] ['*'] ([^'*'] | (['*'] [^'/']))*
        ['*'] ['/']) as comment
-    { Parsing_utils.Comments_state.add_comment ~lexbuf ~comment;
+    { Comments_parser.add_comment ~lexbuf ~comment;
       Syntax_util.new_lines ~lexbuf comment;
       read lexbuf
     }
-  | one_line_comment as comment                  { Parsing_utils.Comments_state.add_comment ~lexbuf ~comment;
+  | one_line_comment as comment                  { Comments_parser.add_comment ~lexbuf ~comment;
                                                    Lexing.new_line lexbuf;
 						   read lexbuf }
   | newline                                      { Lexing.new_line lexbuf;

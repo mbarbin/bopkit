@@ -40,7 +40,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.11))
+   (>= 0.0.12))
   (base
    (and
     (>= v0.17)
@@ -49,12 +49,14 @@
    (and
     (>= v0.17)
     (< v0.18)))
+  (cmdlang
+   (>= 0.0.4))
+  (cmdlang-to-cmdliner
+   (>= 0.0.4))
   (cmdliner
    (= 1.3.0))
-  (commandlang
-   (>= 0.0.2))
-  (commandlang-to-cmdliner
-   (>= 0.0.2))
+  (comments-parser
+   (>= 0.2.0))
   (core
    (and
     (>= v0.17)
@@ -65,24 +67,24 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err0
-   (>= 0.0.2))
-  (err0-handler
-   (>= 0.0.2))
+  (err
+   (>= 0.0.4))
+  (err-cli
+   (>= 0.0.4))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.0.9))
+   (>= 0.2.0))
   (graphics
    (>= 5.1.2))
-  (loc0
-   (>= 0.1.0))
+  (loc
+   (>= 0.2.0))
   (mdx
    (>= 2.4))
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.0.8))
+   (>= 0.2.0))
   (pp
    (>= 1.2.0))
   (pp-extended
@@ -105,11 +107,6 @@
     (< v0.18)))
   (ppx_here
    (and
-    (>= v0.17)
-    (< v0.18)))
-  (ppx_js_style
-   (and
-    :dev
     (>= v0.17)
     (< v0.18)))
   (ppx_let
@@ -150,7 +147,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.11))
+   (>= 0.0.12))
   (base
    (and
     (>= v0.17)
@@ -161,12 +158,12 @@
     (< v0.18)))
   (bopkit
    (= :version))
+  (cmdlang
+   (>= 0.0.4))
+  (cmdlang-to-cmdliner
+   (>= 0.0.4))
   (cmdliner
    (= 1.3.0))
-  (commandlang
-   (>= 0.0.2))
-  (commandlang-to-cmdliner
-   (>= 0.0.2))
   (core
    (and
     (>= v0.17)
@@ -177,24 +174,24 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err0
-   (>= 0.0.2))
-  (err0-handler
-   (>= 0.0.2))
+  (err
+   (>= 0.0.4))
+  (err-cli
+   (>= 0.0.4))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.0.9))
+   (>= 0.2.0))
   (graphics
    (>= 5.1.2))
-  (loc0
-   (>= 0.1.0))
+  (loc
+   (>= 0.2.0))
   (mdx
    (>= 2.4))
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.0.8))
+   (>= 0.2.0))
   (pp
    (>= 1.2.0))
   (pp-extended
@@ -217,11 +214,6 @@
     (< v0.18)))
   (ppx_here
    (and
-    (>= v0.17)
-    (< v0.18)))
-  (ppx_js_style
-   (and
-    :dev
     (>= v0.17)
     (< v0.18)))
   (ppx_let
@@ -258,7 +250,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.11))
+   (>= 0.0.12))
   (base
    (and
     (>= v0.17)
@@ -269,12 +261,12 @@
     (< v0.18)))
   (bopkit
    (= :version))
+  (cmdlang
+   (>= 0.0.4))
+  (cmdlang-to-cmdliner
+   (>= 0.0.4))
   (cmdliner
    (= 1.3.0))
-  (commandlang
-   (>= 0.0.2))
-  (commandlang-to-cmdliner
-   (>= 0.0.2))
   (core
    (and
     (>= v0.17)
@@ -285,24 +277,24 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err0
-   (>= 0.0.2))
-  (err0-handler
-   (>= 0.0.2))
+  (err
+   (>= 0.0.4))
+  (err-cli
+   (>= 0.0.4))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.0.9))
+   (>= 0.2.0))
   (graphics
    (>= 5.1.2))
-  (loc0
-   (>= 0.1.0))
+  (loc
+   (>= 0.2.0))
   (mdx
    (>= 2.4))
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.0.8))
+   (>= 0.2.0))
   (pp
    (>= 1.2.0))
   (pp-extended
@@ -325,11 +317,6 @@
     (< v0.18)))
   (ppx_here
    (and
-    (>= v0.17)
-    (< v0.18)))
-  (ppx_js_style
-   (and
-    :dev
     (>= v0.17)
     (< v0.18)))
   (ppx_let
@@ -359,6 +346,10 @@
  (depends
   (ocaml
    (>= 5.2))
+  (ocamlformat
+   (and
+    :with-dev-setup
+    (= 0.26.2)))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
@@ -366,7 +357,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.11))
+   (>= 0.0.12))
   (base
    (and
     (>= v0.17)
@@ -375,12 +366,14 @@
    (and
     (>= v0.17)
     (< v0.18)))
+  (cmdlang
+   (>= 0.0.4))
+  (cmdlang-to-cmdliner
+   (>= 0.0.4))
   (cmdliner
    (= 1.3.0))
-  (commandlang
-   (>= 0.0.2))
-  (commandlang-to-cmdliner
-   (>= 0.0.2))
+  (comments-parser
+   (>= 0.2.0))
   (core
    (and
     (>= v0.17)
@@ -391,10 +384,10 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err0
-   (>= 0.0.2))
-  (err0-handler
-   (>= 0.0.2))
+  (err
+   (>= 0.0.4))
+  (err-cli
+   (>= 0.0.4))
   (expect_test_helpers_core
    (and
     (>= v0.17)
@@ -402,17 +395,17 @@
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.0.9))
+   (>= 0.2.0))
   (graphics
    (>= 5.1.2))
-  (loc0
-   (>= 0.1.0))
+  (loc
+   (>= 0.2.0))
   (mdx
    (>= 2.4))
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.0.8))
+   (>= 0.2.0))
   (pp
    (>= 1.2.0))
   (pp-extended
@@ -443,7 +436,7 @@
     (< v0.18)))
   (ppx_js_style
    (and
-    :dev
+    :with-dev-setup
     (>= v0.17)
     (< v0.18)))
   (ppx_let

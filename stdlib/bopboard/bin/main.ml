@@ -1,1 +1,1 @@
-let () = Commandlang_to_cmdliner.run Bopboard.main ~name:"bopboard" ~version:"%%VERSION%%"
+let () = Cmdlang_to_cmdliner.run Bopboard.main ~name:"bopboard" ~version:"%%VERSION%%"

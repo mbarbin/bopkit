@@ -56,7 +56,7 @@ top_level_construct :
  | label=INT COLON
    { Visa.Program.Top_level_construct.Label_introduction
      { label =
-        With_loc.create $loc
+        Loc.Txt.create $loc
          (Visa.Label.of_string label)
      }
    }
@@ -67,14 +67,14 @@ top_level_construct :
 
 macro_name:
  | macro_name=IDENT
-   { With_loc.create $loc
+   { Loc.Txt.create $loc
       (Visa.Macro_name.of_string macro_name)
    }
 ;
 
 constant_name:
  | constant_name=IDENT
-   { With_loc.create $loc
+   { Loc.Txt.create $loc
       (Visa.Constant_name.of_string constant_name)
    }
 ;
@@ -115,7 +115,7 @@ arguments :
 ;
 
 argument:
- | argument_kind=argument_kind { With_loc.create $loc argument_kind }
+ | argument_kind=argument_kind { Loc.Txt.create $loc argument_kind }
 ;
 
 argument_kind :

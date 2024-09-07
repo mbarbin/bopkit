@@ -12,12 +12,12 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   ANSITerminal
   base
   bit_utils
-  commandlang
+  cmdlang
   core
   core_unix
   core_unix.core_thread

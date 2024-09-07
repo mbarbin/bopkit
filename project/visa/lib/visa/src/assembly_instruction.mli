@@ -21,7 +21,7 @@ end
 type t =
   { loc : Loc.t
   ; operation_kind : Operation_kind.t
-  ; arguments : Argument.t With_loc.t list
+  ; arguments : Argument.t Loc.Txt.t list
   }
 [@@deriving equal, sexp_of]
 

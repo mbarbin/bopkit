@@ -1,11 +1,11 @@
 type t = Bopkit_process.Program.t
 
-let pp_ident (ident : Bopkit_process.Ident.t With_loc.t) =
-  Pp.verbatim (ident.symbol |> Bopkit_process.Ident.to_string)
+let pp_ident (ident : Bopkit_process.Ident.t Loc.Txt.t) =
+  Pp.verbatim (ident.txt |> Bopkit_process.Ident.to_string)
 ;;
 
-let pp_operator_name (operator_name : Bopkit_process.Operator_name.t With_loc.t) =
-  Pp.verbatim (operator_name.symbol |> Bopkit_process.Operator_name.to_string)
+let pp_operator_name (operator_name : Bopkit_process.Operator_name.t Loc.Txt.t) =
+  Pp.verbatim (operator_name.txt |> Bopkit_process.Operator_name.to_string)
 ;;
 
 let pp_argument (argument : Bopkit_process.Program.Argument.t) =

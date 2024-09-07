@@ -2,13 +2,13 @@ module Assembly_construct : sig
   (** After the environment is built, the assembler only keep these top level
       constructs from the original program. *)
   type t = private
-    | Label_introduction of { label : Visa.Label.t With_loc.t }
+    | Label_introduction of { label : Visa.Label.t Loc.Txt.t }
     | Assembly_instruction of { assembly_instruction : Visa.Assembly_instruction.t }
 end
 
 module Macro_definition : sig
   type t = private
-    { macro_name : Visa.Macro_name.t With_loc.t
+    { macro_name : Visa.Macro_name.t Loc.Txt.t
     ; parameters : Visa.Parameter_name.t list
     ; body : Visa.Assembly_instruction.t list
     }
@@ -19,9 +19,9 @@ module Environment : sig
   (** All the definitions and labels of a program are gathered in an initial
       pass to build the environment. *)
   type t = private
-    { constants : Visa.Program.Constant_kind.t With_loc.t Map.M(Visa.Constant_name).t
+    { constants : Visa.Program.Constant_kind.t Loc.Txt.t Map.M(Visa.Constant_name).t
     ; macros : Macro_definition.t Map.M(Visa.Macro_name).t
-    ; labels : Visa.Label.t With_loc.t Map.M(Visa.Label).t
+    ; labels : Visa.Label.t Loc.Txt.t Map.M(Visa.Label).t
     }
   [@@deriving sexp_of]
 end
@@ -39,15 +39,15 @@ val build_environment
 val lookup_argument
   :  environment:Environment.t
   -> bindings:
-       (Visa.Parameter_name.t * Visa.Assembly_instruction.Argument.t With_loc.t) list
-  -> argument:Visa.Assembly_instruction.Argument.t With_loc.t
-  -> Visa.Assembly_instruction.Argument.t With_loc.t Or_located_error.t
+       (Visa.Parameter_name.t * Visa.Assembly_instruction.Argument.t Loc.Txt.t) list
+  -> argument:Visa.Assembly_instruction.Argument.t Loc.Txt.t
+  -> Visa.Assembly_instruction.Argument.t Loc.Txt.t Or_located_error.t
 
 val build_instruction
   :  environment:Environment.t
   -> loc:Loc.t
   -> instruction_name:Visa.Instruction_name.t
-  -> arguments:Visa.Assembly_instruction.Argument.t With_loc.t list
+  -> arguments:Visa.Assembly_instruction.Argument.t Loc.Txt.t list
   -> Visa.Label.t Visa.Instruction.t Or_located_error.t
 
 val program_to_executable_with_labels

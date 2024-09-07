@@ -6,14 +6,5 @@
 (library
  (name bopkit_process_syntax)
  (public_name bopkit.process-syntax)
- (flags
-  :standard
-  -w
-  +a-4-40-41-42-44-45-48-66
-  -warn-error
-  +a
-  -open
-  Core
-  -open
-  Loc0)
- (libraries bopkit_process core loc0 parsing-utils))
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
+ (libraries bopkit_process core loc parsing-utils))

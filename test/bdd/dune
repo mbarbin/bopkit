@@ -1,6 +1,7 @@
 (include dune.inc)
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)

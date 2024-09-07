@@ -7,7 +7,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"target file"
-     and () = Err_handler.set_config ()
+     and () = Err_cli.set_config ()
      and bopkit_compiler_config = Bopkit_compiler.Config.arg in
      let circuit =
        Bopkit_compiler.circuit_of_netlist ~path ~config:bopkit_compiler_config

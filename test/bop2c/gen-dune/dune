@@ -9,13 +9,13 @@
   -open
   Base
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   auto-format
   base
+  cmdlang
+  cmdlang-to-cmdliner
   cmdliner
-  commandlang
-  commandlang-to-cmdliner
   eio
   eio_main
   parsing-utils)

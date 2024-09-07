@@ -30,8 +30,7 @@ NAME
        bopkit-fmt-file - autoformat bopkit files
 
 SYNOPSIS
-       bopkit fmt file [--add-extra-blank-line] [--read-contents-from-stdin]
-       [OPTION]… FILE
+       bopkit fmt file [OPTION]… FILE
 
 
 
@@ -44,7 +43,7 @@ SYNOPSIS
 
 
 
-       If [-read-contents-from-stdin] is supplied, then the contents of the
+       If [--read-contents-from-stdin] is supplied, then the contents of the
        file is read from stdin. In this case the filename must still be
        supplied, and will be used for located error messages only.
 
@@ -74,8 +73,26 @@ OPTIONS
        --add-extra-blank-line
            add an extra blank line at the end.
 
+       --color=WHEN (absent=auto)
+           Colorize the output. WHEN must be one of 'auto', 'always' or
+           'never'.
+
+       -q, --quiet
+           Be quiet. Takes over v and --verbosity.
+
        --read-contents-from-stdin
            read contents from stdin rather than from the file.
+
+       -v, --verbose
+           Increase verbosity. Repeatable, but more than twice does not bring
+           more.
+
+       --verbosity=LEVEL
+           Be more or less verbose. Takes over v.. LEVEL must be one of
+           'quiet', 'error', 'warning', 'info' or 'debug'.
+
+       --warn-error
+           treat warnings as errors.
 
 COMMON OPTIONS
        --help[=FMT] (default=auto)

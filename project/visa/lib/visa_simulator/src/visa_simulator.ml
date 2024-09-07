@@ -52,7 +52,7 @@ type t =
 
 let create ~(config : Config.t) ~program =
   let environment, assembly_constructs = Visa_assembler.build_environment ~program in
-  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  let () = if Err.had_errors () then Err.exit Err.Exit_code.some_error in
   let code = Code.of_assembly_constructs ~assembly_constructs in
   let execution_stack = Execution_stack.create () in
   let memory = Memory.create () in
@@ -144,7 +144,7 @@ let execute_instruction t ~instruction =
 
 module Step_result = struct
   type t =
-    | Macro_call of { macro_name : Visa.Macro_name.t With_loc.t }
+    | Macro_call of { macro_name : Visa.Macro_name.t Loc.Txt.t }
     | Executed of
         { instruction : Visa.Label.t Visa.Instruction.t
         ; continue : bool
@@ -197,7 +197,7 @@ let step (t : t) =
         Or_error.error_s
           [%sexp
             "Invalid number of macro arguments"
-            , { macro_name : Visa.Macro_name.t With_loc.t
+            , { macro_name : Visa.Macro_name.t Loc.Txt.t
               ; expected = (List.length parameters : int)
               ; applied_to = (List.length arguments : int)
               }]
@@ -264,7 +264,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to execute"
-     and () = Err_handler.set_config ()
+     and () = Err_cli.set_config ()
      and config = Config.arg in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let visa_simulator = create ~config ~program in

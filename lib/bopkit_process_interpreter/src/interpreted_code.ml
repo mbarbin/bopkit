@@ -28,17 +28,17 @@ type t =
   }
 [@@deriving sexp_of]
 
-let unknown_operator_error ~(operator_name : Bopkit_process.Operator_name.t With_loc.t) =
+let unknown_operator_error ~(operator_name : Bopkit_process.Operator_name.t Loc.Txt.t) =
   Err.error
     ~loc:operator_name.loc
     [ Pp.textf
         "operator '%s' is not defined"
-        (Bopkit_process.Operator_name.to_string operator_name.symbol)
+        (Bopkit_process.Operator_name.to_string operator_name.txt)
     ]
 ;;
 
 let operator_arity_error
-  ~(operator_name : Bopkit_process.Operator_name.t With_loc.t)
+  ~(operator_name : Bopkit_process.Operator_name.t Loc.Txt.t)
   ~arity
   ~number_of_arguments
   =
@@ -46,7 +46,7 @@ let operator_arity_error
     ~loc:operator_name.loc
     [ Pp.textf
         "Operator '%s' has arity %d but is applied to %d argument%s"
-        (Bopkit_process.Operator_name.to_string operator_name.symbol)
+        (Bopkit_process.Operator_name.to_string operator_name.txt)
         arity
         number_of_arguments
         (if number_of_arguments > 1 then "s" else "")
@@ -73,7 +73,7 @@ let of_program ~architecture ~(program : Bopkit_process.Program.t) =
       Hashtbl.set memory ~key:memory_index ~data:value;
       { Address.memory_index }
     | Ident { ident } ->
-      (match Hashtbl.find addresses ident.symbol with
+      (match Hashtbl.find addresses ident.txt with
        | Some v -> v
        | None ->
          if not is_assigned
@@ -82,12 +82,12 @@ let of_program ~architecture ~(program : Bopkit_process.Program.t) =
              ~loc:ident.loc
              [ Pp.textf
                  "Variable '%s' is read before assignment"
-                 (Bopkit_process.Ident.to_string ident.symbol)
+                 (Bopkit_process.Ident.to_string ident.txt)
              ];
          let memory_index = next_memory_index () in
          let address = { Address.memory_index } in
          let value = Array.create ~len:architecture false in
-         Hashtbl.set addresses ~key:ident.symbol ~data:address;
+         Hashtbl.set addresses ~key:ident.txt ~data:address;
          Hashtbl.set memory ~key:memory_index ~data:value;
          address)
   in
@@ -107,7 +107,7 @@ let of_program ~architecture ~(program : Bopkit_process.Program.t) =
           [ [| Bopkit_process.Program.Argument.Ident { ident = result } |]; arguments ]
         |> Array.mapi ~f:(fun i operand -> var_map ~is_assigned:(i = 0) operand)
       in
-      match Map.find (force Operator.primitives) operator_name.symbol with
+      match Map.find (force Operator.primitives) operator_name.txt with
       | None -> unknown_operator_error ~operator_name
       | Some operator ->
         let arity = Operator.arity operator in
@@ -128,6 +128,6 @@ let of_program ~architecture ~(program : Bopkit_process.Program.t) =
     Array.init num_addresses ~f:(fun i ->
       Hashtbl.find memory i |> Option.value_exn ~here:[%here])
   in
-  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  let () = if Err.had_errors () then Err.exit Err.Exit_code.some_error in
   { architecture; memory; code }
 ;;

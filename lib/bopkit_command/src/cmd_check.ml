@@ -7,13 +7,15 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"file to check"
-     and () = Err_handler.set_config ()
+     and () = Err_cli.set_config ()
      and print_cds =
        Arg.flag [ "print-cds" ] ~doc:"print the cds out stdout in case of success"
      and bopkit_compiler_config = Bopkit_compiler.Config.arg in
      let circuit =
        Bopkit_compiler.circuit_of_netlist ~path ~config:bopkit_compiler_config
      in
-     Err.info [ Pp.textf "Check of %S complete." (circuit.path |> Fpath.to_string) ];
+     Err.info
+       ~loc:circuit.main.loc
+       [ Pp.textf "Check of '%s' complete." circuit.main.txt ];
      if print_cds then print_s [%sexp (circuit.cds : Bopkit_circuit.Cds.t)])
 ;;

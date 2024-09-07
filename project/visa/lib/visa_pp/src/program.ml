@@ -10,7 +10,7 @@ let pp_top_level_construct ~(top_level_construct : Visa.Program.Top_level_constr
   | Constant_definition { constant_name; constant_kind } ->
     Pp.concat
       [ Pp.verbatim "define "
-      ; Pp.verbatim (Visa.Constant_name.to_string constant_name.symbol)
+      ; Pp.verbatim (Visa.Constant_name.to_string constant_name.txt)
       ; Pp.verbatim " "
       ; (match constant_kind with
          | Value { value } -> Pp.verbatim (sprintf "#%d" value)
@@ -20,7 +20,7 @@ let pp_top_level_construct ~(top_level_construct : Visa.Program.Top_level_constr
     Pp.concat
       [ Pp.concat
           [ Pp.verbatim "macro "
-          ; Pp.verbatim (Visa.Macro_name.to_string macro_name.symbol)
+          ; Pp.verbatim (Visa.Macro_name.to_string macro_name.txt)
           ; (if List.is_empty parameters then Pp.nop else Pp.verbatim " ")
           ; Pp.concat
               ~sep:(Pp.verbatim ", ")
@@ -37,7 +37,7 @@ let pp_top_level_construct ~(top_level_construct : Visa.Program.Top_level_constr
       ; Pp.verbatim "end"
       ]
   | Label_introduction { label } ->
-    Pp.concat [ Pp.verbatim (Visa.Label.to_string label.symbol); Pp.verbatim ":" ]
+    Pp.concat [ Pp.verbatim (Visa.Label.to_string label.txt); Pp.verbatim ":" ]
   | Assembly_instruction { assembly_instruction } ->
     Pp.verbatim (Visa.Assembly_instruction.to_string assembly_instruction)
 ;;

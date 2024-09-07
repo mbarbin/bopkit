@@ -1,17 +1,8 @@
 (library
  (name visa_dsl)
  (public_name bopkit.visa-dsl)
- (flags
-  :standard
-  -w
-  +a-4-40-41-42-44-45-48-66
-  -warn-error
-  +a
-  -open
-  Base
-  -open
-  Loc0)
- (libraries base bit_utils loc0 parsing-utils pp visa visa_pp)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
+ (libraries base bit_utils loc parsing-utils pp visa visa_pp)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess
@@ -26,4 +17,5 @@
    ppx_sexp_value)))
 
 (mdx
+ (package bopkit-tests)
  (files :standard - *.mli))

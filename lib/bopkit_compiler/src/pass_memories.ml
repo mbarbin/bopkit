@@ -39,12 +39,13 @@ let tab_bits_of_code_brut ~loc name taille lg_mot code =
     let ff i = if i < len_donnee then code.(i) else false in
     Err.debug
       ~loc
-      [ Pp.textf
-          "Memory '%s' specification: ( %d / %d ) bits specified"
-          name
-          len_donnee
-          len_attendue
-      ];
+      (lazy
+        [ Pp.textf
+            "Memory '%s' specification: ( %d / %d ) bits specified"
+            name
+            len_donnee
+            len_attendue
+        ]);
     Bit_matrix.init_matrix_linear ~dimx:taille ~dimy:lg_mot ~f:ff)
 ;;
 
@@ -92,12 +93,13 @@ let pass memories ~parameters =
       else (
         Err.debug
           ~loc
-          [ Pp.textf
-              "Definition of a new memory 'rom_%s(%d, %d)'."
-              name
-              address_width
-              data_width
-          ];
+          (lazy
+            [ Pp.textf
+                "Definition of a new memory 'rom_%s(%d, %d)'."
+                name
+                address_width
+                data_width
+            ]);
         let code_brut_rom = read_code_brut_memoire ~loc code in
         let taille_adr = Int.pow 2 address_width in
         let code_complet =
@@ -135,12 +137,13 @@ let pass memories ~parameters =
         let code_complet, description_code =
           Err.debug
             ~loc
-            [ Pp.textf
-                "Definition of a new memory 'ram_%s(%d, %d)'."
-                name
-                address_width
-                data_width
-            ];
+            (lazy
+              [ Pp.textf
+                  "Definition of a new memory 'ram_%s(%d, %d)'."
+                  name
+                  address_width
+                  data_width
+              ]);
           match code with
           | Zero ->
             ( Bit_matrix.init_matrix_linear ~dimx:taille_adr ~dimy:data_width ~f:(fun _ ->

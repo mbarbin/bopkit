@@ -59,7 +59,7 @@ let unused_variables t =
         let last = List.last_exn tl in
         Bopkit.Netlist.Interval (CST first, CST last)
     in
-    Bopkit.Netlist.Bus { loc = Loc.dummy_pos; name = Name.input; indexes = [ index ] })
+    Bopkit.Netlist.Bus { loc = Loc.none; name = Name.input; indexes = [ index ] })
 ;;
 
 let pp_ident ident =

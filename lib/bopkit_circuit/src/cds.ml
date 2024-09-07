@@ -43,7 +43,7 @@ let topological_sort (cds : t) =
   let reorder_cds () =
     Array.init ncds ~f:(fun i -> update_output_wires cds.(order.(i)))
   in
-  Err.debug [ Pp.text "Running topological sort of circuit" ];
+  Err.debug (lazy [ Pp.text "Running topological sort of circuit" ]);
   (match cds.(0).gate_kind with
    | Input -> ()
    | gate_kind ->

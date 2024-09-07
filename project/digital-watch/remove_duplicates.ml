@@ -22,4 +22,4 @@ let main =
        done))
 ;;
 
-let () = Commandlang_to_cmdliner.run main ~name:"remove_duplicate" ~version:"%%VERSION%%"
+let () = Cmdlang_to_cmdliner.run main ~name:"remove_duplicate" ~version:"%%VERSION%%"

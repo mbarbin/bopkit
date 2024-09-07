@@ -10,15 +10,11 @@
   -open
   Base
   -open
-  Loc0
-  -open
-  Err0
-  -open
   Fpath_base
   -open
   Or_error.Let_syntax
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   appendable-list
   base
@@ -30,13 +26,13 @@
   bopkit_sites
   bopkit_syntax
   bopkit_topological_sort
-  commandlang
+  cmdlang
   core
-  err0
+  err
   fpath
   fpath-base
   graphics
-  loc0
+  loc
   parsing-utils
   unix)
  (lint

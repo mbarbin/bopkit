@@ -12,7 +12,7 @@ end
 
 let%expect_test "sort" =
   let test nodes =
-    Err_handler.For_test.protect (fun () ->
+    Err.For_test.protect (fun () ->
       let nodes =
         List.map
           (Bopkit_topological_sort.sort (module T) (module String) nodes)

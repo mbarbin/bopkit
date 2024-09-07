@@ -20,6 +20,7 @@
  (copy ../bin/main.exe bopboard))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   bopboard

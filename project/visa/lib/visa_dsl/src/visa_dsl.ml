@@ -44,7 +44,7 @@ module O = struct
     Queue.enqueue
       t.program
       (Constant_definition
-         { constant_name = With_loc.with_dummy_pos constant_name
+         { constant_name = Loc.Txt.no_loc constant_name
          ; constant_kind = Address { address }
          });
     Constant { constant_name }
@@ -55,9 +55,7 @@ module O = struct
     Queue.enqueue
       t.program
       (Constant_definition
-         { constant_name = With_loc.with_dummy_pos constant_name
-         ; constant_kind = Value { value }
-         });
+         { constant_name = Loc.Txt.no_loc constant_name; constant_kind = Value { value } });
     Constant { constant_name }
   ;;
 
@@ -139,7 +137,7 @@ module O = struct
     Queue.enqueue
       t.program
       (Macro_definition
-         { macro_name = With_loc.with_dummy_pos macro.macro_name
+         { macro_name = Loc.Txt.no_loc macro.macro_name
          ; parameters = Parameters.to_list macro.parameters
          ; body
          })
@@ -150,11 +148,10 @@ module O = struct
       t.program
       (Assembly_instruction
          { assembly_instruction =
-             { loc = Loc.dummy_pos
+             { loc = Loc.none
              ; operation_kind = Macro_call { macro_name = macro.macro_name }
              ; arguments =
-                 Parameters.arguments macro.parameters input
-                 |> List.map ~f:With_loc.with_dummy_pos
+                 Parameters.arguments macro.parameters input |> List.map ~f:Loc.Txt.no_loc
              }
          })
   ;;
@@ -162,9 +159,7 @@ module O = struct
   let add_label (t : t) label =
     match (label : label) with
     | Label { label } ->
-      Queue.enqueue
-        t.program
-        (Label_introduction { label = With_loc.with_dummy_pos label })
+      Queue.enqueue t.program (Label_introduction { label = Loc.Txt.no_loc label })
     | _ ->
       raise_s
         [%sexp
@@ -182,9 +177,9 @@ module O = struct
       t.program
       (Assembly_instruction
          { assembly_instruction =
-             { loc = Loc.dummy_pos
+             { loc = Loc.none
              ; operation_kind = Instruction { instruction_name }
-             ; arguments = List.map arguments ~f:(fun a -> With_loc.with_dummy_pos a)
+             ; arguments = List.map arguments ~f:(fun a -> Loc.Txt.no_loc a)
              }
          })
   ;;

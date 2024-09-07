@@ -10,16 +10,11 @@
   -open
   Base
   -open
-  Err0
-  -open
-  Err0_handler
-  -open
   Expect_test_helpers_base)
  (libraries
   base
   bopkit_topological_sort
-  err0
-  err0-handler
+  err
   expect_test_helpers_core.expect_test_helpers_base)
  (inline_tests)
  (lint

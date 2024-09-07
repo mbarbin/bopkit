@@ -1,4 +1,5 @@
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (package visa)
@@ -9,6 +10,7 @@
   (glob_files *.bop)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (package visa)
