@@ -16,7 +16,7 @@ module With_labels = struct
         (* As of now it is not clear how we build values of type [t], it is
            possible we will determine that it is possible to obtain some real
            positions from it. To be determined. *)
-        let label = With_loc.with_dummy_pos label in
+        let label = Loc.Txt.no_loc label in
         Queue.enqueue program (Label_introduction { label }));
       Queue.enqueue
         program

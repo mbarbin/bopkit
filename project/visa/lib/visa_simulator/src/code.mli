@@ -1,6 +1,6 @@
 module Statement : sig
   type t = private
-    { labels : Visa.Label.t With_loc.t list
+    { labels : Visa.Label.t Loc.Txt.t list
     ; assembly_instruction : Visa.Assembly_instruction.t
     }
   [@@deriving sexp_of]

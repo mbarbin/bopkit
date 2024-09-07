@@ -1,4 +1,5 @@
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   %{bin:visa}

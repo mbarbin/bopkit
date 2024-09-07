@@ -10,22 +10,19 @@
   -open
   Base
   -open
-  Loc0
-  -open
-  Err0
-  -open
   Fpath_base
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   appendable-list
   base
   bit_utils
-  commandlang
-  err0
+  cmdlang
+  comments-parser
+  err
   fpath
   fpath-base
-  loc0
+  loc
   parsing-utils
   pp)
  (lint

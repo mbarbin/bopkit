@@ -14,14 +14,14 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
   bit_utils
   bopkit_memory
+  cmdlang
+  cmdlang-to-cmdliner
   cmdliner
-  commandlang
-  commandlang-to-cmdliner
   core
   fpath
   fpath-base

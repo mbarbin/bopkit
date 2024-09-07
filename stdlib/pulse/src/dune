@@ -12,8 +12,8 @@
   -open
   Stdio
   -open
-  Commandlang)
- (libraries base bopkit_block bopkit_sleeper commandlang core unix)
+  Cmdlang)
+ (libraries base bopkit_block bopkit_sleeper cmdlang core unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

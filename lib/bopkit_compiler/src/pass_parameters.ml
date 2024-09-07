@@ -40,7 +40,7 @@ let pass parameters =
   let parameters =
     (* We add a variable to allow the user to know on which OS it is executing. *)
     let current_os =
-      { Bopkit.Netlist.loc = Loc.dummy_pos
+      { Bopkit.Netlist.loc = Loc.none
       ; comments = Bopkit.Comments.none
       ; name = "CURRENT_OS"
       ; parameter_value =

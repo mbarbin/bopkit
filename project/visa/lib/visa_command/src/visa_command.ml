@@ -7,7 +7,7 @@ let parse_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to process"
-     and () = Err_handler.set_config () in
+     and () = Err_cli.set_config () in
      let p = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      print_s [%sexp (p : Visa.Program.t)])
 ;;
@@ -32,7 +32,7 @@ let process_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to process"
-     and () = Err_handler.set_config () in
+     and () = Err_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let program = Visa.Executable.disassemble executable in
@@ -48,7 +48,7 @@ let check_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to process"
-     and () = Err_handler.set_config () in
+     and () = Err_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let machine_code = Visa.Executable.to_machine_code executable in
@@ -64,7 +64,7 @@ let assemble_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to process"
-     and () = Err_handler.set_config () in
+     and () = Err_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let machine_code = Visa.Executable.to_machine_code executable in
@@ -81,7 +81,7 @@ let disassemble_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"machine code to process"
-     and () = Err_handler.set_config () in
+     and () = Err_cli.set_config () in
      let machine_code = Visa.Machine_code.of_text_file_exn ~path in
      let program = Visa.Executable.Machine_code.disassemble machine_code ~path in
      print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))

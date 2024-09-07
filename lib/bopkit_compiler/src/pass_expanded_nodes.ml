@@ -101,7 +101,7 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config : Expanded_nodes.t
       aux_node node;
       aux_nodes tl
   in
-  Err.debug [ Pp.text "Inlining blocks." ];
+  Err.debug (lazy [ Pp.text "Inlining blocks." ]);
   aux_nodes main.nodes;
   Map.iteri env ~f:(fun ~key:name ~data:fd ->
     if (not (String.equal name main_block_name))

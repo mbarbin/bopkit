@@ -14,11 +14,13 @@
     (run dune format-dune-file)))))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)))

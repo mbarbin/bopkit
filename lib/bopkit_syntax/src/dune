@@ -15,14 +15,5 @@
 (library
  (name bopkit_syntax)
  (public_name bopkit.syntax)
- (flags
-  :standard
-  -w
-  +a-4-40-41-42-44-45-48-66
-  -warn-error
-  +a
-  -open
-  Core
-  -open
-  Loc0)
- (libraries bopkit core loc0 parsing-utils))
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
+ (libraries bopkit comments-parser core loc parsing-utils))

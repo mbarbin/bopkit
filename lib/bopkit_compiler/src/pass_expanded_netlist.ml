@@ -571,8 +571,8 @@ let pass blocks ~primitives ~parameters =
     match block.name with
     | Parametrized _ -> ()
     | Standard { name } ->
-      Err.debug [ Pp.textf "requesting expansion of %s." name ];
-      ignore (request_expansion t ~name ~loc:Loc.dummy_pos : Expanded_interface.t));
+      Err.debug (lazy [ Pp.textf "requesting expansion of %s." name ]);
+      ignore (request_expansion t ~name ~loc:Loc.none : Expanded_interface.t));
   work_until_finished t;
   let blocks = Queue.to_list t.resulting_blocks in
   let blocks = Expanded_block_sort.sort blocks in

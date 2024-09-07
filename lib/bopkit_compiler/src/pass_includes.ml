@@ -34,7 +34,9 @@ let pass ~path =
     let module_name = module_name_of_path ~path in
     if not (Hash_set.mem included_modules module_name)
     then (
-      Err.debug ~loc [ Pp.textf "--> #include file = %S" (path |> Fpath.to_string) ];
+      Err.debug
+        ~loc
+        (lazy [ Pp.textf "--> #include file = %S" (path |> Fpath.to_string) ]);
       let { Bopkit.Netlist.include_files
           ; parameters
           ; memories

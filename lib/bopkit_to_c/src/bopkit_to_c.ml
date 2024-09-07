@@ -38,12 +38,13 @@ let fragments_of_cds ~(cds : Bopkit_circuit.Cds.t) =
         | None ->
           let constant = if input_value then "1" else "0" in
           Err.debug
-            [ Pp.textf
-                "Unassigned input (%d, %d) : Constant = %s"
-                gate_index
-                input_index
-                constant
-            ];
+            (lazy
+              [ Pp.textf
+                  "Unassigned input (%d, %d) : Constant = %s"
+                  gate_index
+                  input_index
+                  constant
+              ]);
           constant)
     in
     let outputs =
@@ -64,7 +65,7 @@ let fragments_of_cds ~(cds : Bopkit_circuit.Cds.t) =
     match gate.gate_kind with
     | Input ->
       let input_width = output_width in
-      Err.debug [ Pp.textf "Input Count : %d" input_width ];
+      Err.debug (lazy [ Pp.textf "Input Count : %d" input_width ]);
       Queue.enqueue q_declarations (C_code.input_declaration ~input_width);
       Queue.enqueue q_declarations (C_code.input ~input_width);
       emit
@@ -72,7 +73,7 @@ let fragments_of_cds ~(cds : Bopkit_circuit.Cds.t) =
          ++ Pp.verbatim ";")
     | Output ->
       let output_width = input_width in
-      Err.debug [ Pp.textf "Output Count : %d" output_width ];
+      Err.debug (lazy [ Pp.textf "Output Count : %d" output_width ]);
       Queue.enqueue q_declarations (C_code.output_declaration ~output_width);
       Queue.enqueue q_declarations (C_code.output ~output_width);
       emit (C_code.call ~name:"output" ~args:inputs ++ Pp.verbatim ";")
@@ -139,7 +140,7 @@ let emit_c_code ~(circuit : Bopkit_circuit.Circuit.t) ~to_:oc =
         (Printf.sprintf
            "/* Original circuit : %s , Main = \"%s\" */"
            (path |> Fpath.to_string)
-           main)
+           main.txt)
       ++ Pp.newline
     ; Pp.newline
     ; Pp.verbatim "#include <stdlib.h>" ++ Pp.newline

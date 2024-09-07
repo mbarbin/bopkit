@@ -33,8 +33,8 @@
   -open
   Stdio
   -open
-  Commandlang)
- (libraries base commandlang bopkit_block core graphics stdio unix threads)
+  Cmdlang)
+ (libraries base cmdlang bopkit_block core graphics stdio unix threads)
  (preprocess
   (pps
    ppx_compare
@@ -125,6 +125,7 @@
   (diff div_check.output div_check.output.corrected)))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   div.exe
@@ -133,6 +134,7 @@
   (glob_files *.txt)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   div.exe

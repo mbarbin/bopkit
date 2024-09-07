@@ -5,7 +5,7 @@
     match argument with
     | Constant { value = _ } -> failwith "An operator is expected, not a constant"
     | Ident { ident } ->
-      With_loc.map ident ~f:(fun ident ->
+      Loc.Txt.map ident ~f:(fun ident ->
         ident |> Ident.to_string |> Operator_name.of_string)
   ;;
 %}
@@ -74,6 +74,6 @@ ident_list :
 ;
 
 ident :
-  | ident=IDENT { With_loc.create $loc ident }
+  | ident=IDENT { Loc.Txt.create $loc ident }
 ;
 

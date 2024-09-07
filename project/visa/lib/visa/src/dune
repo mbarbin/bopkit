@@ -10,19 +10,15 @@
   -open
   Base
   -open
-  Loc0
-  -open
-  Err0
-  -open
   Stdio)
  (libraries
   base
   bit_utils
-  commandlang
+  cmdlang
   core ;; For [Core.String_id]
-  err0
+  err
   fpath
-  loc0
+  loc
   parsing-utils
   pp
   stdio)

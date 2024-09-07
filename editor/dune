@@ -1,3 +1,4 @@
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)))

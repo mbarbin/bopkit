@@ -32,6 +32,7 @@
     (run dune format-dune-file)))))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   %{bin:bopkit}

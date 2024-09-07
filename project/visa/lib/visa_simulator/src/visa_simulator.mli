@@ -38,7 +38,7 @@ val create : config:Config.t -> program:Visa.Program.t -> t
 
 module Step_result : sig
   type t =
-    | Macro_call of { macro_name : Visa.Macro_name.t With_loc.t }
+    | Macro_call of { macro_name : Visa.Macro_name.t Loc.Txt.t }
     | Executed of
         { instruction : Visa.Label.t Visa.Instruction.t
         ; continue : bool

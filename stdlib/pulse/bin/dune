@@ -1,6 +1,6 @@
 (executables
  (names pulse)
- (libraries bopkit_pulse cmdliner commandlang-to-cmdliner))
+ (libraries bopkit_pulse cmdliner cmdlang-to-cmdliner))
 
 (install
  (package bopkit)

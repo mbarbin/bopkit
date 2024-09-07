@@ -5,7 +5,7 @@
   digital_calendar
   digital_calendar_display)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries base commandlang-to-cmdliner seven_segment_display)
+ (libraries base cmdlang-to-cmdliner seven_segment_display)
  (preprocess
   (pps
    ppx_compare

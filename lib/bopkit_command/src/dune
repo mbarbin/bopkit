@@ -10,17 +10,13 @@
   -open
   Base
   -open
-  Err0
-  -open
-  Err0_handler
-  -open
   Fpath_base
   -open
   Stdio
   -open
   Or_error.Let_syntax
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
   bopkit_bdd_command
@@ -34,10 +30,10 @@
   bopkit_sleeper
   bopkit_syntax
   bopkit_to_c
-  commandlang
+  cmdlang
   core
-  err0
-  err0-handler
+  err
+  err-cli
   fpath
   fpath-base
   seven_segment_display

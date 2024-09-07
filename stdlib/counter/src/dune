@@ -12,7 +12,7 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries bopkit_block bopkit_sleeper core graphics threads unix)
  (lint
   (pps ppx_js_style -check-doc-comments))

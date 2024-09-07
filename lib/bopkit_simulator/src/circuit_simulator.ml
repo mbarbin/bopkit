@@ -180,7 +180,9 @@ let init t =
       in
       (match Hashtbl.find external_blocks_table name with
        | Some block_index ->
-         Err.debug ~loc [ Pp.textf "External process[%d] already started." block_index ];
+         Err.debug
+           ~loc
+           (lazy [ Pp.textf "External process[%d] already started." block_index ]);
          (* Even though this gate is unique in the cds, it is possible that its
             gate_kind has been shared between several gates. This happens when a
             block is called multiple times at different part of the program.
@@ -193,7 +195,7 @@ let init t =
          Int.incr external_index;
          Err.debug
            ~loc
-           [ Pp.textf "Starting external process[%d] = '%s'." this_index command ];
+           (lazy [ Pp.textf "Starting external process[%d] = '%s'." this_index command ]);
          Hashtbl.set external_blocks_table ~key:name ~data:this_index;
          let output_pipe, input_pipe = Core_unix.open_process command in
          let external_process =
@@ -233,7 +235,7 @@ let init t =
     if (not (Hashtbl.mem external_blocks_table a)) && false
     then Err.warning ~loc [ Pp.textf "Unused external block '%s'" a ]);
   t.external_process <- Queue.to_array external_processes;
-  Err.info [ Pp.textf " Simulation <'%s'>" (main t) ]
+  Err.info [ Pp.textf " Simulation <'%s'>" (main t).txt ]
 ;;
 
 let or_exit_error e =
@@ -251,7 +253,7 @@ let quit t =
     let process = t.external_process.(i) in
     Err.debug
       ~loc:process.loc
-      [ Pp.textf "Closing external process[%d] = '%s'." i process.command ];
+      (lazy [ Pp.textf "Closing external process[%d] = '%s'." i process.command ]);
     match
       Core_unix.close_process (process.output_pipe, process.input_pipe) |> or_exit_error
     with
@@ -275,13 +277,14 @@ let quit t =
     | exception End_of_file ->
       Err.debug
         ~loc:process.loc
-        [ Pp.textf
-            "Closing external process[%d] = '%s'. (status : %s [%d])"
-            i
-            process.command
-            "broken pipe"
-            (-1)
-        ]
+        (lazy
+          [ Pp.textf
+              "Closing external process[%d] = '%s'. (status : %s [%d])"
+              i
+              process.command
+              "broken pipe"
+              (-1)
+          ])
     | exception e ->
       prerr_endline "Circuit#quit error";
       Queue.enqueue uncaught_exceptions e

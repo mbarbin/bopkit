@@ -1,8 +1,8 @@
 module Macro_frame : sig
   type t =
-    { macro_name : Visa.Macro_name.t With_loc.t
+    { macro_name : Visa.Macro_name.t Loc.Txt.t
     ; bindings :
-        (Visa.Parameter_name.t * Visa.Assembly_instruction.Argument.t With_loc.t) list
+        (Visa.Parameter_name.t * Visa.Assembly_instruction.Argument.t Loc.Txt.t) list
     ; assembly_instructions : Visa.Assembly_instruction.t array
     ; mutable macro_code_pointer : int
     }

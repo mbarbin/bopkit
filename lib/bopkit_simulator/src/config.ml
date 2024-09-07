@@ -41,7 +41,7 @@ let arg =
     | [ a ] -> a
     | _ :: _ :: _ ->
       Err.raise
-        ~exit_code:Cli_error
+        ~exit_code:Err.Exit_code.cli_error
         [ Pp.text "Cannot specify both --num-cycles and --num-counter-cycles" ]
   and counter_input = Arg.flag [ "counter-input" ] ~doc:"use a counter as circuit inputs"
   and output_kind =
@@ -69,7 +69,9 @@ let arg =
     | [] -> default.output_kind
     | [ a ] -> a
     | _ :: _ :: _ ->
-      Err.raise ~exit_code:Cli_error [ Pp.text "Cannot specify multiple output kinds" ]
+      Err.raise
+        ~exit_code:Err.Exit_code.cli_error
+        [ Pp.text "Cannot specify multiple output kinds" ]
   in
   { num_cycles
   ; counter_input =

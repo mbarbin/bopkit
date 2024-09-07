@@ -9,7 +9,7 @@
 
 type t = private
   { path : Fpath.t
-  ; main : string
+  ; main : string Loc.Txt.t
   ; rom_memories : Bit_matrix.t array
   ; external_blocks : Bopkit.Expanded_netlist.external_block array
   ; cds : Cds.t
@@ -19,7 +19,7 @@ type t = private
 
 val create_exn
   :  path:Fpath.t
-  -> main:string
+  -> main:string Loc.Txt.t
   -> rom_memories:Bit_matrix.t array
   -> external_blocks:Bopkit.Expanded_netlist.external_block array
   -> cds:Cds.t

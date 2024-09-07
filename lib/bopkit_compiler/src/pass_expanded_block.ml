@@ -393,7 +393,7 @@ let create_block
 ;;
 
 let create_env list ~primitives =
-  Err.debug [ Pp.text "Analyzing circuit's blocks." ];
+  Err.debug (lazy [ Pp.text "Analyzing circuit's blocks." ]);
   List.fold_left
     list
     ~init:(Map.empty (module String))

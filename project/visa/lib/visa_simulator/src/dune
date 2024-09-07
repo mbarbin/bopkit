@@ -10,30 +10,24 @@
   -open
   Base
   -open
-  Loc0
-  -open
-  Err0
-  -open
-  Err0_handler
-  -open
   Fpath_base
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
   bit_utils
-  commandlang
+  cmdlang
   core
   core_unix
   core_unix.core_thread
   core_unix.sys_unix
-  err0
-  err0-handler
+  err
+  err-cli
   fpath
   fpath-base
-  loc0
+  loc
   stdio
   visa
   visa_assembler

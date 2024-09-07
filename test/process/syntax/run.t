@@ -26,6 +26,12 @@ monitor in tests.
   // This is comment G
   // This is comment H
   ================================: invalid-comment.bpp
-  File "invalid-comment.bpp", line 5, characters 0-0: syntax error.
+  File "invalid-comment.bpp", line 5, characters 0-6:
+  5 | output t // Here is fine though
+      ^^^^^^
+  Error:  syntax error.
   ================================: syntax-error.bpp
-  File "syntax-error.bpp", line 5, characters 10-10: syntax error.
+  File "syntax-error.bpp", line 5, characters 10-15:
+  5 | p = q - 4 ERROR
+                ^^^^^
+  Error:  syntax error.

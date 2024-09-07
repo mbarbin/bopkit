@@ -81,12 +81,14 @@
    (run %{bin:bopkit} simu %{dep:check_starred.bop} -n 1024))))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)
   (glob_files *.txt)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)

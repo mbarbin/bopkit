@@ -37,7 +37,7 @@ let expand_netlist ~path ~config =
   let parameters =
     parameters
     @ List.map (Config.parameters_overrides config) ~f:(fun { name; value } ->
-      { Bopkit.Netlist.loc = Loc.dummy_pos
+      { Bopkit.Netlist.loc = Loc.none
       ; comments = Bopkit.Comments.none
       ; name
       ; parameter_value =
@@ -77,17 +77,20 @@ let expand_netlist ~path ~config =
   in
   Err.debug
     ~loc
-    [ Pp.textf
-        "Returning the blocks in this order:\n%s"
-        (Sexp.to_string_hum [%sexp (List.map blocks ~f:(fun t -> t.name) : string list)])
-    ];
+    (lazy
+      [ Pp.textf
+          "Returning the blocks in this order:\n%s"
+          (Sexp.to_string_hum
+             [%sexp (List.map blocks ~f:(fun t -> t.name) : string list)])
+      ]);
   if Config.print_pass_output config ~pass_name:Expanded_netlist
   then
     Err.debug
       ~loc
-      [ Pp.textf "Result of Pass_expanded_netlist:"
-      ; Pp.concat_map blocks ~sep:Pp.newline ~f:Bopkit_pp.Expanded_netlist.pp_block
-      ];
+      (lazy
+        [ Pp.textf "Result of Pass_expanded_netlist:"
+        ; Pp.concat_map blocks ~sep:Pp.newline ~f:Bopkit_pp.Expanded_netlist.pp_block
+        ]);
   ( primitives
   , Bopkit.Expanded_netlist.
       { paths
@@ -105,24 +108,26 @@ let circuit_of_netlist ~path ~config =
   let primitives, expanded_netlist = expand_netlist ~path ~config in
   let main_block_name = expanded_netlist.main_block_name in
   let env = Pass_expanded_block.create_env expanded_netlist.blocks ~primitives in
-  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  let () = if Err.had_errors () then Err.exit Err.Exit_code.some_error in
   let expanded_nodes = Pass_expanded_nodes.pass ~env ~main_block_name ~config in
   if Config.print_pass_output config ~pass_name:Expanded_nodes
   then
     Err.debug
       ~loc
-      [ Pp.textf "Result of Pass_expanded_nodes:"
-      ; Expanded_nodes.pp_debug expanded_nodes
-      ];
+      (lazy
+        [ Pp.textf "Result of Pass_expanded_nodes:"
+        ; Expanded_nodes.pp_debug expanded_nodes
+        ]);
   let cds = Pass_cds.pass expanded_nodes in
   let cds = Bopkit_circuit.Cds.split_registers cds in
   if Config.print_pass_output config ~pass_name:Cds_split_registers
   then
     Err.debug
       ~loc
-      [ Pp.textf "Result of Pass_cds+split-registers:"
-      ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
-      ];
+      (lazy
+        [ Pp.textf "Result of Pass_cds+split-registers:"
+        ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
+        ]);
   let () =
     if Bopkit_circuit.Cds.detect_cycle cds
     then (
@@ -136,16 +141,18 @@ let circuit_of_netlist ~path ~config =
           (Pp.text "In this block, these variables may create a dependency cycle:"
            :: Pp.cut
            :: List.map lines ~f:Pp.verbatim));
-      if Err.State.had_errors Err.the_state then Err.exit Some_error)
+      let () = if Err.had_errors () then Err.exit Err.Exit_code.some_error in
+      ())
   in
   Bopkit_circuit.Cds.topological_sort cds;
   if Config.print_pass_output config ~pass_name:Cds_topological_sort
   then
     Err.debug
       ~loc
-      [ Pp.textf "Result of Pass_cds+topological-sort:"
-      ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
-      ];
+      (lazy
+        [ Pp.textf "Result of Pass_cds+topological-sort:"
+        ; Pp.text (Sexp.to_string_hum [%sexp (cds : Bopkit_circuit.Cds.t)])
+        ]);
   let cds =
     if Config.optimize_cds config then Bopkit_cds_optimizer.optimize cds else cds
   in
@@ -159,7 +166,7 @@ let circuit_of_netlist ~path ~config =
     ];
   Bopkit_circuit.Circuit.create_exn
     ~path
-    ~main:main.name
+    ~main:{ Loc.Txt.txt = main.name; loc = main.loc }
     ~cds
     ~rom_memories:expanded_netlist.rom_memories
     ~external_blocks:(expanded_netlist.external_blocks |> Array.of_list)

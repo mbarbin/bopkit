@@ -10,10 +10,10 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
-  commandlang
+  cmdlang
   core
   core_unix.core_thread
   bopkit_block
@@ -46,6 +46,7 @@
   (run %{bin:bopkit} simu %{dep:main.bop} --parameter 'WithPulse=1')))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (package subleq)

@@ -15,12 +15,12 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   bit_utils
+  cmdlang
+  cmdlang-to-cmdliner
   cmdliner
-  commandlang
-  commandlang-to-cmdliner
   core
   core_unix
   stdio)

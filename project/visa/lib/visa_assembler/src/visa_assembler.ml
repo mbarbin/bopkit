@@ -2,13 +2,13 @@ open! Or_error.Let_syntax
 
 module Assembly_construct = struct
   type t =
-    | Label_introduction of { label : Visa.Label.t With_loc.t }
+    | Label_introduction of { label : Visa.Label.t Loc.Txt.t }
     | Assembly_instruction of { assembly_instruction : Visa.Assembly_instruction.t }
 end
 
 module Macro_definition = struct
   type t =
-    { macro_name : Visa.Macro_name.t With_loc.t
+    { macro_name : Visa.Macro_name.t Loc.Txt.t
     ; parameters : Visa.Parameter_name.t list
     ; body : Visa.Assembly_instruction.t list
     }
@@ -17,9 +17,9 @@ end
 
 module Environment = struct
   type t =
-    { constants : Visa.Program.Constant_kind.t With_loc.t Map.M(Visa.Constant_name).t
+    { constants : Visa.Program.Constant_kind.t Loc.Txt.t Map.M(Visa.Constant_name).t
     ; macros : Macro_definition.t Map.M(Visa.Macro_name).t
-    ; labels : Visa.Label.t With_loc.t Map.M(Visa.Label).t
+    ; labels : Visa.Label.t Loc.Txt.t Map.M(Visa.Label).t
     }
   [@@deriving sexp_of]
 end
@@ -29,7 +29,7 @@ let build_environment ~(program : Visa.Program.t) =
   let macros = Hashtbl.create (module Visa.Macro_name) in
   let labels = Hashtbl.create (module Visa.Label) in
   let code : Assembly_construct.t Queue.t = Queue.create () in
-  let pending_label_introduction : Visa.Label.t With_loc.t option ref = ref None in
+  let pending_label_introduction : Visa.Label.t Loc.Txt.t option ref = ref None in
   let emit_code ~assembly_instruction =
     (match !pending_label_introduction with
      | None -> ()
@@ -42,31 +42,31 @@ let build_environment ~(program : Visa.Program.t) =
     match top_level_construct with
     | Newline | Comment { text = (_ : string) } -> ()
     | Constant_definition { constant_name; constant_kind } ->
-      if Hashtbl.mem constants constant_name.symbol
+      if Hashtbl.mem constants constant_name.txt
       then
         Err.error
           ~loc:constant_name.loc
           [ Pp.text "Multiple definition of constants is not allowed"
           ; Pp.text
               (Sexp.to_string_hum
-                 [%sexp { constant_name : Visa.Constant_name.t With_loc.t }])
+                 [%sexp { constant_name : Visa.Constant_name.t Loc.Txt.t }])
           ];
       Hashtbl.set
         constants
-        ~key:constant_name.symbol
-        ~data:(With_loc.map constant_name ~f:(Fn.const constant_kind))
+        ~key:constant_name.txt
+        ~data:(Loc.Txt.map constant_name ~f:(Fn.const constant_kind))
     | Macro_definition { macro_name; parameters; body } ->
-      if Hashtbl.mem macros macro_name.symbol
+      if Hashtbl.mem macros macro_name.txt
       then
         Err.error
           ~loc:macro_name.loc
           [ Pp.text "Multiple definition of macros is not allowed"
           ; Pp.text
-              (Sexp.to_string_hum [%sexp { macro_name : Visa.Macro_name.t With_loc.t }])
+              (Sexp.to_string_hum [%sexp { macro_name : Visa.Macro_name.t Loc.Txt.t }])
           ];
       Hashtbl.set
         macros
-        ~key:macro_name.symbol
+        ~key:macro_name.txt
         ~data:{ Macro_definition.macro_name; parameters; body }
     | Label_introduction { label } ->
       (match !pending_label_introduction with
@@ -76,17 +76,17 @@ let build_environment ~(program : Visa.Program.t) =
            ~loc:label.loc
            [ Pp.textf
                "Label '%s' was not followed by any instruction"
-               (Visa.Label.to_string label.symbol)
+               (Visa.Label.to_string label.txt)
            ]);
       pending_label_introduction := Some label;
-      if Hashtbl.mem labels label.symbol
+      if Hashtbl.mem labels label.txt
       then
         Err.error
           ~loc:label.loc
           [ Pp.text "Multiple definition of label is not allowed"
-          ; Pp.text (Sexp.to_string_hum [%sexp { label : Visa.Label.t With_loc.t }])
+          ; Pp.text (Sexp.to_string_hum [%sexp { label : Visa.Label.t Loc.Txt.t }])
           ];
-      Hashtbl.set labels ~key:label.symbol ~data:label
+      Hashtbl.set labels ~key:label.txt ~data:label
     | Assembly_instruction { assembly_instruction } -> emit_code ~assembly_instruction);
   let code = Queue.to_list code in
   let environment =
@@ -104,7 +104,7 @@ let check_unused_macro_parameters ~(environment : Environment.t) =
     let used_parameters = Hash_set.create (module Visa.Parameter_name) in
     List.iter body ~f:(function { loc = _; operation_kind = _; arguments } ->
       List.iter arguments ~f:(fun argument ->
-        match argument.symbol with
+        match argument.txt with
         | Parameter { parameter_name } -> Hash_set.add used_parameters parameter_name
         | _ -> ()));
     let unused_parameters =
@@ -119,7 +119,7 @@ let check_unused_macro_parameters ~(environment : Environment.t) =
         ; Pp.text
             (Sexp.to_string_hum
                [%sexp
-                 { macro_name : Visa.Macro_name.t With_loc.t
+                 { macro_name : Visa.Macro_name.t Loc.Txt.t
                  ; unused_parameters : Visa.Parameter_name.t list
                  }])
         ])
@@ -133,7 +133,7 @@ let check_unused_definitions
   let used_macros = Hash_set.create (module Visa.Macro_name) in
   let used_labels = Hash_set.create (module Visa.Label) in
   List.iter assembly_constructs ~f:(function
-    | Label_introduction { label = (_ : Visa.Label.t With_loc.t) } -> ()
+    | Label_introduction { label = (_ : Visa.Label.t Loc.Txt.t) } -> ()
     | Assembly_instruction
         { assembly_instruction = { loc = _; operation_kind; arguments } } ->
       let () =
@@ -142,7 +142,7 @@ let check_unused_definitions
         | Instruction { instruction_name = _ } -> ()
       in
       List.iter arguments ~f:(fun argument ->
-        match argument.symbol with
+        match argument.txt with
         | Value { value = (_ : int) }
         | Address { address = (_ : Visa.Address.t) }
         | Register { register_name = (_ : Visa.Register_name.t) }
@@ -156,17 +156,17 @@ let check_unused_definitions
         ~loc:constant.loc
         [ Pp.textf "Unused constant '%s'" (Visa.Constant_name.to_string constant_name) ]);
   Map.iter environment.macros ~f:(fun { macro_name; _ } ->
-    if not (Hash_set.mem used_macros macro_name.symbol)
+    if not (Hash_set.mem used_macros macro_name.txt)
     then
       Err.warning
         ~loc:macro_name.loc
-        [ Pp.textf "Unused macro '%s'" (Visa.Macro_name.to_string macro_name.symbol) ]);
+        [ Pp.textf "Unused macro '%s'" (Visa.Macro_name.to_string macro_name.txt) ]);
   Map.iter environment.labels ~f:(fun label ->
-    if not (Hash_set.mem used_labels label.symbol)
+    if not (Hash_set.mem used_labels label.txt)
     then
       Err.warning
         ~loc:label.loc
-        [ Pp.textf "Unused label '%s'" (Visa.Label.to_string label.symbol) ]);
+        [ Pp.textf "Unused label '%s'" (Visa.Label.to_string label.txt) ]);
   ()
 ;;
 
@@ -209,7 +209,7 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
     | [ x; y ] -> return (x, y)
     | [] | [ _ ] | _ :: _ :: _ :: _ -> arity_error ~expects:2
   in
-  let invalid_argument ~arg ~argument:{ With_loc.loc; symbol = argument } ~expected =
+  let invalid_argument ~arg ~argument:{ Loc.Txt.txt = argument; loc } ~expected =
     Error
       ( loc
       , Error.create_s
@@ -221,13 +221,13 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
               ; applied_to = (argument : Visa.Assembly_instruction.Argument.t)
               }] )
   in
-  let register_name ~arg (argument : Visa.Assembly_instruction.Argument.t With_loc.t) =
-    match argument.symbol with
+  let register_name ~arg (argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t) =
+    match argument.txt with
     | Register { register_name } -> return register_name
     | _ -> invalid_argument ~arg ~argument ~expected:[%sexp Register]
   in
-  let label ~arg (argument : Visa.Assembly_instruction.Argument.t With_loc.t) =
-    match argument.symbol with
+  let label ~arg (argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t) =
+    match argument.txt with
     | Label { label } ->
       if Map.mem environment.labels label
       then return label
@@ -237,13 +237,13 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
           , Error.create_s [%sexp "Undefined label", { label : Visa.Label.t }] )
     | _ -> invalid_argument ~arg ~argument ~expected:[%sexp Label]
   in
-  let address ~arg (argument : Visa.Assembly_instruction.Argument.t With_loc.t) =
-    match argument.symbol with
+  let address ~arg (argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t) =
+    match argument.txt with
     | Address { address } -> return address
     | _ -> invalid_argument ~arg ~argument ~expected:[%sexp Address]
   in
-  let value ~arg (argument : Visa.Assembly_instruction.Argument.t With_loc.t) =
-    match argument.symbol with
+  let value ~arg (argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t) =
+    match argument.txt with
     | Value { value } -> return value
     | _ -> invalid_argument ~arg ~argument ~expected:[%sexp Constant]
   in
@@ -295,7 +295,7 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
   | LOAD ->
     let%bind arg1, arg2 = two_arguments () in
     let%bind register_name = register_name ~arg:2 arg2 in
-    (match arg1.symbol with
+    (match arg1.txt with
      | Value _ ->
        let%map value = value ~arg:1 arg1 in
        Visa.Instruction.Load_value { value; register_name }
@@ -310,10 +310,10 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
 let rec lookup_argument
   ~(environment : Environment.t)
   ~bindings
-  ~(argument : Visa.Assembly_instruction.Argument.t With_loc.t)
+  ~(argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t)
   =
   let open Result.Let_syntax in
-  match argument.symbol with
+  match argument.txt with
   | Parameter { parameter_name } ->
     (match List.Assoc.find bindings parameter_name ~equal:Visa.Parameter_name.equal with
      | Some argument -> lookup_argument ~environment ~bindings ~argument
@@ -326,12 +326,12 @@ let rec lookup_argument
     (match Map.find environment.constants constant_name with
      | Some constant ->
        return
-         { With_loc.loc = argument.loc
-         ; symbol =
-             (match constant.symbol with
+         { Loc.Txt.txt =
+             (match constant.txt with
               | Value { value } -> Visa.Assembly_instruction.Argument.Value { value }
               | Address { address } ->
                 Visa.Assembly_instruction.Argument.Address { address })
+         ; loc = argument.loc
          }
      | None ->
        Error
@@ -346,10 +346,10 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) =
   check_unused_definitions ~environment ~assembly_constructs;
   check_unused_macro_parameters ~environment;
   let executable : Visa.Executable.With_labels.Line.t Queue.t = Queue.create () in
-  let pending_label_introduction : Visa.Label.t With_loc.t option ref = ref None in
+  let pending_label_introduction : Visa.Label.t Loc.Txt.t option ref = ref None in
   let emit_instruction ~instruction =
     let label_introduction =
-      pending_label_introduction.contents |> Option.map ~f:With_loc.symbol
+      pending_label_introduction.contents |> Option.map ~f:Loc.Txt.txt
     in
     pending_label_introduction := None;
     Queue.enqueue executable { label_introduction; instruction }
@@ -395,7 +395,7 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) =
                  ; Pp.text
                      (Sexp.to_string_hum
                         [%sexp
-                          { macro_name : Visa.Macro_name.t With_loc.t
+                          { macro_name : Visa.Macro_name.t Loc.Txt.t
                           ; expected = (List.length parameters : int)
                           ; applied_to = (List.length arguments : int)
                           }])
@@ -405,7 +405,7 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) =
     | Label_introduction { label } -> pending_label_introduction := Some label
     | Assembly_instruction { assembly_instruction } ->
       process_assembly_instruction ~bindings:[] ~assembly_instruction);
-  let () = if Err.State.had_errors Err.the_state then Err.exit Some_error in
+  let () = if Err.had_errors () then Err.exit Err.Exit_code.some_error in
   Queue.to_array executable
 ;;
 

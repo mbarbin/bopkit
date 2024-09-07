@@ -33,4 +33,4 @@ let cmd =
      ())
 ;;
 
-let () = Commandlang_to_cmdliner.run cmd ~name:"get_date" ~version:"%%VERSION%%"
+let () = Cmdlang_to_cmdliner.run cmd ~name:"get_date" ~version:"%%VERSION%%"

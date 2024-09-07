@@ -11,15 +11,8 @@
   -open
   Stdio
   -open
-  Commandlang)
- (libraries
-  base
-  cmdliner
-  commandlang
-  commandlang-to-cmdliner
-  graphics
-  stdio
-  threads)
+  Cmdlang)
+ (libraries base cmdlang cmdlang-to-cmdliner cmdliner graphics stdio threads)
  (preprocess
   (pps
    ppx_compare
@@ -101,11 +94,13 @@
     (run dune format-dune-file)))))
 
 (cram
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)))
 
 (mdx
+ (package bopkit-tests)
  (deps
   (package bopkit)
   (glob_files *.bop)))

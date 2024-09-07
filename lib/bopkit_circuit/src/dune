@@ -1,26 +1,15 @@
 (library
  (name bopkit_circuit)
  (public_name bopkit.circuit)
- (flags
-  :standard
-  -w
-  +a-4-40-41-42-44-45-48-66
-  -warn-error
-  +a
-  -open
-  Base
-  -open
-  Loc0
-  -open
-  Err0)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
  (libraries
   base
   bit_utils
   bopkit
   bopkit_sites
   core ;; For [Core.Set_once]
-  err0
-  loc0)
+  err
+  loc)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

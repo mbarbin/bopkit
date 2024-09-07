@@ -2,7 +2,7 @@ open! Or_error.Let_syntax
 
 module Statement = struct
   type t =
-    { labels : Visa.Label.t With_loc.t list
+    { labels : Visa.Label.t Loc.Txt.t list
     ; assembly_instruction : Visa.Assembly_instruction.t
     }
   [@@deriving sexp_of]
@@ -30,7 +30,7 @@ let of_assembly_constructs
     let mapping = Hashtbl.create (module Visa.Label) in
     Array.iteri statements ~f:(fun index statement ->
       List.iter statement.labels ~f:(fun label ->
-        Hashtbl.set mapping ~key:label.symbol ~data:index));
+        Hashtbl.set mapping ~key:label.txt ~data:index));
     mapping |> Hashtbl.to_alist |> Map.of_alist_exn (module Visa.Label)
   in
   { statements; labels_resolution }

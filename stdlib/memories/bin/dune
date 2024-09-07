@@ -10,10 +10,10 @@
   -open
   Stdio
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
-  commandlang
+  cmdlang
   core
   core_unix.core_thread
   bopkit_block

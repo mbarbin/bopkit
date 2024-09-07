@@ -7,7 +7,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"file to simulate"
-     and () = Err_handler.set_config ()
+     and () = Err_cli.set_config ()
      and bopkit_compiler_config = Bopkit_compiler.Config.arg
      and bopkit_simulator_config = Bopkit_simulator.Config.arg in
      let circuit =

@@ -51,9 +51,9 @@ let map t ~f =
 
 let disassemble t ~disassemble_label =
   let instr instruction_name arguments =
-    { Assembly_instruction.loc = Loc.dummy_pos
+    { Assembly_instruction.loc = Loc.none
     ; operation_kind = Instruction { instruction_name }
-    ; arguments = List.map arguments ~f:(fun a -> With_loc.with_dummy_pos a)
+    ; arguments = List.map arguments ~f:(fun a -> Loc.Txt.no_loc a)
     }
   in
   match t with

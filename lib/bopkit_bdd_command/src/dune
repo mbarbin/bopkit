@@ -16,13 +16,13 @@
   -open
   Or_error.Let_syntax
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   base
   bit_utils
   bopkit_bdd
   bopkit_block
-  commandlang
+  cmdlang
   core
   fpath
   fpath-base

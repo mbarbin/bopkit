@@ -10,13 +10,9 @@
   -open
   Base
   -open
-  Err0
-  -open
-  Err0_handler
-  -open
   Fpath_base
   -open
-  Commandlang)
+  Cmdlang)
  (libraries
   auto-format
   base
@@ -24,9 +20,9 @@
   bopkit_process_interpreter
   bopkit_process_pp
   bopkit_process_syntax
-  commandlang
-  err0
-  err0-handler
+  cmdlang
+  err
+  err-cli
   fpath
   fpath-base
   pp)
