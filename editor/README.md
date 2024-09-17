@@ -89,7 +89,7 @@ OPTIONS
 
        --verbosity=LEVEL
            Be more or less verbose. Takes over v.. LEVEL must be one of
-           'quiet', 'error', 'warning', 'info' or 'debug'.
+           'quiet', 'app', 'error', 'warning', 'info' or 'debug'.
 
        --warn-error
            treat warnings as errors.

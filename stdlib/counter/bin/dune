@@ -1,6 +1,6 @@
 (executables
  (names counter)
- (libraries bopkit_counter cmdliner cmdlang-to-cmdliner))
+ (libraries bopkit_counter cmdlang-cmdliner-runner))
 
 (install
  (package bopkit)

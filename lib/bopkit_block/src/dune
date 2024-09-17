@@ -19,7 +19,7 @@
  (libraries
   bit_utils
   cmdlang
-  cmdlang-to-cmdliner
+  cmdlang-cmdliner-runner
   cmdliner
   core
   core_unix

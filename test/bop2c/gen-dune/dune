@@ -14,8 +14,7 @@
   auto-format
   base
   cmdlang
-  cmdlang-to-cmdliner
-  cmdliner
+  cmdlang-cmdliner-runner
   eio
   eio_main
   parsing-utils)
