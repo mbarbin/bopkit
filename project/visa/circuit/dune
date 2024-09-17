@@ -172,7 +172,15 @@
   Stdio
   -open
   Cmdlang)
- (libraries base bopkit_block cmdlang core stdio unix threads)
+ (libraries
+  base
+  bopkit_block
+  cmdlang
+  cmdlang-cmdliner-runner
+  core
+  stdio
+  unix
+  threads)
  (preprocess
   (pps
    ppx_compare

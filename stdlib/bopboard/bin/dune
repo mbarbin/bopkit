@@ -1,7 +1,7 @@
 (executables
  (names main)
  (flags -w +a-40-42-44-66 -warn-error +a)
- (libraries bopboard cmdliner cmdlang-to-cmdliner))
+ (libraries bopboard cmdlang-cmdliner-runner))
 
 (install
  (package bopkit)

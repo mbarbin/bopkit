@@ -50,9 +50,11 @@
     (>= v0.17)
     (< v0.18)))
   (cmdlang
-   (>= 0.0.4))
+   (>= 0.0.5))
+  (cmdlang-cmdliner-runner
+   (>= 0.0.5))
   (cmdlang-to-cmdliner
-   (>= 0.0.4))
+   (>= 0.0.5))
   (cmdliner
    (= 1.3.0))
   (comments-parser
@@ -68,9 +70,9 @@
   (dune-site
    (>= 3.16))
   (err
-   (>= 0.0.4))
+   (>= 0.0.5))
   (err-cli
-   (>= 0.0.4))
+   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -159,9 +161,11 @@
   (bopkit
    (= :version))
   (cmdlang
-   (>= 0.0.4))
+   (>= 0.0.5))
+  (cmdlang-cmdliner-runner
+   (>= 0.0.5))
   (cmdlang-to-cmdliner
-   (>= 0.0.4))
+   (>= 0.0.5))
   (cmdliner
    (= 1.3.0))
   (core
@@ -175,9 +179,9 @@
   (dune-site
    (>= 3.16))
   (err
-   (>= 0.0.4))
+   (>= 0.0.5))
   (err-cli
-   (>= 0.0.4))
+   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -262,9 +266,11 @@
   (bopkit
    (= :version))
   (cmdlang
-   (>= 0.0.4))
+   (>= 0.0.5))
+  (cmdlang-cmdliner-runner
+   (>= 0.0.5))
   (cmdlang-to-cmdliner
-   (>= 0.0.4))
+   (>= 0.0.5))
   (cmdliner
    (= 1.3.0))
   (core
@@ -278,9 +284,9 @@
   (dune-site
    (>= 3.16))
   (err
-   (>= 0.0.4))
+   (>= 0.0.5))
   (err-cli
-   (>= 0.0.4))
+   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -367,9 +373,11 @@
     (>= v0.17)
     (< v0.18)))
   (cmdlang
-   (>= 0.0.4))
+   (>= 0.0.5))
+  (cmdlang-cmdliner-runner
+   (>= 0.0.5))
   (cmdlang-to-cmdliner
-   (>= 0.0.4))
+   (>= 0.0.5))
   (cmdliner
    (= 1.3.0))
   (comments-parser
@@ -385,9 +393,9 @@
   (dune-site
    (>= 3.16))
   (err
-   (>= 0.0.4))
+   (>= 0.0.5))
   (err-cli
-   (>= 0.0.4))
+   (>= 0.0.5))
   (expect_test_helpers_core
    (and
     (>= v0.17)
