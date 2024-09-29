@@ -13,14 +13,14 @@ depends: [
   "ocamlformat" {with-dev-setup & = "0.26.2"}
   "ANSITerminal" {>= "0.8.3"}
   "appendable-list" {>= "v0.17" & < "v0.18"}
-  "auto-format" {>= "0.0.12"}
+  "auto-format" {>= "0.0.13"}
   "base" {>= "v0.17" & < "v0.18"}
   "base_quickcheck" {>= "v0.17" & < "v0.18"}
   "cmdlang" {>= "0.0.5"}
   "cmdlang-cmdliner-runner" {>= "0.0.5"}
   "cmdlang-to-cmdliner" {>= "0.0.5"}
   "cmdliner" {= "1.3.0"}
-  "comments-parser" {>= "0.2.0"}
+  "comments-parser" {>= "0.2.1"}
   "core" {>= "v0.17" & < "v0.18"}
   "core_unix" {>= "v0.17" & < "v0.18"}
   "dune-site" {>= "3.16"}
@@ -33,7 +33,7 @@ depends: [
   "loc" {>= "0.2.0"}
   "mdx" {>= "2.4"}
   "menhir" {>= "20220210"}
-  "parsing-utils" {>= "0.2.0"}
+  "parsing-utils" {>= "0.2.1"}
   "pp" {>= "1.2.0"}
   "pp-extended" {>= "0.0.2"}
   "ppx_compare" {>= "v0.17" & < "v0.18"}
@@ -49,7 +49,7 @@ depends: [
   "ppxlib" {>= "0.33"}
   "stdio" {>= "v0.17" & < "v0.18"}
   "stdune" {>= "3.16"}
-  "tsdl" {>= "0.9.8"}
+  "tsdl" {= "1.0.0"}
   "tsdl-image" {>= "0.6"}
   "odoc" {with-doc}
 ]
