@@ -372,6 +372,8 @@
    (and
     (>= v0.17)
     (< v0.18)))
+  (bopkit
+   (= :version))
   (cmdlang
    (>= 0.0.5))
   (cmdlang-cmdliner-runner
@@ -467,7 +469,11 @@
     (< v0.18)))
   (stdune
    (>= 3.16))
+  (subleq
+   (= :version))
   (tsdl
    (= 1.0.0))
   (tsdl-image
-   (>= 0.6))))
+   (>= 0.6))
+  (visa
+   (= :version))))

@@ -16,6 +16,7 @@ depends: [
   "auto-format" {>= "0.0.13"}
   "base" {>= "v0.17" & < "v0.18"}
   "base_quickcheck" {>= "v0.17" & < "v0.18"}
+  "bopkit" {= version}
   "cmdlang" {>= "0.0.5"}
   "cmdlang-cmdliner-runner" {>= "0.0.5"}
   "cmdlang-to-cmdliner" {>= "0.0.5"}
@@ -49,8 +50,10 @@ depends: [
   "ppxlib" {>= "0.33"}
   "stdio" {>= "v0.17" & < "v0.18"}
   "stdune" {>= "3.16"}
+  "subleq" {= version}
   "tsdl" {= "1.0.0"}
   "tsdl-image" {>= "0.6"}
+  "visa" {= version}
   "odoc" {with-doc}
 ]
 build: [
