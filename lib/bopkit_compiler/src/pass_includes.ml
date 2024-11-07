@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 let find_distribution_file ~path ~loc =
   Bopkit_sites.Sites.stdlib
   |> List.find_map ~f:(fun stdlib_directory ->

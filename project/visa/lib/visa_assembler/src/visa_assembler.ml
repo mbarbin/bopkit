@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 module Assembly_construct = struct
   type t =
     | Label_introduction of { label : Visa.Label.t Loc.Txt.t }

@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 type t =
   { operator_name : Bopkit_process.Operator_name.t
   ; arity : int
@@ -18,7 +16,7 @@ let sexp_of_t { operator_name; arity; compute = _ } =
 let check_input_length ~input ~expected_length =
   let length = Array.length input in
   if expected_length = length
-  then return ()
+  then Or_error.return ()
   else
     Or_error.error_s
       [%sexp "Unexpected input length", { expected_length : int; length : int }]
@@ -26,7 +24,7 @@ let check_input_length ~input ~expected_length =
 
 let unary ~operator_name ~compute =
   let compute ~operands:input =
-    let%bind () = check_input_length ~input ~expected_length:2 in
+    let%bind.Or_error () = check_input_length ~input ~expected_length:2 in
     compute ~dst:input.(0) input.(1)
   in
   { operator_name; arity = 1; compute }
@@ -34,7 +32,7 @@ let unary ~operator_name ~compute =
 
 let binary ~operator_name ~compute =
   let compute ~operands:input =
-    let%bind () = check_input_length ~input ~expected_length:3 in
+    let%bind.Or_error () = check_input_length ~input ~expected_length:3 in
     compute ~dst:input.(0) input.(1) input.(2)
   in
   { operator_name; arity = 2; compute }
@@ -70,13 +68,13 @@ let primitives : Env.t Lazy.t =
     let operator_name = Bopkit_process.Operator_name.of_string operator_name in
     unary ~operator_name ~compute:(fun ~dst a ->
       f ~dst a;
-      return ())
+      Or_error.return ())
   in
   let b operator_name f : t =
     let operator_name = Bopkit_process.Operator_name.of_string operator_name in
     binary ~operator_name ~compute:(fun ~dst a b ->
       f ~dst a b;
-      return ())
+      Or_error.return ())
   in
   lazy
     ([ u "not" p_not

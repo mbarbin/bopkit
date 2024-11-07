@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 module Address = struct
   type t = { memory_index : int } [@@deriving equal, sexp_of]
 end

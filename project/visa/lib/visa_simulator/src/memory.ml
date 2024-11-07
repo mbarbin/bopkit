@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 module Ram = struct
   type t = int Hashtbl.M(Int).t
 
@@ -79,15 +77,13 @@ let load t ~address ~register_name =
 let store t ~register_name ~address =
   let address = Visa.Address.to_int address in
   let value = register_value t ~register_name in
-  Hashtbl.set t.memory ~key:address ~data:value;
-  return ()
+  Hashtbl.set t.memory ~key:address ~data:value
 ;;
 
 let write t ~register_name ~address =
   let address = Visa.Address.to_int address in
   let value = register_value t ~register_name in
-  Output_device.set t.output_device ~address ~value;
-  return ()
+  Output_device.set t.output_device ~address ~value
 ;;
 
 let add t =

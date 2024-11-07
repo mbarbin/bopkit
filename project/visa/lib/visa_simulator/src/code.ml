@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 module Statement = struct
   type t =
     { labels : Visa.Label.t Loc.Txt.t list

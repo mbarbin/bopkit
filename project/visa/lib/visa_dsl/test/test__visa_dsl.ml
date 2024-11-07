@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 (* $MDX part-begin=program *)
 let loop () : Visa.Program.t =
   Visa_dsl.program (fun t ->
