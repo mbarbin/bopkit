@@ -19,7 +19,7 @@
   bit_utils
   cmdlang
   comments-parser
-  err
+  pp-log.err
   fpath
   fpath-base
   loc

@@ -20,7 +20,7 @@
   core
   core_unix
   core_unix.sys_unix
-  err
+  pp-log.err
   fpath
   loc
   stdio)

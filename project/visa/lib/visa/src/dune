@@ -16,7 +16,7 @@
   bit_utils
   cmdlang
   core ;; For [Core.String_id]
-  err
+  pp-log.err
   fpath
   loc
   parsing-utils

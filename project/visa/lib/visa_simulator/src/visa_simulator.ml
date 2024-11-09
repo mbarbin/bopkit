@@ -265,7 +265,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to execute"
-     and () = Err_cli.set_config ()
+     and () = Pp_log_cli.set_config ()
      and config = Config.arg in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let visa_simulator = create ~config ~program in

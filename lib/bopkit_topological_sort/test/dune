@@ -14,7 +14,7 @@
  (libraries
   base
   bopkit_topological_sort
-  err
+  pp-log.err
   expect_test_helpers_core.expect_test_helpers_base)
  (inline_tests)
  (lint

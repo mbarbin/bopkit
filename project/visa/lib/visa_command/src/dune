@@ -20,8 +20,8 @@
   base
   cmdlang
   core
-  err
-  err-cli
+  pp-log.err
+  pp-log.cli
   fpath
   fpath-base
   seven_segment_display

@@ -23,8 +23,8 @@
   core_unix
   core_unix.core_thread
   core_unix.sys_unix
-  err
-  err-cli
+  pp-log.err
+  pp-log.cli
   fpath
   fpath-base
   loc

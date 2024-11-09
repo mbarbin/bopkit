@@ -6,7 +6,7 @@
   base
   bopkit_circuit
   bopkit_compiler
-  err
+  pp-log.err
   loc
   parsing-utils
   pp
