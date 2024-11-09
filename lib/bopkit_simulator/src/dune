@@ -20,9 +20,9 @@
   core
   core_unix
   core_unix.sys_unix
-  pp-log.err
   fpath
   loc
+  pp-log.err
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

@@ -23,8 +23,6 @@ depends: [
   "core" {>= "v0.17" & < "v0.18"}
   "core_unix" {>= "v0.17" & < "v0.18"}
   "dune-site" {>= "3.16"}
-  "err" {>= "0.0.5"}
-  "err-cli" {>= "0.0.5"}
   "fpath" {>= "0.7.3"}
   "fpath-base" {>= "0.2.2"}
   "graphics" {>= "5.1.2"}
@@ -34,6 +32,7 @@ depends: [
   "parsing-utils" {>= "0.2.1"}
   "pp" {>= "1.2.0"}
   "pp-extended" {>= "0.0.2"}
+  "pp-log" {>= "0.0.1"}
   "ppx_compare" {>= "v0.17" & < "v0.18"}
   "ppx_enumerate" {>= "v0.17" & < "v0.18"}
   "ppx_fields_conv" {>= "v0.17" & < "v0.18"}

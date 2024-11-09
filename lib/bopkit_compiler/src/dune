@@ -26,12 +26,12 @@
   bopkit_topological_sort
   cmdlang
   core
-  pp-log.err
   fpath
   fpath-base
   graphics
   loc
   parsing-utils
+  pp-log.err
   unix)
  (lint
   (pps ppx_js_style -check-doc-comments))

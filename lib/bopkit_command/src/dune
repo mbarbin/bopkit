@@ -30,10 +30,10 @@
   bopkit_to_c
   cmdlang
   core
-  pp-log.err
-  pp-log.cli
   fpath
   fpath-base
+  pp-log.cli
+  pp-log.err
   seven_segment_display
   stdio)
  (lint

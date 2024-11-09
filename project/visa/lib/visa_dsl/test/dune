@@ -13,11 +13,11 @@
   Expect_test_helpers_base)
  (libraries
   base
-  pp-log.err
   expect_test_helpers_core.expect_test_helpers_base
   parsing-utils
   pp
   pp-extended
+  pp-log.err
   visa
   visa_dsl
   visa_pp
