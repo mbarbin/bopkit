@@ -6,11 +6,11 @@
   base
   bopkit_circuit
   bopkit_compiler
-  err
   loc
   parsing-utils
   pp
-  pp-extended)
+  pp-extended
+  pp-log.err)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

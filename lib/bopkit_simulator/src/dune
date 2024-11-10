@@ -12,8 +12,6 @@
   -open
   Stdio
   -open
-  Or_error.Let_syntax
-  -open
   Cmdlang)
  (libraries
   base
@@ -22,9 +20,9 @@
   core
   core_unix
   core_unix.sys_unix
-  err
   fpath
   loc
+  pp-log.err
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

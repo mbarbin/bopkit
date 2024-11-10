@@ -1,5 +1,3 @@
-open! Or_error.Let_syntax
-
 let execute_instruction
   ~(break : unit Or_error.t With_return.return)
   ~architecture
@@ -12,7 +10,7 @@ let execute_instruction
     let st =
       match In_channel.(input_line stdin) with
       | Some line -> line
-      | None -> break.return (return ())
+      | None -> break.return (Or_error.return ())
     in
     let input_length = String.length st in
     let expected_length = architecture * p in
@@ -52,7 +50,7 @@ let execute_code ~interpreted_code:{ Interpreted_code.architecture; memory; code
       Array.iter code ~f:(fun instruction ->
         execute_instruction ~break ~architecture ~memory ~instruction)
     done;
-    return ())
+    Or_error.return ())
 ;;
 
 let run_program ~architecture ~program =

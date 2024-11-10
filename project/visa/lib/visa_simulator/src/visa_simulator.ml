@@ -1,4 +1,3 @@
-open Or_error.Let_syntax
 module Code = Code
 module Execution_stack = Execution_stack
 module Memory = Memory
@@ -91,6 +90,7 @@ let rec increment_code_pointer (t : t) =
 ;;
 
 let execute_instruction t ~instruction =
+  let open Or_error.Let_syntax in
   match (instruction : Visa.Label.t Visa.Instruction.t) with
   | Nop -> return (increment_code_pointer t)
   | Add ->
@@ -128,10 +128,10 @@ let execute_instruction t ~instruction =
       return true)
     else return (increment_code_pointer t)
   | Store { register_name; address } ->
-    let%bind () = Memory.store t.memory ~register_name ~address in
+    Memory.store t.memory ~register_name ~address;
     return (increment_code_pointer t)
   | Write { register_name; address } ->
-    let%bind () = Memory.write t.memory ~register_name ~address in
+    Memory.write t.memory ~register_name ~address;
     return (increment_code_pointer t)
   | Load_address { address; register_name } ->
     Memory.load t.memory ~address ~register_name;
@@ -153,6 +153,7 @@ module Step_result = struct
 end
 
 let step (t : t) =
+  let open Or_error.Let_syntax in
   let environment = t.environment in
   let assembly_instruction =
     match Stack.top t.execution_stack.macro_frames with
@@ -264,7 +265,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"assembler program to execute"
-     and () = Err_cli.set_config ()
+     and () = Pp_log_cli.set_config ()
      and config = Config.arg in
      let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
      let visa_simulator = create ~config ~program in

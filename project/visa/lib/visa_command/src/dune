@@ -20,10 +20,10 @@
   base
   cmdlang
   core
-  err
-  err-cli
   fpath
   fpath-base
+  pp-log.cli
+  pp-log.err
   seven_segment_display
   stdio
   visa

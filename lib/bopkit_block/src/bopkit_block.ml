@@ -1,6 +1,5 @@
 open! Base
 open! Stdio
-open! Or_error.Let_syntax
 
 module Arity = struct
   type ('kind, 'signal) t =
@@ -197,7 +196,7 @@ let run_line
   ~line
   =
   let output = create_output t.output_arity in
-  let%map () =
+  let%map.Or_error () =
     try
       let input = create_input t.input_arity ~line in
       t.f ~arguments ~input ~output;

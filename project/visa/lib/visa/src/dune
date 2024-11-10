@@ -16,11 +16,11 @@
   bit_utils
   cmdlang
   core ;; For [Core.String_id]
-  err
   fpath
   loc
   parsing-utils
   pp
+  pp-log.err
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

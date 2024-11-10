@@ -30,20 +30,12 @@ val load_value : t -> value:int -> register_name:Visa.Register_name.t -> unit
 (** [store t ~register_name ~address] is the opposite operation of [load] - it
     will write to memory at the given address the value currently contained in
     the register whose name is supplied. *)
-val store
-  :  t
-  -> register_name:Visa.Register_name.t
-  -> address:Visa.Address.t
-  -> unit Or_error.t
+val store : t -> register_name:Visa.Register_name.t -> address:Visa.Address.t -> unit
 
 (** [write t ~register_name ~address] is like [store] but writes to the output
     device. It will write to the output device at the given address the value
     currently contained in the register whose name is supplied. *)
-val write
-  :  t
-  -> register_name:Visa.Register_name.t
-  -> address:Visa.Address.t
-  -> unit Or_error.t
+val write : t -> register_name:Visa.Register_name.t -> address:Visa.Address.t -> unit
 
 (** {1 Operations on registers}
 

@@ -14,8 +14,6 @@
   -open
   Stdio
   -open
-  Or_error.Let_syntax
-  -open
   Cmdlang)
  (libraries
   base

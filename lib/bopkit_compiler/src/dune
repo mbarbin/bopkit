@@ -12,8 +12,6 @@
   -open
   Fpath_base
   -open
-  Or_error.Let_syntax
-  -open
   Cmdlang)
  (libraries
   appendable-list
@@ -28,12 +26,12 @@
   bopkit_topological_sort
   cmdlang
   core
-  err
   fpath
   fpath-base
   graphics
   loc
   parsing-utils
+  pp-log.err
   unix)
  (lint
   (pps ppx_js_style -check-doc-comments))

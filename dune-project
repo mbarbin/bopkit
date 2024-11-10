@@ -40,7 +40,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.13))
+   (>= 0.0.14))
   (base
    (and
     (>= v0.17)
@@ -56,9 +56,9 @@
   (cmdlang-to-cmdliner
    (>= 0.0.5))
   (cmdliner
-   (= 1.3.0))
+   (>= 1.3.0))
   (comments-parser
-   (>= 0.2.1))
+   (>= 0.2.2))
   (core
    (and
     (>= v0.17)
@@ -69,14 +69,10 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err
-   (>= 0.0.5))
-  (err-cli
-   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.2.0))
+   (>= 0.2.2))
   (graphics
    (>= 5.1.2))
   (loc
@@ -86,11 +82,13 @@
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.2.1))
+   (>= 0.2.2))
   (pp
    (>= 1.2.0))
   (pp-extended
    (>= 0.0.2))
+  (pp-log
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -149,7 +147,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.13))
+   (>= 0.0.14))
   (base
    (and
     (>= v0.17)
@@ -167,7 +165,7 @@
   (cmdlang-to-cmdliner
    (>= 0.0.5))
   (cmdliner
-   (= 1.3.0))
+   (>= 1.3.0))
   (core
    (and
     (>= v0.17)
@@ -178,14 +176,10 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err
-   (>= 0.0.5))
-  (err-cli
-   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.2.0))
+   (>= 0.2.2))
   (graphics
    (>= 5.1.2))
   (loc
@@ -195,11 +189,13 @@
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.2.1))
+   (>= 0.2.2))
   (pp
    (>= 1.2.0))
   (pp-extended
    (>= 0.0.2))
+  (pp-log
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -254,7 +250,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.13))
+   (>= 0.0.14))
   (base
    (and
     (>= v0.17)
@@ -272,7 +268,7 @@
   (cmdlang-to-cmdliner
    (>= 0.0.5))
   (cmdliner
-   (= 1.3.0))
+   (>= 1.3.0))
   (core
    (and
     (>= v0.17)
@@ -283,14 +279,10 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err
-   (>= 0.0.5))
-  (err-cli
-   (>= 0.0.5))
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.2.0))
+   (>= 0.2.2))
   (graphics
    (>= 5.1.2))
   (loc
@@ -300,11 +292,13 @@
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.2.1))
+   (>= 0.2.2))
   (pp
    (>= 1.2.0))
   (pp-extended
    (>= 0.0.2))
+  (pp-log
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -363,7 +357,7 @@
     (>= v0.17)
     (< v0.18)))
   (auto-format
-   (>= 0.0.13))
+   (>= 0.0.14))
   (base
    (and
     (>= v0.17)
@@ -381,9 +375,9 @@
   (cmdlang-to-cmdliner
    (>= 0.0.5))
   (cmdliner
-   (= 1.3.0))
+   (>= 1.3.0))
   (comments-parser
-   (>= 0.2.1))
+   (>= 0.2.2))
   (core
    (and
     (>= v0.17)
@@ -394,10 +388,6 @@
     (< v0.18)))
   (dune-site
    (>= 3.16))
-  (err
-   (>= 0.0.5))
-  (err-cli
-   (>= 0.0.5))
   (expect_test_helpers_core
    (and
     (>= v0.17)
@@ -405,7 +395,7 @@
   (fpath
    (>= 0.7.3))
   (fpath-base
-   (>= 0.2.0))
+   (>= 0.2.2))
   (graphics
    (>= 5.1.2))
   (loc
@@ -415,11 +405,13 @@
   (menhir
    (>= 20220210))
   (parsing-utils
-   (>= 0.2.1))
+   (>= 0.2.2))
   (pp
    (>= 1.2.0))
   (pp-extended
    (>= 0.0.2))
+  (pp-log
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)

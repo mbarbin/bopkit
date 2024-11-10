@@ -19,12 +19,12 @@
   bit_utils
   cmdlang
   comments-parser
-  err
   fpath
   fpath-base
   loc
   parsing-utils
-  pp)
+  pp
+  pp-log.err)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

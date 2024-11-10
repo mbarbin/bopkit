@@ -1,7 +1,7 @@
-(** In contrast to a {!type:Program.t} which may include higher level language
-    constructs such as constants and macros definitions, an executable is a
-    mere sequence of instructions. This is the expanded version of the program
-    once the macros have been resolved.
+(** In contrast to a {!type:Visa.Program.t} which may include higher level
+    language constructs such as constants and macros definitions, an
+    executable is a mere sequence of instructions. This is the expanded
+    version of the program once the macros have been resolved.
 
     There are three flavors of executable that the assembler works with:
 
