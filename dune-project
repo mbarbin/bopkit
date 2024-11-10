@@ -88,7 +88,7 @@
   (pp-extended
    (>= 0.0.2))
   (pp-log
-   (>= 0.0.1))
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -195,7 +195,7 @@
   (pp-extended
    (>= 0.0.2))
   (pp-log
-   (>= 0.0.1))
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -298,7 +298,7 @@
   (pp-extended
    (>= 0.0.2))
   (pp-log
-   (>= 0.0.1))
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
@@ -411,7 +411,7 @@
   (pp-extended
    (>= 0.0.2))
   (pp-log
-   (>= 0.0.1))
+   (>= 0.0.7))
   (ppx_compare
    (and
     (>= v0.17)
