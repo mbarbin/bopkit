@@ -70,29 +70,32 @@ let eval t ~parameters =
 ;;
 
 let pp t =
-  let module Format = Stdlib.Format in
-  let rec aux formatter = function
-    | ADD (t1, t2) -> Format.fprintf formatter "%a + %a" aux t1 aux_closed t2
+  let open Pp.O in
+  let concat li = Pp.box (Pp.concat ~sep:Pp.space li) in
+  let rec aux = function
+    | ADD (t1, t2) -> concat [ aux t1; Pp.verbatim "+"; aux_closed t2 ]
     | SUB (t1, t2) ->
       (match t1 with
-       | CST 0 -> Format.fprintf formatter "-%a" aux_closed t2
-       | _ -> Format.fprintf formatter "%a - %a" aux t1 aux_closed t2)
-    | t -> aux_closed formatter t
-  and aux_closed formatter = function
-    | DIV (t1, t2) -> Format.fprintf formatter "%a / %a" aux_closed t1 aux_priority t2
-    | MULT (t1, t2) -> Format.fprintf formatter "%a * %a" aux_closed t1 aux_priority t2
-    | MOD (t1, t2) -> Format.fprintf formatter "%a mod %a" aux_closed t1 aux_priority t2
-    | t -> aux_priority formatter t
-  and aux_priority formatter = function
-    | LOG t -> Format.fprintf formatter "log %a" aux_terminal t
-    | EXP (t1, t2) -> Format.fprintf formatter "%a ^ %a" aux_priority t1 aux_terminal t2
-    | t -> aux_terminal formatter t
-  and aux_terminal formatter = function
-    | CST i -> Format.fprintf formatter "%d" i
-    | VAR var -> Format.fprintf formatter "%s" var
-    | MIN (t1, t2) -> Format.fprintf formatter "min(%a,%a)" aux t1 aux t2
-    | MAX (t1, t2) -> Format.fprintf formatter "max(%a,%a)" aux t1 aux t2
-    | t -> Format.fprintf formatter "(%a)" aux t
+       | CST 0 -> Pp.verbatim "-" ++ aux_closed t2
+       | _ -> concat [ aux t1; Pp.verbatim "-"; aux_closed t2 ])
+    | t -> aux_closed t
+  and aux_closed = function
+    | DIV (t1, t2) -> concat [ aux_closed t1; Pp.verbatim "/"; aux_priority t2 ]
+    | MULT (t1, t2) -> concat [ aux_closed t1; Pp.verbatim "*"; aux_priority t2 ]
+    | MOD (t1, t2) -> concat [ aux_closed t1; Pp.verbatim "mod"; aux_priority t2 ]
+    | t -> aux_priority t
+  and aux_priority = function
+    | LOG t -> concat [ Pp.verbatim "log"; aux_terminal t ]
+    | EXP (t1, t2) -> concat [ aux_priority t1; Pp.verbatim "^"; aux_terminal t2 ]
+    | t -> aux_terminal t
+  and aux_terminal = function
+    | CST i -> Pp.verbatim (Int.to_string i)
+    | VAR var -> Pp.verbatim var
+    | MIN (t1, t2) ->
+      Pp.verbatim "min(" ++ aux t1 ++ Pp.verbatim "," ++ aux t2 ++ Pp.verbatim ")"
+    | MAX (t1, t2) ->
+      Pp.verbatim "max(" ++ aux t1 ++ Pp.verbatim "," ++ aux t2 ++ Pp.verbatim ")"
+    | t -> Pp.verbatim "(" ++ aux t ++ Pp.verbatim ")"
   in
-  Pp.of_fmt aux t
+  aux t
 ;;
