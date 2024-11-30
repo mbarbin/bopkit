@@ -21,6 +21,8 @@
 
 (using menhir 3.0)
 
+(implicit_transitive_deps false)
+
 (package
  (name bopkit)
  (synopsis "An educational project for digital circuits programming")
