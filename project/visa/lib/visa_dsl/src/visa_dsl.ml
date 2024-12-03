@@ -130,8 +130,8 @@ module O = struct
           raise_s
             [%sexp
               "Invalid visa construct inside macro"
-              , [%here]
-              , (construct : Visa.Program.Top_level_construct.t)]
+            , [%here]
+            , (construct : Visa.Program.Top_level_construct.t)]
         | Assembly_instruction { assembly_instruction = i } -> i)
     in
     Queue.enqueue

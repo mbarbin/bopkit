@@ -39,7 +39,7 @@ let%expect_test "to_string roundtrip" =
         raise_s
           [%sexp
             "Value does not roundtrip"
-            , { t1 : Partial_bit_array.t; t2 : Partial_bit_array.t }])
+          , { t1 : Partial_bit_array.t; t2 : Partial_bit_array.t }])
 ;;
 
 let%expect_test "text files" =
@@ -53,7 +53,7 @@ let%expect_test "text files" =
       raise_s
         [%sexp
           "Value does not roundtrip"
-          , { t : Partial_bit_array.t; t2 : Partial_bit_array.t }];
+        , { t : Partial_bit_array.t; t2 : Partial_bit_array.t }];
     let contents2 = Partial_bit_array.to_string t ^ "\n" in
     if not (String.equal contents contents2)
     then

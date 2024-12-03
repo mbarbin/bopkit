@@ -101,10 +101,10 @@ let check_unused_macro_parameters ~(environment : Environment.t) =
   Map.iter environment.macros ~f:(fun { macro_name; parameters; body } ->
     let used_parameters = Hash_set.create (module Visa.Parameter_name) in
     List.iter body ~f:(function { loc = _; operation_kind = _; arguments } ->
-      List.iter arguments ~f:(fun argument ->
-        match argument.txt with
-        | Parameter { parameter_name } -> Hash_set.add used_parameters parameter_name
-        | _ -> ()));
+        List.iter arguments ~f:(fun argument ->
+          match argument.txt with
+          | Parameter { parameter_name } -> Hash_set.add used_parameters parameter_name
+          | _ -> ()));
     let unused_parameters =
       List.filter parameters ~f:(fun parameter_name ->
         not (Hash_set.mem used_parameters parameter_name))
@@ -124,8 +124,8 @@ let check_unused_macro_parameters ~(environment : Environment.t) =
 ;;
 
 let check_unused_definitions
-  ~(environment : Environment.t)
-  ~(assembly_constructs : Assembly_construct.t list)
+      ~(environment : Environment.t)
+      ~(assembly_constructs : Assembly_construct.t list)
   =
   let used_constants = Hash_set.create (module Visa.Constant_name) in
   let used_macros = Hash_set.create (module Visa.Macro_name) in
@@ -187,10 +187,10 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
       , Error.create_s
           [%sexp
             "Invalid number of arguments"
-            , { instruction_name : Visa.Instruction_name.t
-              ; expects : int
-              ; is_applied_to = (List.length arguments : int)
-              }] )
+          , { instruction_name : Visa.Instruction_name.t
+            ; expects : int
+            ; is_applied_to = (List.length arguments : int)
+            }] )
   in
   let zero_argument () =
     match arguments with
@@ -213,11 +213,11 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
       , Error.create_s
           [%sexp
             "Invalid argument"
-            , { instruction_name : Visa.Instruction_name.t
-              ; arg : int
-              ; expected : Sexp.t
-              ; applied_to = (argument : Visa.Assembly_instruction.Argument.t)
-              }] )
+          , { instruction_name : Visa.Instruction_name.t
+            ; arg : int
+            ; expected : Sexp.t
+            ; applied_to = (argument : Visa.Assembly_instruction.Argument.t)
+            }] )
   in
   let register_name ~arg (argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t) =
     match argument.txt with
@@ -306,9 +306,9 @@ let build_instruction ~(environment : Environment.t) ~loc ~instruction_name ~arg
 ;;
 
 let rec lookup_argument
-  ~(environment : Environment.t)
-  ~bindings
-  ~(argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t)
+          ~(environment : Environment.t)
+          ~bindings
+          ~(argument : Visa.Assembly_instruction.Argument.t Loc.Txt.t)
   =
   let open Result.Let_syntax in
   match argument.txt with
@@ -353,8 +353,9 @@ let program_to_executable_with_labels ~(program : Visa.Program.t) =
     Queue.enqueue executable { label_introduction; instruction }
   in
   let rec process_assembly_instruction
-    ~bindings
-    ~assembly_instruction:{ Visa.Assembly_instruction.loc; operation_kind; arguments }
+            ~bindings
+            ~assembly_instruction:
+              { Visa.Assembly_instruction.loc; operation_kind; arguments }
     =
     match
       List.map arguments ~f:(fun argument ->

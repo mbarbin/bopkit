@@ -50,8 +50,8 @@ let topological_sort (cds : t) =
      raise_s
        [%sexp
          "Unexpected gate_kind at index 0, expected input gate"
-         , [%here]
-         , { gate_kind : Gate_kind.t }]);
+       , [%here]
+       , { gate_kind : Gate_kind.t }]);
   for i = Int.pred ncds downto 0 do
     if not visited.(i) then dfs i
   done;

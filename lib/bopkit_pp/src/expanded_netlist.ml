@@ -44,14 +44,14 @@ let map_node { Bopkit.Expanded_netlist.loc; call; inputs; outputs } =
 ;;
 
 let map_block
-  { Bopkit.Expanded_netlist.loc
-  ; name
-  ; attributes
-  ; inputs
-  ; outputs
-  ; unused_variables
-  ; nodes
-  }
+      { Bopkit.Expanded_netlist.loc
+      ; name
+      ; attributes
+      ; inputs
+      ; outputs
+      ; unused_variables
+      ; nodes
+      }
   =
   { Bopkit.Netlist.loc
   ; head_comments = Bopkit.Comments.none

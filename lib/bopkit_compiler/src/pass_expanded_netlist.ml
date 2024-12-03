@@ -190,9 +190,9 @@ let request_expansion (t : t) ~name ~loc =
 ;;
 
 let request_specialisation
-  (t : t)
-  ({ Specialisation_request.loc; parameters; name; arguments; functional_arguments } as
-   specialisation_request)
+      (t : t)
+      ({ Specialisation_request.loc; parameters; name; arguments; functional_arguments }
+       as specialisation_request)
   =
   let specialisation_key =
     Specialisation_key.of_specialisation_request specialisation_request
@@ -313,11 +313,11 @@ let add_functional_parameters ~functional_parameters ~parameters =
 ;;
 
 let eval_functional_argument
-  (t : t)
-  (arg : Bopkit.Netlist.functional_argument)
-  ~loc
-  ~parameters
-  ~functional_parameters
+      (t : t)
+      (arg : Bopkit.Netlist.functional_argument)
+      ~loc
+      ~parameters
+      ~functional_parameters
   =
   if arg.name_is_quoted
   then
@@ -341,12 +341,12 @@ type expanded_call =
   }
 
 let expand_call
-  (t : t)
-  (call : Bopkit.Netlist.call)
-  ~loc
-  ~parameters
-  ~functional_parameters
-  ~expected_output_width
+      (t : t)
+      (call : Bopkit.Netlist.call)
+      ~loc
+      ~parameters
+      ~functional_parameters
+      ~expected_output_width
   : expanded_call
   =
   let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc in
@@ -433,8 +433,8 @@ let expand_call
 let empty_variables = { Bopkit.Expanded_netlist.expanded = []; original_grouping = [] }
 
 let append_variables
-  { Bopkit.Expanded_netlist.expanded = a; original_grouping = b }
-  { Bopkit.Expanded_netlist.expanded = c; original_grouping = d }
+      { Bopkit.Expanded_netlist.expanded = a; original_grouping = b }
+      { Bopkit.Expanded_netlist.expanded = c; original_grouping = d }
   : Bopkit.Expanded_netlist.variables
   =
   { expanded = a @ c; original_grouping = b @ d }
@@ -443,10 +443,10 @@ let append_variables
 let concat_variables all = List.fold_left all ~init:empty_variables ~f:append_variables
 
 let expand_node_nesting
-  (t : t)
-  (node : Bopkit.Netlist.node)
-  ~parameters
-  ~functional_parameters
+      (t : t)
+      (node : Bopkit.Netlist.node)
+      ~parameters
+      ~functional_parameters
   =
   let { Bopkit.Netlist.loc; comments = _; call; inputs; outputs } = node in
   let outputs = expand_variables t ~variables:outputs ~parameters in
@@ -504,21 +504,21 @@ let create_state blocks ~primitives ~parameters =
 ;;
 
 let expand_block
-  (t : t)
-  ~parameters
-  ~functional_parameters
-  ~expanded_interface:{ Expanded_interface.name; inputs; outputs }
-  ~block:
-    { Bopkit.Netlist.loc
-    ; head_comments = _
-    ; tail_comments = _
-    ; name = _
-    ; attributes
-    ; inputs = _
-    ; outputs = _
-    ; unused_variables
-    ; nodes
-    }
+      (t : t)
+      ~parameters
+      ~functional_parameters
+      ~expanded_interface:{ Expanded_interface.name; inputs; outputs }
+      ~block:
+        { Bopkit.Netlist.loc
+        ; head_comments = _
+        ; tail_comments = _
+        ; name = _
+        ; attributes
+        ; inputs = _
+        ; outputs = _
+        ; unused_variables
+        ; nodes
+        }
   =
   let unused_variables = expand_variables t ~variables:unused_variables ~parameters in
   let nodes =

@@ -47,7 +47,7 @@ module External_process = struct
     ; output_pipe : In_channel.t
     ; input_pipe : Out_channel.t
     ; mutable pending_input : Pending_input.t option
-    (* [pending_input] is used to improve error messages in the case of a
+      (* [pending_input] is used to improve error messages in the case of a
        process terminating before responding to an input. *)
     }
 end
@@ -77,7 +77,7 @@ let of_circuit ~(circuit : Bopkit_circuit.Circuit.t) =
       raise_s
         [%sexp
           "Expected first gate of circuit to be its input"
-          , { gate_kind : Bopkit_circuit.Gate_kind.t }]
+        , { gate_kind : Bopkit_circuit.Gate_kind.t }]
   in
   let output =
     match
@@ -294,7 +294,7 @@ let quit t =
     raise_s
       [%sexp
         "Uncaught exceptions during external process termination"
-        , (Queue.to_list uncaught_exceptions : exn list)]
+      , (Queue.to_list uncaught_exceptions : exn list)]
 ;;
 
 (* For each [Regr], update its matching [Regt]. Called at the end of each cycle. *)

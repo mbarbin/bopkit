@@ -8,10 +8,10 @@ let%expect_test "digital-watch-decoded" =
       raise_s
         [%sexp
           "Digital_watch.Decoded does not round trip"
-          , { d : Digital_watch.Decoded.t
-            ; d' : Digital_watch.Decoded.t
-            ; dst : Bit_array.Short_sexp.t
-            }];
+        , { d : Digital_watch.Decoded.t
+          ; d' : Digital_watch.Decoded.t
+          ; dst : Bit_array.Short_sexp.t
+          }];
     print_endline (Digital_watch.Decoded.to_string d')
   in
   test { hour = 17; minute = 54; second = 37 };

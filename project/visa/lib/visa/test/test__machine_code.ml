@@ -8,10 +8,10 @@ let%expect_test "operation" =
       raise_s
         [%sexp
           "Visa.Machine_code does not round-trip"
-          , { byte : Visa.Machine_code.Byte.t
-            ; operation : Operation.t
-            ; operation' : Operation.t
-            }];
+        , { byte : Visa.Machine_code.Byte.t
+          ; operation : Operation.t
+          ; operation' : Operation.t
+          }];
     print_endline
       (sprintf
          "%20s : %s - opcode=%02d"

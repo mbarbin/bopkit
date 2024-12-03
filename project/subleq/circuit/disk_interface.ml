@@ -26,8 +26,8 @@ let init ~architecture ~debug ~files_prefix ~number_of_programs =
       Core_thread.create
         ~on_uncaught_exn:`Kill_whole_process
         (fun () ->
-          Bopkit_memory.event_loop mem ~read_only:true;
-          Stdlib.exit 0)
+           Bopkit_memory.event_loop mem ~read_only:true;
+           Stdlib.exit 0)
         ()
     in
     Bopkit_memory.draw mem);

@@ -12,7 +12,8 @@ let%expect_test "T encoding" =
     let t2 = Bit_string_encoding.Bit.of_char char in
     assert (T.equal t t2);
     print_s [%sexp { t : T.t; char : Char.t }]);
-  [%expect {|
+  [%expect
+    {|
     ((t false) (char 0))
     ((t true) (char 1)) |}]
 ;;

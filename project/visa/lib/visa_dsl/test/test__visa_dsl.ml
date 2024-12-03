@@ -15,7 +15,8 @@ let loop () : Visa.Program.t =
 let%expect_test "loop pp" =
   let program = loop () in
   print_endline (Pp_extended.to_string (Visa_pp.Program.pp program));
-  [%expect {|
+  [%expect
+    {|
     LOOP:
       load #1, R0
       add
@@ -156,9 +157,9 @@ let%expect_test "minus" =
      raise_s
        [%sexp
          "Executable differ"
-         , { executable_with_ocaml_macro : Visa.Executable.t
-           ; executable_with_visa_macro : Visa.Executable.t
-           }]);
+       , { executable_with_ocaml_macro : Visa.Executable.t
+         ; executable_with_visa_macro : Visa.Executable.t
+         }]);
   [%expect {||}];
   ()
 ;;

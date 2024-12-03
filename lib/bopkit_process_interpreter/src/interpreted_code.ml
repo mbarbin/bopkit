@@ -36,9 +36,9 @@ let unknown_operator_error ~(operator_name : Bopkit_process.Operator_name.t Loc.
 ;;
 
 let operator_arity_error
-  ~(operator_name : Bopkit_process.Operator_name.t Loc.Txt.t)
-  ~arity
-  ~number_of_arguments
+      ~(operator_name : Bopkit_process.Operator_name.t Loc.Txt.t)
+      ~arity
+      ~number_of_arguments
   =
   Err.error
     ~loc:operator_name.loc

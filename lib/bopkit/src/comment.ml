@@ -70,8 +70,8 @@ let parse_exn comment =
       [%sexp
         "Internal error. A program fragment was parsed as a comment by the parser, but \
          later not recognized as such. Please report upstream."
-        , [%here]
-        , { comment : string }]
+      , [%here]
+      , { comment : string }]
 ;;
 
 let render = function

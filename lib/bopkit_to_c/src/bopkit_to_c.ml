@@ -57,8 +57,8 @@ let fragments_of_cds ~(cds : Bopkit_circuit.Cds.t) =
             raise_s
               [%sexp
                 "Internal error, duplicated output_wires"
-                , [%here]
-                , { output_wire : Bopkit_circuit.Output_wire.t }]
+              , [%here]
+              , { output_wire : Bopkit_circuit.Output_wire.t }]
           else Hashtbl.set output_variables ~key:output_wire ~data:s);
         s)
     in
@@ -129,8 +129,7 @@ let emit_c_code ~(circuit : Bopkit_circuit.Circuit.t) ~to_:oc =
   let main = circuit.main in
   let cds = circuit.cds in
   let roms = circuit.rom_memories in
-  let (Fragments.T
-        { variables; declarations; assignments; nodes; rams; update_registers })
+  let (Fragments.T { variables; declarations; assignments; nodes; rams; update_registers })
     =
     fragments_of_cds ~cds
   in

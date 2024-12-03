@@ -70,8 +70,8 @@ let resolve_labels (t : With_labels.t) =
         raise_s
           [%sexp
             "Undefined label"
-            , [%here]
-            , { i : int; instruction : Label.t Instruction.t; label : Label.t }]))
+          , [%here]
+          , { i : int; instruction : Label.t Instruction.t; label : Label.t }]))
 ;;
 
 let to_machine_code (t : t) = Machine_code.of_instructions t

@@ -43,7 +43,7 @@ module Arity = struct
       raise_s
         [%sexp
           "input line is too short"
-          , { line_length : int; needs_next_input = { from : int; len : int } }]
+        , { line_length : int; needs_next_input = { from : int; len : int } }]
   ;;
 
   let rec read_input : type a. bool array -> index:int ref -> (a, bool) t -> a =
@@ -188,12 +188,12 @@ module Context = struct
 end
 
 let run_line
-  (type arguments)
-  (Method.Expert.T t : arguments Method.t)
-  ~context
-  ~no_output
-  ~(arguments : arguments)
-  ~line
+      (type arguments)
+      (Method.Expert.T t : arguments Method.t)
+      ~context
+      ~no_output
+      ~(arguments : arguments)
+      ~line
   =
   let output = create_output t.output_arity in
   let%map.Or_error () =
@@ -206,9 +206,9 @@ let run_line
       Or_error.error_s
         [%sexp
           "External block exception"
-          , (context : Context.t)
-          , { line : string }
-          , (e : Exn.t)]
+        , (context : Context.t)
+        , { line : string }
+        , (e : Exn.t)]
   in
   let buffer = Buffer.create 23 in
   let fff c = Buffer.add_char buffer (Bit_string_encoding.Bit.to_char c) in
@@ -285,9 +285,9 @@ let main ?readme t_param =
            Or_error.error_s
              [%sexp
                "parsing error"
-               , [%here]
-               , { context : Context.t; input : string }
-               , (e : Exn.t)]
+             , [%here]
+             , { context : Context.t; input : string }
+             , (e : Exn.t)]
        in
        let line = protocol.bits in
        match protocol.method_kind with

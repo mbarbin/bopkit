@@ -23,7 +23,7 @@ let pp_comments comments =
 ;;
 
 let pp_assignment
-  { Bopkit_process.Program.Assignment.comments; result; operator_name; arguments }
+      { Bopkit_process.Program.Assignment.comments; result; operator_name; arguments }
   =
   let open Pp.O in
   let operator = pp_operator_name operator_name in

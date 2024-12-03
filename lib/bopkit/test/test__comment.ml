@@ -23,7 +23,8 @@ let%expect_test "categorise" =
   test "//Hey*/";
   [%expect {| // Hey*/ |}];
   test "/*/Hey*/";
-  [%expect {|
+  [%expect
+    {|
     /* /Hey
      */ |}];
   test
@@ -37,14 +38,17 @@ But then it has another line which is not part of a comment
   test "/**/";
   [%expect {| /* */ |}];
   test "/***/";
-  [%expect {|
+  [%expect
+    {|
     /**
      */ |}];
   test "/* */";
-  [%expect {|
+  [%expect
+    {|
     /* */ |}];
   test "/** */";
-  [%expect {|
+  [%expect
+    {|
     /**
      */ |}];
   test "/* A one line with the enclosing syntax of multiple lines comment */";
@@ -53,7 +57,8 @@ But then it has another line which is not part of a comment
     /* A one line with the enclosing syntax of multiple lines comment
      */ |}];
   test "/** A documentation comment that fits on 1 line. */";
-  [%expect {|
+  [%expect
+    {|
     /**
      * A documentation comment that fits on 1 line.
      */ |}];
@@ -71,7 +76,8 @@ But then it has another line which is not part of a comment
      * with non aligned text
      * hello
      */ |}];
-  test {|
+  test
+    {|
 /**
  * This is some documentation comment
  * That is already rendered.
@@ -96,7 +102,8 @@ But then it has another line which is not part of a comment
      * This is some documentation comment
      * That is already rendered sligthly differently.
      */ |}];
-  test {|
+  test
+    {|
 /* This is some non documentation comment
  * That is already rendered.
  */
@@ -170,7 +177,8 @@ But then it has another line which is not part of a comment
  *
  */
 |};
-  [%expect {|
+  [%expect
+    {|
     /* A multiline comment
      * With trailing whitespaces also
      */ |}];
@@ -214,7 +222,8 @@ But then it has another line which is not part of a comment
      * |     Check     out      this
      * |               for      example.
      */ |}];
-  test {|
+  test
+    {|
 /// Single line comments can be documentation comments too!
 |};
   [%expect {| /// Single line comments can be documentation comments too! |}];

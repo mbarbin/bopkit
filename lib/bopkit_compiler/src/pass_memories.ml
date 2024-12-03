@@ -57,16 +57,16 @@ let pass memories ~parameters =
      primitives dans laquelle on a ajoute la primitive memoire correspondant
      a la declaration -> Utilisee avec un fold_left *)
   let add_une_memoire
-    arit
-    ({ Bopkit.Netlist.loc
-     ; comments = _
-     ; name
-     ; memory_kind
-     ; address_width
-     ; data_width
-     ; memory_content
-     } :
-      Bopkit.Netlist.memory)
+        arit
+        ({ Bopkit.Netlist.loc
+         ; comments = _
+         ; name
+         ; memory_kind
+         ; address_width
+         ; data_width
+         ; memory_content
+         } :
+          Bopkit.Netlist.memory)
     =
     let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc in
     let address_width, data_width =

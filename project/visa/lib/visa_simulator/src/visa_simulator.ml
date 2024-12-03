@@ -117,11 +117,12 @@ let execute_instruction t ~instruction =
       | Some statement_index -> return statement_index
       | None -> Or_error.error_s [%sexp "Label not found", { label : Visa.Label.t }]
     in
-    if match jump_instruction with
-       | Jmp _ -> true
-       | Jmn _ -> Memory.register_value t.memory ~register_name:R1 <> 0
-       | Jmz _ -> Memory.register_value t.memory ~register_name:R1 = 0
-       | _ -> assert false
+    if
+      match jump_instruction with
+      | Jmp _ -> true
+      | Jmn _ -> Memory.register_value t.memory ~register_name:R1 <> 0
+      | Jmz _ -> Memory.register_value t.memory ~register_name:R1 = 0
+      | _ -> assert false
     then (
       Stack.clear t.execution_stack.macro_frames;
       t.execution_stack.code_pointer <- code_pointer;
@@ -198,10 +199,10 @@ let step (t : t) =
         Or_error.error_s
           [%sexp
             "Invalid number of macro arguments"
-            , { macro_name : Visa.Macro_name.t Loc.Txt.t
-              ; expected = (List.length parameters : int)
-              ; applied_to = (List.length arguments : int)
-              }]
+          , { macro_name : Visa.Macro_name.t Loc.Txt.t
+            ; expected = (List.length parameters : int)
+            ; applied_to = (List.length arguments : int)
+            }]
     in
     let macro_frame =
       { Execution_stack.Macro_frame.macro_name
@@ -244,11 +245,12 @@ let run (t : t) =
                 print_endline output;
                 Int.incr count_output)
             | _ -> ());
-           if (not continue)
-              ||
-              match t.config.stop_after_n_outputs with
-              | None -> false
-              | Some count -> !count_output >= count
+           if
+             (not continue)
+             ||
+             match t.config.stop_after_n_outputs with
+             | None -> false
+             | Some count -> !count_output >= count
            then return.return (Ok ())
        done
      with

@@ -22,20 +22,23 @@ let%expect_test "expand_list" =
   test [ { from = 0; to_ = 0 } ];
   [%expect {| ((0)) |}];
   test [ { from = 0; to_ = -4 } ];
-  [%expect {|
+  [%expect
+    {|
     ((0)
      (-1)
      (-2)
      (-3)
      (-4)) |}];
   test [ { from = -1; to_ = 2 } ];
-  [%expect {|
+  [%expect
+    {|
     ((-1)
      (0)
      (1)
      (2)) |}];
   test [ { from = 0; to_ = 1 }; { from = 0; to_ = 2 } ];
-  [%expect {|
+  [%expect
+    {|
     ((0 0)
      (0 1)
      (0 2)

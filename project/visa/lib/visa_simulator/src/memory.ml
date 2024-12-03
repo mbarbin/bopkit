@@ -46,8 +46,8 @@ let load_initial_memory t memory =
     raise_s
       [%sexp
         "Invalid memory dimension. Expected [256 x 8]."
-        , [%here]
-        , { dimx : int; dimy : int }];
+      , [%here]
+      , { dimx : int; dimy : int }];
   Ram.blit t.memory ~memory
 ;;
 

@@ -1,8 +1,8 @@
 let execute_instruction
-  ~(break : unit Or_error.t With_return.return)
-  ~architecture
-  ~memory
-  ~instruction
+      ~(break : unit Or_error.t With_return.return)
+      ~architecture
+      ~memory
+      ~instruction
   =
   match (instruction : Interpreted_code.Instruction.t) with
   | Input { addresses } ->

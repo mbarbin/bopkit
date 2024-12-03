@@ -107,9 +107,9 @@ let detect_cycle_in_block (fd : Expanded_block.t) =
 ;;
 
 let create_block
-  (fd : Bopkit.Expanded_netlist.block)
-  ~(primitives : Primitive.env)
-  ~(env : Expanded_block.env)
+      (fd : Bopkit.Expanded_netlist.block)
+      ~(primitives : Primitive.env)
+      ~(env : Expanded_block.env)
   =
   let loc = fd.loc in
   let name, entree_list, sortie_list, unused, corps_c =
@@ -168,12 +168,12 @@ let create_block
     (* une variable ne peut pas etre branchée a deux sortie de primitives,
        sauf si c'est "_" qui n'est pas utilisee par construction *)
     let f_fold
-      (set_e, set_s)
-      { Bopkit.Expanded_netlist.loc = _
-      ; call = _
-      ; inputs = { expanded = e_l; _ }
-      ; outputs = { expanded = s_l; _ }
-      }
+          (set_e, set_s)
+          { Bopkit.Expanded_netlist.loc = _
+          ; call = _
+          ; inputs = { expanded = e_l; _ }
+          ; outputs = { expanded = s_l; _ }
+          }
       =
       ( List.fold_left e_l ~init:set_e ~f:Set.add
       , List.fold_left s_l ~init:set_s ~f:(fun set s ->
@@ -272,9 +272,10 @@ let create_block
     (* si une variable local est observee mais pas assignee *)
     Set.iter variables_locales ~f:variable_non_assignee;
     Set.iter unused_decl ~f:(fun unused_var ->
-      if (not (String.equal unused_var "_"))
-         && (not (Set.mem sorties_appel unused_var))
-         && not (Set.mem ensemble_entree unused_var)
+      if
+        (not (String.equal unused_var "_"))
+        && (not (Set.mem sorties_appel unused_var))
+        && not (Set.mem ensemble_entree unused_var)
       then
         Err.error
           ~loc
@@ -294,11 +295,11 @@ let create_block
       (* C'est un triplet (type_appel, entrees_effct, sorties_effct) *)
       (* WARNING call name devient de type Block ou PipeCall *)
       let make_appel
-        { Bopkit.Expanded_netlist.loc
-        ; call
-        ; inputs = { expanded = ent; _ }
-        ; outputs = { expanded = sor; _ }
-        }
+            { Bopkit.Expanded_netlist.loc
+            ; call
+            ; inputs = { expanded = ent; _ }
+            ; outputs = { expanded = sor; _ }
+            }
         =
         match call with
         | External_block

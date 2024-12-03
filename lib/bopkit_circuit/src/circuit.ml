@@ -25,8 +25,8 @@ let verify_input_output_gate_count_exn t =
     raise_s
       [%sexp
         "Expected circuit to have exactly 1 input and 1 output"
-        , [%here]
-        , { inputs : int; outputs : int }]
+      , [%here]
+      , { inputs : int; outputs : int }]
 ;;
 
 let verify_input_position_exn t =
@@ -36,8 +36,8 @@ let verify_input_position_exn t =
     raise_s
       [%sexp
         "Expected first gate of circuit to be its input"
-        , [%here]
-        , { gate_kind : Gate_kind.t }]
+      , [%here]
+      , { gate_kind : Gate_kind.t }]
 ;;
 
 let create_exn ~path ~main ~rom_memories ~external_blocks ~cds ~input_names ~output_names =

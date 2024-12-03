@@ -97,7 +97,7 @@ let%expect_test "to_signed_int / to_int" =
         raise_s
           [%sexp
             "Unexpected signed int"
-            , { t : Bit_array.t; int : int; expected_signed_int : int; signed_int : int }])
+          , { t : Bit_array.t; int : int; expected_signed_int : int; signed_int : int }])
 ;;
 
 let%expect_test "sequence" =

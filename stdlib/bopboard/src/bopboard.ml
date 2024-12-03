@@ -323,8 +323,8 @@ let light_method (t : t) =
            raise_s
              [%sexp
                "unexpected input length"
-               , [%here]
-               , { expected_length : int; input_length : int }];
+             , [%here]
+             , { expected_length : int; input_length : int }];
          Array.iter2_exn t.board.lights input ~f:set_light
        | [ index ] ->
          let index = Int.of_string index in
@@ -337,8 +337,8 @@ let light_method (t : t) =
            raise_s
              [%sexp
                "unexpected input length"
-               , [%here]
-               , { expected_length : int; input_length : int }];
+             , [%here]
+             , { expected_length : int; input_length : int }];
          set_light t.board.lights.(index) input.(0));
       if !needs_redraw then redraw t)
 ;;

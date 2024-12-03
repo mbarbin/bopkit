@@ -8,10 +8,10 @@ let%expect_test "digital-calendar-decoded" =
       raise_s
         [%sexp
           "Digital_calendar.Decoded does not round trip"
-          , { d : Digital_calendar.Decoded.t
-            ; d' : Digital_calendar.Decoded.t
-            ; dst : Bit_array.Short_sexp.t
-            }];
+        , { d : Digital_calendar.Decoded.t
+          ; d' : Digital_calendar.Decoded.t
+          ; dst : Bit_array.Short_sexp.t
+          }];
     print_endline (Digital_calendar.Decoded.to_string d')
   in
   Expect_test_helpers_core.require_does_raise [%here] (fun () ->

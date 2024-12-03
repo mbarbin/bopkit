@@ -21,10 +21,10 @@ module Node_and_key = struct
 end
 
 let sort
-  (type node key)
-  (module Node : Node with type t = node and type key = key)
-  (module Key : Key with type t = key)
-  (nodes : node list)
+      (type node key)
+      (module Node : Node with type t = node and type key = key)
+      (module Key : Key with type t = key)
+      (nodes : node list)
   =
   let nodes_table = Hashtbl.create (module Key) in
   let nodes =

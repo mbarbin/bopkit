@@ -53,13 +53,15 @@ let parse t =
         then ()
         else (
           match
-            if Char.equal t.[i] '$'
-               && i <= len_t - 2
-               && Char.( = ) t.[Int.succ i] (Syntax.open_char Dollar)
+            if
+              Char.equal t.[i] '$'
+              && i <= len_t - 2
+              && Char.( = ) t.[Int.succ i] (Syntax.open_char Dollar)
             then Some Syntax.Dollar
-            else if Char.equal t.[i] '%'
-                    && i <= len_t - 2
-                    && Char.( = ) t.[Int.succ i] (Syntax.open_char Percent)
+            else if
+              Char.equal t.[i] '%'
+              && i <= len_t - 2
+              && Char.( = ) t.[Int.succ i] (Syntax.open_char Percent)
             then Some Syntax.Percent
             else None
           with

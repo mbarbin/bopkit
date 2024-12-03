@@ -16,12 +16,12 @@ let blit_next_value t ~dst ~dst_pos =
     raise_s
       [%sexp
         "Bit_counter.blit_next_value"
-        , "dst length is too short"
-        , { bit_counter_length = (t.length : int)
-          ; dst_pos : int
-          ; dst_length = (len : int)
-          ; required_length = (dst_pos + t.length : int)
-          }];
+      , "dst length is too short"
+      , { bit_counter_length = (t.length : int)
+        ; dst_pos : int
+        ; dst_length = (len : int)
+        ; required_length = (dst_pos + t.length : int)
+        }];
   let next_value = t.next_value in
   let tmp = Array.create ~len:t.length false in
   Bit_array.blit_int ~dst:tmp ~src:next_value;

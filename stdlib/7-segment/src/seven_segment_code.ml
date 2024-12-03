@@ -24,13 +24,15 @@ let blit ~digit ~dst ~dst_pos =
   Array.blit ~src:(Lazy.force all).(digit) ~src_pos:0 ~dst ~dst_pos ~len:7
 ;;
 
-let pattern = {|
+let pattern =
+  {|
    66
   0  5
    11
   2  4
    33
 |}
+;;
 
 let pattern_char = function
   | 1 | 3 | 6 -> '-'

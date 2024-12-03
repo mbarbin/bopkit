@@ -78,7 +78,6 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config : Expanded_nodes.t
      fonctionnelle de la net-list.
      -Modifie file_node par effet de bord,
      -recolte les liaisons necessaires au branchement correct de tous les fils *)
-
   (* La fonction TRAITE figurant dans le rapport latex.
      Cette fonction travaille par induction sur les listes d'appels des corps.
      Elle renvoit la table des liaisons *)
@@ -104,10 +103,11 @@ let pass ~(env : Expanded_block.env) ~main_block_name ~config : Expanded_nodes.t
   Err.debug (lazy [ Pp.text "Inlining blocks." ]);
   aux_nodes main.nodes;
   Map.iteri env ~f:(fun ~key:name ~data:fd ->
-    if (not (String.equal name main_block_name))
-       && (not (Hash_set.mem fonctions_utilisees name))
-       && Fpath.equal (fd.loc |> Loc.path) (main.loc |> Loc.path)
-       && Option.is_none (Config.main config)
+    if
+      (not (String.equal name main_block_name))
+      && (not (Hash_set.mem fonctions_utilisees name))
+      && Fpath.equal (fd.loc |> Loc.path) (main.loc |> Loc.path)
+      && Option.is_none (Config.main config)
     then Err.warning ~loc:fd.loc [ Pp.textf "Unused block '%s'." name ]);
   array_of_file_node ()
 ;;

@@ -13,8 +13,8 @@ let init ~title ~address_width ~data_width =
     Core_thread.create
       ~on_uncaught_exn:`Kill_whole_process
       (fun () ->
-        Bopkit_memory.event_loop mem ~read_only:false;
-        Stdlib.exit 0)
+         Bopkit_memory.event_loop mem ~read_only:false;
+         Stdlib.exit 0)
       ()
   in
   Bopkit_memory.draw mem;

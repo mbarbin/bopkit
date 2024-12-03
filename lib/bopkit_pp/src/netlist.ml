@@ -9,9 +9,9 @@ let string_with_vars str =
     raise_s
       [%sexp
         "Internal error: Invalid string with var"
-        , [%here]
-        , { str : string }
-        , (e : Bopkit.Eval_error.t)]
+      , [%here]
+      , { str : string }
+      , (e : Bopkit.Eval_error.t)]
 ;;
 
 let pp_comments comments =
@@ -82,14 +82,14 @@ let pp_parameter { Bopkit.Netlist.loc = _; comments; name; parameter_value } =
 ;;
 
 let pp_memory
-  { Bopkit.Netlist.loc = _
-  ; comments
-  ; name
-  ; memory_kind
-  ; address_width
-  ; data_width
-  ; memory_content
-  }
+      { Bopkit.Netlist.loc = _
+      ; comments
+      ; name
+      ; memory_kind
+      ; address_width
+      ; data_width
+      ; memory_content
+      }
   =
   Pp.concat
     [ pp_comments comments
@@ -222,7 +222,14 @@ let pp_external_api ~first_in_group a =
 ;;
 
 let pp_external_block
-  { Bopkit.Netlist.loc = _; head_comments; tail_comments; name; attributes; api; command }
+      { Bopkit.Netlist.loc = _
+      ; head_comments
+      ; tail_comments
+      ; name
+      ; attributes
+      ; api
+      ; command
+      }
   =
   pp_comments head_comments
   ++ (Pp.concat
@@ -390,8 +397,8 @@ and pp_imbrication (t : Bopkit.Netlist.nested_inputs) =
 ;;
 
 let pp_node
-  ~first_in_group
-  ({ loc = _; comments; call; inputs; outputs } as t : Bopkit.Netlist.node)
+      ~first_in_group
+      ({ loc = _; comments; call; inputs; outputs } as t : Bopkit.Netlist.node)
   =
   let outputs =
     Pp.concat_map
@@ -423,16 +430,16 @@ let pp_node
 ;;
 
 let pp_block
-  { Bopkit.Netlist.loc = _
-  ; head_comments
-  ; tail_comments
-  ; name
-  ; attributes
-  ; inputs
-  ; outputs
-  ; unused_variables
-  ; nodes
-  }
+      { Bopkit.Netlist.loc = _
+      ; head_comments
+      ; tail_comments
+      ; name
+      ; attributes
+      ; inputs
+      ; outputs
+      ; unused_variables
+      ; nodes
+      }
   =
   let name =
     match name with
@@ -510,14 +517,14 @@ let pp_block
 ;;
 
 let pp
-  ({ Bopkit.Netlist.include_files
-   ; parameters
-   ; memories
-   ; external_blocks
-   ; blocks
-   ; eof_comments
-   } :
-    t)
+      ({ Bopkit.Netlist.include_files
+       ; parameters
+       ; memories
+       ; external_blocks
+       ; blocks
+       ; eof_comments
+       } :
+        t)
   =
   let include_files =
     match include_files with

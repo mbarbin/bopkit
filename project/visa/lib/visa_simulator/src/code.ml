@@ -13,7 +13,7 @@ type t =
 [@@deriving sexp_of]
 
 let of_assembly_constructs
-  ~(assembly_constructs : Visa_assembler.Assembly_construct.t list)
+      ~(assembly_constructs : Visa_assembler.Assembly_construct.t list)
   =
   let pending_labels = Queue.create () in
   let statements = Queue.create () in

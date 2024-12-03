@@ -12,19 +12,23 @@ let%expect_test "eval" =
       print_s [%sexp (s : string Or_eval_error.t)]
   in
   test "" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ())))
     (Ok "") |}];
   test "Hello" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text Hello)))))
     (Ok Hello) |}];
   test "Hello %N}" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello %N}")))))
     (Ok "Hello %N}") |}];
   test "Hello %(N)" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello %(N)")))))
     (Ok "Hello %(N)") |}];
   test "Hello %{N}" [ "Ni", Parameter.Value.Int 2 ];
@@ -57,17 +61,21 @@ let%expect_test "eval" =
     (Ok ((parts ((Var N)))))
     (Error (Free_variable (name N) (candidates ()))) |}];
   test "%{}" [];
-  [%expect {|
+  [%expect
+    {|
     (Error (Syntax_error (in_ %{}))) |}];
   test "%{V" [];
-  [%expect {|
+  [%expect
+    {|
     (Error (Syntax_error (in_ %{V))) |}];
   test "Hello %V" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello %V")))))
     (Ok "Hello %V") |}];
   test "Hello }%V}" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello }%V}")))))
     (Ok "Hello }%V}") |}];
   test "Hello %{hey%{nest}bou}" [];
@@ -105,11 +113,13 @@ let%expect_test "eval" =
       print_s [%sexp (s : string Or_eval_error.t)]
   in
   test "" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ())))
     (Ok "") |}];
   test "Hello" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text Hello)))))
     (Ok Hello) |}];
   test "Hello $(N)" [];
@@ -142,17 +152,21 @@ let%expect_test "eval" =
     (Ok ((parts ((Var N)))))
     (Error (Free_variable (name N) (candidates ()))) |}];
   test "$()" [];
-  [%expect {|
+  [%expect
+    {|
     (Error (Syntax_error (in_ "$()"))) |}];
   test "$(V" [];
-  [%expect {|
+  [%expect
+    {|
     (Error (Syntax_error (in_ "$(V"))) |}];
   test "Hello $V" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello $V")))))
     (Ok "Hello $V") |}];
   test "Hello )$V)" [];
-  [%expect {|
+  [%expect
+    {|
     (Ok ((parts ((Text "Hello )$V)")))))
     (Ok "Hello )$V)") |}];
   test "Hello $(hey$(nest)bou)" [];
