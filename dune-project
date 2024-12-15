@@ -21,8 +21,6 @@
 
 (using menhir 3.0)
 
-(cram enable)
-
 (package
  (name bopkit)
  (synopsis "An educational project for digital circuits programming")
