@@ -31,6 +31,7 @@
   graphics
   loc
   parsing-utils
+  pp
   pp-log.err
   unix)
  (lint

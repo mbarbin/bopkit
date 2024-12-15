@@ -11,7 +11,7 @@
   Base
   -open
   Stdio)
- (libraries base bit_utils graphics stdio)
+ (libraries base bit_utils fpath graphics stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

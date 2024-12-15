@@ -16,8 +16,11 @@
   -open
   Cmdlang)
  (libraries
+  auto-format
   base
+  bopkit
   bopkit_bdd_command
+  bopkit_circuit
   bopkit_compiler
   bopkit_counter
   bopkit_pp
@@ -32,6 +35,7 @@
   core
   fpath
   fpath-base
+  pp
   pp-log.cli
   pp-log.err
   seven_segment_display

@@ -17,6 +17,7 @@
   bopkit_process
   bopkit_process_syntax
   loc
+  pp
   pp-log.err
   stdio)
  (lint

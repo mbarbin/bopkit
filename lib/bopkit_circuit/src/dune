@@ -8,7 +8,9 @@
   bopkit
   bopkit_sites
   core ;; For [Core.Set_once]
+  fpath
   loc
+  pp
   pp-log.err)
  (lint
   (pps ppx_js_style -check-doc-comments))
