@@ -13,6 +13,7 @@
   Cmdlang)
  (libraries
   base
+  bit_utils
   cmdlang
   core
   core_unix.core_thread
@@ -21,6 +22,7 @@
   bopkit_sleeper
   graphics
   unix
+  stdio
   threads)
  (preprocess
   (pps

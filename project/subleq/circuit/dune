@@ -13,13 +13,16 @@
   Cmdlang)
  (libraries
   base
+  bit_utils
   cmdlang
   core
   core_unix.core_thread
   bopkit_block
   bopkit_sleeper
+  fpath
   graphics
   bopkit_memory
+  stdio
   unix
   threads)
  (preprocess

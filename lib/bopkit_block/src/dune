@@ -17,6 +17,7 @@
   -open
   Cmdlang)
  (libraries
+  base
   bit_utils
   cmdlang
   cmdlang-cmdliner-runner

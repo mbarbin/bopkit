@@ -33,7 +33,7 @@ depends: [
   "mdx" {>= "2.4"}
   "menhir" {>= "20220210"}
   "parsing-utils" {>= "0.2.2"}
-  "pp" {>= "1.2.0"}
+  "pp" {>= "2.0.0"}
   "pp-extended" {>= "0.0.2"}
   "pp-log" {>= "0.0.8"}
   "ppx_compare" {>= "v0.17" & < "v0.18"}

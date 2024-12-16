@@ -10,7 +10,11 @@
   Core
   -open
   Seven_segment_display)
- (libraries bopkit.seven-segment-display core expect_test_helpers_core)
+ (libraries
+  bit_utils
+  bopkit.seven-segment-display
+  core
+  expect_test_helpers_core)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

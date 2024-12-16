@@ -21,8 +21,6 @@
 
 (using menhir 3.0)
 
-(cram enable)
-
 (package
  (name bopkit)
  (synopsis "An educational project for digital circuits programming")
@@ -63,6 +61,10 @@
    (and
     (>= v0.17)
     (< v0.18)))
+  (core_kernel
+   (and
+    (>= v0.17)
+    (< v0.18)))
   (core_unix
    (and
     (>= v0.17)
@@ -84,7 +86,7 @@
   (parsing-utils
    (>= 0.2.2))
   (pp
-   (>= 1.2.0))
+   (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
   (pp-log
@@ -191,7 +193,7 @@
   (parsing-utils
    (>= 0.2.2))
   (pp
-   (>= 1.2.0))
+   (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
   (pp-log
@@ -294,7 +296,7 @@
   (parsing-utils
    (>= 0.2.2))
   (pp
-   (>= 1.2.0))
+   (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
   (pp-log
@@ -407,7 +409,7 @@
   (parsing-utils
    (>= 0.2.2))
   (pp
-   (>= 1.2.0))
+   (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
   (pp-log

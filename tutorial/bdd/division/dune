@@ -34,7 +34,16 @@
   Stdio
   -open
   Cmdlang)
- (libraries base cmdlang bopkit_block core graphics stdio unix threads)
+ (libraries
+  base
+  bit_utils
+  cmdlang
+  bopkit_block
+  core
+  graphics
+  stdio
+  unix
+  threads)
  (preprocess
   (pps
    ppx_compare

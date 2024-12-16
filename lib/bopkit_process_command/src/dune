@@ -23,6 +23,7 @@
   cmdlang
   fpath
   fpath-base
+  parsing-utils
   pp
   pp-log.cli
   pp-log.err)

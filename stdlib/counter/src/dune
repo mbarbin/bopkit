@@ -13,7 +13,17 @@
   Stdio
   -open
   Cmdlang)
- (libraries bopkit_block bopkit_sleeper core graphics threads unix)
+ (libraries
+  base
+  bit_utils
+  bopkit_block
+  bopkit_sleeper
+  cmdlang
+  core
+  graphics
+  stdio
+  threads
+  unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

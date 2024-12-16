@@ -22,6 +22,8 @@
   core
   fpath
   fpath-base
+  parsing-utils
+  pp-extended
   pp-log.cli
   pp-log.err
   seven_segment_display

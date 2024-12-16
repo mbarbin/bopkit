@@ -26,6 +26,8 @@
   fpath
   fpath-base
   loc
+  parsing-utils
+  pp
   pp-log.cli
   pp-log.err
   stdio
