@@ -21,6 +21,7 @@ depends: [
   "cmdliner" {>= "1.3.0"}
   "comments-parser" {>= "0.2.2"}
   "core" {>= "v0.17" & < "v0.18"}
+  "core_kernel" {>= "v0.17" & < "v0.18"}
   "core_unix" {>= "v0.17" & < "v0.18"}
   "dune-site" {>= "3.16"}
   "fpath" {>= "0.7.3"}

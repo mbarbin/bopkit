@@ -61,6 +61,10 @@
    (and
     (>= v0.17)
     (< v0.18)))
+  (core_kernel
+   (and
+    (>= v0.17)
+    (< v0.18)))
   (core_unix
    (and
     (>= v0.17)
