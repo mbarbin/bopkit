@@ -101,7 +101,7 @@ let main t = t.circuit.main
 
 let init t =
   let () =
-    let env = Core_unix.environment () in
+    let env = Unix.environment () in
     let key = "PATH" in
     let path =
       Array.find_map env ~f:(fun s ->
@@ -110,9 +110,7 @@ let init t =
         | None -> None)
       |> Option.value ~default:""
     in
-    Core_unix.putenv
-      ~key
-      ~data:(String.concat ~sep:":" (Bopkit_sites.Sites.stdbin @ [ path ]))
+    Unix.putenv key (String.concat ~sep:":" (Bopkit_sites.Sites.stdbin @ [ path ]))
   in
   let external_blocks_table = Hashtbl.create (module String) in
   let external_processes : External_process.t Queue.t = Queue.create () in
@@ -197,7 +195,7 @@ let init t =
            ~loc
            (lazy [ Pp.textf "Starting external process[%d] = '%s'." this_index command ]);
          Hashtbl.set external_blocks_table ~key:name ~data:this_index;
-         let output_pipe, input_pipe = Core_unix.open_process command in
+         let output_pipe, input_pipe = Unix.open_process command in
          let external_process =
            { External_process.loc
            ; command
@@ -238,14 +236,13 @@ let init t =
   Err.info [ Pp.textf " Simulation <'%s'>" (main t).txt ]
 ;;
 
-let or_exit_error e =
-  (match (e : Core_unix.Exit_or_signal.t) with
-   | Ok () -> Ok ()
-   | Error (`Signal signal) ->
-     if Core.Signal.equal signal Core.Signal.int then Ok () else e
-   | Error (`Exit_non_zero _) -> e)
-  |> Core_unix.Exit_or_signal.or_error
-;;
+module Process_status = struct
+  type t = Unix.process_status =
+    | WEXITED of int
+    | WSIGNALED of int
+    | WSTOPPED of int
+  [@@deriving sexp_of]
+end
 
 let quit t =
   let uncaught_exceptions = Queue.create () in
@@ -254,11 +251,10 @@ let quit t =
     Err.debug
       ~loc:process.loc
       (lazy [ Pp.textf "Closing external process[%d] = '%s'." i process.command ]);
-    match
-      Core_unix.close_process (process.output_pipe, process.input_pipe) |> or_exit_error
-    with
-    | Ok () -> ()
-    | Error e ->
+    match Unix.close_process (process.output_pipe, process.input_pipe) with
+    | WEXITED 0 -> ()
+    | WSIGNALED s when s = Stdlib.Sys.sigint -> ()
+    | process_status ->
       let loc =
         match process.pending_input with
         | None -> process.loc
@@ -272,7 +268,7 @@ let quit t =
             (match process.pending_input with
              | None -> ""
              | Some { loc = _; input } -> Printf.sprintf "received: '%s' and " input)
-        ; Pp.textf "%s" (Error.to_string_hum e)
+        ; Pp.textf "%s" (Sexp.to_string_hum [%sexp (process_status : Process_status.t)])
         ]
     | exception End_of_file ->
       Err.debug

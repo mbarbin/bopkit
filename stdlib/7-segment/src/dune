@@ -13,19 +13,7 @@
   Stdio
   -open
   Cmdlang)
- (libraries
-  ANSITerminal
-  base
-  bit_utils
-  cmdlang
-  core
-  core_kernel.caml_threads
-  core_kernel.caml_unix
-  core_unix
-  core_unix.core_thread
-  graphics
-  stdio
-  threads)
+ (libraries ANSITerminal base bit_utils cmdlang graphics stdio threads unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

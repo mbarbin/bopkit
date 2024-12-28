@@ -28,7 +28,7 @@ let%expect_test "counter" =
 ;;
 
 let%expect_test "counter" =
-  let t = Array.init 10 ~f:(fun i -> i mod 2 = 1) in
+  let t = Array.init 10 ~f:(fun i -> i % 2 = 1) in
   let bit_counter = Bit_counter.create ~len:2 in
   for _ = 0 to 9 do
     Bit_counter.blit_next_value bit_counter ~dst:t ~dst_pos:5;

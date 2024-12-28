@@ -62,7 +62,7 @@ let make_print_command (module Device : DEVICE_S) ~length ~name =
        Arg.flag [ "clear-on-reprint" ] ~doc:"on tty print only 1 line"
      and print_index = Arg.flag [ "print-index" ] ~doc:"print cycle index as prefix"
      and print_on_change = Arg.flag [ "print-on-change" ] ~doc:"print only on change" in
-     if clear_on_reprint && not (ANSITerminal.isatty.contents Core_unix.stdout)
+     if clear_on_reprint && not (ANSITerminal.isatty.contents Unix.stdout)
      then (
        Stdlib.Printf.eprintf
          "clear-on-reprint can only be used if the terminal is a tty\n%!";

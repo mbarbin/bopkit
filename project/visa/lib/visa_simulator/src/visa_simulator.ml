@@ -221,7 +221,7 @@ let run (t : t) =
   let count_output = ref 0 in
   With_return.with_return (fun return ->
     (* Make it possible to interrupt the simulation on SIGINT. *)
-    Sys_unix.catch_break true;
+    Stdlib.Sys.catch_break true;
     (try
        while true do
          match step t with
@@ -232,11 +232,9 @@ let run (t : t) =
             | Sleep ->
               if t.config.sleep
               then (
-                let current_time = Core_unix.gettimeofday () in
-                let start_of_current_sec =
-                  current_time |> Core_unix.gmtime |> Core_unix.timegm
-                in
-                Core_thread.delay (1. -. (current_time -. start_of_current_sec)))
+                let current_time = Unix.gettimeofday () in
+                let start_of_current_sec = Int.of_float current_time |> Float.of_int in
+                Thread.delay (1. -. (current_time -. start_of_current_sec)))
             | Write _ ->
               let output = Output_device.to_string output_device in
               if String.( <> ) output !last_output
@@ -254,7 +252,7 @@ let run (t : t) =
            then return.return (Ok ())
        done
      with
-     | Sys_unix.Break -> ());
+     | Stdlib.Sys.Break -> ());
     Ok ())
 ;;
 

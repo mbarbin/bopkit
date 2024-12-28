@@ -72,7 +72,7 @@ let find_image ~image =
   let ( ^/ ) = Stdlib.Filename.concat in
   List.find_map Bopkit_sites.Sites.bopboard ~f:(fun bopboard_directory ->
     let file = bopboard_directory ^/ "images" ^/ Image.basename image in
-    if Sys_unix.file_exists_exn file then Some file else None)
+    if Stdlib.Sys.file_exists file then Some file else None)
 ;;
 
 let result_exn = function
@@ -388,8 +388,15 @@ let run_cmd =
          ~doc:"set window title"
      in
      let t = init ~title in
-     let (_ : Core_thread.t) =
-       Core_thread.create ~on_uncaught_exn:`Kill_whole_process event_loop t
+     let (_ : Thread.t) =
+       Thread.create
+         (fun () ->
+            match event_loop t with
+            | () -> ()
+            | exception e ->
+              prerr_endline (Exn.to_string e);
+              Stdlib.exit 1)
+         ()
      in
      Bopkit_block.create
        ~name:"bopboard"

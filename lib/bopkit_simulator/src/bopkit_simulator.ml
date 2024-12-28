@@ -26,7 +26,7 @@ let run ~circuit ~config =
         Output_handler.output output_handler ~input ~output)
   in
   (* Make it possible to interrupt the simulation on sigint. *)
-  Sys_unix.catch_break true;
+  Stdlib.Sys.catch_break true;
   (try
      With_return.with_return (fun { return } ->
        match num_cycles with
@@ -43,7 +43,7 @@ let run ~circuit ~config =
            | Quit -> return ()
          done)
    with
-   | Sys_unix.Break | End_of_file -> ());
+   | Stdlib.Sys.Break | End_of_file -> ());
   Err.info [ Pp.textf "End of simulation (%S)" (circuit.path |> Fpath.to_string) ];
   Circuit_simulator.quit circuit_simulator
 ;;

@@ -6,13 +6,37 @@ let%expect_test "of_01star_chars_in_string" =
   test "";
   [%expect {| () |}];
   test "010";
-  [%expect {| ((false) (true) (false)) |}];
+  [%expect
+    {|
+    ((false)
+     (true)
+     (false))
+    |}];
   test "010\n";
-  [%expect {| ((false) (true) (false)) |}];
+  [%expect
+    {|
+    ((false)
+     (true)
+     (false))
+    |}];
   test "//010 and some other characters followed by 11";
-  [%expect {| ((false) (true) (false) (true) (true)) |}];
+  [%expect
+    {|
+    ((false)
+     (true)
+     (false)
+     (true)
+     (true))
+    |}];
   test "*010*\n";
-  [%expect {| (() (false) (true) (false) ()) |}]
+  [%expect
+    {|
+    (()
+     (false)
+     (true)
+     (false)
+     ())
+    |}]
 ;;
 
 let%expect_test "to_string" =
@@ -21,7 +45,7 @@ let%expect_test "to_string" =
   [%expect {||}];
   test [| Some true; Some false; None |];
   [%expect {| 10* |}];
-  test (Array.init 10 ~f:(fun i -> if i mod 2 = 0 then Some (i mod 3 = 0) else None));
+  test (Array.init 10 ~f:(fun i -> if i % 2 = 0 then Some (i % 3 = 0) else None));
   [%expect {| 1*0*0*1*0* |}]
 ;;
 
@@ -44,7 +68,7 @@ let%expect_test "to_string roundtrip" =
 
 let%expect_test "text files" =
   let test t =
-    let path = Filename_unix.temp_file "test__bit_array" "text" |> Fpath.v in
+    let path = Stdlib.Filename.temp_file "test__bit_array" "text" |> Fpath.v in
     Partial_bit_array.to_text_file t ~path;
     let contents = In_channel.read_all (path |> Fpath.to_string) in
     let t2 = Partial_bit_array.of_text_file ~path in
@@ -60,13 +84,13 @@ let%expect_test "text files" =
       raise_s
         [%sexp "String contents not equal", { contents : string; contents2 : string }];
     print_endline contents;
-    Core_unix.unlink (path |> Fpath.to_string)
+    Unix.unlink (path |> Fpath.to_string)
   in
   test [||];
   [%expect {||}];
   test [| Some true; Some true; None; Some false |];
   [%expect {| 11*0 |}];
-  test (Array.init 64 ~f:(fun i -> if i mod 7 = 1 then None else Some (i mod 3 = 1)));
+  test (Array.init 64 ~f:(fun i -> if i % 7 = 1 then None else Some (i % 3 = 1)));
   [%expect {| 0*001001*010010*100100*001001*010010*100100*001001*010010*100100 |}];
   ()
 ;;
@@ -78,7 +102,7 @@ let%expect_test "conflicts" =
         (Partial_bit_array.of_01star_chars_in_string a)
         ~with_:(Bit_array.of_01_chars_in_string b)
     in
-    Printf.printf "%S conflicts with:%S => %b\n" a b conflicts
+    print_endline (Printf.sprintf "%S conflicts with:%S => %b\n" a b conflicts)
   in
   test "" "";
   [%expect {| "" conflicts with:"" => false |}];

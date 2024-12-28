@@ -17,15 +17,14 @@ let create ~frequency ~as_if_started_at_midnight =
 
 (* Compute how many seconds have passed since this morning at midnight. *)
 let whattimeisit () =
-  let t = Caml_unix.localtime (Caml_unix.time ()) in
-  float_of_int ((t.tm_hour * 3600) + (t.tm_min * 60) + t.tm_sec)
+  let t = Unix.localtime (Unix.time ()) in
+  Float.of_int ((t.tm_hour * 3600) + (t.tm_min * 60) + t.tm_sec)
 ;;
 
 let start t =
   t.n <- 0;
   t.start
-  <- (Caml_unix.gettimeofday ()
-      -. if t.as_if_started_at_midnight then whattimeisit () else 0.);
+  <- (Unix.gettimeofday () -. if t.as_if_started_at_midnight then whattimeisit () else 0.);
   t.started <- true
 ;;
 
@@ -36,22 +35,18 @@ let wait ~(seconds : float) =
       (* This expression allows to wait for a number of seconds
          expressed as a float. *)
       ignore
-        (Caml_unix.select [] [] [] seconds
-         : Caml_unix.file_descr list
-           * Caml_unix.file_descr list
-           * Caml_unix.file_descr list)
+        (Unix.select [] [] [] seconds
+         : Unix.file_descr list * Unix.file_descr list * Unix.file_descr list)
     with
-    | Caml_unix.Unix_error (_, "select", _) -> ())
+    | Unix.Unix_error (_, "select", _) -> ())
 ;;
 
 let sleep t =
   if t.started
   then (
     if t.n = Int.max_value then start t;
-    t.n <- succ t.n;
-    let advance =
-      t.start +. (float_of_int t.n *. t.period) -. Caml_unix.gettimeofday ()
-    in
+    t.n <- Int.succ t.n;
+    let advance = t.start +. (Float.of_int t.n *. t.period) -. Unix.gettimeofday () in
     wait ~seconds:advance)
   else start t
 ;;

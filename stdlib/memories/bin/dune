@@ -16,7 +16,6 @@
   bit_utils
   cmdlang
   core
-  core_unix.core_thread
   bopkit_block
   bopkit_memory
   bopkit_sleeper

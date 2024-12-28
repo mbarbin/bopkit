@@ -265,6 +265,22 @@ let create ~name ~main ?(methods = []) ?(is_multi_threaded = false) () =
   { name; main; methods; is_multi_threaded }
 ;;
 
+let rec retry_until_no_eintr f =
+  try f () with
+  | Unix.Unix_error (EINTR, _, _) -> retry_until_no_eintr f
+;;
+
+let wait_for_stdin () =
+  retry_until_no_eintr (fun () ->
+    ignore
+      (UnixLabels.select
+         ~read:[ Unix.stdin ]
+         ~write:[]
+         ~except:[]
+         ~timeout:(-1. (* means `Never *))
+       : Unix.file_descr list * Unix.file_descr list * Unix.file_descr list))
+;;
+
 let main ?readme t_param =
   Command.make
     ~summary:"external block"
@@ -312,17 +328,7 @@ let main ?readme t_param =
            if no_input
            then Some ""
            else (
-             if is_multi_threaded
-             then
-               ignore
-                 (Core_unix.select
-                    ~restart:true
-                    ~read:[ Core_unix.stdin ]
-                    ~write:[]
-                    ~except:[]
-                    ~timeout:`Never
-                    ()
-                  : Core_unix.Select_fds.t);
+             if is_multi_threaded then wait_for_stdin ();
              In_channel.input_line In_channel.stdin)
          with
          | None -> return (Ok ())

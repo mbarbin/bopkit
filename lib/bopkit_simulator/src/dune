@@ -21,12 +21,11 @@
   bopkit_sites
   cmdlang
   core
-  core_unix
-  core_unix.sys_unix
   fpath
   loc
   pp
   pp-log.err
+  unix
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

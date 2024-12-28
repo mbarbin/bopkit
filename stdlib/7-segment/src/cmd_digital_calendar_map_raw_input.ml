@@ -27,9 +27,7 @@ let dec7 = function
   | 7 -> 0, 0, 0, 0, 1, 1, 1
   | 8 -> 1, 1, 1, 1, 1, 1, 1
   | 9 -> 1, 1, 0, 1, 1, 1, 1
-  | value ->
-    let open Core in
-    raise_s [%sexp "dec7", [%here], { value : int }]
+  | value -> raise_s [%sexp "dec7", [%here], { value : int }]
 ;;
 
 (* code de 1 à 7 *)
