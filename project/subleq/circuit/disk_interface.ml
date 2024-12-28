@@ -22,12 +22,15 @@ let init ~architecture ~debug ~files_prefix ~number_of_programs =
   in
   if debug
   then (
-    let (_ : Core_thread.t) =
-      Core_thread.create
-        ~on_uncaught_exn:`Kill_whole_process
+    let (_ : Thread.t) =
+      Thread.create
         (fun () ->
-           Bopkit_memory.event_loop mem ~read_only:true;
-           Stdlib.exit 0)
+           (match Bopkit_memory.event_loop mem ~read_only:true with
+            | () -> 0
+            | exception e ->
+              prerr_endline (Exn.to_string e);
+              1)
+           |> Stdlib.exit)
         ()
     in
     Bopkit_memory.draw mem);

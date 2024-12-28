@@ -9,11 +9,11 @@ let set_binary_value_in_array ~dst ~dst_pos ~value ~len =
   done
 ;;
 
-let now () = Core_unix.localtime (Core_unix.time ())
+let now () = Unix.localtime (Unix.time ())
 
 type t = int array
 
-let blit_time (t : t) (tm : Core_unix.tm) =
+let blit_time (t : t) (tm : Unix.tm) =
   (* assert tab is a expected_octets * 8 -length int array *)
   let set value dst_pos = set_binary_value_in_array ~dst:t ~dst_pos ~value ~len:8 in
   set tm.tm_sec 0;
@@ -36,7 +36,7 @@ let main =
     (let%map_open.Command () = Arg.return () in
      let t = Array.create ~len:(expected_octets * 8) 0 in
      while true do
-       Core_thread.delay 0.2;
+       Thread.delay 0.2;
        blit_time t (now ());
        print t
      done)

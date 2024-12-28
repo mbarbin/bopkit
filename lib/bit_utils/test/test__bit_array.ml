@@ -25,7 +25,7 @@ let%expect_test "to_string" =
   [%expect {||}];
   test [| true; false |];
   [%expect {| 10 |}];
-  test (Array.init 10 ~f:(fun i -> i mod 2 = 0));
+  test (Array.init 10 ~f:(fun i -> i % 2 = 0));
   [%expect {| 1010101010 |}]
 ;;
 
@@ -43,7 +43,7 @@ let%expect_test "to_string roundtrip" =
 
 let%expect_test "text files" =
   let test t =
-    let path = Filename_unix.temp_file "test__bit_array" "text" |> Fpath.v in
+    let path = Stdlib.Filename.temp_file "test__bit_array" "text" |> Fpath.v in
     Bit_array.to_text_file t ~path;
     let contents = In_channel.read_all (path |> Fpath.to_string) in
     let t2 = Bit_array.of_text_file ~path in
@@ -55,13 +55,13 @@ let%expect_test "text files" =
       raise_s
         [%sexp "String contents not equal", { contents : string; contents2 : string }];
     print_endline contents;
-    Core_unix.unlink (path |> Fpath.to_string)
+    Unix.unlink (path |> Fpath.to_string)
   in
   test [||];
   [%expect {||}];
   test [| true; true; false |];
   [%expect {| 110 |}];
-  test (Array.init 64 ~f:(fun i -> i mod 2 = 1));
+  test (Array.init 64 ~f:(fun i -> i % 2 = 1));
   [%expect {| 0101010101010101010101010101010101010101010101010101010101010101 |}];
   ()
 ;;
@@ -88,7 +88,7 @@ let%expect_test "to_signed_int / to_int" =
     ~f:(fun t ->
       let len = Array.length t in
       let modulo = Int.pow 2 len in
-      let is_negative = len > 0 && t.(pred len) in
+      let is_negative = len > 0 && t.(Int.pred len) in
       let signed_int = Bit_array.to_signed_int t in
       let int = Bit_array.to_int t in
       let expected_signed_int = if is_negative then int - modulo else int in
@@ -108,7 +108,7 @@ let%expect_test "sequence" =
     let j = Bit_array.to_int t in
     if i <> j then raise_s [%sexp "Unexpected int", { t : Bit_array.t; i : int; j : int }];
     let signed = Bit_array.to_signed_int t in
-    Printf.printf "%s | %02d | %02d\n" (Bit_array.to_string t) i signed
+    print_endline (Printf.sprintf "%s | %02d | %02d" (Bit_array.to_string t) i signed)
   done;
   [%expect
     {|
@@ -161,7 +161,7 @@ let%expect_test "blit_init" =
     (* Check that [f] is called from left to right. *)
     assert (i = !last + 1);
     last := i;
-    i mod 2 = 0);
+    i % 2 = 0);
   print_endline (Bit_array.to_string t);
   [%expect {| 1010101010 |}]
 ;;

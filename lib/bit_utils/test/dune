@@ -1,14 +1,26 @@
 (library
  (name bit_utils_test)
  (public_name bopkit-tests.bit_utils_test)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Base
+  -open
+  Stdio
+  -open
+  Expect_test_helpers_base)
  (libraries
+  base
   bit_utils
-  core
-  core_unix
-  core_unix.filename_unix
   expect_test_helpers_core
-  fpath)
+  expect_test_helpers_core.expect_test_helpers_base
+  fpath
+  stdio
+  unix)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

@@ -10,11 +10,11 @@ let day_of_week = function
   | _ -> failwith "day_of_week"
 ;;
 
-let now () = Caml_unix.localtime (Caml_unix.time ())
+let now () = Unix.localtime (Unix.time ())
 
 type t = bool array
 
-let blit_time (t : t) (tm : Caml_unix.tm) =
+let blit_time (t : t) (tm : Unix.tm) =
   assert (Array.length t = 91);
   let () =
     let day_of_week =
@@ -49,7 +49,7 @@ let main =
     (let%map_open.Command () = Arg.return () in
      let t = Array.create ~len:91 false in
      while true do
-       Core_thread.delay 0.2;
+       Thread.delay 0.2;
        blit_time t (now ());
        print t
      done)

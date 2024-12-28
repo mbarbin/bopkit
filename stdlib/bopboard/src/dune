@@ -19,8 +19,6 @@
   bopkit_sites
   cmdlang
   core
-  core_unix.core_thread
-  core_unix.sys_unix
   graphics
   stdio
   threads

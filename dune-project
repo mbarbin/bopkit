@@ -63,14 +63,6 @@
    (and
     (>= v0.17)
     (< v0.18)))
-  (core_kernel
-   (and
-    (>= v0.17)
-    (< v0.18)))
-  (core_unix
-   (and
-    (>= v0.17)
-    (< v0.18)))
   (dune-site
    (>= 3.17))
   (fpath
@@ -174,10 +166,6 @@
    (and
     (>= v0.17)
     (< v0.18)))
-  (core_unix
-   (and
-    (>= v0.17)
-    (< v0.18)))
   (dune-site
    (>= 3.17))
   (fpath
@@ -274,10 +262,6 @@
   (cmdliner
    (>= 1.3.0))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
-  (core_unix
    (and
     (>= v0.17)
     (< v0.18)))
@@ -383,10 +367,6 @@
   (comments-parser
    (>= 0.2.2))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
-  (core_unix
    (and
     (>= v0.17)
     (< v0.18)))

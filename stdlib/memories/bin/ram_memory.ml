@@ -9,12 +9,15 @@ let init ~title ~address_width ~data_width =
   let title = Option.value title ~default:"RAM MEMORY" in
   Graphics.set_window_title title;
   let mem = Bopkit_memory.create ~name:"ram" ~address_width ~data_width ~kind:Ram () in
-  let (_ : Core_thread.t) =
-    Core_thread.create
-      ~on_uncaught_exn:`Kill_whole_process
+  let (_ : Thread.t) =
+    Thread.create
       (fun () ->
-         Bopkit_memory.event_loop mem ~read_only:false;
-         Stdlib.exit 0)
+         (match Bopkit_memory.event_loop mem ~read_only:false with
+          | () -> 0
+          | exception e ->
+            prerr_endline (Exn.to_string e);
+            1)
+         |> Stdlib.exit)
       ()
   in
   Bopkit_memory.draw mem;

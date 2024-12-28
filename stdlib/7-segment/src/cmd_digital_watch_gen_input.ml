@@ -5,11 +5,8 @@ module Time_of_day = struct
     ; sec : int
     }
 
-  let of_unix_time (t : Caml_unix.tm) =
-    { hour = t.tm_hour; min = t.tm_min; sec = t.tm_sec }
-  ;;
-
-  let now () = Caml_unix.localtime (Caml_unix.time ()) |> of_unix_time
+  let of_unix_time (t : Unix.tm) = { hour = t.tm_hour; min = t.tm_min; sec = t.tm_sec }
+  let now () = Unix.localtime (Unix.time ()) |> of_unix_time
 end
 
 type t = bool array
@@ -45,7 +42,7 @@ let main =
        done
      else
        while true do
-         ignore (Caml_threads.Thread.delay 0.5 : unit);
+         ignore (Thread.delay 0.5 : unit);
          blit_time t (Time_of_day.now ());
          print t
        done)

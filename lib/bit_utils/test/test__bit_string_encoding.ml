@@ -14,8 +14,11 @@ let%expect_test "T encoding" =
     print_s [%sexp { t : T.t; char : Char.t }]);
   [%expect
     {|
-    ((t false) (char 0))
-    ((t true) (char 1)) |}]
+    ((t    false)
+     (char 0))
+    ((t    true)
+     (char 1))
+    |}]
 ;;
 
 let%expect_test "T_opt encoding" =

@@ -20,9 +20,6 @@
   bit_utils
   cmdlang
   core
-  core_unix
-  core_unix.core_thread
-  core_unix.sys_unix
   fpath
   fpath-base
   loc
@@ -31,6 +28,8 @@
   pp-log.cli
   pp-log.err
   stdio
+  threads
+  unix
   visa
   visa_assembler
   visa_syntax)

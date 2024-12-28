@@ -1,8 +1,8 @@
 (library
  (name bopkit_sleeper)
  (public_name bopkit.sleeper)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries core core_kernel.caml_unix core_unix)
+ (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
+ (libraries base unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

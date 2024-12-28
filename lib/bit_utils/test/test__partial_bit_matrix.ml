@@ -1,6 +1,6 @@
 let%expect_test "of_partial_bit_array" =
   let partial_bit_array =
-    Array.init 24 ~f:(fun i -> if i mod 5 = 1 then None else Some (i mod 2 = 1))
+    Array.init 24 ~f:(fun i -> if i % 5 = 1 then None else Some (i % 2 = 1))
   in
   let test t = Partial_bit_matrix.to_text_channel t stdout in
   (* Shorter than input *)
@@ -27,11 +27,11 @@ let%expect_test "of_partial_bit_array" =
 ;;
 
 let%expect_test "of_text_file" =
-  let path = Filename_unix.temp_file "test__bit_matrix" "text" |> Fpath.v in
+  let path = Stdlib.Filename.temp_file "test__bit_matrix" "text" |> Fpath.v in
   Out_channel.with_file (path |> Fpath.to_string) ~f:(fun oc ->
-    Printf.fprintf oc "// Hello comment\n";
-    Printf.fprintf oc "010*010*01*1\n";
-    Printf.fprintf oc "0**111*11110\n");
+    Out_channel.output_string oc "// Hello comment\n";
+    Out_channel.output_string oc "010*010*01*1\n";
+    Out_channel.output_string oc "0**111*11110\n");
   let test ~dimx ~dimy =
     let t = Partial_bit_matrix.of_text_file ~dimx ~dimy ~path in
     Partial_bit_matrix.to_text_channel t stdout
@@ -54,6 +54,6 @@ let%expect_test "of_text_file" =
     010*
     01*1
     0**1 |}];
-  Core_unix.unlink (path |> Fpath.to_string);
+  Unix.unlink (path |> Fpath.to_string);
   ()
 ;;

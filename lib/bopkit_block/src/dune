@@ -23,8 +23,8 @@
   cmdlang-cmdliner-runner
   cmdliner
   core
-  core_unix
-  stdio)
+  stdio
+  unix)
  (lint
   (pps ppx_js_style))
  (preprocess
