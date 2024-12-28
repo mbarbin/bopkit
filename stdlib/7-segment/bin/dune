@@ -28,21 +28,17 @@
 (rule
  (alias digital-watch-display-test)
  (action
-  (pipe-stdout
-   (run %{dep:digital_watch.exe} gen-input)
-   (run %{dep:digital_watch_display.exe} --no))))
+  (bash
+   "./%{dep:digital_watch.exe} gen-input | ./%{dep:digital_watch_display.exe} --no")))
 
 (rule
  (alias digital-calendar-display-test)
  (action
-  (pipe-stdout
-   (run %{dep:digital_calendar.exe} gen-input)
-   (run %{dep:digital_calendar_display.exe} --no))))
+  (bash
+   "./%{dep:digital_calendar.exe} gen-input | ./%{dep:digital_calendar_display.exe} --no")))
 
 (rule
  (alias digital-calendar-display-raw-input-test)
  (action
-  (pipe-stdout
-   (run %{dep:digital_calendar.exe} gen-raw-input)
-   (run %{dep:digital_calendar.exe} map-raw-input)
-   (run %{dep:digital_calendar_display.exe} --no))))
+  (bash
+   "./%{dep:digital_calendar.exe} gen-raw-input | ./%{dep:digital_calendar.exe} map-raw-input | ./%{dep:digital_calendar_display.exe} --no")))

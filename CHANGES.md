@@ -1,3 +1,17 @@
+## 0.3.3 (unreleased)
+
+### Added
+
+### Changed
+
+### Deprecated
+
+### Fixed
+
+- Replace `pipe-stdout` constructs by `bash` when they are expected to be interactive (#22, @mbarbin).
+
+### Removed
+
 ## 0.3.2 (2024-09-29)
 
 ### Changed

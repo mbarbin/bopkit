@@ -112,10 +112,8 @@
   initial-memory.txt
   (package bopkit))
  (action
-  (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
-   (run %{bin:bopkit} digital-calendar map-raw-input)
-   (run %{bin:bopkit} digital-calendar display --no-output))))
+  (bash
+   "%{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change | %{bin:bopkit} digital-calendar map-raw-input | %{bin:bopkit} digital-calendar display --no-output")))
 
 (rule
  (alias visa-simulation)
@@ -124,10 +122,8 @@
   initial-memory.txt
   (package bopkit))
  (action
-  (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
-   (run %{bin:bopkit} simu %{dep:calendar-output.bop} -p)
-   (run %{bin:bopkit} digital-calendar display --no-output))))
+  (bash
+   "%{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change | %{bin:bopkit} simu %{dep:calendar-output.bop} -p | %{bin:bopkit} digital-calendar display --no-output")))
 
 (rule
  (target div10.txt)
