@@ -110,24 +110,23 @@
  (deps
   calendar.bin
   initial-memory.txt
-  (package bopkit))
+  (package bopkit)
+  %{bin:bopkit}
+  visa.bop)
  (action
-  (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
-   (run %{bin:bopkit} digital-calendar map-raw-input)
-   (run %{bin:bopkit} digital-calendar display --no-output))))
+  (run %{dep:visa-simulation-soft-mapping.sh})))
 
 (rule
  (alias visa-simulation)
  (deps
   calendar.bin
   initial-memory.txt
-  (package bopkit))
+  (package bopkit)
+  %{bin:bopkit}
+  visa.bop
+  calendar-output.bop)
  (action
-  (pipe-stdout
-   (run %{bin:bopkit} simu %{dep:visa.bop} --output-only-on-change)
-   (run %{bin:bopkit} simu %{dep:calendar-output.bop} -p)
-   (run %{bin:bopkit} digital-calendar display --no-output))))
+  (run %{dep:visa-simulation.sh})))
 
 (rule
  (target div10.txt)
