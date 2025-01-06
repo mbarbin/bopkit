@@ -25,8 +25,8 @@
   loc
   pp
   pp-log.err
-  unix
-  stdio)
+  stdio
+  unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess
