@@ -141,8 +141,8 @@ val get_color : _ t -> address:int -> Graphics.color option
 val set_color : _ t -> address:int -> color:Graphics.color -> unit
 
 (** [set_color_option t ~address ~color_option] is just a convenient wrapper
-    that either calls [set_color t ~address ~color] when [color_option=Some
-    color] or [reset_color t ~address] when [color_option=None]. *)
+    that either calls [set_color t ~address ~color] when [color_option=Some color]
+    or [reset_color t ~address] when [color_option=None]. *)
 val set_color_option : _ t -> address:int -> color:Graphics.color option -> unit
 
 (** {1 Word printing style}
