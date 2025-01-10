@@ -18,7 +18,7 @@ depends: [
   "base" {>= "v0.17" & < "v0.18"}
   "base_quickcheck" {>= "v0.17" & < "v0.18"}
   "bopkit" {= version}
-  "bopkit-dev" {= version}
+  "bopkit-tests" {= version}
   "cmdlang" {>= "0.0.9"}
   "cmdlang-cmdliner-runner" {>= "0.0.8"}
   "cmdlang-to-cmdliner" {>= "0.0.9"}

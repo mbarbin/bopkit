@@ -484,7 +484,7 @@
     (< v0.18)))
   (bopkit
    (= :version))
-  (bopkit-dev
+  (bopkit-tests
    (= :version))
   (cmdlang
    (>= 0.0.9))
