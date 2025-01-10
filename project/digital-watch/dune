@@ -13,17 +13,18 @@
   -open
   Cmdlang)
  (libraries base cmdlang cmdlang-cmdliner-runner graphics stdio threads)
+ (lint
+  (pps ppx_js_style -check-doc-comments))
  (preprocess
   (pps
+   -unused-type-warnings=force
    ppx_compare
    ppx_enumerate
    ppx_hash
    ppx_here
    ppx_let
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style
-   -check-doc-comments)))
+   ppx_sexp_value)))
 
 (rule
  (alias digital-watch-simulation)

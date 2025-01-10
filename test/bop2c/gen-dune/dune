@@ -18,14 +18,15 @@
   eio
   eio_main
   parsing-utils)
+ (lint
+  (pps ppx_js_style -check-doc-comments))
  (preprocess
   (pps
+   -unused-code-warnings=force
    ppx_compare
    ppx_enumerate
    ppx_hash
    ppx_here
    ppx_let
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style
-   -check-doc-comments)))
+   ppx_sexp_value)))
