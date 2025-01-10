@@ -24,8 +24,9 @@
 (executables
  (names div div_opt)
  (flags
+  :standard
   -w
-  +a-4-40-41-42-44-66
+  +a-4-40-41-42-44-45-48-66
   -warn-error
   +a
   -open
@@ -44,17 +45,18 @@
   stdio
   unix
   threads)
+ (lint
+  (pps ppx_js_style -check-doc-comments))
  (preprocess
   (pps
+   -unused-code-warnings=true
    ppx_compare
    ppx_enumerate
    ppx_hash
    ppx_here
    ppx_let
    ppx_sexp_conv
-   ppx_sexp_value
-   ppx_js_style
-   -check-doc-comments)))
+   ppx_sexp_value)))
 
 (rule
  (target div.txt)
