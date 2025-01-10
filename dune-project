@@ -453,3 +453,133 @@
    (>= 0.6))
   (visa
    (= :version))))
+
+(package
+ (name bopkit-dev)
+ (synopsis
+  "Package to regroup dev targets for the bopkit project, documentation, and more")
+ (allow_empty) ; The package is attached to mdx stanzas however dune doesn't see it.
+ (depends
+  (ocaml
+   (>= 5.2))
+  (ocamlformat
+   (and
+    :with-dev-setup
+    (= 0.27.0)))
+  (ANSITerminal
+   (>= 0.8.3))
+  (appendable-list
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (auto-format
+   (>= 0.0.14))
+  (base
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (base_quickcheck
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (bopkit
+   (= :version))
+  (bopkit-dev
+   (= :version))
+  (cmdlang
+   (>= 0.0.9))
+  (cmdlang-cmdliner-runner
+   (>= 0.0.8))
+  (cmdlang-to-cmdliner
+   (>= 0.0.9))
+  (cmdliner
+   (>= 1.3.0))
+  (comments-parser
+   (>= 0.2.2))
+  (core
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (dune-site
+   (>= 3.17))
+  (expect_test_helpers_core
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (fpath
+   (>= 0.7.3))
+  (fpath-base
+   (>= 0.2.2))
+  (graphics
+   (>= 5.1.2))
+  (loc
+   (>= 0.2.0))
+  (mdx
+   (>= 2.4))
+  (menhir
+   (>= 20220210))
+  (parsing-utils
+   (>= 0.2.2))
+  (pp
+   (>= 2.0.0))
+  (pp-extended
+   (>= 0.0.2))
+  (pp-log
+   (>= 0.0.8))
+  (ppx_compare
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_enumerate
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_expect
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_fields_conv
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_hash
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_here
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_js_style
+   (and
+    :with-dev-setup
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_let
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_sexp_conv
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppx_sexp_value
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (ppxlib
+   (>= 0.33))
+  (stdio
+   (and
+    (>= v0.17)
+    (< v0.18)))
+  (stdune
+   (>= 3.17))
+  (subleq
+   (= :version))
+  (tsdl
+   (= 1.0.0))
+  (tsdl-image
+   (>= 0.6))
+  (visa
+   (= :version))))

@@ -20,7 +20,7 @@
   (glob_files *.bop)))
 
 (mdx
- (package bopkit-tests)
+ (package bopkit-dev)
  (deps
   (package bopkit)
   (glob_files *.bop)))

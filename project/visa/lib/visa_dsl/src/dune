@@ -17,5 +17,5 @@
    ppx_sexp_value)))
 
 (mdx
- (package bopkit-tests)
+ (package bopkit-dev)
  (files :standard - *.mli))

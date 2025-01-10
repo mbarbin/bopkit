@@ -88,7 +88,7 @@
   (glob_files *.txt)))
 
 (mdx
- (package bopkit-tests)
+ (package bopkit-dev)
  (deps
   (package bopkit)
   (glob_files *.bop)

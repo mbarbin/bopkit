@@ -20,6 +20,6 @@
   (package bopkit)))
 
 (mdx
- (package bopkit-tests)
+ (package bopkit-dev)
  (deps
   (package bopkit)))

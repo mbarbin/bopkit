@@ -14,7 +14,7 @@
     (run dune format-dune-file)))))
 
 (mdx
- (package bopkit-tests)
+ (package bopkit-dev)
  (deps
   (package bopkit)
   (glob_files *.bop)))
