@@ -126,7 +126,7 @@
   (stdune
    (>= 3.17))
   (tsdl
-   (= 1.0.0))
+   (>= 1.0.0))
   (tsdl-image
    (>= 0.6))))
 
@@ -448,7 +448,7 @@
   (subleq
    (= :version))
   (tsdl
-   (= 1.0.0))
+   (>= 1.0.0))
   (tsdl-image
    (>= 0.6))
   (visa
@@ -578,7 +578,7 @@
   (subleq
    (= :version))
   (tsdl
-   (= 1.0.0))
+   (>= 1.0.0))
   (tsdl-image
    (>= 0.6))
   (visa
