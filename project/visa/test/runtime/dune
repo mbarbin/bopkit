@@ -20,6 +20,7 @@
  (package bopkit-tests)
  (deps
   (package bopkit)
+  %{bin:visa}
   (glob_files *.txt)
   (glob_files *.asm)
   (glob_files *.bin)
@@ -29,6 +30,7 @@
  (package bopkit-dev)
  (deps
   (package bopkit)
+  %{bin:visa}
   get_date.exe
   (glob_files *.txt)
   (glob_files *.asm)
