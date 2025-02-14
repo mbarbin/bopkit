@@ -9,14 +9,15 @@
   -open
   Base
   -open
+  Fpath_base
+  -open
   Cmdlang)
  (libraries
   auto-format
   base
   cmdlang
   cmdlang-cmdliner-runner
-  eio
-  eio_main
+  fpath-base
   parsing-utils)
  (lint
   (pps ppx_js_style -check-doc-comments))
