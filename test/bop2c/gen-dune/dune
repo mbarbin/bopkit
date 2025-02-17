@@ -12,13 +12,7 @@
   Fpath_base
   -open
   Cmdlang)
- (libraries
-  auto-format
-  base
-  cmdlang
-  cmdlang-cmdliner-runner
-  fpath-base
-  parsing-utils)
+ (libraries base cmdlang cmdlang-cmdliner-runner fpath-base)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess
