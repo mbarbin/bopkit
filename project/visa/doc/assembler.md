@@ -274,9 +274,9 @@ to generate 20 different outputs.
 let%expect_test "loop run" =
   let program = loop () in
   let config = Visa_simulator.Config.create ~sleep:false ~stop_after_n_outputs:20 () in
-  Error_log.For_test.report (fun error_log ->
-    let%bind visa_simulator = Visa_simulator.create ~config ~error_log ~program in
-    Visa_simulator.run visa_simulator ~error_log);
+  Err.For_test.protect (fun () ->
+    let visa_simulator = Visa_simulator.create ~config ~program in
+    Visa_simulator.run visa_simulator |> Or_error.ok_exn);
   [%expect
     {|
     1000000000000000000000000000000000000000000000000000000000000000
