@@ -1,6 +1,6 @@
 (library
  (name subleq_cli)
- (public_name bopkit.subleq-command)
+ (public_name bopkit.subleq-cli)
  (flags
   :standard
   -w

@@ -1,6 +1,6 @@
 (library
  (name bopkit_process_cli)
- (public_name bopkit.process-command)
+ (public_name bopkit.process-cli)
  (flags
   :standard
   -w

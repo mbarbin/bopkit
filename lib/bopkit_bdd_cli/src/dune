@@ -1,6 +1,6 @@
 (library
  (name bopkit_bdd_cli)
- (public_name bopkit.bdd-command)
+ (public_name bopkit.bdd-cli)
  (flags
   :standard
   -w
