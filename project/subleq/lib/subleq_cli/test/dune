@@ -1,9 +1,9 @@
 (library
- (name bopkit_command_test)
- (public_name bopkit-tests.bopkit_command_test)
+ (name subleq_cli_test)
+ (public_name bopkit-tests.subleq_cli_test)
  (inline_tests)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
- (libraries bopkit_command)
+ (libraries subleq_cli)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

@@ -1,6 +1,6 @@
 (library
- (name bopkit_bdd_command)
- (public_name bopkit.bdd-command)
+ (name subleq_cli)
+ (public_name bopkit.subleq-cli)
  (flags
   :standard
   -w
@@ -18,14 +18,20 @@
  (libraries
   base
   bit_utils
-  bopkit_bdd
-  bopkit_block
+  bopkit_memory
   cmdlang
+  cmdlang-to-cmdliner
+  cmdliner
   core
   fpath
   fpath-base
-  pp
-  stdio)
+  graphics
+  stdio
+  subleq_debugger
+  subleq_generator
+  subleq_simulator
+  threads
+  unix)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

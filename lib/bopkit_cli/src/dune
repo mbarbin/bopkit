@@ -1,6 +1,6 @@
 (library
- (name visa_command)
- (public_name bopkit.visa-command)
+ (name bopkit_cli)
+ (public_name bopkit.command)
  (flags
   :standard
   -w
@@ -18,21 +18,28 @@
  (libraries
   auto-format
   base
+  bopkit
+  bopkit_bdd_cli
+  bopkit_circuit
+  bopkit_compiler
+  bopkit_counter
+  bopkit_pp
+  bopkit_process_cli
+  bopkit_pulse
+  bopkit_simulator
+  bopkit_sites
+  bopkit_sleeper
+  bopkit_syntax
+  bopkit_to_c
   cmdlang
   core
   fpath
   fpath-base
-  parsing-utils
-  pp-extended
+  pp
   pp-log.cli
   pp-log.err
   seven_segment_display
-  stdio
-  visa
-  visa_assembler
-  visa_pp
-  visa_simulator
-  visa_syntax)
+  stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

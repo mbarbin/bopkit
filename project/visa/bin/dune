@@ -2,5 +2,5 @@
  (name main)
  (package visa)
  (public_name visa)
- (libraries cmdlang-cmdliner-runner visa_command)
+ (libraries cmdlang-cmdliner-runner visa_cli)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a))

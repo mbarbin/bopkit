@@ -1,6 +1,6 @@
 (library
- (name subleq_command)
- (public_name bopkit.subleq-command)
+ (name bopkit_process_cli)
+ (public_name bopkit.process-cli)
  (flags
   :standard
   -w
@@ -12,26 +12,21 @@
   -open
   Fpath_base
   -open
-  Stdio
-  -open
   Cmdlang)
  (libraries
+  auto-format
   base
-  bit_utils
-  bopkit_memory
+  bopkit_process
+  bopkit_process_interpreter
+  bopkit_process_pp
+  bopkit_process_syntax
   cmdlang
-  cmdlang-to-cmdliner
-  cmdliner
-  core
   fpath
   fpath-base
-  graphics
-  stdio
-  subleq_debugger
-  subleq_generator
-  subleq_simulator
-  threads
-  unix)
+  parsing-utils
+  pp
+  pp-log.cli
+  pp-log.err)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

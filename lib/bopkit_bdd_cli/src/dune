@@ -1,6 +1,6 @@
 (library
- (name bopkit_command)
- (public_name bopkit.command)
+ (name bopkit_bdd_cli)
+ (public_name bopkit.bdd-cli)
  (flags
   :standard
   -w
@@ -16,29 +16,15 @@
   -open
   Cmdlang)
  (libraries
-  auto-format
   base
-  bopkit
-  bopkit_bdd_command
-  bopkit_circuit
-  bopkit_compiler
-  bopkit_counter
-  bopkit_pp
-  bopkit_process_command
-  bopkit_pulse
-  bopkit_simulator
-  bopkit_sites
-  bopkit_sleeper
-  bopkit_syntax
-  bopkit_to_c
+  bit_utils
+  bopkit_bdd
+  bopkit_block
   cmdlang
   core
   fpath
   fpath-base
   pp
-  pp-log.cli
-  pp-log.err
-  seven_segment_display
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

@@ -21,7 +21,7 @@ let fmt_cmd =
 let main =
   Command.group
     ~summary:"bopkit command line"
-    [ "bdd", Bopkit_bdd_command.main
+    [ "bdd", Bopkit_bdd_cli.main
     ; "bop2c", Cmd_bop2c.main
     ; "check", Cmd_check.main
     ; "counter", Bopkit_counter.Counter.main
@@ -30,7 +30,7 @@ let main =
     ; "echo", Cmd_echo.main
     ; "fmt", fmt_cmd
     ; "print-sites", print_sites_cmd
-    ; "process", Bopkit_process_command.main
+    ; "process", Bopkit_process_cli.main
     ; "pulse", Bopkit_pulse.Pulse.main
     ; "simu", Cmd_simu.main
     ]
