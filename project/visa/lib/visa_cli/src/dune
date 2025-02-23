@@ -1,5 +1,5 @@
 (library
- (name visa_command)
+ (name visa_cli)
  (public_name bopkit.visa-command)
  (flags
   :standard

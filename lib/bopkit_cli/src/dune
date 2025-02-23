@@ -1,5 +1,5 @@
 (library
- (name bopkit_command)
+ (name bopkit_cli)
  (public_name bopkit.command)
  (flags
   :standard
@@ -19,12 +19,12 @@
   auto-format
   base
   bopkit
-  bopkit_bdd_command
+  bopkit_bdd_cli
   bopkit_circuit
   bopkit_compiler
   bopkit_counter
   bopkit_pp
-  bopkit_process_command
+  bopkit_process_cli
   bopkit_pulse
   bopkit_simulator
   bopkit_sites
