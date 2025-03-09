@@ -5,7 +5,7 @@
   digital_calendar
   digital_calendar_display)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
- (libraries base cmdlang-cmdliner-runner seven_segment_display)
+ (libraries base pplumbing.cmdlang-cmdliner-runner seven_segment_display)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

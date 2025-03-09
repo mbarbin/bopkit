@@ -11,7 +11,7 @@
   fpath
   loc
   pp
-  pp-log.err)
+  pplumbing.err)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

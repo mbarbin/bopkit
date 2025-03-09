@@ -12,7 +12,13 @@
   Stdio
   -open
   Cmdlang)
- (libraries base cmdlang cmdlang-cmdliner-runner graphics stdio threads)
+ (libraries
+  base
+  cmdlang
+  graphics
+  pplumbing.cmdlang-cmdliner-runner
+  stdio
+  threads)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

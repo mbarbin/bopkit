@@ -36,8 +36,8 @@
   fpath
   fpath-base
   pp
-  pp-log.cli
-  pp-log.err
+  pplumbing.err
+  pplumbing.log-cli
   seven_segment_display
   stdio)
  (lint

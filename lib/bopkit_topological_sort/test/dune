@@ -16,7 +16,7 @@
   base
   bopkit_topological_sort
   expect_test_helpers_core.expect_test_helpers_base
-  pp-log.err)
+  pplumbing.err)
  (inline_tests)
  (lint
   (pps ppx_js_style -check-doc-comments))

@@ -20,9 +20,9 @@
   base
   bit_utils
   cmdlang
-  cmdlang-cmdliner-runner
   cmdliner
   core
+  pplumbing.cmdlang-cmdliner-runner
   stdio
   unix)
  (lint
