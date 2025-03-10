@@ -20,8 +20,6 @@
   bit_utils
   bopkit_memory
   cmdlang
-  cmdlang-to-cmdliner
-  cmdliner
   core
   fpath
   fpath-base

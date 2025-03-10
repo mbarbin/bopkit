@@ -20,7 +20,6 @@
   base
   bit_utils
   cmdlang
-  cmdliner
   core
   pplumbing.cmdlang-cmdliner-runner
   stdio

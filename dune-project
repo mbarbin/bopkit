@@ -51,10 +51,6 @@
     (< v0.18)))
   (cmdlang
    (>= 0.0.9))
-  (cmdlang-to-cmdliner
-   (>= 0.0.9))
-  (cmdliner
-   (>= 1.3.0))
   (comments-parser
    (>= 0.2.3))
   (core
@@ -154,10 +150,6 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
-  (cmdlang-to-cmdliner
-   (>= 0.0.9))
-  (cmdliner
-   (>= 1.3.0))
   (core
    (and
     (>= v0.17)
@@ -251,10 +243,6 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
-  (cmdlang-to-cmdliner
-   (>= 0.0.9))
-  (cmdliner
-   (>= 1.3.0))
   (core
    (and
     (>= v0.17)
@@ -352,10 +340,6 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
-  (cmdlang-to-cmdliner
-   (>= 0.0.9))
-  (cmdliner
-   (>= 1.3.0))
   (comments-parser
    (>= 0.2.3))
   (core
@@ -480,10 +464,6 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
-  (cmdlang-to-cmdliner
-   (>= 0.0.9))
-  (cmdliner
-   (>= 1.3.0))
   (comments-parser
    (>= 0.2.3))
   (core
