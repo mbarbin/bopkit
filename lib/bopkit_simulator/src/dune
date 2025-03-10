@@ -24,7 +24,7 @@
   fpath
   loc
   pp
-  pp-log.err
+  pplumbing.err
   stdio
   unix)
  (lint

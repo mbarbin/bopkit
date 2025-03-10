@@ -7,7 +7,7 @@ let main =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"file to check"
-     and () = Pp_log_cli.set_config ()
+     and () = Log_cli.set_config ()
      and print_cds =
        Arg.flag [ "print-cds" ] ~doc:"print the cds out stdout in case of success"
      and bopkit_compiler_config = Bopkit_compiler.Config.arg in

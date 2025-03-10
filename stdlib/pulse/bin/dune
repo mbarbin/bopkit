@@ -1,6 +1,6 @@
 (executables
  (names pulse)
- (libraries bopkit_pulse cmdlang-cmdliner-runner))
+ (libraries bopkit_pulse pplumbing.cmdlang-cmdliner-runner))
 
 (install
  (package bopkit)

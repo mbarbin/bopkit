@@ -13,7 +13,7 @@ let find_files_in_cwd_by_extensions ~cwd ~extensions =
   |> Array.map ~f:Fpath.v
   |> Array.to_list
   |> List.filter ~f:(fun file ->
-    Stdlib.Sys.is_regular_file (Fpath.to_string file)
+    Stdlib.Sys.is_regular_file (Fpath.to_string Fpath.(v cwd // file))
     && List.exists extensions ~f:(fun extension -> Fpath.has_ext extension file))
   |> List.sort ~compare:Fpath.compare
 ;;

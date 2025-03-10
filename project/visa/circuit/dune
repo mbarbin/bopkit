@@ -174,7 +174,7 @@
   bit_utils
   bopkit_block
   cmdlang
-  cmdlang-cmdliner-runner
+  pplumbing.cmdlang-cmdliner-runner
   core
   stdio
   unix

@@ -25,8 +25,8 @@
   fpath-base
   parsing-utils
   pp
-  pp-log.cli
-  pp-log.err)
+  pplumbing.err
+  pplumbing.log-cli)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

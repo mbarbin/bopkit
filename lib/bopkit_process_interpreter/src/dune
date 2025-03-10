@@ -18,7 +18,7 @@
   bopkit_process_syntax
   loc
   pp
-  pp-log.err
+  pplumbing.err
   stdio)
  (lint
   (pps ppx_js_style -check-doc-comments))

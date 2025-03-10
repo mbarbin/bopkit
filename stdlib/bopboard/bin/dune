@@ -1,7 +1,7 @@
 (executables
  (names main)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
- (libraries bopboard cmdlang-cmdliner-runner))
+ (libraries bopboard pplumbing.cmdlang-cmdliner-runner))
 
 (install
  (package bopkit)

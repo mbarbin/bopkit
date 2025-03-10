@@ -1,6 +1,6 @@
 (executables
  (names counter)
- (libraries bopkit_counter cmdlang-cmdliner-runner))
+ (libraries bopkit_counter pplumbing.cmdlang-cmdliner-runner))
 
 (install
  (package bopkit)

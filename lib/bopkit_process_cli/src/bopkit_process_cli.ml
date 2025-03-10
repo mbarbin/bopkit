@@ -8,7 +8,7 @@ let exec_cmd =
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"input process file"
-     and () = Pp_log_cli.set_config () in
+     and () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Bopkit_process_syntax) ~path in
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
      | Ok () -> ()
