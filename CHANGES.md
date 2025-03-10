@@ -1,16 +1,12 @@
-## 0.3.3 (unreleased)
-
-### Added
+## 0.3.3 (2025-03-10)
 
 ### Changed
 
-### Deprecated
+- Switched from `pp-log` to `pplumbing`.
 
 ### Fixed
 
 - Replace `pipe-stdout` constructs by `bash` when they are expected to be interactive (#22, @mbarbin).
-
-### Removed
 
 ## 0.3.2 (2024-09-29)
 
