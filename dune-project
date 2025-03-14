@@ -552,4 +552,8 @@
   (tsdl-image
    (>= 0.6))
   (visa
-   (= :version))))
+   (= :version))
+  (sherlodoc
+   (and
+    :with-doc
+    (>= 0.2)))))

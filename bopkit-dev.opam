@@ -51,6 +51,7 @@ depends: [
   "tsdl" {>= "1.0.0"}
   "tsdl-image" {>= "0.6"}
   "visa" {= version}
+  "sherlodoc" {with-doc & >= "0.2"}
   "odoc" {with-doc}
 ]
 build: [
