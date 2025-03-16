@@ -61,6 +61,6 @@ let pass ~path =
       let path = find_distribution_file ~path ~loc in
       include_file ~loc ~path)
   in
-  include_file ~loc:(Loc.in_file ~path) ~path;
+  include_file ~loc:(Loc.of_file ~path) ~path;
   Standalone_netlist.concat (Stack.to_list netlists)
 ;;

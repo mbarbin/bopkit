@@ -30,7 +30,7 @@ let has_main_attribute (fd : Bopkit.Netlist.block) =
 ;;
 
 let expand_netlist ~path ~config =
-  let loc = Loc.in_file ~path in
+  let loc = Loc.of_file ~path in
   let { Standalone_netlist.paths; parameters; memories; external_blocks; blocks } =
     Pass_includes.pass ~path
   in
@@ -103,7 +103,7 @@ let expand_netlist ~path ~config =
 ;;
 
 let circuit_of_netlist ~path ~config =
-  let loc = Loc.in_file ~path in
+  let loc = Loc.of_file ~path in
   Queue.clear Pass_expanded_block.global_cycle_hints;
   let primitives, expanded_netlist = expand_netlist ~path ~config in
   let main_block_name = expanded_netlist.main_block_name in

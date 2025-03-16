@@ -60,7 +60,7 @@ let create ~(config : Config.t) ~program =
       try Bit_matrix.of_text_file ~dimx:256 ~dimy:8 ~path with
       | e ->
         Err.raise
-          ~loc:(Loc.in_file ~path)
+          ~loc:(Loc.of_file ~path)
           [ Pp.text "Invalid memory file"; Pp.text (Exn.to_string e) ]
     in
     Memory.load_initial_memory memory content);

@@ -167,12 +167,12 @@ let of_text_file_exn ~path =
   let q = Queue.create () in
   let file_contents =
     try Stdio.In_channel.read_all (path |> Fpath.to_string) with
-    | Sys_error (m : string) -> Err.raise ~loc:(Loc.in_file ~path) [ Pp.text m ]
+    | Sys_error (m : string) -> Err.raise ~loc:(Loc.of_file ~path) [ Pp.text m ]
   in
   let lines = String.split_lines file_contents in
   let file_cache = Loc.File_cache.create ~path ~file_contents in
   List.iteri lines ~f:(fun i line ->
-    let loc = Loc.in_file_line ~file_cache ~line:(Int.succ i) in
+    let loc = Loc.of_file_line ~file_cache ~line:(Int.succ i) in
     if not (String.is_prefix line ~prefix:"//")
     then (
       let length = String.length line in
@@ -236,7 +236,7 @@ let to_instructions (bytes : t) ~path =
   while not (Queue.is_empty bytes) do
     label_resolution.(size - Queue.length bytes) <- Queue.length results;
     let line, byte = Queue.dequeue_exn bytes in
-    let loc = Loc.in_file_line ~file_cache ~line in
+    let loc = Loc.of_file_line ~file_cache ~line in
     let operation =
       match Operation.of_byte byte with
       | Some operation -> operation
