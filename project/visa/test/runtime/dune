@@ -1,17 +1,19 @@
 (include dune.inc)
 
 (rule
- (target dune.inc)
+ (target dune.inc.raw)
  (deps
   (glob_files *.asm))
- (alias runtest)
- (mode promote)
  (action
   (with-stdout-to
    %{target}
-   (pipe-stdout
-    (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file)
-    (run dune format-dune-file)))))
+   (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file))))
+
+(rule
+ (alias runtest)
+ (mode promote)
+ (action
+  (format-dune-file dune.inc.raw dune.inc)))
 
 (rule
  (copy ../../circuit/visa.bop visa.bop))
