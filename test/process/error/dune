@@ -1,25 +1,19 @@
 (include dune.inc)
 
 (rule
- (target dune.inc)
+ (target dune.inc.raw)
  (deps
   (glob_files *.bpp))
- (alias runtest)
- (mode promote)
  (action
   (with-stdout-to
    %{target}
-   (pipe-stdout
-    (run
-     %{bin:bopkit}
-     process
-     fmt
-     gen-dune
-     "\%{bin:bopkit}"
-     process
-     fmt
-     file)
-    (run dune format-dune-file)))))
+   (run %{bin:bopkit} process fmt gen-dune "\%{bin:bopkit}" process fmt file))))
+
+(rule
+ (alias runtest)
+ (mode promote)
+ (action
+  (format-dune-file dune.inc.raw dune.inc)))
 
 (cram
  (package bopkit-tests)

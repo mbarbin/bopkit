@@ -3,38 +3,42 @@
 (include dune.bop.inc)
 
 (rule
- (target dune.asm.inc)
+ (target dune.asm.inc.raw)
  (deps
   (glob_files *.asm))
- (alias runtest)
- (mode promote)
  (action
   (with-stdout-to
    %{target}
-   (pipe-stdout
-    (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file)
-    (run dune format-dune-file)))))
+   (run %{bin:visa} fmt gen-dune "\%{bin:visa}" fmt file))))
 
 (rule
- (target dune.bop.inc)
- (deps
-  (glob_files *.bop))
  (alias runtest)
  (mode promote)
  (action
+  (format-dune-file dune.asm.inc.raw dune.asm.inc)))
+
+(rule
+ (target dune.bop.inc.raw)
+ (deps
+  (glob_files *.bop))
+ (action
   (with-stdout-to
    %{target}
-   (pipe-stdout
-    (run
-     %{bin:bopkit}
-     fmt
-     gen-dune
-     --exclude
-     div10.bop
-     "\%{bin:bopkit}"
-     fmt
-     file)
-    (run dune format-dune-file)))))
+   (run
+    %{bin:bopkit}
+    fmt
+    gen-dune
+    --exclude
+    div10.bop
+    "\%{bin:bopkit}"
+    fmt
+    file))))
+
+(rule
+ (alias runtest)
+ (mode promote)
+ (action
+  (format-dune-file dune.bop.inc.raw dune.bop.inc)))
 
 (rule
  (with-stdout-to
