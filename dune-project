@@ -1,4 +1,4 @@
-(lang dune 3.17)
+(lang dune 3.18)
 
 (name bopkit)
 
@@ -58,7 +58,7 @@
     (>= v0.17)
     (< v0.18)))
   (dune-site
-   (>= 3.17))
+   (>= 3.18))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -118,7 +118,7 @@
     (>= v0.17)
     (< v0.18)))
   (stdune
-   (>= 3.17))
+   (>= 3.18))
   (tsdl
    (>= 1.0.0))
   (tsdl-image
@@ -155,7 +155,7 @@
     (>= v0.17)
     (< v0.18)))
   (dune-site
-   (>= 3.17))
+   (>= 3.18))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -215,7 +215,7 @@
     (>= v0.17)
     (< v0.18)))
   (stdune
-   (>= 3.17))))
+   (>= 3.18))))
 
 (package
  (name visa)
@@ -248,7 +248,7 @@
     (>= v0.17)
     (< v0.18)))
   (dune-site
-   (>= 3.17))
+   (>= 3.18))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -308,7 +308,7 @@
     (>= v0.17)
     (< v0.18)))
   (stdune
-   (>= 3.17))))
+   (>= 3.18))))
 
 (package
  (name bopkit-tests)
@@ -347,7 +347,7 @@
     (>= v0.17)
     (< v0.18)))
   (dune-site
-   (>= 3.17))
+   (>= 3.18))
   (expect_test_helpers_core
    (and
     (>= v0.17)
@@ -420,7 +420,7 @@
     (>= v0.17)
     (< v0.18)))
   (stdune
-   (>= 3.17))
+   (>= 3.18))
   (subleq
    (= :version))
   (tsdl
@@ -471,7 +471,7 @@
     (>= v0.17)
     (< v0.18)))
   (dune-site
-   (>= 3.17))
+   (>= 3.18))
   (expect_test_helpers_core
    (and
     (>= v0.17)
@@ -544,7 +544,7 @@
     (>= v0.17)
     (< v0.18)))
   (stdune
-   (>= 3.17))
+   (>= 3.18))
   (subleq
    (= :version))
   (tsdl
