@@ -18,8 +18,8 @@
   base
   bopkit_process
   bopkit_process_interpreter
-  bopkit_process_pp
   bopkit_process_parser
+  bopkit_process_pp
   cmdlang
   fpath
   fpath-base

@@ -23,13 +23,13 @@
   bopkit_circuit
   bopkit_compiler
   bopkit_counter
+  bopkit_parser
   bopkit_pp
   bopkit_process_cli
   bopkit_pulse
   bopkit_simulator
   bopkit_sites
   bopkit_sleeper
-  bopkit_parser
   bopkit_to_c
   cmdlang
   core

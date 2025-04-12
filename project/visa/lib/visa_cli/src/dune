@@ -30,9 +30,9 @@
   stdio
   visa
   visa_assembler
+  visa_parser
   visa_pp
-  visa_simulator
-  visa_parser)
+  visa_simulator)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

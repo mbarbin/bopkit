@@ -20,9 +20,9 @@
   bopkit
   bopkit_cds_optimizer
   bopkit_circuit
+  bopkit_parser
   bopkit_pp
   bopkit_sites
-  bopkit_parser
   bopkit_topological_sort
   cmdlang
   core
