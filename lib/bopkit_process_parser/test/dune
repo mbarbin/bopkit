@@ -1,9 +1,9 @@
 (library
- (name bopkit_syntax_test)
- (public_name bopkit-tests.bopkit_syntax_test)
+ (name bopkit_process_parser_test)
+ (public_name bopkit-tests.bopkit_process_parser_test)
  (inline_tests)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
- (libraries bopkit_syntax)
+ (libraries bopkit_process_parser)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

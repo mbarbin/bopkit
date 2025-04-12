@@ -4,7 +4,7 @@
  (modules parser))
 
 (library
- (name bopkit_process_syntax)
+ (name bopkit_process_parser)
  (public_name bopkit.process-syntax)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
  (libraries bopkit_process core loc parsing-utils))

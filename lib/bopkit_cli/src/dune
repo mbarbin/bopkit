@@ -29,7 +29,7 @@
   bopkit_simulator
   bopkit_sites
   bopkit_sleeper
-  bopkit_syntax
+  bopkit_parser
   bopkit_to_c
   cmdlang
   core

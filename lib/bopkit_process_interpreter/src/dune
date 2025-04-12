@@ -15,7 +15,7 @@
   base
   bit_utils
   bopkit_process
-  bopkit_process_syntax
+  bopkit_process_parser
   loc
   pp
   pplumbing.err

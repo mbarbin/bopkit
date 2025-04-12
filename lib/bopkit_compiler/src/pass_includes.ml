@@ -43,7 +43,7 @@ let pass ~path =
           ; eof_comments = _
           }
         =
-        Parsing_utils.parse_file_exn (module Bopkit_syntax) ~path
+        Parsing_utils.parse_file_exn (module Bopkit_parser) ~path
       in
       Hash_set.add included_modules module_name;
       Stack.push

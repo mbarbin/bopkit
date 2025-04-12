@@ -267,7 +267,7 @@ let main =
          ~doc:"assembler program to execute"
      and () = Log_cli.set_config ()
      and config = Config.arg in
-     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let visa_simulator = create ~config ~program in
      match run visa_simulator with
      | Ok () -> ()

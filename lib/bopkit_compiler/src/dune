@@ -22,7 +22,7 @@
   bopkit_circuit
   bopkit_pp
   bopkit_sites
-  bopkit_syntax
+  bopkit_parser
   bopkit_topological_sort
   cmdlang
   core

@@ -9,7 +9,7 @@ let exec_cmd =
          ~docv:"FILE"
          ~doc:"input process file"
      and () = Log_cli.set_config () in
-     let program = Parsing_utils.parse_file_exn (module Bopkit_process_syntax) ~path in
+     let program = Parsing_utils.parse_file_exn (module Bopkit_process_parser) ~path in
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
      | Ok () -> ()
      | Error e -> Err.raise_s "Aborted execution" [%sexp (e : Error.t)])
@@ -22,7 +22,7 @@ let fmt_cmd =
       let extensions = [ ".bpp" ]
     end)
     (module Bopkit_process.Program)
-    (module Bopkit_process_syntax)
+    (module Bopkit_process_parser)
     (module Bopkit_process_pp.Program)
 ;;
 
