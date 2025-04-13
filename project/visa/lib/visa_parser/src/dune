@@ -4,7 +4,7 @@
  (modules parser))
 
 (library
- (name visa_syntax)
+ (name visa_parser)
  (public_name bopkit.visa-syntax)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a)
  (libraries loc parsing-utils visa))

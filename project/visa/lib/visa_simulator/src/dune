@@ -32,7 +32,7 @@
   unix
   visa
   visa_assembler
-  visa_syntax)
+  visa_parser)
  (lint
   (pps ppx_js_style -check-doc-comments))
  (preprocess

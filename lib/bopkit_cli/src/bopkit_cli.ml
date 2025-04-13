@@ -14,7 +14,7 @@ let fmt_cmd =
       let extensions = [ ".bop" ]
     end)
     (module Bopkit.Netlist)
-    (module Bopkit_syntax)
+    (module Bopkit_parser)
     (module Bopkit_pp.Netlist)
 ;;
 

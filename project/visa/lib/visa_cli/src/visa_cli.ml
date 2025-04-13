@@ -8,7 +8,7 @@ let parse_cmd =
          ~docv:"FILE"
          ~doc:"assembler program to process"
      and () = Log_cli.set_config () in
-     let p = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let p = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      print_s [%sexp (p : Visa.Program.t)])
 ;;
 
@@ -19,7 +19,7 @@ let fmt_cmd =
       let extensions = [ ".asm" ]
     end)
     (module Visa.Program)
-    (module Visa_syntax)
+    (module Visa_parser)
     (module Visa_pp.Program)
 ;;
 
@@ -33,7 +33,7 @@ let process_cmd =
          ~docv:"FILE"
          ~doc:"assembler program to process"
      and () = Log_cli.set_config () in
-     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let program = Visa.Executable.disassemble executable in
      print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))
@@ -49,7 +49,7 @@ let check_cmd =
          ~docv:"FILE"
          ~doc:"assembler program to process"
      and () = Log_cli.set_config () in
-     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let machine_code = Visa.Executable.to_machine_code executable in
      ignore (machine_code : Visa.Executable.Machine_code.t))
@@ -65,7 +65,7 @@ let assemble_cmd =
          ~docv:"FILE"
          ~doc:"assembler program to process"
      and () = Log_cli.set_config () in
-     let program = Parsing_utils.parse_file_exn (module Visa_syntax) ~path in
+     let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let machine_code = Visa.Executable.to_machine_code executable in
      print_string
