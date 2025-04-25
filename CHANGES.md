@@ -1,3 +1,15 @@
+## 0.3.4 (2025-04-25)
+
+### Changed
+
+- Rename `_syntax` components into `_parser` (#28, @mbarbin).
+- Require `dune.3.18` (#27, @mbarbin).
+- Use `format-dune-file` stanza (#26, @mbarbin).
+
+### Fixed
+
+- Handle `loc` deprecations (@mbarbin).
+
 ## 0.3.3 (2025-03-10)
 
 ### Changed
