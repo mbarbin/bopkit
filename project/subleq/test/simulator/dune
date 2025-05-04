@@ -2,5 +2,6 @@
  (package bopkit-tests)
  (deps
   (package bopkit)
+  (package subleq)
   (glob_files *.input)
   (glob_files *.output)))

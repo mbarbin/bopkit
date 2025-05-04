@@ -2,6 +2,7 @@
  (package bopkit-dev)
  (deps
   (package bopkit)
+  (package subleq)
   (glob_files *.input)))
 
 ;; Copying files referred to by the documentation
