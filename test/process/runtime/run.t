@@ -1,6 +1,6 @@
 bopkit process exec evaluates the *.bpp file provided, and then acts as a
 pipe01 application. The architecture of the process is set using the
-[-N] paramter, from then on all variables are expected to have N bits.
+[-N] parameter, from then on all variables are expected to have N bits.
 The size of the input expected is then equals to (N * #V) where #V is
 the number of parameters of the function.
 
