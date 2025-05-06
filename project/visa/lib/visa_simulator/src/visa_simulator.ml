@@ -272,5 +272,5 @@ let main =
      match run visa_simulator with
      | Ok () -> ()
      | Error e ->
-       Err.raise [ Pp.text "Aborted simulation"; Err.sexp [%sexp (e : Error.t)] ])
+       Err.raise [ Pp.text "Aborted simulation."; Err.sexp [%sexp (e : Error.t)] ])
 ;;

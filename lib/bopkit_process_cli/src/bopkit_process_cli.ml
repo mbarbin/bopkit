@@ -13,7 +13,12 @@ let exec_cmd =
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
      | Ok () -> ()
      | Error e ->
-       Err.raise [ Pp.text "Aborted execution"; Err.sexp [%sexp (e : Error.t)] ])
+       let errs =
+         match Error.sexp_of_t e with
+         | List [ Atom msg; sexp ] -> [ Pp.text msg; Err.sexp sexp ]
+         | sexp -> [ Err.sexp sexp ]
+       in
+       Err.raise (Pp.text "Aborted execution." :: errs))
 ;;
 
 let fmt_cmd =
