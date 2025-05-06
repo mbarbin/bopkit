@@ -123,12 +123,10 @@ the number of parameters of the function.
   0
   1
   Error: Aborted execution.
-  Unexpected input length.
-  ((expected_length 2) (input_length 1) (input 0))
+  Unexpected input length. ((expected_length 2) (input_length 1) (input 0))
   [123]
 
   $ echo "111" | bopkit process exec -f runtime-error.bpp -N 1
   Error: Aborted execution.
-  Unexpected input length.
-  ((expected_length 2) (input_length 3) (input 111))
+  Unexpected input length. ((expected_length 2) (input_length 3) (input 111))
   [123]
