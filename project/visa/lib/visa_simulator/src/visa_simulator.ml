@@ -271,5 +271,6 @@ let main =
      let visa_simulator = create ~config ~program in
      match run visa_simulator with
      | Ok () -> ()
-     | Error e -> Err.raise_s "Aborted simulation" [%sexp (e : Error.t)])
+     | Error e ->
+       Err.raise [ Pp.text "Aborted simulation."; Err.sexp [%sexp (e : Error.t)] ])
 ;;

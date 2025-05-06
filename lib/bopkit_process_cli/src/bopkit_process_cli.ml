@@ -12,7 +12,7 @@ let exec_cmd =
      let program = Parsing_utils.parse_file_exn (module Bopkit_process_parser) ~path in
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
      | Ok () -> ()
-     | Error e -> Err.raise_s "Aborted execution" [%sexp (e : Error.t)])
+     | Error e -> Err.raise [ Pp.text "Aborted execution."; Err.sexp (Error.sexp_of_t e) ])
 ;;
 
 let fmt_cmd =

@@ -1,6 +1,6 @@
 bopkit process exec evaluates the *.bpp file provided, and then acts as a
 pipe01 application. The architecture of the process is set using the
-[-N] paramter, from then on all variables are expected to have N bits.
+[-N] parameter, from then on all variables are expected to have N bits.
 The size of the input expected is then equals to (N * #V) where #V is
 the number of parameters of the function.
 
@@ -122,13 +122,11 @@ the number of parameters of the function.
   > 0
   0
   1
-  Error: Aborted execution
-  Error: Unexpected input length.
-  ((expected_length 2) (input_length 1) (input 0))
+  Error: Aborted execution.
+  Unexpected input length. ((expected_length 2) (input_length 1) (input 0))
   [123]
 
   $ echo "111" | bopkit process exec -f runtime-error.bpp -N 1
-  Error: Aborted execution
-  Error: Unexpected input length.
-  ((expected_length 2) (input_length 3) (input 111))
+  Error: Aborted execution.
+  Unexpected input length. ((expected_length 2) (input_length 3) (input 111))
   [123]

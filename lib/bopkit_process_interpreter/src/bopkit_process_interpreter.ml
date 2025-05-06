@@ -16,10 +16,10 @@ let execute_instruction
     let expected_length = architecture * p in
     if input_length <> expected_length
     then
-      Or_error.errorf
-        "Error: Unexpected input length.\n%s"
-        (Sexp.to_string_hum
-           [%sexp { expected_length : int; input_length : int; input = (st : string) }])
+      Or_error.error_s
+        [%sexp
+          "Unexpected input length."
+        , { expected_length : int; input_length : int; input = (st : string) }]
       |> break.return
     else
       Array.iteri addresses ~f:(fun i address ->

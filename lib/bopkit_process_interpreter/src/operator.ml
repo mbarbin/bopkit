@@ -19,7 +19,7 @@ let check_input_length ~input ~expected_length =
   then Or_error.return ()
   else
     Or_error.error_s
-      [%sexp "Unexpected input length", { expected_length : int; length : int }]
+      [%sexp "Unexpected input length.", { expected_length : int; length : int }]
 ;;
 
 let unary ~operator_name ~compute =
