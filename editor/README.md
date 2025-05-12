@@ -87,12 +87,12 @@ OPTIONS
            Increase verbosity. Repeatable, but more than twice does not bring
            more.
 
-       --verbosity=LEVEL
+       --verbosity=LEVEL, --log-level=LEVEL
            Be more or less verbose. Takes over v. LEVEL must be one of
            'quiet', 'app', 'error', 'warning', 'info' or 'debug'.
 
        --warn-error
-           treat warnings as errors.
+           Treat warnings as errors.
 
 COMMON OPTIONS
        --help[=FMT] (default=auto)
