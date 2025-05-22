@@ -31,7 +31,7 @@ depends: [
   "parsing-utils" {>= "0.2.3"}
   "pp" {>= "2.0.0"}
   "pp-extended" {>= "0.0.2"}
-  "pplumbing" {>= "0.0.12"}
+  "pplumbing" {>= "0.0.13"}
   "ppx_compare" {>= "v0.17" & < "v0.18"}
   "ppx_enumerate" {>= "v0.17" & < "v0.18"}
   "ppx_expect" {>= "v0.17" & < "v0.18"}
