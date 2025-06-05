@@ -37,26 +37,19 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (auto-format
    (>= 0.0.16))
   (base
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (base_quickcheck
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (cmdlang
    (>= 0.0.9))
   (comments-parser
    (>= 0.2.3))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (dune-site
    (>= 3.18))
   (fpath
@@ -78,45 +71,27 @@
   (pp-extended
    (>= 0.0.2))
   (pplumbing
-   (>= 0.0.13))
+   (>= 0.0.14))
   (ppx_compare
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_enumerate
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_fields_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_hash
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_here
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_let
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_value
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppxlib
    (>= 0.33))
   (stdio
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (stdune
    (>= 3.18))
   (tsdl
@@ -134,26 +109,19 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (auto-format
    (>= 0.0.16))
   (base
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (base_quickcheck
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (bopkit
    (= :version))
   (cmdlang
    (>= 0.0.9))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (dune-site
    (>= 3.18))
   (fpath
@@ -175,45 +143,27 @@
   (pp-extended
    (>= 0.0.2))
   (pplumbing
-   (>= 0.0.13))
+   (>= 0.0.14))
   (ppx_compare
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_enumerate
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_fields_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_hash
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_here
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_let
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_value
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppxlib
    (>= 0.33))
   (stdio
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (stdune
    (>= 3.18))))
 
@@ -227,26 +177,19 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (auto-format
    (>= 0.0.16))
   (base
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (base_quickcheck
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (bopkit
    (= :version))
   (cmdlang
    (>= 0.0.9))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (dune-site
    (>= 3.18))
   (fpath
@@ -268,45 +211,27 @@
   (pp-extended
    (>= 0.0.2))
   (pplumbing
-   (>= 0.0.13))
+   (>= 0.0.14))
   (ppx_compare
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_enumerate
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_fields_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_hash
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_here
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_let
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_value
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppxlib
    (>= 0.33))
   (stdio
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (stdune
    (>= 3.18))))
 
@@ -324,18 +249,13 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (auto-format
    (>= 0.0.16))
   (base
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (base_quickcheck
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (bopkit
    (= :version))
   (cmdlang
@@ -343,15 +263,11 @@
   (comments-parser
    (>= 0.2.3))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (dune-site
    (>= 3.18))
   (expect_test_helpers_core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -371,54 +287,33 @@
   (pp-extended
    (>= 0.0.2))
   (pplumbing
-   (>= 0.0.13))
+   (>= 0.0.14))
   (ppx_compare
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_enumerate
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_expect
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_fields_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_hash
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_here
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_js_style
    (and
     :with-dev-setup
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (ppx_let
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_value
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppxlib
    (>= 0.33))
   (stdio
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (stdune
    (>= 3.18))
   (subleq
@@ -446,18 +341,13 @@
    (>= 0.8.3))
   (appendable-list
    (and
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (auto-format
    (>= 0.0.16))
   (base
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (base_quickcheck
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (bopkit
    (= :version))
   (bopkit-tests
@@ -467,15 +357,11 @@
   (comments-parser
    (>= 0.2.3))
   (core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (dune-site
    (>= 3.18))
   (expect_test_helpers_core
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (fpath
    (>= 0.7.3))
   (fpath-base
@@ -495,54 +381,33 @@
   (pp-extended
    (>= 0.0.2))
   (pplumbing
-   (>= 0.0.13))
+   (>= 0.0.14))
   (ppx_compare
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_enumerate
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_expect
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_fields_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_hash
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_here
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_js_style
    (and
     :with-dev-setup
-    (>= v0.17)
-    (< v0.18)))
+    (>= v0.17)))
   (ppx_let
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_conv
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppx_sexp_value
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (ppxlib
    (>= 0.33))
   (stdio
-   (and
-    (>= v0.17)
-    (< v0.18)))
+   (>= v0.17))
   (stdune
    (>= 3.18))
   (subleq
