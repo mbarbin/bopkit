@@ -36,8 +36,7 @@
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
-   (and
-    (>= v0.17)))
+   (>= v0.17))
   (auto-format
    (>= 0.0.16))
   (base
@@ -108,8 +107,7 @@
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
-   (and
-    (>= v0.17)))
+   (>= v0.17))
   (auto-format
    (>= 0.0.16))
   (base
@@ -176,8 +174,7 @@
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
-   (and
-    (>= v0.17)))
+   (>= v0.17))
   (auto-format
    (>= 0.0.16))
   (base
@@ -248,8 +245,7 @@
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
-   (and
-    (>= v0.17)))
+   (>= v0.17))
   (auto-format
    (>= 0.0.16))
   (base
@@ -340,8 +336,7 @@
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
-   (and
-    (>= v0.17)))
+   (>= v0.17))
   (auto-format
    (>= 0.0.16))
   (base
