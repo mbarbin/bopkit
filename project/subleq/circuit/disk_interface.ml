@@ -103,13 +103,14 @@ let () =
          [ "DEBUG" ]
          Param.int
          ~default:1
-         ~doc:"activate debug graphics"
+         ~doc:"Activate debug graphics when equal to $(b,1)."
        >>| Int.equal 1
-     and architecture = Arg.named [ "AR" ] Param.int ~doc:"architecture"
+     and architecture =
+       Arg.named [ "AR" ] Param.int ~doc:"The size of the architecture parameter."
      and files_prefix =
-       Arg.named [ "files-prefix" ] Param.string ~docv:"PREF" ~doc:"input files prefix"
+       Arg.named [ "files-prefix" ] Param.string ~docv:"PREF" ~doc:"Input files prefix."
      and number_of_programs =
-       Arg.named [ "num-programs" ] Param.int ~docv:"N" ~doc:"number of programs to load"
+       Arg.named [ "num-programs" ] Param.int ~docv:"N" ~doc:"Number of programs to load."
      in
      let t = init ~architecture ~debug ~files_prefix ~number_of_programs in
      Bopkit_block.create ~name:"disk_interface" ~main:(main t) ())

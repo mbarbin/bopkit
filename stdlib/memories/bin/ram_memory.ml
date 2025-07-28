@@ -112,14 +112,14 @@ let () =
        Arg.named
          [ "addresses-width"; "addresses-len"; "a" ]
          Param.int
-         ~doc:"number of bit of addresses"
+         ~doc:"Number of bit of addresses."
      and data_width =
        Arg.named
          [ "words-width"; "words-len"; "w" ]
          Param.int
-         ~doc:"number of bits of words"
+         ~doc:"Number of bits of words."
      and title =
-       Arg.named_opt [ "title" ] Param.string ~docv:"TITLE" ~doc:"set window title"
+       Arg.named_opt [ "title" ] Param.string ~docv:"TITLE" ~doc:"Set window title."
      in
      let t = init ~title ~address_width ~data_width in
      Bopkit_block.create ~name:"ram_memory" ~main:(main t) ~is_multi_threaded:true ())

@@ -27,13 +27,13 @@ let arg =
       Arg.named_opt
         [ "num-cycles"; "n" ]
         Param.int
-        ~doc:"number of cycles to run (default: infinity)"
+        ~doc:"Number of cycles to run (default: infinity)."
       >>| Option.map ~f:(fun i -> Num_cycles.Cycles i)
     and num_counter_cycles =
       Arg.named_opt
         [ "num-counter-cycles" ]
         Param.int
-        ~doc:"number of counter cycles to run. Enforces: --counter-input"
+        ~doc:"Number of counter cycles to run. Enforces: $(b,--counter-input)."
       >>| Option.map ~f:(fun i -> Num_cycles.Counter_cycles i)
     in
     match List.filter_opt [ num_cycles; num_counter_cycles ] with
@@ -43,23 +43,24 @@ let arg =
       Err.raise
         ~exit_code:Err.Exit_code.cli_error
         [ Pp.text "Cannot specify both --num-cycles and --num-counter-cycles" ]
-  and counter_input = Arg.flag [ "counter-input" ] ~doc:"use a counter as circuit inputs"
+  and counter_input = Arg.flag [ "counter-input" ] ~doc:"Use a counter as circuit inputs."
   and output_kind =
     let%map output_only_on_change =
-      if%map Arg.flag [ "output-only-on-change" ] ~doc:"only print output when it changes"
+      if%map
+        Arg.flag [ "output-only-on-change" ] ~doc:"Only print output when it changes."
       then Some (Output_kind.Default { output_only_on_change = true })
       else None
     and output_only =
-      if%map Arg.flag [ "output-only"; "o" ] ~doc:"only show output on stdout"
+      if%map Arg.flag [ "output-only"; "o" ] ~doc:"Only show output on stdout."
       then Some (Output_kind.Default { output_only_on_change = false })
       else None
     and show_input =
       if%map
-        Arg.flag [ "show-input" ] ~doc:"also show input on stdout (this is the default)"
+        Arg.flag [ "show-input" ] ~doc:"Also show input on stdout (this is the default)."
       then Some Output_kind.Show_input
       else None
     and external_block =
-      if%map Arg.flag [ "external-block"; "p" ] ~doc:"behave as an external-block"
+      if%map Arg.flag [ "external-block"; "p" ] ~doc:"Behave as an external-block."
       then Some Output_kind.As_external_block
       else None
     in
@@ -71,7 +72,7 @@ let arg =
     | _ :: _ :: _ ->
       Err.raise
         ~exit_code:Err.Exit_code.cli_error
-        [ Pp.text "Cannot specify multiple output kinds" ]
+        [ Pp.text "Cannot specify multiple output kinds." ]
   in
   { num_cycles
   ; counter_input =

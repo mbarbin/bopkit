@@ -1,12 +1,12 @@
 let main =
   Command.make
-    ~summary:"translate a bop project into a standalone C file"
+    ~summary:"Translate a bop project into a standalone C file."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"target file"
+         ~doc:"Specify the input file."
      and () = Log_cli.set_config ()
      and bopkit_compiler_config = Bopkit_compiler.Config.arg in
      let circuit =

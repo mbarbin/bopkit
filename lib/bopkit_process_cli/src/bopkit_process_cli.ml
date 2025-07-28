@@ -1,13 +1,18 @@
 let exec_cmd =
   Command.make
-    ~summary:"execute a process file as an external bloc"
-    (let%map_open.Command n = Arg.named [ "N" ] Param.int ~docv:"N" ~doc:"architecture"
+    ~summary:"Execute a process file as an external bloc."
+    (let%map_open.Command n =
+       Arg.named
+         [ "N" ]
+         Param.int
+         ~docv:"N"
+         ~doc:"The size of the architecture parameter."
      and path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"input process file"
+         ~doc:"Input process file."
      and () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Bopkit_process_parser) ~path in
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
@@ -27,5 +32,5 @@ let fmt_cmd =
 ;;
 
 let main =
-  Command.group ~summary:"Bopkit Process File Tool" [ "exec", exec_cmd; "fmt", fmt_cmd ]
+  Command.group ~summary:"Bopkit Process File Tool." [ "exec", exec_cmd; "fmt", fmt_cmd ]
 ;;

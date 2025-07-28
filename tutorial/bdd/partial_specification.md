@@ -55,41 +55,37 @@ That's what `bopkit bdd checker` is about!
 ```sh
 $ bopkit bdd checker --help=plain
 NAME
-       bopkit-bdd-checker - external block
+       bopkit-bdd-checker - External block.
 
 SYNOPSIS
        bopkit bdd checker [OPTION]…
-
-
 
        This block takes in a BDD truth table, an address and a result. It
        checks whether the result agrees with the truth table, and if not
        raises an exception. It is meant to be used as unit-test in a bopkit
        simulation.
 
-
-
 OPTIONS
        --AD=N (required)
-           number of bits of addresses.
+           Number of bits of addresses.
 
        -c N
-           stop at cycle N.
+           Stop at cycle N.
 
        -f FILE (required)
-           the file to load.
+           The file to load.
 
        --no-input, --ni
-           block will read no input.
+           Block will read no input.
 
        --no-output, --no
-           block will print no output.
+           Block will print no output.
 
        --verbose
-           be more verbose.
+           Be more verbose.
 
        --WL=N (required)
-           number of bits of output words.
+           Number of bits of output words.
 
 COMMON OPTIONS
        --help[=FMT] (default=auto)

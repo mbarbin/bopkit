@@ -16,21 +16,21 @@ let arg =
       [ "optimize-cds" ]
       Param.bool
       ~default:false
-      ~doc:"perform cds optimization (def: false)"
+      ~doc:"Specify whether to perform cds optimizations."
   and print_pass_output =
     Arg.named_with_default
       [ "print-pass-output" ]
       (Param.enumerated (module Pass_name) |> Param.comma_separated)
       ~default:[]
       ~docv:"PASS"
-      ~doc:"supply pass names whose output to print"
+      ~doc:"Supply pass names whose output to print."
   and parameters_overrides = Bopkit.Parameters.overrides
   and main =
     Arg.named_opt
       [ "main" ]
       Param.string
       ~docv:"NAME"
-      ~doc:"override block name to simulate as the circuit entry point"
+      ~doc:"Override block name to simulate as the circuit entry point."
   in
   { optimize_cds; print_pass_output; parameters_overrides; main }
 ;;

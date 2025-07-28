@@ -138,7 +138,7 @@ file which we know doesn't terminate:
 $ subleq simulate --ar 4 cycle01.input
 Subleq simulator: running...
 [ ;-( ] Cycle detected : Aborting computation.
-Program does not terminate
+Program does not terminate.
 [1]
 ```
 

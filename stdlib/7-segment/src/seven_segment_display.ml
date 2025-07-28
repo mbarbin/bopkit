@@ -19,9 +19,9 @@ end
 
 let make_display_command (module Device : DEVICE_S) ~length ~name =
   Command.make
-    ~summary:(Printf.sprintf "run %s display" name)
+    ~summary:(Printf.sprintf "Run %s display." name)
     (let%map_open.Command with_output =
-       Arg.flag [ "no-output"; "no" ] ~doc:"no output" >>| not
+       Arg.flag [ "no-output"; "no" ] ~doc:"Print no output." >>| not
      in
      let tab = Array.create ~len:length false in
      let m = Device.init () in
@@ -57,15 +57,15 @@ let make_display_command (module Device : DEVICE_S) ~length ~name =
 
 let make_print_command (module Device : DEVICE_S) ~length ~name =
   Command.make
-    ~summary:(Printf.sprintf "print %s output" name)
+    ~summary:(Printf.sprintf "Print %s output." name)
     (let%map_open.Command clear_on_reprint =
-       Arg.flag [ "clear-on-reprint" ] ~doc:"on tty print only 1 line"
-     and print_index = Arg.flag [ "print-index" ] ~doc:"print cycle index as prefix"
-     and print_on_change = Arg.flag [ "print-on-change" ] ~doc:"print only on change" in
+       Arg.flag [ "clear-on-reprint" ] ~doc:"On tty print only 1 line."
+     and print_index = Arg.flag [ "print-index" ] ~doc:"Print cycle index as prefix."
+     and print_on_change = Arg.flag [ "print-on-change" ] ~doc:"Print only on change." in
      if clear_on_reprint && not (ANSITerminal.isatty.contents Unix.stdout)
      then (
        Stdlib.Printf.eprintf
-         "clear-on-reprint can only be used if the terminal is a tty\n%!";
+         "Flag [--clear-on-reprint] can only be used if the terminal is a tty.\n%!";
        Stdlib.exit 1);
      let index = ref (-1) in
      let previous_line = ref "" in
@@ -131,10 +131,10 @@ module Main = struct
   ;;
 
   let digital_calendar =
-    let name = "digital-watch"
+    let name = "digital-calendar"
     and length = 91 in
     Command.group
-      ~summary:"digital-calendar"
+      ~summary:name
       [ "display", digital_calendar_display
       ; "gen-input", Cmd_digital_calendar_gen_input.main
       ; "gen-raw-input", Cmd_digital_calendar_gen_raw_input.main

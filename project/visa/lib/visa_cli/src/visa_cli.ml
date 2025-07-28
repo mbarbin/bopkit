@@ -1,12 +1,12 @@
 let parse_cmd =
   Command.make
-    ~summary:"parse and dump an assembler program ast"
+    ~summary:"Parse and dump an assembly program ast."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"assembler program to process"
+         ~doc:"Assembly program to process."
      and () = Log_cli.set_config () in
      let p = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      print_s [%sexp (p : Visa.Program.t)])
@@ -25,13 +25,13 @@ let fmt_cmd =
 
 let process_cmd =
   Command.make
-    ~summary:"parse and print an assembler program after processing"
+    ~summary:"Parse and print an assembly program after processing."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"assembler program to process"
+         ~doc:"Assembly program to process."
      and () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
@@ -41,13 +41,13 @@ let process_cmd =
 
 let check_cmd =
   Command.make
-    ~summary:"parse and check an assembler program"
+    ~summary:"Parse and check an assembler program."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"assembler program to process"
+         ~doc:"Assembly program to process."
      and () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
@@ -57,13 +57,13 @@ let check_cmd =
 
 let assemble_cmd =
   Command.make
-    ~summary:"parse and transform an assembler program into machine code"
+    ~summary:"Parse and transform an assembler program into machine code."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"assembler program to process"
+         ~doc:"Assembly program to process."
      and () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
@@ -74,13 +74,13 @@ let assemble_cmd =
 
 let disassemble_cmd =
   Command.make
-    ~summary:"recreate an assembler program from machine code"
+    ~summary:"Recreate an assembly program from machine code."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"machine code to process"
+         ~doc:"Machine code to process."
      and () = Log_cli.set_config () in
      let machine_code = Visa.Machine_code.of_text_file_exn ~path in
      let program = Visa.Executable.Machine_code.disassemble machine_code ~path in
@@ -89,7 +89,7 @@ let disassemble_cmd =
 
 let main =
   Command.group
-    ~summary:"visa assembler"
+    ~summary:"Managing visa assembly programs."
     [ "assemble", assemble_cmd
     ; "check", check_cmd
     ; "digital-calendar", Seven_segment_display.Main.digital_calendar

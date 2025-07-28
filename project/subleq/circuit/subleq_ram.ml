@@ -98,10 +98,11 @@ let () =
          [ "DEBUG" ]
          Param.int
          ~default:1
-         ~doc:"activate debug graphics"
+         ~doc:"Activate debug graphics when equal to $(b,1)."
        >>| Int.equal 1
-     and architecture = Arg.named [ "AR" ] Param.int ~doc:"architecture"
-     and cl = Arg.named [ "CL" ] Param.int ~doc:"number of bits of cycle index" in
+     and architecture =
+       Arg.named [ "AR" ] Param.int ~doc:"The size of the architecture parameter."
+     and cl = Arg.named [ "CL" ] Param.int ~doc:"Number of bits of cycle index." in
      let t = init ~architecture ~cl ~debug in
      Bopkit_block.create ~name:"subleq_ram" ~main:(main t) ())
 ;;

@@ -2,13 +2,14 @@
 
 let cmd =
   Command.make
-    ~summary:"generate initial contents for visa's RAM memory"
+    ~summary:"Generate initial contents for visa's RAM memory."
     (let%map_open.Command ofday =
-       Arg.pos ~pos:0 Param.string ~docv:"HH:MM:SS" ~doc:"time of day"
+       Arg.pos ~pos:0 Param.string ~docv:"HH:MM:SS" ~doc:"Time of day."
        >>| Core.Time_ns.Ofday.of_string
        >>| Core.Time_ns.Ofday.to_parts
      and date =
-       Arg.pos ~pos:1 Param.string ~docv:"YYYY/MM/DD" ~doc:"date" >>| Core.Date.of_string
+       Arg.pos ~pos:1 Param.string ~docv:"YYYY/MM/DD" ~doc:"The date."
+       >>| Core.Date.of_string
      in
      let print name value =
        let tmp = Array.create ~len:8 false in

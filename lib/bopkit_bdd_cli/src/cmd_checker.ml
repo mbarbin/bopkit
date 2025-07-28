@@ -22,20 +22,19 @@ let main ~ad ~wl ~path =
 let main =
   Bopkit_block.main
     ~readme:(fun () ->
-      {|
-This block takes in a BDD truth table, an address and a result. It checks
-whether the result agrees with the truth table, and if not raises an
-exception. It is meant to be used as unit-test in a bopkit simulation.
-|})
+      "This block takes in a BDD truth table, an address and a result. It checks whether \
+       the result agrees with the truth table, and if not raises an exception. It is \
+       meant to be used as unit-test in a bopkit simulation.")
     (let%map_open.Command ad =
-       Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"number of bits of addresses"
-     and wl = Arg.named [ "WL" ] Param.int ~docv:"N" ~doc:"number of bits of output words"
+       Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"Number of bits of addresses."
+     and wl =
+       Arg.named [ "WL" ] Param.int ~docv:"N" ~doc:"Number of bits of output words."
      and path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"the file to load"
+         ~doc:"The file to load."
      in
      Bopkit_block.create ~name:"bdd-checker" ~main:(main ~ad ~wl ~path) ())
 ;;

@@ -1,6 +1,6 @@
 let main =
   Command.make
-    ~summary:"remove duplicates from an input where each line appears twice"
+    ~summary:"Remove duplicates from an input where each line appears twice."
     (let%map_open.Command () = Arg.return () in
      let i = ref 0 in
      With_return.with_return (fun { return } ->

@@ -1,28 +1,28 @@
 let main =
   Command.make
-    ~summary:"generate a .bop circuit from a boolean function with partial specification"
+    ~summary:"Generate a .bop circuit from a boolean function with partial specification."
     (let%map_open.Command path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"input file with boolean function (ascii)"
+         ~doc:"Input file with boolean function (ascii)."
      and address =
-       Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"number of bits of addresses"
+       Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"Number of bits of addresses."
      and word_length =
        Arg.named
          [ "WL" ]
          Param.int
          ~docv:"N"
-         ~doc:"word length - number of bits of results"
+         ~doc:"Word length - number of bits of results."
      and tree_option =
-       Arg.flag [ "tree" ] ~doc:"generate a mux tree rather than a mux list"
+       Arg.flag [ "tree" ] ~doc:"Generate a mux tree rather than a mux list."
      and block_name =
        Arg.named_opt
          [ "block-name" ]
          Param.string
          ~docv:"Block_name"
-         ~doc:"the desired name for the synthesized block"
+         ~doc:"The desired name for the synthesized block."
      in
      let len = Int.pow 2 address in
      let pbm = Partial_bit_matrix.of_text_file ~dimx:len ~dimy:word_length ~path in

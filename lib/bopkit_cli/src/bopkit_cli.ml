@@ -1,6 +1,6 @@
 let print_sites_cmd =
   Command.make
-    ~summary:"print stdlib sites"
+    ~summary:"Print stdlib sites."
     (let%map_open.Command () = Arg.return () in
      let open Bopkit_sites.Sites in
      print_s
@@ -20,7 +20,7 @@ let fmt_cmd =
 
 let main =
   Command.group
-    ~summary:"bopkit command line"
+    ~summary:"Bopkit command line."
     [ "bdd", Bopkit_bdd_cli.main
     ; "bop2c", Cmd_bop2c.main
     ; "check", Cmd_check.main

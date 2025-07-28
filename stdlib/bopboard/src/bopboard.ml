@@ -385,7 +385,7 @@ let run_cmd =
          Param.string
          ~default:"bopboard"
          ~docv:"TITLE"
-         ~doc:"set window title"
+         ~doc:"Set window title."
      in
      let t = init ~title in
      let (_ : Thread.t) =
@@ -412,7 +412,7 @@ let run_cmd =
 
 let stress_test_cmd =
   Command.make
-    ~summary:"a stress test for the bopboard"
+    ~summary:"A stress test for the bopboard."
     (let%map_open.Command () = Arg.return () in
      let t = init ~title:"Bopboard Stress Test" in
      stress_test t;

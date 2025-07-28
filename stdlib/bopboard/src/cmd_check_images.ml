@@ -1,8 +1,8 @@
 let main =
   Command.make
-    ~summary:"check that all required images are present"
+    ~summary:"Check that all required images are present."
     (let%map_open.Command images =
-       Arg.pos_all Param.string ~docv:"IMG" ~doc:"all images"
+       Arg.pos_all Param.string ~docv:"IMG" ~doc:"Images to include in the check."
      in
      let required_images =
        Image.all |> List.map ~f:Image.basename |> Set.of_list (module String)

@@ -16,7 +16,7 @@ let main =
          [ "cycles-per-second" ]
          Param.string
          ~docv:"max|%d"
-         ~doc:"number of cycles per second"
+         ~doc:"Number of cycles per second."
        >>| function
        | "max" -> `Max
        | d ->
@@ -29,7 +29,7 @@ let main =
          [ "as-if-started-at-midnight" ]
          Param.bool
          ~default:false
-         ~doc:"catch-up as if it had run from midnight"
+         ~doc:"Catch-up as if it had run from midnight."
      in
      let bopkit_sleeper =
        match cycles_per_second with

@@ -91,7 +91,7 @@ let print (t : t) =
 
 let main =
   Command.make
-    ~summary:"generate digital-calendar raw input"
+    ~summary:"Generate digital-calendar raw input."
     (let%map_open.Command () = Arg.return () in
      let length_entree = expected_octets * 8 in
      let length_sortie = 91 in

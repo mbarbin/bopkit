@@ -25,9 +25,9 @@ let print (t : t) =
 
 let main =
   Command.make
-    ~summary:"generate digital-calendar input"
+    ~summary:"Generate digital-calendar input."
     (let%map_open.Command gen_unit_test_output =
-       Arg.flag [ "gen-unit-test-output" ] ~doc:"generate expected output"
+       Arg.flag [ "gen-unit-test-output" ] ~doc:"Generate expected output."
      in
      let t : t = Array.create ~len:42 false in
      if gen_unit_test_output

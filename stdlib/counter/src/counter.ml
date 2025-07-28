@@ -15,9 +15,12 @@ let counter ~width ~frequency =
 
 let main =
   Bopkit_block.main
-    (let%map_open.Command width = Arg.named [ "N" ] Param.int ~doc:"number of bits"
+    (let%map_open.Command width = Arg.named [ "N" ] Param.int ~doc:"Number of bits."
      and frequency =
-       Arg.named_opt [ "f" ] Param.int ~doc:"number of cycles per second (default to max)"
+       Arg.named_opt
+         [ "f" ]
+         Param.int
+         ~doc:"Number of cycles per second (default to max)."
      in
      Bopkit_block.create ~name:"counter" ~main:(counter ~width ~frequency) ())
 ;;

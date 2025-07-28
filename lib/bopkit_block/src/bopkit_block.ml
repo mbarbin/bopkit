@@ -283,12 +283,12 @@ let wait_for_stdin () =
 
 let main ?readme t_param =
   Command.make
-    ~summary:"external block"
+    ~summary:"External block."
     ?readme
-    (let%map_open.Command _verbose = Arg.flag [ "verbose" ] ~doc:"be more verbose"
-     and stop_at_cycle = Arg.named_opt [ "c" ] Param.int ~docv:"N" ~doc:"stop at cycle N"
-     and no_input = Arg.flag [ "no-input"; "ni" ] ~doc:"block will read no input"
-     and no_output = Arg.flag [ "no-output"; "no" ] ~doc:"block will print no output"
+    (let%map_open.Command _verbose = Arg.flag [ "verbose" ] ~doc:"Be more verbose."
+     and stop_at_cycle = Arg.named_opt [ "c" ] Param.int ~docv:"N" ~doc:"Stop at cycle N."
+     and no_input = Arg.flag [ "no-input"; "ni" ] ~doc:"Block will read no input."
+     and no_output = Arg.flag [ "no-output"; "no" ] ~doc:"Block will print no output."
      and { name; main; methods; is_multi_threaded } = t_param in
      let index_cycle = ref 0 in
      let context = { Context.name; index_cycle } in

@@ -20,7 +20,7 @@ Hello
 
   $ bopkit simu counter-input.bop --num-counter-cycles 2 \
   >   --show-input --output-only-on-change
-  Error: Cannot specify multiple output kinds
+  Error: Cannot specify multiple output kinds.
   [124]
 
   $ bopkit simu counter-input.bop --num-counter-cycles 2 \

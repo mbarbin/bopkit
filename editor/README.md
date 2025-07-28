@@ -27,12 +27,10 @@ Checkout: bopkit fmt file --help=plain
 ```sh
 $ bopkit fmt file --help=plain
 NAME
-       bopkit-fmt-file - autoformat bopkit files
+       bopkit-fmt-file - Autoformat bopkit files.
 
 SYNOPSIS
        bopkit fmt file [OPTION]… FILE
-
-
 
        This is a pretty-print command for bopkit files (extensions .bop).
 
@@ -67,11 +65,11 @@ SYNOPSIS
 
 ARGUMENTS
        FILE (required)
-           file to format.
+           File to format.
 
 OPTIONS
        --add-extra-blank-line
-           add an extra blank line at the end.
+           Add an extra blank line at the end.
 
        --color=WHEN (absent=auto)
            Colorize the output. WHEN must be one of 'auto', 'always' or
@@ -81,7 +79,7 @@ OPTIONS
            Be quiet. Takes over v and --verbosity.
 
        --read-contents-from-stdin
-           read contents from stdin rather than from the file.
+           Read contents from stdin rather than from the file.
 
        -v, --verbose
            Increase verbosity. Repeatable, but more than twice does not bring

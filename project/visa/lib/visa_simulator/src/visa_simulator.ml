@@ -22,19 +22,19 @@ module Config = struct
         [ "sleep" ]
         Param.bool
         ~default:true
-        ~doc:"whether to wait for sleep instruction or skip (default true)"
+        ~doc:"Specify whether to wait for sleep instruction or skip."
     and stop_after_n_outputs =
       Arg.named_opt
         [ "stop-after-n-outputs" ]
         Param.int
         ~docv:"N"
-        ~doc:"stop after N outputs have been produced (default run forever)"
+        ~doc:"Stop after N outputs have been produced (by default run forever)."
     and initial_memory =
       Arg.named_opt
         [ "initial-memory" ]
         (Param.validated_string (module Fpath))
         ~docv:"FILE"
-        ~doc:"load initial memory contents"
+        ~doc:"Load initial memory contents."
     in
     { sleep; stop_after_n_outputs; initial_memory }
   ;;
@@ -258,13 +258,13 @@ let run (t : t) =
 
 let main =
   Command.make
-    ~summary:"parse an assembler program and simulate its execution"
+    ~summary:"Parse an assembly program and simulate its execution."
     (let%map_open.Command path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
-         ~doc:"assembler program to execute"
+         ~doc:"Assembly program to execute."
      and () = Log_cli.set_config ()
      and config = Config.arg in
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in

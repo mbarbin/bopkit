@@ -45,7 +45,7 @@ let print (t : t) =
 
 let main =
   Command.make
-    ~summary:"generate digital-calendar input"
+    ~summary:"Generate digital-calendar input."
     (let%map_open.Command () = Arg.return () in
      let t = Array.create ~len:91 false in
      while true do
