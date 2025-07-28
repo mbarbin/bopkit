@@ -38,7 +38,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.16))
+   (>= 0.0.17))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -109,7 +109,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.16))
+   (>= 0.0.17))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -176,7 +176,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.16))
+   (>= 0.0.17))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -247,7 +247,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.16))
+   (>= 0.0.17))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -338,7 +338,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.16))
+   (>= 0.0.17))
   (base
    (>= v0.17))
   (base_quickcheck
