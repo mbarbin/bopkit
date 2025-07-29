@@ -25,7 +25,7 @@
   stdio
   unix)
  (lint
-  (pps ppx_js_style))
+  (pps ppx_js_style -allow-let-operators))
  (preprocess
   (pps
    -unused-type-warnings=force

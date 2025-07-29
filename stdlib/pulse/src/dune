@@ -15,7 +15,7 @@
   Cmdlang)
  (libraries base bopkit_block bopkit_sleeper cmdlang core stdio unix)
  (lint
-  (pps ppx_js_style -check-doc-comments))
+  (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess
   (pps
    -unused-type-warnings=force

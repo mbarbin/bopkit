@@ -14,7 +14,7 @@
   Cmdlang)
  (libraries base cmdlang fpath-base pplumbing.cmdlang-cmdliner-runner)
  (lint
-  (pps ppx_js_style -check-doc-comments))
+  (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess
   (pps
    -unused-code-warnings=force
