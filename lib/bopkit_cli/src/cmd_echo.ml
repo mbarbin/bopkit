@@ -1,9 +1,9 @@
 let main =
   Command.make
     ~summary:"Echo from stdin to stdout with a setting of frequency."
-    (let%map_open.Command f =
-       Arg.named [ "f" ] Param.int ~doc:"Number of cycles per second."
-     and as_if_started_at_midnight =
+    (let open Command.Std in
+     let+ f = Arg.named [ "f" ] Param.int ~doc:"Number of cycles per second."
+     and+ as_if_started_at_midnight =
        Arg.flag [ "m" ] ~doc:"Catch-up as if it had run from midnight."
      in
      let bopkit_sleeper =

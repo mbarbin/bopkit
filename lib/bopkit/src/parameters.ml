@@ -21,8 +21,6 @@ let keys (t : t) =
 ;;
 
 let overrides =
-  let%map_open.Command overrides =
-    Arg.named_multi [ "parameter" ] Parameter.param ~doc:"Override parameter."
-  in
-  overrides
+  let open Command in
+  Arg.named_multi [ "parameter" ] Parameter.param ~doc:"Override parameter."
 ;;

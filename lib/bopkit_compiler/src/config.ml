@@ -11,21 +11,22 @@ let default =
 ;;
 
 let arg =
-  let%map_open.Command optimize_cds =
+  let open Command.Std in
+  let+ optimize_cds =
     Arg.named_with_default
       [ "optimize-cds" ]
       Param.bool
       ~default:false
       ~doc:"Specify whether to perform cds optimizations."
-  and print_pass_output =
+  and+ print_pass_output =
     Arg.named_with_default
       [ "print-pass-output" ]
       (Param.enumerated (module Pass_name) |> Param.comma_separated)
       ~default:[]
       ~docv:"PASS"
       ~doc:"Supply pass names whose output to print."
-  and parameters_overrides = Bopkit.Parameters.overrides
-  and main =
+  and+ parameters_overrides = Bopkit.Parameters.overrides
+  and+ main =
     Arg.named_opt
       [ "main" ]
       Param.string

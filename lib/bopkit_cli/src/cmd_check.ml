@@ -1,16 +1,17 @@
 let main =
   Command.make
     ~summary:"Check a bopkit project."
-    (let%map_open.Command path =
+    (let open Command.Std in
+     let+ path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"File to check."
-     and () = Log_cli.set_config ()
-     and print_cds =
+     and+ () = Log_cli.set_config ()
+     and+ print_cds =
        Arg.flag [ "print-cds" ] ~doc:"Print the cds out stdout in case of success."
-     and bopkit_compiler_config = Bopkit_compiler.Config.arg in
+     and+ bopkit_compiler_config = Bopkit_compiler.Config.arg in
      let circuit =
        Bopkit_compiler.circuit_of_netlist ~path ~config:bopkit_compiler_config
      in

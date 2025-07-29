@@ -1,19 +1,20 @@
 let exec_cmd =
   Command.make
     ~summary:"Execute a process file as an external bloc."
-    (let%map_open.Command n =
+    (let open Command.Std in
+     let+ n =
        Arg.named
          [ "N" ]
          Param.int
          ~docv:"N"
          ~doc:"The size of the architecture parameter."
-     and path =
+     and+ path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"Input process file."
-     and () = Log_cli.set_config () in
+     and+ () = Log_cli.set_config () in
      let program = Parsing_utils.parse_file_exn (module Bopkit_process_parser) ~path in
      match Bopkit_process_interpreter.run_program ~architecture:n ~program with
      | Ok () -> ()

@@ -20,9 +20,8 @@ end
 let make_display_command (module Device : DEVICE_S) ~length ~name =
   Command.make
     ~summary:(Printf.sprintf "Run %s display." name)
-    (let%map_open.Command with_output =
-       Arg.flag [ "no-output"; "no" ] ~doc:"Print no output." >>| not
-     in
+    (let open Command.Std in
+     let+ with_output = Arg.flag [ "no-output"; "no" ] ~doc:"Print no output." >>| not in
      let tab = Array.create ~len:length false in
      let m = Device.init () in
      With_return.with_return (fun { return } ->
@@ -58,10 +57,11 @@ let make_display_command (module Device : DEVICE_S) ~length ~name =
 let make_print_command (module Device : DEVICE_S) ~length ~name =
   Command.make
     ~summary:(Printf.sprintf "Print %s output." name)
-    (let%map_open.Command clear_on_reprint =
+    (let open Command.Std in
+     let+ clear_on_reprint =
        Arg.flag [ "clear-on-reprint" ] ~doc:"On tty print only 1 line."
-     and print_index = Arg.flag [ "print-index" ] ~doc:"Print cycle index as prefix."
-     and print_on_change = Arg.flag [ "print-on-change" ] ~doc:"Print only on change." in
+     and+ print_index = Arg.flag [ "print-index" ] ~doc:"Print cycle index as prefix."
+     and+ print_on_change = Arg.flag [ "print-on-change" ] ~doc:"Print only on change." in
      if clear_on_reprint && not (ANSITerminal.isatty.contents Unix.stdout)
      then (
        Stdlib.Printf.eprintf

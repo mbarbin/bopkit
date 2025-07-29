@@ -1,23 +1,24 @@
 let main =
   Command.make
     ~summary:"Generate a .bop circuit from a boolean function with partial specification."
-    (let%map_open.Command path =
+    (let open Command.Std in
+     let+ path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"Input file with boolean function (ascii)."
-     and address =
+     and+ address =
        Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"Number of bits of addresses."
-     and word_length =
+     and+ word_length =
        Arg.named
          [ "WL" ]
          Param.int
          ~docv:"N"
          ~doc:"Word length - number of bits of results."
-     and tree_option =
+     and+ tree_option =
        Arg.flag [ "tree" ] ~doc:"Generate a mux tree rather than a mux list."
-     and block_name =
+     and+ block_name =
        Arg.named_opt
          [ "block-name" ]
          Param.string

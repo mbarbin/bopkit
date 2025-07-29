@@ -11,7 +11,8 @@ let pulse ~bopkit_sleeper =
 
 let main =
   Bopkit_block.main
-    (let%map_open.Command cycles_per_second =
+    (let open Command.Std in
+     let+ cycles_per_second =
        Arg.named
          [ "cycles-per-second" ]
          Param.string
@@ -24,7 +25,7 @@ let main =
            (match Int.of_string_opt d with
             | Some d -> d
             | None -> raise_s [%sexp "(max|%d) value expected for [cycles-per-second]"])
-     and midnight =
+     and+ midnight =
        Arg.named_with_default
          [ "as-if-started-at-midnight" ]
          Param.bool

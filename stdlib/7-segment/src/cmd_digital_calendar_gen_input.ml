@@ -46,7 +46,8 @@ let print (t : t) =
 let main =
   Command.make
     ~summary:"Generate digital-calendar input."
-    (let%map_open.Command () = Arg.return () in
+    (let open Command.Std in
+     let+ () = Arg.return () in
      let t = Array.create ~len:91 false in
      while true do
        Thread.delay 0.2;

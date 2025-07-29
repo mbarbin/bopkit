@@ -1,7 +1,8 @@
 let print_sites_cmd =
   Command.make
     ~summary:"Print stdlib sites."
-    (let%map_open.Command () = Arg.return () in
+    (let open Command.Std in
+     let+ () = Arg.return () in
      let open Bopkit_sites.Sites in
      print_s
        [%sexp { stdlib : string list; bopboard : string list; stdbin : string list }])

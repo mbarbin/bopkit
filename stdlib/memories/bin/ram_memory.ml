@@ -108,17 +108,18 @@ let main ({ address_width; data_width; mem } as t) =
 
 let () =
   Bopkit_block.run
-    (let%map_open.Command address_width =
+    (let open Command.Std in
+     let+ address_width =
        Arg.named
          [ "addresses-width"; "addresses-len"; "a" ]
          Param.int
          ~doc:"Number of bit of addresses."
-     and data_width =
+     and+ data_width =
        Arg.named
          [ "words-width"; "words-len"; "w" ]
          Param.int
          ~doc:"Number of bits of words."
-     and title =
+     and+ title =
        Arg.named_opt [ "title" ] Param.string ~docv:"TITLE" ~doc:"Set window title."
      in
      let t = init ~title ~address_width ~data_width in

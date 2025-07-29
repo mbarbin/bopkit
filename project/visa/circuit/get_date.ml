@@ -3,11 +3,12 @@
 let cmd =
   Command.make
     ~summary:"Generate initial contents for visa's RAM memory."
-    (let%map_open.Command ofday =
+    (let open Command.Std in
+     let+ ofday =
        Arg.pos ~pos:0 Param.string ~docv:"HH:MM:SS" ~doc:"Time of day."
        >>| Core.Time_ns.Ofday.of_string
        >>| Core.Time_ns.Ofday.to_parts
-     and date =
+     and+ date =
        Arg.pos ~pos:1 Param.string ~docv:"YYYY/MM/DD" ~doc:"The date."
        >>| Core.Date.of_string
      in

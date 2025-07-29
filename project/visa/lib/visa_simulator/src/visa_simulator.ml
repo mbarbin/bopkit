@@ -17,19 +17,20 @@ module Config = struct
   let default = create ()
 
   let arg =
-    let%map_open.Command sleep =
+    let open Command.Std in
+    let+ sleep =
       Arg.named_with_default
         [ "sleep" ]
         Param.bool
         ~default:true
         ~doc:"Specify whether to wait for sleep instruction or skip."
-    and stop_after_n_outputs =
+    and+ stop_after_n_outputs =
       Arg.named_opt
         [ "stop-after-n-outputs" ]
         Param.int
         ~docv:"N"
         ~doc:"Stop after N outputs have been produced (by default run forever)."
-    and initial_memory =
+    and+ initial_memory =
       Arg.named_opt
         [ "initial-memory" ]
         (Param.validated_string (module Fpath))
@@ -259,14 +260,15 @@ let run (t : t) =
 let main =
   Command.make
     ~summary:"Parse an assembly program and simulate its execution."
-    (let%map_open.Command path =
+    (let open Command.Std in
+     let+ path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))
          ~docv:"FILE"
          ~doc:"Assembly program to execute."
-     and () = Log_cli.set_config ()
-     and config = Config.arg in
+     and+ () = Log_cli.set_config ()
+     and+ config = Config.arg in
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let visa_simulator = create ~config ~program in
      match run visa_simulator with

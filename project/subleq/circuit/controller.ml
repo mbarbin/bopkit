@@ -165,7 +165,8 @@ let main ar =
 
 let () =
   Bopkit_block.run
-    (let%map_open.Command ar =
+    (let open Command.Std in
+     let+ ar =
        Arg.named [ "AR" ] Param.int ~doc:"The size of the architecture parameter."
      in
      Bopkit_block.create ~name:"controller" ~main:(main ar) ())

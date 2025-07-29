@@ -25,11 +25,11 @@ let main =
       "This block takes in a BDD truth table, an address and a result. It checks whether \
        the result agrees with the truth table, and if not raises an exception. It is \
        meant to be used as unit-test in a bopkit simulation.")
-    (let%map_open.Command ad =
-       Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"Number of bits of addresses."
-     and wl =
+    (let open Command.Std in
+     let+ ad = Arg.named [ "AD" ] Param.int ~docv:"N" ~doc:"Number of bits of addresses."
+     and+ wl =
        Arg.named [ "WL" ] Param.int ~docv:"N" ~doc:"Number of bits of output words."
-     and path =
+     and+ path =
        Arg.named
          [ "f" ]
          (Param.validated_string (module Fpath))

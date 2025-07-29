@@ -1,20 +1,21 @@
 let generate_cmd =
   Command.make
     ~summary:"Generate subleq images for testing."
-    (let%map_open.Command architecture =
+    (let open Command.Std in
+     let+ architecture =
        Arg.named
          [ "architecture" ]
          Param.int
          ~docv:"N"
          ~doc:"The size of the architecture parameter."
-     and with_cycle = Arg.flag [ "with-cycle" ] ~doc:"Generate programs with cycles."
-     and generated_files_prefix =
+     and+ with_cycle = Arg.flag [ "with-cycle" ] ~doc:"Generate programs with cycles."
+     and+ generated_files_prefix =
        Arg.named
          [ "generated-files-prefix" ]
          Param.string
          ~docv:"PREF"
          ~doc:"Prefix for generated files."
-     and number_of_programs =
+     and+ number_of_programs =
        Arg.named
          [ "num-programs" ]
          Param.int
@@ -35,15 +36,16 @@ let generate_cmd =
 let simulate_cmd =
   Command.make
     ~summary:"Simulate execution of subleq image."
-    (let%map_open.Command debugger = Arg.flag [ "g" ] ~doc:"Run a graphic debugger."
-     and architecture =
+    (let open Command.Std in
+     let+ debugger = Arg.flag [ "g" ] ~doc:"Run a graphic debugger."
+     and+ architecture =
        Arg.named_with_default
          [ "ar" ]
          Param.int
          ~default:4
          ~docv:"N"
          ~doc:"The size of the architecture parameter."
-     and path =
+     and+ path =
        Arg.pos
          ~pos:0
          (Param.validated_string (module Fpath))

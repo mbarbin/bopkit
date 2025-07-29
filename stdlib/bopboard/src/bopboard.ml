@@ -379,7 +379,8 @@ let main_method (_ : t) =
 
 let run_cmd =
   Bopkit_block.main
-    (let%map_open.Command title =
+    (let open Command.Std in
+     let+ title =
        Arg.named_with_default
          [ "title" ]
          Param.string
@@ -413,7 +414,8 @@ let run_cmd =
 let stress_test_cmd =
   Command.make
     ~summary:"A stress test for the bopboard."
-    (let%map_open.Command () = Arg.return () in
+    (let open Command.Std in
+     let+ () = Arg.return () in
      let t = init ~title:"Bopboard Stress Test" in
      stress_test t;
      destroy_and_quit t)

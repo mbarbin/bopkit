@@ -15,8 +15,9 @@ let counter ~width ~frequency =
 
 let main =
   Bopkit_block.main
-    (let%map_open.Command width = Arg.named [ "N" ] Param.int ~doc:"Number of bits."
-     and frequency =
+    (let open Command.Std in
+     let+ width = Arg.named [ "N" ] Param.int ~doc:"Number of bits."
+     and+ frequency =
        Arg.named_opt
          [ "f" ]
          Param.int

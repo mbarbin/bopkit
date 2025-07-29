@@ -28,7 +28,8 @@ let main n =
 
 let () =
   Bopkit_block.run
-    (let%map_open.Command n =
+    (let open Command.Std in
+     let+ n =
        Arg.named [ "N" ] Param.int ~doc:"The size of the architecture parameter."
      in
      Bopkit_block.create ~name:"div_opt" ~main:(main n) ())
