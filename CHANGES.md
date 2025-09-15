@@ -1,3 +1,16 @@
+## 0.3.5 (unreleased)
+
+### Changed
+
+- Add license headers (#35, @mbarbin).
+- Cosmetic refactor in cli help & doc pages (9fdaf39d, @mbarbin).
+- Upgrade to more recent dependencies (502ee9b9, #31, #34, @mbarbin).
+- Upgrade to more recent `pplumbing` dep (#29, #30, @mbarbin).
+
+### Fixed
+
+- Fix missing test dep (3afb9c57, @mbarbin).
+
 ## 0.3.4 (2025-04-25)
 
 ### Changed
@@ -8,7 +21,7 @@
 
 ### Fixed
 
-- Handle `loc` deprecations (@mbarbin).
+- Handle `loc` deprecations (cfc30b18, @mbarbin).
 
 ## 0.3.3 (2025-03-10)
 
