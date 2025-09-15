@@ -1,3 +1,10 @@
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * The microprocessor visa is not specialized to produce an output for the digital
  * calendar. Rather, it has a generic output device composed of 8 bytes.

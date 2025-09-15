@@ -4,6 +4,13 @@ Pulse defines an external block that allows you to control the frequency at whic
 
 <!-- $MDX file=pulse.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * Pulse is used to regulate the simulation of bop files to a desired fixed
  * number of simulated cycles per second.
@@ -53,6 +60,12 @@ Below is a minimal example that uses `pulse`.
 
 <!-- $MDX file=example.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 #include <pulse.bop>
 
 #define PULSE__CYCLES_PER_SECOND 4

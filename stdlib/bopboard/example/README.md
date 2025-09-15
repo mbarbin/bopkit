@@ -21,6 +21,13 @@ Checkout the entire contents of the file lights.bop
 
 <!-- $MDX file=lights.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * Introduction example for the bopboard.
  *
@@ -64,6 +71,13 @@ Checkout the entire contents of the file lights_bdd.bop
 
 <!-- $MDX file=lights_bdd.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * Introduction example for the bopboard.
  *
@@ -128,6 +142,12 @@ Checkout the entire contents of the file ram.bop
 
 <!-- $MDX file=ram.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 #include <stdlib.bop>
 #include <bopboard.bop>
 
@@ -180,6 +200,12 @@ Checkout the entire contents of the file bit_shift.bop
 
 <!-- $MDX file=bit_shift.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 #include <stdlib.bop>
 #include <bopboard.bop>
 #include <pulse.bop>
