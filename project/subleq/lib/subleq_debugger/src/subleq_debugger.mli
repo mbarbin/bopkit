@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** The debugger allows you to run a subleq program step by step in a OCaml
     Graphics window. It will wait for the user to press 'enter' to make a
     step, and thus allows the user to follow along all the cycles of the

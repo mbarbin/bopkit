@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** [t] is the part of the internal state of the simulator that deals with
     values that are stored in ram as well as registers. It does not contain
     the code pointer. *)

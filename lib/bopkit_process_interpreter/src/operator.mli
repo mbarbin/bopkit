@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** Process assumes a fixed architecture parameter N, that would be the length
     in bits of all the words that are manipulated at runtime.
 

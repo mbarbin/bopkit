@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let%expect_test "digital-calendar-decoded" =
   let dst = Array.create ~len:91 false in
   let test (d : Digital_calendar.Decoded.t) =

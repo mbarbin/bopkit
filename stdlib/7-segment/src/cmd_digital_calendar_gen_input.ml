@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let day_of_week = function
   | 1 -> [| 1; 0; 0; 0; 0; 0; 0 |]
   | 2 -> [| 0; 1; 0; 0; 0; 0; 0 |]

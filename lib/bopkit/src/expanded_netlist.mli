@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** Expanded netlist is an intermediate representation built during the analysis
     of a circuit. Constructs such as control structures and imbrications have
     been developed. This representation is used by different parts of bopkit

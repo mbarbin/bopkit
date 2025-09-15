@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** In contrast to a {!type:Visa.Program.t} which may include higher level
     language constructs such as constants and macros definitions, an
     executable is a mere sequence of instructions. This is the expanded

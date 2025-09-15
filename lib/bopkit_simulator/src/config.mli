@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** This type allows the user to tweak some behavior of the simulator from the
     command line. For example, deciding whether to print the inputs on stdout,
     whether to stop the simulation after some number of cycles, etc. *)

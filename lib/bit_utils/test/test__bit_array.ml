@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let%expect_test "of_01_chars_in_string" =
   let test str = print_s [%sexp (Bit_array.of_01_chars_in_string str : Bit_array.t)] in
   test "";

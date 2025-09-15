@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let expected_octets = 8
 
 let set_binary_value_in_array ~dst ~dst_pos ~value ~len =

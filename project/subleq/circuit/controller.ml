@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 (* The controller part of the subleq demo we built is responsible for making the
    connection between the internal subleq machine, and the disk_interface
    device which has the ability to do read/write on disk (the subleq machine

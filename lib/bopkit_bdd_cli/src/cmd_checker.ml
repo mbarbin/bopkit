@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let main ~ad ~wl ~path =
   let num_addr = Int.pow 2 ad in
   let rom = Partial_bit_matrix.of_text_file ~dimx:num_addr ~dimy:wl ~path in
