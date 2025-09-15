@@ -1,8 +1,8 @@
-## 0.3.5 (unreleased)
+## 0.3.5 (2025-09-15)
 
 ### Changed
 
-- Add license headers (#35, @mbarbin).
+- Add license headers (#35, #36, @mbarbin).
 - Cosmetic refactor in cli help & doc pages (9fdaf39d, @mbarbin).
 - Upgrade to more recent dependencies (502ee9b9, #31, #34, @mbarbin).
 - Upgrade to more recent `pplumbing` dep (#29, #30, @mbarbin).
