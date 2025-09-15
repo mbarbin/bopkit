@@ -124,7 +124,7 @@ We would like to express our gratitude to the following individuals:
   the language. We implemented this as a project for M. Pouzet's class with
   **Xun Gong**.
 * **Patrick Cousot**[^4] for teaching the compilation class that served as the
-  basis for the wml project.
+  basis for other bopkit projects.
 * **Samuel Kvaalen** for the bopkit logo and developing the adorable bopboard.
 
 In addition, we'd like to thank:

@@ -17,7 +17,6 @@ const sidebars: SidebarsConfig = {
       ]
     },
     { type: 'doc', id: 'subleq/README', label: 'Subleq' },
-    { type: 'doc', id: 'wml/README', label: 'Wml' },
   ],
 };
 
