@@ -12,6 +12,12 @@ Consider the circuit `and.bop`:
 
 <!-- $MDX file=and.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 Main(a, b) = s
 where
   s = And(a, b);
@@ -60,6 +66,12 @@ circuits as an external block. See an example in the file `out.bop`:
 
 <!-- $MDX file=out.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 #define N 4
 
 Main() = out:[N]

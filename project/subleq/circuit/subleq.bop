@@ -1,3 +1,10 @@
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * This is the bopkit implementation of the subleq microprocessor. This circuit
  * was originally implemented by Mathieu Barbin & Mehdi Bouaziz in 2008.

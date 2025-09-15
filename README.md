@@ -24,6 +24,11 @@ other languages. For example, you can use OCaml blocks for unit-testing, or
 connect your circuits to user-friendly graphical devices such as the [Bopboard](stdlib/bopboard/) or
 a [7-segment display](project/digital-watch/).
 
+## Project Status
+
+This project is currently in maintenance mode - ongoing work focuses only on
+keeping the code compatible with recent OCaml versions and ecosystem updates.
+
 # ![ladybug ico](../assets/image/ladybug_32.ico?raw=true) Install
 
 Bopkit can be installed via the [opam](https://opam.ocaml.org) package manager.

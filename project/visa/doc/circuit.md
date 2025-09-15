@@ -57,6 +57,13 @@ The microprocessor visa implemented in bopkit.
 
 <!-- $MDX file=visa.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * VISA3: Visa Is Also An Assembler, but visa is first a microprocessor!
  *
@@ -366,6 +373,13 @@ Mapping the microprocessor output in bopkit.
 
 <!-- $MDX file=calendar-output.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * The microprocessor visa is not specialized to produce an output for the digital
  * calendar. Rather, it has a generic output device composed of 8 bytes.
@@ -430,6 +444,12 @@ Mapping the microprocessor output in bopkit.
 
 <!-- $MDX file=main.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
 #include "visa.bop"
 #include "calendar-output.bop"
 #include <"7_segment.bop">

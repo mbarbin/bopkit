@@ -21,6 +21,13 @@ Checkout the entire contents of the file stdlib.bop
 
 <!-- $MDX file=stdlib.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * id[N] is the identity bit by bit. Return N signals that are duplicate from
  * the N input signals.

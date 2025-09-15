@@ -36,6 +36,13 @@ Checkout the entire contents of the file 7_segment.bop
 
 <!-- $MDX file=7_segment.bop -->
 ```bopkit
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
 /**
  * To produce the bits code to send to the 7-segment display, we use a ROM that
  * contains them. Since there are 10 codes, we need 4 bits of address.
