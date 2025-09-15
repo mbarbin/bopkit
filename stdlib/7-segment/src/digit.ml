@@ -61,7 +61,7 @@ module Coordinates = struct
       |]
     and text =
       let ip = Int.of_float p in
-      let dy = if d >= 3 then 4 * d else 3 * d in
+      let dy = if d >= 3 then (4 * d) - 4 else (3 * d) - 6 in
       [| x + (5 * cm) + ip, y + dy
        ; x + (7 * cm) + ip, y + dy
        ; x + (9 * cm) + ip, y + dy
