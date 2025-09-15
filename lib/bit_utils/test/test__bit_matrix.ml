@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let%expect_test "init" =
   let test t = print_s [%sexp (t : Bit_matrix.t)] in
   test (Bit_matrix.init_matrix_linear ~dimx:0 ~dimy:0 ~f:(Fn.const false));

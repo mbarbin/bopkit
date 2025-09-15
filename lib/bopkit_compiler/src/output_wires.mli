@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** This data structure helps during the transition from the [Expanded_nodes.t]
     representation to the [Cds.t]. It keeps track of all the positions at which
     a variable is used as an input, which in turn helps create the output_wires

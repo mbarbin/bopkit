@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let transf_fresh_inline = Printf.sprintf "$%d$"
 
 let pass ~(env : Expanded_block.env) ~main_block_name ~config : Expanded_nodes.t =

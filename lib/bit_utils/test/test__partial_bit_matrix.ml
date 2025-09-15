@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let%expect_test "of_partial_bit_array" =
   let partial_bit_array =
     Array.init 24 ~f:(fun i -> if i % 5 = 1 then None else Some (i % 2 = 1))

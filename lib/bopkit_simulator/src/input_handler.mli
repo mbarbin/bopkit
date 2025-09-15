@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** This is the module responsible for reading the input of the circuit at each
     cycle and feeding it to the rest of the simulation. Creating a [t]
     requires the simulation config, so it is possible to tweak the behavior of

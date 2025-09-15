@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 (* To detect cycles in the Subleq execution, we use the algorithm known as the
    "rho of pollard", or "Floyd algorithm". See for example:
    http://fr.wikipedia.org/wiki/Algorithme_du_lièvre_et_de_la_tortue

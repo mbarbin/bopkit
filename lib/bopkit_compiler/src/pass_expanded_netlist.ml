@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 type env =
   { standard_blocks : Bopkit.Netlist.block Hashtbl.M(String).t
   ; parametrized_blocks : Bopkit.Netlist.block Hashtbl.M(String).t

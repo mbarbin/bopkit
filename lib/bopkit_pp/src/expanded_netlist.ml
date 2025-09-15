@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let map_index index : Bopkit.Netlist.index =
   match (index : Bopkit.Expanded_netlist.index) with
   | Interval (0, n) when n > 0 -> Segment (CST (n - 1))

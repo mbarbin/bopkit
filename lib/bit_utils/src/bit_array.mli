@@ -1,3 +1,9 @@
+(*_********************************************************************************)
+(*_  bopkit: An educational project for digital circuits programming              *)
+(*_  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*_  SPDX-License-Identifier: MIT                                                 *)
+(*_********************************************************************************)
+
 (** In bopkit, bool arrays have many uses, including saving or reading the
     contents of memory-units from files, exchanging the value of buses between
     external blocks, printing block outputs to stdout, etc.

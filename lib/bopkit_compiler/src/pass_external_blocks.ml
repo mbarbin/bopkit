@@ -1,3 +1,9 @@
+(*********************************************************************************)
+(*  bopkit: An educational project for digital circuits programming              *)
+(*  SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>  *)
+(*  SPDX-License-Identifier: MIT                                                 *)
+(*********************************************************************************)
+
 let pass (external_block : Bopkit.Netlist.external_block) ~parameters =
   let eval_string ~parameters str =
     let ok_eval_exn res = Bopkit.Or_eval_error.ok_exn res ~loc:external_block.loc in
