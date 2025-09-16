@@ -153,14 +153,14 @@ Checkout the entire contents of the file ram.bop
 
 #define N 8
 
-external board1 "bopboard run -title addr"
+external board1 "bopboard run --title=addr"
 
-external board2 "bopboard run -title data"
+external board2 "bopboard run --title=data"
 
 Main() = ()
 where
   data_out:[N] =
-    external("ram_memory.exe -addresses-len %{N} -words-len %{N}",
+    external("ram_memory.exe --addresses-width=%{N} --words-width=%{N}",
       addr:[N],
       addr:[N],
       write_mode,
