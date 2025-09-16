@@ -1,0 +1,33 @@
+/* =========================================================================
+ * bopkit: An educational project for digital circuits programming
+ * SPDX-FileCopyrightText: 2007-2025 Mathieu Barbin <mathieu.barbin@gmail.com>
+ * SPDX-License-Identifier: MIT
+ * =========================================================================
+ */
+
+/**
+ * Introduction example for the bopboard.
+ *
+ * This is a simple circuit that connects the lights to the state of
+ * the push buttons.
+ *
+ * Flip the left-most switch to activate the right-most lights.
+ *
+ * After having installed bopkit, you may run with:
+ *
+ * $ bopkit simu pushes.bop
+ */
+#include <bopboard.bop>
+
+Main() = ()
+where
+  switch0 = $bopboard.switch("0");
+  push:[5] = $bopboard.push();
+  for i = 0 to 4
+    light[i] = And(Not(switch0), push[i]);
+  end for;
+  for i = 0 to 2
+    light[5 + i] = And(switch0, push[i]);
+  end for;
+  $bopboard.light(light:[8]);
+end where;
