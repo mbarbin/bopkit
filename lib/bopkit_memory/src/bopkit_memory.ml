@@ -55,10 +55,10 @@ exception Escape_key_pressed [@@deriving sexp_of]
 (* Cells looks like this, and here are their dimensions (bx x by):
 
    {v
-           bx : (address + 3 + words + 2) * tX
-    ------------------
-   | 01001 : 00010101 | by = tY + 2 * 2 = 17
-    ------------------
+           bx : (address + 1 + words + 1) * tX
+    ---------------
+   |01001:00010101 | by = tY + 2 * 2 = 17
+    ---------------
    v}
 *)
 
@@ -70,6 +70,7 @@ let tX_and_tY t =
   match t.tX_and_tY with
   | Some value -> value
   | None ->
+    Graphics.set_font "monospace-10";
     let value = Graphics.text_size "0" in
     t.tX_and_tY <- Some value;
     value
@@ -77,10 +78,10 @@ let tX_and_tY t =
 
 let tX t = fst (tX_and_tY t)
 let tY t = snd (tX_and_tY t)
-let bx_binary t = (t.address_width + 3 + t.data_width + 2) * tX t
-let bx_decimal t = (t.num_dec_char_addr + 3 + t.num_dec_char_word + 2) * tX t
-let bx_signed_decimal t = (t.num_dec_char_addr + 3 + t.num_dec_char_word + 1 + 2) * tX t
-let by_default t = tY t + (2 * 2)
+let bx_binary t = (t.address_width + 1 + t.data_width + 1) * tX t
+let bx_decimal t = (t.num_dec_char_addr + 1 + t.num_dec_char_word + 1) * tX t
+let bx_signed_decimal t = (t.num_dec_char_addr + 1 + 1 + t.num_dec_char_word + 1) * tX t
+let by_default t = tY t + 4
 
 let bx t =
   match t.bx with
@@ -229,7 +230,7 @@ let read_string t ~at_coordinates:(xi, yi) ?length ?gnd_color ?(prompt = "") () 
         let x, y = current_x (), current_y () in
         set_color background_color;
         moveto (x - tX) y;
-        fill_rect (x - tX) (y - 2) tX by;
+        fill_rect (x - tX) y tX by;
         set_color black)
     | o ->
       let get_o () =
@@ -261,6 +262,34 @@ let clear_screen t =
   fill_rect 0 0 (size_x ()) (size_y ())
 ;;
 
+let chars array =
+  let bytes = Bytes.create (Array.length array) in
+  Array.iteri array ~f:(fun i v -> Bytes.set bytes i (if v then '1' else '0'));
+  Bytes.to_string bytes
+;;
+
+let draw_cell t buffer addr value =
+  let draw_strings s =
+    Buffer.reset buffer;
+    List.iter s ~f:(fun s -> Buffer.add_string buffer s);
+    Graphics.draw_string (Buffer.contents buffer)
+  in
+  match t.word_printing_style with
+  | Binary -> draw_strings [ chars addr; ":"; chars value ]
+  | Decimal ->
+    draw_strings
+      [ int_d t.num_dec_char_addr (Bit_array.to_int addr)
+      ; ":"
+      ; int_d t.num_dec_char_word (Bit_array.to_int value)
+      ]
+  | SignedDecimal ->
+    draw_strings
+      [ int_d t.num_dec_char_addr (Bit_array.to_int addr)
+      ; ":"
+      ; int_d_signed (t.num_dec_char_word + 1) (Bit_array.to_signed_int value)
+      ]
+;;
+
 let draw_color t =
   let open Graphics in
   let sY = size_y () in
@@ -268,33 +297,19 @@ let draw_color t =
   let by = by t in
   let byc = by_per_column t in
   let cpp = cells_per_page t in
-  let f_iter t = if t then draw_char '1' else draw_char '0' in
+  let buffer = Buffer.create 24 in
   let f_list adr col =
     if adr < t.offset || adr >= t.offset + cpp
     then ()
     else (
       let i = adr - t.offset
       and bits_adr = Array.create ~len:t.address_width false in
-      moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) + 2);
+      moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) - 2);
       set_color (scale_color col parameter);
-      fill_rect (current_x ()) (current_y () - 2) bx by;
+      fill_rect (current_x ()) (current_y ()) (bx - tX t) (by + 1);
       set_color t.pen;
       Bit_array.blit_int ~dst:bits_adr ~src:adr;
-      draw_char ' ';
-      match t.word_printing_style with
-      | Binary ->
-        Array.iter ~f:f_iter bits_adr;
-        draw_string " : ";
-        Array.iter ~f:f_iter t.mem.(adr)
-      | Decimal ->
-        draw_string (int_d t.num_dec_char_addr (Bit_array.to_int bits_adr));
-        draw_string " : ";
-        draw_string (int_d t.num_dec_char_word (Bit_array.to_int t.mem.(adr)))
-      | SignedDecimal ->
-        draw_string (int_d t.num_dec_char_addr (Bit_array.to_int bits_adr));
-        draw_string " : ";
-        draw_string
-          (int_d_signed (t.num_dec_char_word + 1) (Bit_array.to_signed_int t.mem.(adr))))
+      draw_cell t buffer bits_adr t.mem.(adr))
   in
   Map.iteri t.coloration ~f:(fun ~key:adr ~data:(col, _) -> f_list adr col)
 ;;
@@ -306,7 +321,7 @@ let draw t =
   let by = by t in
   let byc = by_per_column t in
   let cpp = cells_per_page t in
-  let f_iter t = if t then draw_char '1' else draw_char '0' in
+  let buffer = Buffer.create 24 in
   clear_screen t;
   set_color t.pen;
   (* Here we draw them all without considerations for colors, and we redraw the
@@ -314,23 +329,9 @@ let draw t =
   for i = 0 to Int.pred (min cpp (t.length - t.offset)) do
     let j = i + t.offset
     and bits_adr = Array.create ~len:t.address_width false in
-    moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) + 2);
+    moveto (0 + (bx * (i / byc))) (sY - by - (by * (i % byc)) - 2);
     Bit_array.blit_int ~dst:bits_adr ~src:j;
-    draw_char ' ';
-    match t.word_printing_style with
-    | Binary ->
-      Array.iter ~f:f_iter bits_adr;
-      draw_string " : ";
-      Array.iter ~f:f_iter t.mem.(j)
-    | Decimal ->
-      draw_string (int_d t.num_dec_char_addr (Bit_array.to_int bits_adr));
-      draw_string " : ";
-      draw_string (int_d t.num_dec_char_word (Bit_array.to_int t.mem.(j)))
-    | SignedDecimal ->
-      draw_string (int_d t.num_dec_char_addr (Bit_array.to_int bits_adr));
-      draw_string " : ";
-      draw_string
-        (int_d_signed (t.num_dec_char_word + 1) (Bit_array.to_signed_int t.mem.(j)))
+    draw_cell t buffer bits_adr t.mem.(j)
   done;
   draw_color t
 ;;
@@ -546,7 +547,7 @@ let event_loop_internal t ~loop ~read_only =
             reset_all_color t;
             true
           | 's' ->
-            let prompt = Printf.sprintf "Save memory \"%s\" as : " t.name in
+            let prompt = Printf.sprintf "Save memory \"%s\" as: " t.name in
             let path = read_string t ~at_coordinates:(0, 0) ~prompt () |> Fpath.v in
             to_text_file t ~path;
             true
@@ -554,7 +555,7 @@ let event_loop_internal t ~loop ~read_only =
             if read_only
             then false
             else (
-              let prompt = Printf.sprintf "Load memory \"%s\" from : " t.name in
+              let prompt = Printf.sprintf "Load memory \"%s\" from: " t.name in
               let path = read_string t ~at_coordinates:(0, 0) ~prompt () |> Fpath.v in
               load_text_file t ~path;
               true)

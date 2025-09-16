@@ -1,3 +1,9 @@
+## 0.3.6 (2025-09-16)
+
+### Fixed
+
+- Fix display of graphical components broken by latest deps upgrade (#37, #38, #39, @mbarbin).
+
 ## 0.3.5 (2025-09-15)
 
 ### Changed

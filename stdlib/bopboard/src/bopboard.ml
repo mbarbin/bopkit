@@ -12,6 +12,13 @@ let v_NUMLIGHT = 8
 let v_WINWIDTH = 850
 let v_WINHEIGHT = 300
 
+let create_board_state () =
+  Board_state.create
+    ~num_lights:v_NUMLIGHT
+    ~num_switches:v_NUMSWITCH
+    ~num_pushes:v_NUMPUSH
+;;
+
 module Size = struct
   type r =
     { x : int
@@ -26,7 +33,7 @@ module Size = struct
 
   let create () =
     { sizepush = { x = 100; y = 50 }
-    ; sizeswitch = { x = 50; y = 100 }
+    ; sizeswitch = { x = 53; y = 100 }
     ; sizelight = { x = 100; y = 100 }
     }
   ;;
@@ -36,42 +43,49 @@ module Plate = struct
   type t =
     { x : int
     ; y : int
-    ; img : Sdl.surface
+    ; img : Sdl.texture
     }
+end
+
+module Shared_bit = struct
+  (* This module allows sharing mutable state with [Board_state]. *)
+  type t =
+    | T of
+        { bits : bool array
+        ; index : int
+        }
+
+  let get (T { bits; index }) = bits.(index)
 end
 
 module Button = struct
   type img =
-    { img_active : Sdl.surface
-    ; img_unactive : Sdl.surface
+    { img_active : Sdl.texture
+    ; img_inactive : Sdl.texture
+    }
+
+  type size =
+    { size_active : Size.r
+    ; size_inactive : Size.r
     }
 
   type t =
     { pos : Size.r
-    ; size : Size.r
-    ; mutable active : bool
+    ; size : size
+    ; state : Shared_bit.t
     ; img : img
     }
 
+  let is_active t = Shared_bit.get t.state
+
   let contains_coordinates t ~x ~y =
-    x > t.pos.x && x < t.pos.x + t.size.x && y > t.pos.y && y < t.pos.y + t.size.y
+    let size = if is_active t then t.size.size_active else t.size.size_inactive in
+    x > t.pos.x && x < t.pos.x + size.x && y > t.pos.y && y < t.pos.y + size.y
   ;;
 
   let find buttons ~x ~y =
     Array.find buttons ~f:(fun button -> contains_coordinates button ~x ~y)
   ;;
-end
-
-module Board = struct
-  type t =
-    { size : Size.t
-    ; plates : Plate.t array
-    ; pushes : Button.t array
-    ; switches : Button.t array
-    ; lights : Button.t array
-    ; all_buttons : Button.t array
-    }
-  [@@deriving fields]
 end
 
 let find_image ~image =
@@ -88,144 +102,169 @@ let result_exn = function
     raise_s [%sexp "result_exn", Msg (s : string), { error : string }]
 ;;
 
-let load_img image =
+(* Load an image as an SDL surface. *)
+let load_surface ~image =
   Tsdl_image.Image.load (find_image ~image |> Option.value_exn ~here:[%here])
   |> result_exn
 ;;
 
-let init_plates ~(size : Size.t) =
+(* Load an image directly as an SDL texture (more efficient for rendering). *)
+let load_texture ~renderer ~image =
+  let surface = load_surface ~image in
+  let texture = Sdl.create_texture_from_surface renderer surface |> result_exn in
+  Sdl.free_surface surface;
+  texture
+;;
+
+let init_plates ~renderer ~(size : Size.t) =
   let light_x = 10 in
   let q : Plate.t Queue.t = Queue.create () in
   let add_plate p = Queue.enqueue q p in
-  add_plate { x = 0 + light_x; y = 5; img = load_img Ladybgleft };
+  add_plate { x = 0 + light_x; y = 5; img = load_texture ~renderer ~image:Ladybgleft };
   for i = 1 to 6 do
-    add_plate { x = 12 + (i * 100) + light_x; y = 5; img = load_img Ladybgmid }
+    add_plate
+      { x = 12 + (i * 100) + light_x
+      ; y = 5
+      ; img = load_texture ~renderer ~image:Ladybgmid
+      }
   done;
-  add_plate { x = 12 + (100 * 7) + light_x; y = 5; img = load_img Ladybgright };
-  add_plate { x = 0; y = v_WINHEIGHT - 70; img = load_img Pushbg };
+  add_plate
+    { x = 12 + (100 * 7) + light_x
+    ; y = 5
+    ; img = load_texture ~renderer ~image:Ladybgright
+    };
+  add_plate { x = 0; y = v_WINHEIGHT - 70; img = load_texture ~renderer ~image:Pushbg };
   add_plate
     { x = 120 + ((size.sizepush.x + 20) * 5)
     ; y = v_WINHEIGHT - 70
-    ; img = load_img Pushbg
+    ; img = load_texture ~renderer ~image:Pushbg
     };
   add_plate
     { x = 120 + ((size.sizepush.x + 20) * 6)
     ; y = v_WINHEIGHT - 70
-    ; img = load_img Pushbg
+    ; img = load_texture ~renderer ~image:Pushbg
     };
-  add_plate { x = 0; y = 125; img = load_img Switchbg };
-  add_plate { x = 200 + (53 * 8); y = 125; img = load_img Switchbg };
+  add_plate { x = 0; y = 125; img = load_texture ~renderer ~image:Switchbg };
+  add_plate
+    { x = 200 + (size.sizeswitch.x * 8)
+    ; y = 125
+    ; img = load_texture ~renderer ~image:Switchbg
+    };
   Queue.to_array q
 ;;
 
-let init_pushes ~(size : Size.t) =
-  let q : Button.t Queue.t = Queue.create () in
-  let add_button p = Queue.enqueue q p in
-  let imgpush =
-    Button.{ img_active = load_img Pushdown; img_unactive = load_img Pushup }
+let texture_size texture =
+  let _, _, (x, y) = Sdl.query_texture texture |> result_exn in
+  { Size.x; y }
+;;
+
+let button_size (img : Button.img) : Button.size =
+  { size_active = texture_size img.img_active
+  ; size_inactive = texture_size img.img_inactive
+  }
+;;
+
+let init_pushes ~board_state ~renderer ~(size : Size.t) =
+  let img : Button.img =
+    { img_active = load_texture ~renderer ~image:Pushdown
+    ; img_inactive = load_texture ~renderer ~image:Pushup
+    }
   in
-  for i = 0 to v_NUMPUSH - 1 do
-    add_button
-      { pos = { x = 120 + ((size.sizepush.x + 20) * i); y = v_WINHEIGHT - 70 }
-      ; size = size.sizepush
-      ; active = false
-      ; img = imgpush
-      }
-  done;
-  Queue.to_array q
+  let bits = Board_state.pushes board_state in
+  Array.init v_NUMPUSH ~f:(fun i ->
+    { Button.pos = { x = 120 + ((size.sizepush.x + 20) * i); y = v_WINHEIGHT - 70 }
+    ; size = button_size img
+    ; state = Shared_bit.T { bits; index = i }
+    ; img
+    })
 ;;
 
-let init_switches ~(size : Size.t) =
-  let q : Button.t Queue.t = Queue.create () in
-  let add_button p = Queue.enqueue q p in
-  let imgswitch =
-    Button.{ img_active = load_img Switchup; img_unactive = load_img Switchdown }
+let init_switches ~board_state ~renderer ~(size : Size.t) =
+  let img : Button.img =
+    { img_active = load_texture ~renderer ~image:Switchup
+    ; img_inactive = load_texture ~renderer ~image:Switchdown
+    }
   in
-  for i = 0 to v_NUMSWITCH - 1 do
-    add_button
-      { pos = { x = 210 + (53 * i); y = 125 }
-      ; size = size.sizeswitch
-      ; active = false
-      ; img = imgswitch
-      }
-  done;
-  Queue.to_array q
+  let bits = Board_state.switches board_state in
+  Array.init v_NUMSWITCH ~f:(fun i ->
+    { Button.pos = { x = 210 + (size.sizeswitch.x * i); y = 125 }
+    ; size = button_size img
+    ; state = Shared_bit.T { bits; index = i }
+    ; img
+    })
 ;;
 
-let init_lights ~(size : Size.t) =
-  let q : Button.t Queue.t = Queue.create () in
-  let add_button p = Queue.enqueue q p in
-  let imglight =
-    Button.{ img_active = load_img Ladyon; img_unactive = load_img Ladyoff }
+let init_lights ~board_state ~renderer ~(size : Size.t) =
+  let img : Button.img =
+    { img_active = load_texture ~renderer ~image:Ladyon
+    ; img_inactive = load_texture ~renderer ~image:Ladyoff
+    }
   in
-  for i = 0 to v_NUMLIGHT - 1 do
-    add_button
-      { pos = { x = 20 + (size.sizelight.x * i); y = 10 }
-      ; size = size.sizelight
-      ; active = false
-      ; img = imglight
-      }
-  done;
-  Queue.to_array q
+  let bits = Board_state.lights board_state in
+  Array.init v_NUMLIGHT ~f:(fun i ->
+    { Button.pos = { x = 20 + (size.sizelight.x * i); y = 10 }
+    ; size = button_size img
+    ; state = Shared_bit.T { bits; index = i }
+    ; img
+    })
 ;;
 
-let init_board () =
-  let size = Size.create () in
-  let pushes = init_pushes ~size in
-  let switches = init_switches ~size in
-  let lights = init_lights ~size in
-  let all_buttons = Array.concat [ pushes; switches; lights ] in
-  { Board.size; plates = init_plates ~size; pushes; switches; lights; all_buttons }
-;;
-
+(* Main GUI context - contains SDL resources and state reference *)
 type t =
   { window : Sdl.window
-  ; screen : Sdl.surface
   ; renderer : Sdl.renderer
-  ; mutable previous_texture : Sdl.texture option
-  ; board : Board.t
+  ; needs_redraw : bool ref
+  ; plates : Plate.t array
+  ; lights : Button.t array
+  ; pushes : Button.t array
+  ; switches : Button.t array
+  ; all_buttons : Button.t array
   }
 
-let init ~title =
-  let board = init_board () in
+let init ~title ~board_state =
   Sdl.init Sdl.Init.(video + events) |> result_exn;
   let window =
     Sdl.create_window title ~w:v_WINWIDTH ~h:v_WINHEIGHT Sdl.Window.opengl |> result_exn
   in
-  Sdl.set_window_icon window (load_img Ladyon);
-  let screen = Sdl.get_window_surface window |> result_exn in
   let renderer = Sdl.create_renderer window |> result_exn in
-  { window; screen; renderer; previous_texture = None; board }
+  Sdl.set_window_icon window (load_surface ~image:Ladyon);
+  let size = Size.create () in
+  let pushes = init_pushes ~board_state ~renderer ~size in
+  let switches = init_switches ~board_state ~renderer ~size in
+  let lights = init_lights ~board_state ~renderer ~size in
+  let all_buttons = Array.concat [ pushes; switches; lights ] in
+  let plates = init_plates ~renderer ~size in
+  { window
+  ; renderer
+  ; needs_redraw = Board_state.needs_redraw board_state
+  ; plates
+  ; lights
+  ; pushes
+  ; switches
+  ; all_buttons
+  }
 ;;
 
-let draw_interface screen ~(board : Board.t) =
-  let () =
-    let format = Sdl.get_surface_format_enum screen |> Sdl.alloc_format |> result_exn in
-    Sdl.fill_rect screen None (Sdl.map_rgb format 28 28 69) |> result_exn;
-    Sdl.free_format format
-  in
-  Array.iter board.plates ~f:(fun plate ->
-    let rect = Sdl.Rect.create ~x:plate.x ~y:plate.y ~w:0 ~h:0 in
-    Sdl.blit_surface ~src:plate.img None ~dst:screen (Some rect) |> result_exn);
-  let blit_button (button : Button.t) =
-    let rect = Sdl.Rect.create ~x:button.pos.x ~y:button.pos.y ~w:0 ~h:0 in
-    Sdl.blit_surface
-      ~src:(if button.active then button.img.img_active else button.img.img_unactive)
-      None
-      ~dst:screen
-      (Some rect)
-    |> result_exn
-  in
-  Array.iter board.all_buttons ~f:blit_button
+(* Render a texture at the given position using its natural dimensions. *)
+let render_texture_at renderer texture ~x ~y =
+  let _, _, (w, h) = Sdl.query_texture texture |> result_exn in
+  let dst_rect = Sdl.Rect.create ~x ~y ~w ~h in
+  Sdl.render_copy ~dst:dst_rect renderer texture |> result_exn
 ;;
 
+(* Main drawing function - renders the complete interface. *)
 let redraw (t : t) =
-  draw_interface t.screen ~board:t.board;
+  (* Clear background with dark blue color. *)
+  Sdl.set_render_draw_color t.renderer 28 28 69 255 |> result_exn;
   Sdl.render_clear t.renderer |> result_exn;
-  let texture = Sdl.create_texture_from_surface t.renderer t.screen |> result_exn in
-  Option.iter t.previous_texture ~f:Sdl.destroy_texture;
-  t.previous_texture <- Some texture;
-  Sdl.render_copy t.renderer texture |> result_exn;
+  Array.iter t.plates ~f:(fun plate ->
+    render_texture_at t.renderer plate.img ~x:plate.x ~y:plate.y);
+  Array.iter t.all_buttons ~f:(fun (button : Button.t) ->
+    render_texture_at
+      t.renderer
+      (if Button.is_active button then button.img.img_active else button.img.img_inactive)
+      ~x:button.pos.x
+      ~y:button.pos.y);
   Sdl.render_present t.renderer
 ;;
 
@@ -247,31 +286,59 @@ let stress_test (t : t) =
         | `Quit -> return.return ()
         | _ -> ()
       in
-      match Random.int 3 with
-      | 0 ->
-        let i = Random.int (Array.length t.board.lights) in
-        t.board.lights.(i).active <- not t.board.lights.(i).active
-      | 1 ->
-        let i = Random.int (Array.length t.board.switches) in
-        t.board.switches.(i).active <- not t.board.switches.(i).active
-      | _ ->
-        let i = Random.int (Array.length t.board.pushes) in
-        t.board.pushes.(i).active <- not t.board.pushes.(i).active
+      let buttons =
+        match Random.int 3 with
+        | 0 -> t.lights
+        | 1 -> t.switches
+        | _ -> t.pushes
+      in
+      let i = Random.int (Array.length buttons) in
+      let (Shared_bit.T { bits; index }) = buttons.(i).state in
+      bits.(index) <- not bits.(index)
     done)
 ;;
 
+let handle_mouse_down t ~x ~y =
+  (* Handle push button presses (momentary). *)
+  (match Button.find t.pushes ~x ~y with
+   | None -> ()
+   | Some button ->
+     t.needs_redraw.contents <- true;
+     let (Shared_bit.T { bits; index }) = button.state in
+     bits.(index) <- true);
+  (* Handle switch toggles (latching). *)
+  match Button.find t.switches ~x ~y with
+  | None -> ()
+  | Some button ->
+    t.needs_redraw.contents <- true;
+    let (Shared_bit.T { bits; index }) = button.state in
+    bits.(index) <- not bits.(index)
+;;
+
+let handle_mouse_up t =
+  (* Release all push buttons (they're momentary). *)
+  Array.iter t.pushes ~f:(fun button ->
+    let (Shared_bit.T { bits; index }) = button.state in
+    if bits.(index)
+    then (
+      t.needs_redraw.contents <- true;
+      bits.(index) <- false))
+;;
+
+(* Main event loop - runs on the GUI thread. *)
 let event_loop (t : t) =
   let event = Sdl.Event.create () in
-  let needs_redraw = ref true in
   With_return.with_return (fun return ->
     while true do
-      if !needs_redraw
+      (* Check for redraw requests from other threads. *)
+      if t.needs_redraw.contents
       then (
-        needs_redraw := false;
+        t.needs_redraw.contents <- false;
         redraw t);
-      match Sdl.wait_event (Some event) with
-      | Error (`Msg e) -> Stdlib.Printf.eprintf "wait event error %S\n%!" e
-      | Ok () ->
+      (* Poll for SDL events with 16ms timeout (≈60 FPS: 1000ms/60 ≈ 16.67ms). *)
+      match Sdl.wait_event_timeout (Some event) 16 with
+      | false -> () (* timeout, continue loop *)
+      | true ->
         (match Sdl.Event.(enum (get event typ)) with
          | `Quit -> return.return ()
          | `Key_down ->
@@ -280,109 +347,15 @@ let event_loop (t : t) =
          | `Mouse_button_down ->
            let x = Sdl.Event.get event Sdl.Event.mouse_button_x in
            let y = Sdl.Event.get event Sdl.Event.mouse_button_y in
-           (match Button.find t.board.pushes ~x ~y with
-            | None -> ()
-            | Some button ->
-              needs_redraw := true;
-              button.active <- true);
-           (match Button.find t.board.switches ~x ~y with
-            | None -> ()
-            | Some button ->
-              needs_redraw := true;
-              button.active <- not button.active)
-         | `Mouse_button_up ->
-           Array.iter t.board.pushes ~f:(fun button ->
-             if button.active
-             then (
-               needs_redraw := true;
-               button.active <- false))
+           handle_mouse_down t ~x ~y
+         | `Mouse_button_up -> handle_mouse_up t
          | _ -> ())
     done);
   destroy_and_quit t
 ;;
 
-let light_method (t : t) =
-  (* This method has a variable input length depending on how it is called. If
-     it has an argument, we expect it to be the index of a single light,
-     otherwise it should be empty in which case we set the entire light array.
-  *)
-  Bopkit_block.Method.create
-    ~name:"light"
-    ~input_arity:Remaining_bits
-    ~output_arity:Empty
-    ~f:(fun ~arguments ~input ~output:() ->
-      let needs_redraw = ref false in
-      let set_light (light : Button.t) active =
-        if Bool.( <> ) light.active active
-        then (
-          needs_redraw := true;
-          light.active <- active)
-      in
-      (match arguments with
-       | _ :: _ :: _ ->
-         raise_s [%sexp "invalid arguments", [%here], { arguments : string list }]
-       | [] ->
-         let expected_length = Array.length t.board.lights in
-         let input_length = Array.length input in
-         if input_length <> expected_length
-         then
-           raise_s
-             [%sexp
-               "unexpected input length"
-             , [%here]
-             , { expected_length : int; input_length : int }];
-         Array.iter2_exn t.board.lights input ~f:set_light
-       | [ index ] ->
-         let index = Int.of_string index in
-         if index < 0 || index >= Array.length t.board.lights
-         then raise_s [%sexp "light index out of bounds", [%here], { index : int }];
-         let input_length = Array.length input in
-         let expected_length = 1 in
-         if input_length <> expected_length
-         then
-           raise_s
-             [%sexp
-               "unexpected input length"
-             , [%here]
-             , { expected_length : int; input_length : int }];
-         set_light t.board.lights.(index) input.(0));
-      if !needs_redraw then redraw t)
-;;
-
-let button_method (t : t) ~name ~which_buttons =
-  (* This method has a variable output length depending on how it is called. If
-     it has an argument, we expect it to be the index of a single button,
-     otherwise it should be empty in which case we return the entire button
-     array. *)
-  Bopkit_block.Method.create
-    ~name
-    ~input_arity:Empty
-    ~output_arity:Output_buffer
-    ~f:(fun ~arguments ~input:() ~output ->
-      let output_button (button : Button.t) =
-        Buffer.add_char output (if button.active then '1' else '0')
-      in
-      let buttons = which_buttons t.board in
-      match arguments with
-      | [] -> Array.iter buttons ~f:output_button
-      | [ index ] ->
-        let index = Int.of_string index in
-        if index < 0 || index >= Array.length buttons
-        then
-          raise_s
-            [%sexp "button index out of bounds", [%here], { name : string; index : int }];
-        output_button buttons.(index)
-      | _ :: _ :: _ ->
-        raise_s [%sexp "invalid arguments", [%here], { arguments : string list }])
-;;
-
-let main_method (_ : t) =
-  Bopkit_block.Method.main
-    ~input_arity:Empty
-    ~output_arity:Empty
-    ~f:(fun ~input:() ~output:() -> ())
-;;
-
+(* Main command - uses bopkit_block.main to preserve all standard CLI options,
+   with clean state separation allowing safe multi-threading. *)
 let run_cmd =
   Bopkit_block.main
     (let open Command.Std in
@@ -394,27 +367,18 @@ let run_cmd =
          ~docv:"TITLE"
          ~doc:"Set window title."
      in
-     let t = init ~title in
+     (* Create shared state accessible to both threads. *)
+     let board_state = create_board_state () in
+     (* Start GUI on auxiliary thread. *)
      let (_ : Thread.t) =
        Thread.create
          (fun () ->
-            match event_loop t with
-            | () -> ()
-            | exception e ->
-              prerr_endline (Exn.to_string e);
-              Stdlib.exit 1)
+            let t = init ~title ~board_state in
+            event_loop t)
          ()
      in
-     Bopkit_block.create
-       ~name:"bopboard"
-       ~main:(main_method t)
-       ~methods:
-         [ light_method t
-         ; button_method t ~name:"push" ~which_buttons:Board.pushes
-         ; button_method t ~name:"switch" ~which_buttons:Board.switches
-         ]
-       ~is_multi_threaded:true
-       ())
+     (* Return bopkit block to run immediately on main thread *)
+     Board_state.bopkit_block board_state)
 ;;
 
 let stress_test_cmd =
@@ -422,7 +386,8 @@ let stress_test_cmd =
     ~summary:"A stress test for the bopboard."
     (let open Command.Std in
      let+ () = Arg.return () in
-     let t = init ~title:"Bopboard Stress Test" in
+     let board_state = create_board_state () in
+     let t = init ~title:"Bopboard Stress Test" ~board_state in
      stress_test t;
      destroy_and_quit t)
 ;;

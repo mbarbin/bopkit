@@ -14,6 +14,7 @@ let init ~title ~address_width ~data_width =
   Graphics.open_graph " 670x550+100-100";
   let title = Option.value title ~default:"RAM MEMORY" in
   Graphics.set_window_title title;
+  Graphics.set_font "monospace-10";
   let mem = Bopkit_memory.create ~name:"ram" ~address_width ~data_width ~kind:Ram () in
   let (_ : Thread.t) =
     Thread.create

@@ -21,7 +21,7 @@ depends: [
   "dune-site" {>= "3.20"}
   "fpath" {>= "0.7.3"}
   "fpath-base" {>= "0.2.2"}
-  "graphics" {>= "5.1.2"}
+  "graphics" {>= "5.2.0"}
   "loc" {>= "0.2.2"}
   "mdx" {>= "2.4"}
   "menhir" {>= "20220210"}

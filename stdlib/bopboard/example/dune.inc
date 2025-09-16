@@ -32,6 +32,16 @@
 
 (rule
  (with-stdout-to
+  pushes.bop.pp.output
+  (run %{bin:bopkit} fmt file %{dep:pushes.bop})))
+
+(rule
+ (alias fmt)
+ (action
+  (diff pushes.bop pushes.bop.pp.output)))
+
+(rule
+ (with-stdout-to
   ram.bop.pp.output
   (run %{bin:bopkit} fmt file %{dep:ram.bop})))
 

@@ -12,5 +12,7 @@ Check that the files don't have errors in them.
   [0]
   ================================: lights_bdd.bop
   [0]
+  ================================: pushes.bop
+  [0]
   ================================: ram.bop
   [0]
