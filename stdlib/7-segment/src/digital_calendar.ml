@@ -23,7 +23,8 @@ let init () : t =
     Graphics.open_graph " 1000x500";
     Graphics.set_color Graphics.black;
     Graphics.fill_rect 0 0 1000 500;
-    Graphics.set_window_title "Bopkit - Digital Calendar"
+    Graphics.set_window_title "Bopkit - Digital Calendar";
+    Graphics.set_font "monospace-10"
   in
   let space_time = 150 in
   let x_t = 14 in

@@ -20,7 +20,8 @@ let init () : t =
     Graphics.open_graph " 1000x300";
     Graphics.set_color Graphics.black;
     Graphics.fill_rect 0 0 1000 300;
-    Graphics.set_window_title "Bopkit - Digital Watch"
+    Graphics.set_window_title "Bopkit - Digital Watch";
+    Graphics.set_font "monospace-10"
   in
   let space = 150 in
   let x = 14 in
