@@ -16,8 +16,7 @@ Welcome to Bopkit, an educational project that provides a description language
 for programming synchronous digital circuits.
 
 With Bopkit, you can express synchronous digital circuits, simulate them using
-the Bopkit simulator, and convert your designs to standalone C executables or
-hierarchical Verilog.
+the Bopkit simulator, and convert your designs to standalone C executables.
 
 Bopkit also provides an interface for integrating external blocks written in
 other languages. For example, you can use OCaml blocks for unit-testing, or
