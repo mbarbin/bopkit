@@ -10,6 +10,8 @@
   -open
   Base
   -open
+  Pplumbing_err
+  -open
   Expect_test_helpers_base)
  (libraries
   base
@@ -17,7 +19,7 @@
   parsing-utils
   pp
   pp-extended
-  pplumbing.err
+  pplumbing-err
   visa
   visa_assembler
   visa_dsl

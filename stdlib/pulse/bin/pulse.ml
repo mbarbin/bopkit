@@ -5,5 +5,8 @@
 (*********************************************************************************)
 
 let () =
-  Cmdlang_cmdliner_runner.run Bopkit_pulse.Pulse.main ~name:"pulse" ~version:"%%VERSION%%"
+  Cmdlang_cmdliner_err_runner.run
+    Bopkit_pulse.Pulse.main
+    ~name:"pulse"
+    ~version:"%%VERSION%%"
 ;;

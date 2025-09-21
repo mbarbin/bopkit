@@ -12,6 +12,10 @@
   -open
   Fpath_base
   -open
+  Pplumbing_err
+  -open
+  Pplumbing_log_cli
+  -open
   Cmdlang)
  (libraries
   auto-format
@@ -25,8 +29,8 @@
   fpath-base
   parsing-utils
   pp
-  pplumbing.err
-  pplumbing.log-cli)
+  pplumbing-err
+  pplumbing-log-cli)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

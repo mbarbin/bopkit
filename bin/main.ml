@@ -4,4 +4,6 @@
 (*  SPDX-License-Identifier: MIT                                                 *)
 (*********************************************************************************)
 
-let () = Cmdlang_cmdliner_runner.run Bopkit_cli.main ~name:"bopkit" ~version:"%%VERSION%%"
+let () =
+  Cmdlang_cmdliner_err_runner.run Bopkit_cli.main ~name:"bopkit" ~version:"%%VERSION%%"
+;;

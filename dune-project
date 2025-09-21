@@ -45,6 +45,8 @@
    (>= v0.17))
   (cmdlang
    (>= 0.0.9))
+  (cmdlang-cmdliner-err-runner
+   (>= 0.0.16))
   (comments-parser
    (>= 0.2.3))
   (core
@@ -69,8 +71,10 @@
    (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
-  (pplumbing
-   (>= 0.0.14))
+  (pplumbing-err
+   (>= 0.0.16))
+  (pplumbing-log-cli
+   (>= 0.0.16))
   (ppx_compare
    (>= v0.17))
   (ppx_enumerate
@@ -118,6 +122,8 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
+  (cmdlang-cmdliner-err-runner
+   (>= 0.0.16))
   (core
    (>= v0.17))
   (dune-site
@@ -140,8 +146,10 @@
    (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
-  (pplumbing
-   (>= 0.0.14))
+  (pplumbing-err
+   (>= 0.0.16))
+  (pplumbing-log-cli
+   (>= 0.0.16))
   (ppx_compare
    (>= v0.17))
   (ppx_enumerate
@@ -185,6 +193,8 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
+  (cmdlang-cmdliner-err-runner
+   (>= 0.0.16))
   (core
    (>= v0.17))
   (dune-site
@@ -207,8 +217,10 @@
    (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
-  (pplumbing
-   (>= 0.0.14))
+  (pplumbing-err
+   (>= 0.0.16))
+  (pplumbing-log-cli
+   (>= 0.0.16))
   (ppx_compare
    (>= v0.17))
   (ppx_enumerate
@@ -256,6 +268,8 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
+  (cmdlang-cmdliner-err-runner
+   (>= 0.0.16))
   (comments-parser
    (>= 0.2.3))
   (core
@@ -282,8 +296,10 @@
    (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
-  (pplumbing
-   (>= 0.0.14))
+  (pplumbing-err
+   (>= 0.0.16))
+  (pplumbing-log-cli
+   (>= 0.0.16))
   (ppx_compare
    (>= v0.17))
   (ppx_enumerate
@@ -349,6 +365,8 @@
    (= :version))
   (cmdlang
    (>= 0.0.9))
+  (cmdlang-cmdliner-err-runner
+   (>= 0.0.16))
   (comments-parser
    (>= 0.2.3))
   (core
@@ -375,8 +393,10 @@
    (>= 2.0.0))
   (pp-extended
    (>= 0.0.2))
-  (pplumbing
-   (>= 0.0.14))
+  (pplumbing-err
+   (>= 0.0.16))
+  (pplumbing-log-cli
+   (>= 0.0.16))
   (ppx_compare
    (>= v0.17))
   (ppx_enumerate

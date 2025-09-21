@@ -10,6 +10,8 @@
   -open
   Base
   -open
+  Pplumbing_err
+  -open
   Stdio
   -open
   Cmdlang)
@@ -24,7 +26,7 @@
   fpath
   loc
   pp
-  pplumbing.err
+  pplumbing-err
   stdio
   unix)
  (lint

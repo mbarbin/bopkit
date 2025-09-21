@@ -354,7 +354,7 @@ let main ?readme t_param =
 ;;
 
 let run ?readme t_param =
-  Cmdlang_cmdliner_runner.run
+  Cmdlang_cmdliner_err_runner.run
     (main ?readme t_param)
     ~name:"bopkit.block"
     ~version:"%%VERSION%%"

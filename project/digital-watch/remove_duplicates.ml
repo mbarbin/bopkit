@@ -29,4 +29,6 @@ let main =
        done))
 ;;
 
-let () = Cmdlang_cmdliner_runner.run main ~name:"remove_duplicate" ~version:"%%VERSION%%"
+let () =
+  Cmdlang_cmdliner_err_runner.run main ~name:"remove_duplicate" ~version:"%%VERSION%%"
+;;

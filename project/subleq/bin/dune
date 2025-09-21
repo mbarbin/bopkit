@@ -2,5 +2,5 @@
  (name main)
  (package subleq)
  (public_name subleq)
- (libraries pplumbing.cmdlang-cmdliner-runner subleq_cli)
+ (libraries cmdlang-cmdliner-err-runner subleq_cli)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a))

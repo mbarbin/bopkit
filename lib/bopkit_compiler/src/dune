@@ -12,6 +12,8 @@
   -open
   Fpath_base
   -open
+  Pplumbing_err
+  -open
   Cmdlang)
  (libraries
   appendable-list
@@ -32,7 +34,7 @@
   loc
   parsing-utils
   pp
-  pplumbing.err
+  pplumbing-err
   unix)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
