@@ -12,6 +12,10 @@
   -open
   Fpath_base
   -open
+  Pplumbing_err
+  -open
+  Pplumbing_log_cli
+  -open
   Stdio
   -open
   Cmdlang)
@@ -36,8 +40,8 @@
   fpath
   fpath-base
   pp
-  pplumbing.err
-  pplumbing.log-cli
+  pplumbing-err
+  pplumbing-log-cli
   seven_segment_display
   stdio)
  (lint

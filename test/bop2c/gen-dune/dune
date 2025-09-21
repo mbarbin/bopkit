@@ -12,7 +12,7 @@
   Fpath_base
   -open
   Cmdlang)
- (libraries base cmdlang fpath-base pplumbing.cmdlang-cmdliner-runner)
+ (libraries base cmdlang cmdlang-cmdliner-err-runner fpath-base)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

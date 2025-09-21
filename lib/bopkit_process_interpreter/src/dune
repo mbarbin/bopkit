@@ -10,6 +10,8 @@
   -open
   Base
   -open
+  Pplumbing_err
+  -open
   Stdio)
  (libraries
   base
@@ -18,7 +20,7 @@
   bopkit_process_parser
   loc
   pp
-  pplumbing.err
+  pplumbing-err
   stdio)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))

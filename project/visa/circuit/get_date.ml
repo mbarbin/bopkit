@@ -41,4 +41,4 @@ let cmd =
      ())
 ;;
 
-let () = Cmdlang_cmdliner_runner.run cmd ~name:"get_date" ~version:"%%VERSION%%"
+let () = Cmdlang_cmdliner_err_runner.run cmd ~name:"get_date" ~version:"%%VERSION%%"

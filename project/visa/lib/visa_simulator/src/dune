@@ -12,6 +12,10 @@
   -open
   Fpath_base
   -open
+  Pplumbing_err
+  -open
+  Pplumbing_log_cli
+  -open
   Stdio
   -open
   Cmdlang)
@@ -25,8 +29,8 @@
   loc
   parsing-utils
   pp
-  pplumbing.err
-  pplumbing.log-cli
+  pplumbing-err
+  pplumbing-log-cli
   stdio
   threads
   unix

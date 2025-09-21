@@ -10,6 +10,8 @@
   -open
   Base
   -open
+  Pplumbing_err
+  -open
   Stdio)
  (libraries
   base
@@ -20,7 +22,7 @@
   loc
   parsing-utils
   pp
-  pplumbing.err
+  pplumbing-err
   stdio)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
