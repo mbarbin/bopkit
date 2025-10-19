@@ -1,8 +1,8 @@
-## 0.3.7 (unreleased)
+## 0.3.7 (2025-10-19)
 
 ### Added
 
-- Import `comments-parser` lib into bopkit (#41, @mbarbin).
+- Import `comments-parser` lib into bopkit (#42, @mbarbin).
 
 ### Changed
 
