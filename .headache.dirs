@@ -25,6 +25,8 @@ lib/bopkit/test
 lib/bopkit_to_c/src
 lib/bopkit_topological_sort/src
 lib/bopkit_topological_sort/test
+lib/comments_parser/src
+lib/comments_parser/test
 project/digital-watch
 project/subleq/bin
 project/subleq/circuit

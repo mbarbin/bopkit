@@ -20,7 +20,7 @@
   base
   bit_utils
   cmdlang
-  comments-parser
+  comments_parser
   fpath
   fpath-base
   loc

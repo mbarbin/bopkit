@@ -21,7 +21,6 @@ depends: [
   "bopkit-tests" {= version}
   "cmdlang" {>= "0.0.9"}
   "cmdlang-cmdliner-err-runner" {>= "0.0.16"}
-  "comments-parser" {>= "0.2.3"}
   "core" {>= "v0.17"}
   "dune-site" {>= "3.20"}
   "expect_test_helpers_core" {>= "v0.17"}

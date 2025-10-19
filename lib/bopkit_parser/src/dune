@@ -16,4 +16,4 @@
  (name bopkit_parser)
  (public_name bopkit.syntax)
  (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Core)
- (libraries bopkit comments-parser core fpath loc parsing-utils))
+ (libraries bopkit comments_parser core fpath loc parsing-utils))
