@@ -1,3 +1,13 @@
+## 0.3.7 (unreleased)
+
+### Added
+
+- Import `comments-parser` lib into bopkit (#41, @mbarbin).
+
+### Changed
+
+- Switch to split `pplumbing-*` pkgs (#40, @mbarbin).
+
 ## 0.3.6 (2025-09-16)
 
 ### Fixed

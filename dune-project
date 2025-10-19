@@ -47,8 +47,6 @@
    (>= 0.0.9))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
-  (comments-parser
-   (>= 0.2.3))
   (core
    (>= v0.17))
   (dune-site
@@ -270,8 +268,6 @@
    (>= 0.0.9))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
-  (comments-parser
-   (>= 0.2.3))
   (core
    (>= v0.17))
   (dune-site
@@ -367,8 +363,6 @@
    (>= 0.0.9))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
-  (comments-parser
-   (>= 0.2.3))
   (core
    (>= v0.17))
   (dune-site
