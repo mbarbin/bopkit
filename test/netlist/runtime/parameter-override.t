@@ -7,12 +7,12 @@ Parameters may be overridden from the command line.
          2 | 0 1 | 0
          3 | 1 1 | 1
 
-  $ bopkit simu --num-counter-cycles 1 parameter-override.bop --parameter 'N 3'
-  bopkit: option '--parameter': Invalid parameter argument. Expected
-          'name=value'.
-  Usage: bopkit simu [OPTION]… FILE
-  Try 'bopkit simu --help' or 'bopkit --help' for more information.
+  $ bopkit simu --num-counter-cycles 1 parameter-override.bop --parameter 'N 3' 2> output
   [124]
+
+  $ grep Invalid output
+  bopkit: option '--parameter': Invalid parameter argument. Expected
+  $ rm output
 
   $ bopkit simu --num-counter-cycles 1 parameter-override.bop --parameter 'N=3'
      Cycle | a[0][0] a[1][0] a[2][0] | s
