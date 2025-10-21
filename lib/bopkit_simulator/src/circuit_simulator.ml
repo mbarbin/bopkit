@@ -17,7 +17,7 @@ let bits_of_string s =
       match s.[i] with
       | '1' -> true
       | '0' -> false
-      | _ -> raise Bits_of_string)
+      | _ -> Stdlib.raise_notrace Bits_of_string)
   with
   | t -> Some t
   | exception Bits_of_string -> None
