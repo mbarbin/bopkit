@@ -251,7 +251,7 @@
   (ocamlformat
    (and
     :with-dev-setup
-    (= 0.27.0)))
+    (= 0.28.1)))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
@@ -344,7 +344,7 @@
   (ocamlformat
    (and
     :with-dev-setup
-    (= 0.27.0)))
+    (= 0.28.1)))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
