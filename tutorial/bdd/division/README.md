@@ -44,7 +44,7 @@ We can simulate this circuit to generate the truth table of `div.exe`.
 </summary>
 
 ```sh
-$ bopkit simu generate.bop --num-counter-cycle 1 -o | tail -n 20
+$ bopkit simu generate.bop --num-counter-cycles 1 -o | tail -n 20
 0000
 0000
 1000

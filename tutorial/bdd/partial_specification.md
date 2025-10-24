@@ -185,7 +185,7 @@ And now we just have to let the simulation run through a complete input cycle to
 check it all.
 
 ```sh
-$ bopkit simu check_starred.bop --num-counter-cycle 1
+$ bopkit simu check_starred.bop --num-counter-cycles 1
    Cycle | a[0] a[1] a[2] a[3] |
        0 | 0 0 0 0 |
        1 | 1 0 0 0 |
