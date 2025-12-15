@@ -28,15 +28,10 @@ let to_string t =
 let of_text_file ~path =
   let q = Queue.create () in
   In_channel.with_file (path |> Fpath.to_string) ~f:(fun ic ->
-    with_return (fun { return } ->
-      while true do
-        match In_channel.input_line ic with
-        | None -> return ()
-        | Some line ->
-          (* Skip this line if it is a comment. *)
-          if not (String.is_prefix line ~prefix:"//")
-          then enqueue_01star_char ~src:line ~dst:q
-      done));
+    In_channel.iter_lines ic ~f:(fun line ->
+      (* Skip this line if it is a comment. *)
+      if not (String.is_prefix line ~prefix:"//")
+      then enqueue_01star_char ~src:line ~dst:q));
   Queue.to_array q
 ;;
 

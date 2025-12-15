@@ -329,24 +329,28 @@ let main ?readme t_param =
               [%sexp "method not found", (context : Context.t), { method_name : string }])
      in
      let stop_at_cycle = Option.value stop_at_cycle ~default:(-1) in
-     With_return.with_return (fun { return } ->
-       while !index_cycle <> stop_at_cycle do
-         Int.incr index_cycle;
-         match
-           if no_input
-           then Some ""
-           else (
-             if is_multi_threaded then wait_for_stdin ();
-             In_channel.input_line In_channel.stdin)
-         with
-         | None -> return (Ok ())
-         | Some line ->
-           (match run_line line with
-            | Error _ as error -> return error
-            | Ok () -> ())
-       done;
-       Ok ())
-     |> function
+     let exception End_of_input of unit Or_error.t in
+     match
+       match
+         while !index_cycle <> stop_at_cycle do
+           Int.incr index_cycle;
+           match
+             if no_input
+             then Some ""
+             else (
+               if is_multi_threaded then wait_for_stdin ();
+               In_channel.input_line In_channel.stdin)
+           with
+           | None -> Stdlib.raise_notrace (End_of_input (Ok ()))
+           | Some line ->
+             (match run_line line with
+              | Error _ as error -> Stdlib.raise_notrace (End_of_input error)
+              | Ok () -> ())
+         done
+       with
+       | () -> Ok ()
+       | exception End_of_input res -> res
+     with
      | Ok () -> ()
      | Error error ->
        prerr_endline (Error.to_string_hum error);

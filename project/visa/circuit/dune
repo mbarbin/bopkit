@@ -200,6 +200,7 @@
  (package bopkit-tests)
  (deps
   (package bopkit)
+  (package visa)
   get_date.exe
   (glob_files *.txt)
   (glob_files *.asm)

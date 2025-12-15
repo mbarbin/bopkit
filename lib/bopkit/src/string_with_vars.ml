@@ -41,57 +41,60 @@ module Syntax = struct
 end
 
 let parse t =
-  Or_eval_error.with_return (fun ~error ->
-    let len_t = String.length t in
-    let bounds = Queue.create () in
-    let rec enqueue offset len ~is_parsing_var i =
-      match is_parsing_var with
-      | Some syntax ->
-        if i >= len_t
-        then error.return (Syntax_error { in_ = t })
-        else if Char.equal t.[i] (Syntax.close_char syntax)
-        then (
-          Queue.enqueue bounds (offset, len);
-          enqueue 0 0 ~is_parsing_var:None (Int.succ i))
-        else enqueue offset (Int.succ len) ~is_parsing_var (Int.succ i)
-      | None ->
-        if i >= len_t
-        then ()
-        else (
-          match
-            if
-              Char.equal t.[i] '$'
-              && i <= len_t - 2
-              && Char.( = ) t.[Int.succ i] (Syntax.open_char Dollar)
-            then Some Syntax.Dollar
-            else if
-              Char.equal t.[i] '%'
-              && i <= len_t - 2
-              && Char.( = ) t.[Int.succ i] (Syntax.open_char Percent)
-            then Some Syntax.Percent
-            else None
-          with
-          | Some syntax ->
-            if i >= len_t - 3
-            then error.return (Syntax_error { in_ = t })
-            else enqueue i 3 ~is_parsing_var:(Some syntax) (i + 2)
-          | None -> enqueue 0 0 ~is_parsing_var:None (Int.succ i))
-    in
-    let parts : Part.t Queue.t = Queue.create () in
-    let rec dequeue b =
-      match Queue.dequeue bounds with
-      | None ->
-        if b < len_t
-        then Queue.enqueue parts (Text (String.sub t ~pos:b ~len:(len_t - b)))
-      | Some (offset, len) ->
-        if b < offset
-        then Queue.enqueue parts (Text (String.sub t ~pos:b ~len:(offset - b)));
-        Queue.enqueue parts (Var (String.sub t ~pos:(offset + 2) ~len:(len - 3)));
-        dequeue (offset + len)
-    in
+  let exception Eval_error of Eval_error.t in
+  let len_t = String.length t in
+  let bounds = Queue.create () in
+  let rec enqueue offset len ~is_parsing_var i =
+    match is_parsing_var with
+    | Some syntax ->
+      if i >= len_t
+      then Stdlib.raise_notrace (Eval_error (Syntax_error { in_ = t }))
+      else if Char.equal t.[i] (Syntax.close_char syntax)
+      then (
+        Queue.enqueue bounds (offset, len);
+        enqueue 0 0 ~is_parsing_var:None (Int.succ i))
+      else enqueue offset (Int.succ len) ~is_parsing_var (Int.succ i)
+    | None ->
+      if i >= len_t
+      then ()
+      else (
+        match
+          if
+            Char.equal t.[i] '$'
+            && i <= len_t - 2
+            && Char.( = ) t.[Int.succ i] (Syntax.open_char Dollar)
+          then Some Syntax.Dollar
+          else if
+            Char.equal t.[i] '%'
+            && i <= len_t - 2
+            && Char.( = ) t.[Int.succ i] (Syntax.open_char Percent)
+          then Some Syntax.Percent
+          else None
+        with
+        | Some syntax ->
+          if i >= len_t - 3
+          then Stdlib.raise_notrace (Eval_error (Syntax_error { in_ = t }))
+          else enqueue i 3 ~is_parsing_var:(Some syntax) (i + 2)
+        | None -> enqueue 0 0 ~is_parsing_var:None (Int.succ i))
+  in
+  let parts : Part.t Queue.t = Queue.create () in
+  let rec dequeue b =
+    match Queue.dequeue bounds with
+    | None ->
+      if b < len_t then Queue.enqueue parts (Text (String.sub t ~pos:b ~len:(len_t - b)))
+    | Some (offset, len) ->
+      if b < offset
+      then Queue.enqueue parts (Text (String.sub t ~pos:b ~len:(offset - b)));
+      Queue.enqueue parts (Var (String.sub t ~pos:(offset + 2) ~len:(len - 3)));
+      dequeue (offset + len)
+  in
+  match
     enqueue 0 0 ~is_parsing_var:None 0;
     dequeue 0;
-    { parts = Queue.to_list parts })
+    { parts = Queue.to_list parts }
+  with
+  | res -> Ok res
+  | exception Eval_error err -> Error err
 ;;
 
 let to_string ?(syntax = Syntax.Dollar) { parts } =
@@ -110,21 +113,28 @@ let to_string ?(syntax = Syntax.Dollar) { parts } =
 let sexp_of_t t = Sexp.Atom (to_string t)
 
 let string_of_var ~parameters v =
-  Or_eval_error.with_return (fun ~error ->
-    match Parameters.find parameters ~parameter_name:v with
-    | Some (Parameter.Value.Int i) -> Int.to_string i
-    | Some (Parameter.Value.String s) -> s
-    | None ->
-      error.return (Free_variable { name = v; candidates = Parameters.keys parameters }))
+  match Parameters.find parameters ~parameter_name:v with
+  | Some (Parameter.Value.Int i) -> Ok (Int.to_string i)
+  | Some (Parameter.Value.String s) -> Ok s
+  | None ->
+    Error (Eval_error.Free_variable { name = v; candidates = Parameters.keys parameters })
 ;;
 
 let eval (t : t) ~parameters =
-  Or_eval_error.with_return (fun ~error ->
-    let find_value v = string_of_var ~parameters v |> Or_eval_error.propagate ~error in
+  let exception Eval_error of Eval_error.t in
+  let find_value v =
+    match string_of_var ~parameters v with
+    | Ok v -> v
+    | Error err -> Stdlib.raise_notrace (Eval_error err)
+  in
+  match
     List.map t.parts ~f:(function
       | Text text -> text
       | Var var -> find_value var)
-    |> String.concat)
+    |> String.concat
+  with
+  | res -> Ok res
+  | exception Eval_error err -> Error err
 ;;
 
 let vars (t : t) =

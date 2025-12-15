@@ -15,12 +15,7 @@ let main =
      let bopkit_sleeper =
        Bopkit_sleeper.create ~frequency:(Float.of_int f) ~as_if_started_at_midnight
      in
-     With_return.with_return (fun { return } ->
-       while true do
-         match In_channel.(input_line stdin) with
-         | None -> return ()
-         | Some line ->
-           Bopkit_sleeper.sleep bopkit_sleeper;
-           print_endline line
-       done))
+     In_channel.iter_lines In_channel.stdin ~f:(fun line ->
+       Bopkit_sleeper.sleep bopkit_sleeper;
+       print_endline line))
 ;;

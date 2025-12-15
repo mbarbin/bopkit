@@ -213,20 +213,23 @@ let init t =
          Queue.enqueue external_processes external_process;
          Core.Set_once.set_exn index [%here] this_index;
          Core.Set_once.set_exn protocol_prefix [%here] this_protocol_prefix;
-         With_return.with_return (fun return ->
-           List.iter init_messages ~f:(fun message ->
-             Out_channel.output_lines input_pipe [ message ];
-             Out_channel.flush input_pipe;
-             external_process.pending_input <- Some { loc; input = message };
-             match In_channel.input_line output_pipe with
-             | Some (_ : string) -> external_process.pending_input <- None
-             | None ->
-               Err.error
-                 ~loc
-                 [ Pp.textf "External process[%d] ('%s')" this_index command
-                 ; Pp.textf "received: '%s' and exited abnormally." message
-                 ];
-               return.return ())))
+         let exception End_of_input in
+         (try
+            List.iter init_messages ~f:(fun message ->
+              Out_channel.output_lines input_pipe [ message ];
+              Out_channel.flush input_pipe;
+              external_process.pending_input <- Some { loc; input = message };
+              match In_channel.input_line output_pipe with
+              | Some (_ : string) -> external_process.pending_input <- None
+              | None ->
+                Err.error
+                  ~loc
+                  [ Pp.textf "External process[%d] ('%s')" this_index command
+                  ; Pp.textf "received: '%s' and exited abnormally." message
+                  ];
+                Stdlib.raise_notrace End_of_input)
+          with
+          | End_of_input -> ()))
     | _ -> ());
   Array.iter (external_blocks t) ~f:(fun { name = a; loc; _ } ->
     (* As it stands, this warning is inconvenient. First, it is only produced at
@@ -399,51 +402,54 @@ let fct_external (t : t) ~(gate : Bopkit_circuit.Gate.t) =
     let protocol =
       Core.Set_once.get_exn protocol_prefix [%here] ^ Bit_array.to_string gate.input
     in
-    With_return.with_return (fun return ->
-      Out_channel.output_lines process.input_pipe [ protocol ];
-      Out_channel.flush process.input_pipe;
-      process.pending_input <- Some { loc; input = protocol };
-      let reponse =
-        match In_channel.input_line process.output_pipe with
-        | Some line -> line
-        | None -> return.return One_cycle_result.Quit
-      in
-      let len_sortie = String.length reponse in
-      let protocole_sortie =
-        match bits_of_string reponse with
-        | Some b -> b
-        | None ->
-          Err.error
-            ~loc
-            [ Pp.textf "External process[%d] ('%s')" index process.command
-            ; Pp.textf " received: '%s'" protocol
-            ; Pp.textf "responded: '%s'" reponse
-            ];
-          return.return One_cycle_result.Quit
-      in
-      let expected_len = Array.length gate.output in
-      if len_sortie < expected_len
-      then (
-        Err.error
-          ~loc
-          [ Pp.textf "External process[%d] ('%s')" index process.command
-          ; Pp.textf " received: '%s'" protocol
-          ; Pp.textf "responded: '%s'" reponse
-          ; Pp.textf
-              "Simulation expected %d bits but received %d."
-              expected_len
-              len_sortie
-          ];
-        return.return One_cycle_result.Quit)
-      else (
-        process.pending_input <- None;
-        Array.blit
-          ~src:protocole_sortie
-          ~src_pos:0
-          ~dst:gate.output
-          ~dst_pos:0
-          ~len:expected_len;
-        One_cycle_result.Continue))
+    let exception Quit in
+    (try
+       Out_channel.output_lines process.input_pipe [ protocol ];
+       Out_channel.flush process.input_pipe;
+       process.pending_input <- Some { loc; input = protocol };
+       let reponse =
+         match In_channel.input_line process.output_pipe with
+         | Some line -> line
+         | None -> Stdlib.raise_notrace Quit
+       in
+       let len_sortie = String.length reponse in
+       let protocole_sortie =
+         match bits_of_string reponse with
+         | Some b -> b
+         | None ->
+           Err.error
+             ~loc
+             [ Pp.textf "External process[%d] ('%s')" index process.command
+             ; Pp.textf " received: '%s'" protocol
+             ; Pp.textf "responded: '%s'" reponse
+             ];
+           Stdlib.raise_notrace Quit
+       in
+       let expected_len = Array.length gate.output in
+       if len_sortie < expected_len
+       then (
+         Err.error
+           ~loc
+           [ Pp.textf "External process[%d] ('%s')" index process.command
+           ; Pp.textf " received: '%s'" protocol
+           ; Pp.textf "responded: '%s'" reponse
+           ; Pp.textf
+               "Simulation expected %d bits but received %d."
+               expected_len
+               len_sortie
+           ];
+         One_cycle_result.Quit)
+       else (
+         process.pending_input <- None;
+         Array.blit
+           ~src:protocole_sortie
+           ~src_pos:0
+           ~dst:gate.output
+           ~dst_pos:0
+           ~len:expected_len;
+         One_cycle_result.Continue)
+     with
+     | Quit -> One_cycle_result.Quit)
   | _ -> assert false
 ;;
 
@@ -457,7 +463,8 @@ let propagate_output t ~(gate : Bopkit_circuit.Gate.t) =
 ;;
 
 let one_cycle t ~blit_input ~output_handler =
-  With_return.with_return (fun { return } ->
+  let exception Quit in
+  match
     blit_input ~dst:t.input;
     Array.iter
       (cds t)
@@ -475,9 +482,11 @@ let one_cycle t ~blit_input ~output_handler =
          | External _ ->
            (match fct_external t ~gate with
             | Continue -> ()
-            | Quit as quit -> return quit));
+            | Quit -> Stdlib.raise_notrace Quit));
         propagate_output t ~gate);
     update_registers t;
-    output_handler ~input:(input t) ~output:(output t);
-    One_cycle_result.Continue)
+    output_handler ~input:(input t) ~output:(output t)
+  with
+  | () -> One_cycle_result.Continue
+  | exception Quit -> One_cycle_result.Quit
 ;;

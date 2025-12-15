@@ -277,13 +277,14 @@ let destroy_and_quit (t : t) =
 
 let stress_test (t : t) =
   let event = Sdl.Event.create () in
-  With_return.with_return (fun return ->
+  let exception Quit in
+  try
     while true do
       redraw t;
       let () =
         ignore (Sdl.wait_event_timeout (Some event) 5 : bool);
         match Sdl.Event.(enum (get event typ)) with
-        | `Quit -> return.return ()
+        | `Quit -> Stdlib.raise_notrace Quit
         | _ -> ()
       in
       let buttons =
@@ -295,7 +296,9 @@ let stress_test (t : t) =
       let i = Random.int (Array.length buttons) in
       let (Shared_bit.T { bits; index }) = buttons.(i).state in
       bits.(index) <- not bits.(index)
-    done)
+    done
+  with
+  | Quit -> ()
 ;;
 
 let handle_mouse_down t ~x ~y =
@@ -328,29 +331,32 @@ let handle_mouse_up t =
 (* Main event loop - runs on the GUI thread. *)
 let event_loop (t : t) =
   let event = Sdl.Event.create () in
-  With_return.with_return (fun return ->
-    while true do
-      (* Check for redraw requests from other threads. *)
-      if t.needs_redraw.contents
-      then (
-        t.needs_redraw.contents <- false;
-        redraw t);
-      (* Poll for SDL events with 16ms timeout (≈60 FPS: 1000ms/60 ≈ 16.67ms). *)
-      match Sdl.wait_event_timeout (Some event) 16 with
-      | false -> () (* timeout, continue loop *)
-      | true ->
-        (match Sdl.Event.(enum (get event typ)) with
-         | `Quit -> return.return ()
-         | `Key_down ->
-           let keycode = Sdl.Event.get event Sdl.Event.keyboard_keycode in
-           if keycode = Sdl.K.escape then return.return ()
-         | `Mouse_button_down ->
-           let x = Sdl.Event.get event Sdl.Event.mouse_button_x in
-           let y = Sdl.Event.get event Sdl.Event.mouse_button_y in
-           handle_mouse_down t ~x ~y
-         | `Mouse_button_up -> handle_mouse_up t
-         | _ -> ())
-    done);
+  let exception Quit in
+  (try
+     while true do
+       (* Check for redraw requests from other threads. *)
+       if t.needs_redraw.contents
+       then (
+         t.needs_redraw.contents <- false;
+         redraw t);
+       (* Poll for SDL events with 16ms timeout (≈60 FPS: 1000ms/60 ≈ 16.67ms). *)
+       match Sdl.wait_event_timeout (Some event) 16 with
+       | false -> () (* timeout, continue loop *)
+       | true ->
+         (match Sdl.Event.(enum (get event typ)) with
+          | `Quit -> Stdlib.raise_notrace Quit
+          | `Key_down ->
+            let keycode = Sdl.Event.get event Sdl.Event.keyboard_keycode in
+            if keycode = Sdl.K.escape then Stdlib.raise_notrace Quit
+          | `Mouse_button_down ->
+            let x = Sdl.Event.get event Sdl.Event.mouse_button_x in
+            let y = Sdl.Event.get event Sdl.Event.mouse_button_y in
+            handle_mouse_down t ~x ~y
+          | `Mouse_button_up -> handle_mouse_up t
+          | _ -> ())
+     done
+   with
+   | Quit -> ());
   destroy_and_quit t
 ;;
 

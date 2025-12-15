@@ -37,23 +37,27 @@ let vars t =
 ;;
 
 let eval t ~parameters =
-  Or_eval_error.with_return (fun ~error ->
-    let eval_expr expr =
-      Arithmetic_expression.eval expr ~parameters |> Or_eval_error.propagate ~error
-    in
-    let rec aux : t -> bool = function
-      | CONST e1 -> eval_expr e1 <> 0
-      | COND_EQ (e1, e2) -> eval_expr e1 = eval_expr e2
-      | COND_NEQ (e1, e2) -> eval_expr e1 <> eval_expr e2
-      | COND_PP (e1, e2) -> eval_expr e1 <= eval_expr e2
-      | COND_PG (e1, e2) -> eval_expr e1 >= eval_expr e2
-      | COND_SPP (e1, e2) -> eval_expr e1 < eval_expr e2
-      | COND_SPG (e1, e2) -> eval_expr e1 > eval_expr e2
-      | COND_NEG c1 -> not (aux c1)
-      | COND_OR (c1, c2) -> aux c1 || aux c2
-      | COND_AND (c1, c2) -> aux c1 && aux c2
-    in
-    aux t)
+  let exception Eval_error of Eval_error.t in
+  let eval_expr expr =
+    match Arithmetic_expression.eval expr ~parameters with
+    | Ok i -> i
+    | Error err -> Stdlib.raise_notrace (Eval_error err)
+  in
+  let rec aux : t -> bool = function
+    | CONST e1 -> eval_expr e1 <> 0
+    | COND_EQ (e1, e2) -> eval_expr e1 = eval_expr e2
+    | COND_NEQ (e1, e2) -> eval_expr e1 <> eval_expr e2
+    | COND_PP (e1, e2) -> eval_expr e1 <= eval_expr e2
+    | COND_PG (e1, e2) -> eval_expr e1 >= eval_expr e2
+    | COND_SPP (e1, e2) -> eval_expr e1 < eval_expr e2
+    | COND_SPG (e1, e2) -> eval_expr e1 > eval_expr e2
+    | COND_NEG c1 -> not (aux c1)
+    | COND_OR (c1, c2) -> aux c1 || aux c2
+    | COND_AND (c1, c2) -> aux c1 && aux c2
+  in
+  match aux t with
+  | res -> Ok res
+  | exception Eval_error err -> Error err
 ;;
 
 let pp t =

@@ -104,23 +104,18 @@ let main =
      let length_sortie = 91 in
      let entree = Array.create ~len:length_entree 0 in
      let sortie = Array.create ~len:length_sortie 0 in
-     With_return.with_return (fun { return } ->
-       while true do
-         match In_channel.(input_line stdin) with
-         | None -> return ()
-         | Some line ->
-           if String.length line <> length_entree
-           then (
-             Stdlib.Printf.eprintf
-               "Length : %d, expected %d.\n"
-               (String.length line)
-               length_entree;
-             Out_channel.flush stderr)
-           else (
-             for i = 0 to Int.pred (String.length line) do
-               entree.(i) <- val_of_char line.[i]
-             done;
-             update_tabs entree sortie;
-             print sortie)
-       done))
+     In_channel.iter_lines In_channel.stdin ~f:(fun line ->
+       if String.length line <> length_entree
+       then (
+         Stdlib.Printf.eprintf
+           "Length : %d, expected %d.\n"
+           (String.length line)
+           length_entree;
+         Out_channel.flush stderr)
+       else (
+         for i = 0 to Int.pred (String.length line) do
+           entree.(i) <- val_of_char line.[i]
+         done;
+         update_tabs entree sortie;
+         print sortie)))
 ;;

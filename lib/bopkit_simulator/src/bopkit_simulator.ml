@@ -33,23 +33,23 @@ let run ~circuit ~config =
   in
   (* Make it possible to interrupt the simulation on sigint. *)
   Stdlib.Sys.catch_break true;
+  let exception Quit in
   (try
-     With_return.with_return (fun { return } ->
-       match num_cycles with
-       | None ->
-         while true do
-           match one_cycle () with
-           | Continue -> ()
-           | Quit -> return ()
-         done
-       | Some nb_cycles ->
-         for _ = 1 to nb_cycles do
-           match one_cycle () with
-           | Continue -> ()
-           | Quit -> return ()
-         done)
+     match num_cycles with
+     | None ->
+       while true do
+         match one_cycle () with
+         | Continue -> ()
+         | Quit -> Stdlib.raise_notrace Quit
+       done
+     | Some nb_cycles ->
+       for _ = 1 to nb_cycles do
+         match one_cycle () with
+         | Continue -> ()
+         | Quit -> Stdlib.raise_notrace Quit
+       done
    with
-   | Stdlib.Sys.Break | End_of_file -> ());
+   | Stdlib.Sys.Break | Quit | End_of_file -> ());
   Err.info [ Pp.textf "End of simulation (%S)" (circuit.path |> Fpath.to_string) ];
   Circuit_simulator.quit circuit_simulator
 ;;

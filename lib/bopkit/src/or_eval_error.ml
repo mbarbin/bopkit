@@ -26,16 +26,6 @@ include Monad.Make (struct
     let map = `Custom map
   end)
 
-let with_return f =
-  With_return.with_return (fun return ->
-    Ok (f ~error:(With_return.prepend return ~f:(fun e -> Error e))))
-;;
-
-let propagate ~(error : _ With_return.return) = function
-  | Ok e -> e
-  | Error e -> error.return e
-;;
-
 let ok t ~f =
   match t with
   | Ok e -> e

@@ -30,34 +30,27 @@ let make_display_command (module Device : DEVICE_S) ~length ~name =
      let+ with_output = Arg.flag [ "no-output"; "no" ] ~doc:"Print no output." >>| not in
      let tab = Array.create ~len:length false in
      let m = Device.init () in
-     With_return.with_return (fun { return } ->
-       try
-         while true do
-           let line =
-             match In_channel.(input_line stdin) with
-             | Some line -> line
-             | None -> return ()
-           in
-           if String.length line <> length
+     try
+       In_channel.iter_lines In_channel.stdin ~f:(fun line ->
+         if String.length line <> length
+         then (
+           Stdlib.Printf.fprintf
+             stderr
+             "Length : %d, expected %d.\n"
+             (String.length line)
+             length;
+           Out_channel.flush stderr)
+         else (
+           for i = 0 to Int.pred length do
+             Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
+           done;
+           Device.update m tab;
+           if with_output
            then (
-             Stdlib.Printf.fprintf
-               stderr
-               "Length : %d, expected %d.\n"
-               (String.length line)
-               length;
-             Out_channel.flush stderr)
-           else (
-             for i = 0 to Int.pred length do
-               Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
-             done;
-             Device.update m tab;
-             if with_output
-             then (
-               Out_channel.newline stdout;
-               Out_channel.flush stdout))
-         done
-       with
-       | Graphics.Graphic_failure _ -> ()))
+             Out_channel.newline stdout;
+             Out_channel.flush stdout)))
+     with
+     | Graphics.Graphic_failure _ -> ())
 ;;
 
 let make_print_command (module Device : DEVICE_S) ~length ~name =
@@ -76,44 +69,37 @@ let make_print_command (module Device : DEVICE_S) ~length ~name =
      let index = ref (-1) in
      let previous_line = ref "" in
      let tab = Array.create ~len:length false in
-     With_return.with_return (fun { return } ->
-       while true do
-         let line =
-           match In_channel.(input_line stdin) with
-           | Some line -> line
-           | None -> return ()
+     In_channel.iter_lines In_channel.stdin ~f:(fun line ->
+       if String.length line <> length
+       then (
+         Stdlib.Printf.fprintf
+           stderr
+           "Length : %d, expected %d.\n"
+           (String.length line)
+           length;
+         Out_channel.flush stderr)
+       else (
+         Int.incr index;
+         let has_changed =
+           let r = not (String.equal !previous_line line) in
+           previous_line := line;
+           r
          in
-         if String.length line <> length
+         if has_changed || not print_on_change
          then (
-           Stdlib.Printf.fprintf
-             stderr
-             "Length : %d, expected %d.\n"
-             (String.length line)
-             length;
-           Out_channel.flush stderr)
-         else (
-           Int.incr index;
-           let has_changed =
-             let r = not (String.equal !previous_line line) in
-             previous_line := line;
-             r
+           for i = 0 to Int.pred length do
+             Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
+           done;
+           let decoded = Device.decode tab |> Device.Decoded.to_string in
+           let output =
+             if print_index then Printf.sprintf "%04d: %s" !index decoded else decoded
            in
-           if has_changed || not print_on_change
+           if clear_on_reprint
            then (
-             for i = 0 to Int.pred length do
-               Array.unsafe_set tab i (Char.equal '1' (String.unsafe_get line i))
-             done;
-             let decoded = Device.decode tab |> Device.Decoded.to_string in
-             let output =
-               if print_index then Printf.sprintf "%04d: %s" !index decoded else decoded
-             in
-             if clear_on_reprint
-             then (
-               ANSITerminal.move_bol ();
-               ANSITerminal.print_string [] output)
-             else print_endline output))
-       done;
-       if clear_on_reprint then print_endline ""))
+             ANSITerminal.move_bol ();
+             ANSITerminal.print_string [] output)
+           else print_endline output)));
+     if clear_on_reprint then print_endline "")
 ;;
 
 let digital_calendar_display =

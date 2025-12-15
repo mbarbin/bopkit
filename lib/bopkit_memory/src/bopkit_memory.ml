@@ -504,9 +504,10 @@ let event_loop_internal t ~loop ~read_only =
     | true -> mode_edit_off ()
     | false -> mode_edit_on ()
   in
-  With_return.with_return (fun return ->
-    mode_edit_off ();
-    draw t;
+  mode_edit_off ();
+  draw t;
+  let exception Quit in
+  try
     while true do
       let must_draw =
         let stat = wait_next_event [ Key_pressed; Button_down ] in
@@ -561,7 +562,7 @@ let event_loop_internal t ~loop ~read_only =
               true)
           | o when Char.equal o ' ' || Char.to_int o = 13 (* '\n' *) ->
             (match loop with
-             | false -> return.return ()
+             | false -> Stdlib.raise_notrace Quit
              | true ->
                if read_only
                then false
@@ -587,7 +588,9 @@ let event_loop_internal t ~loop ~read_only =
         else false
       in
       if must_draw then draw t else ()
-    done)
+    done
+  with
+  | Quit -> ()
 ;;
 
 let wait t = event_loop_internal t ~loop:false ~read_only:false
