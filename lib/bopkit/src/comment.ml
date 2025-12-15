@@ -17,9 +17,11 @@ type t =
 
 let parse text =
   let text = String.strip text in
-  With_return.with_return (fun { return } ->
-    if String.length text < 2 then return None;
-    if not (Char.equal text.[0] '/') then return None;
+  if String.length text < 2
+  then None
+  else if not (Char.equal text.[0] '/')
+  then None
+  else (
     let newlines = String.count text ~f:(fun c -> Char.equal c '\n') in
     match text.[1] with
     | '/' ->
@@ -34,37 +36,39 @@ let parse text =
             ~prefix:(if is_documentation_comment then "///" else "//")
           |> String.strip
         in
-        return (Some (Single_line { is_documentation_comment; text })))
-      else return None
+        Some (Single_line { is_documentation_comment; text }))
+      else None
     | '*' ->
       (match String.is_suffix text ~suffix:"*/" with
        | false -> None
        | true ->
-         if String.length text = 3 then return None;
-         let is_documentation_comment =
-           Char.equal text.[2] '*' && String.length text >= 5
-         in
-         let text =
-           String.chop_prefix_exn
+         if String.length text = 3
+         then None
+         else (
+           let is_documentation_comment =
+             Char.equal text.[2] '*' && String.length text >= 5
+           in
+           let text =
+             String.chop_prefix_exn
+               text
+               ~prefix:(if is_documentation_comment then "/**" else "/*")
+             |> String.chop_suffix_exn ~suffix:"*/"
+           in
+           let lines =
              text
-             ~prefix:(if is_documentation_comment then "/**" else "/*")
-           |> String.chop_suffix_exn ~suffix:"*/"
-         in
-         let lines =
-           text
-           |> String.split_lines
-           |> List.map ~f:(fun line ->
-             let line = String.strip line in
-             let line =
-               String.chop_prefix line ~prefix:"*" |> Option.value ~default:line
-             in
-             String.strip line)
-           |> List.drop_while ~f:String.is_empty
-           |> List.rev
-           |> List.drop_while ~f:String.is_empty
-           |> List.rev
-         in
-         Some (Multiple_lines { is_documentation_comment; lines }))
+             |> String.split_lines
+             |> List.map ~f:(fun line ->
+               let line = String.strip line in
+               let line =
+                 String.chop_prefix line ~prefix:"*" |> Option.value ~default:line
+               in
+               String.strip line)
+             |> List.drop_while ~f:String.is_empty
+             |> List.rev
+             |> List.drop_while ~f:String.is_empty
+             |> List.rev
+           in
+           Some (Multiple_lines { is_documentation_comment; lines })))
     | _ -> None)
 ;;
 

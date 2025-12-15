@@ -226,41 +226,42 @@ let run (t : t) =
   let last_output = ref "" in
   let output_device = Memory.output_device t.memory in
   let count_output = ref 0 in
-  With_return.with_return (fun return ->
-    (* Make it possible to interrupt the simulation on SIGINT. *)
-    Stdlib.Sys.catch_break true;
-    (try
-       while true do
-         match step t with
-         | Error e -> return.return (Error e)
-         | Ok (Macro_call { macro_name = _ }) -> ()
-         | Ok (Executed { instruction; continue }) ->
-           (match instruction with
-            | Sleep ->
-              if t.config.sleep
-              then (
-                let current_time = Unix.gettimeofday () in
-                let start_of_current_sec = Int.of_float current_time |> Float.of_int in
-                Thread.delay (1. -. (current_time -. start_of_current_sec)))
-            | Write _ ->
-              let output = Output_device.to_string output_device in
-              if String.( <> ) output !last_output
-              then (
-                last_output := output;
-                print_endline output;
-                Int.incr count_output)
-            | _ -> ());
-           if
-             (not continue)
-             ||
-             match t.config.stop_after_n_outputs with
-             | None -> false
-             | Some count -> !count_output >= count
-           then return.return (Ok ())
-       done
-     with
-     | Stdlib.Sys.Break -> ());
-    Ok ())
+  (* Make it possible to interrupt the simulation on SIGINT. *)
+  Stdlib.Sys.catch_break true;
+  let exception Quit of unit Or_error.t in
+  try
+    while true do
+      match step t with
+      | Error _ as err -> Stdlib.raise_notrace (Quit err)
+      | Ok (Macro_call { macro_name = _ }) -> ()
+      | Ok (Executed { instruction; continue }) ->
+        (match instruction with
+         | Sleep ->
+           if t.config.sleep
+           then (
+             let current_time = Unix.gettimeofday () in
+             let start_of_current_sec = Int.of_float current_time |> Float.of_int in
+             Thread.delay (1. -. (current_time -. start_of_current_sec)))
+         | Write _ ->
+           let output = Output_device.to_string output_device in
+           if String.( <> ) output !last_output
+           then (
+             last_output := output;
+             print_endline output;
+             Int.incr count_output)
+         | _ -> ());
+        if
+          (not continue)
+          ||
+          match t.config.stop_after_n_outputs with
+          | None -> false
+          | Some count -> !count_output >= count
+        then Stdlib.raise_notrace (Quit (Ok ()))
+    done;
+    (assert false : unit Or_error.t)
+  with
+  | Stdlib.Sys.Break -> Ok ()
+  | Quit res -> res
 ;;
 
 let main =

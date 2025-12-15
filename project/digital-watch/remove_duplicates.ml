@@ -10,12 +10,13 @@ let main =
     (let open Command.Std in
      let+ () = Arg.return () in
      let i = ref 0 in
-     With_return.with_return (fun { return } ->
-       let input_line () =
-         match In_channel.(input_line stdin) with
-         | Some line -> line
-         | None -> return ()
-       in
+     let exception End_of_input in
+     let input_line () =
+       match In_channel.(input_line stdin) with
+       | Some line -> line
+       | None -> Stdlib.raise_notrace End_of_input
+     in
+     try
        while true do
          let s1 = input_line () in
          let s2 = input_line () in
@@ -26,7 +27,9 @@ let main =
          else
            raise_s
              [%sexp "unexpected line", { line = (!i : int); s1 : string; s2 : string }]
-       done))
+       done
+     with
+     | End_of_input -> ())
 ;;
 
 let () =

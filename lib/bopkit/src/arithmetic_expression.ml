@@ -45,34 +45,38 @@ let vars t =
 ;;
 
 let eval t ~parameters =
-  Or_eval_error.with_return (fun ~error ->
-    let rec eval : t -> int = function
-      | VAR s ->
-        (match Parameters.find parameters ~parameter_name:s with
-         | Some (Int i) -> i
-         | Some (String _) ->
-           error.return
-             (Type_clash
-                { message =
-                    Printf.sprintf
-                      "Parameter '%s' is of type string but an int is expected"
-                      s
-                })
-         | None ->
-           error.return
-             (Free_variable { name = s; candidates = Parameters.keys parameters }))
-      | CST c -> c
-      | ADD (a, b) -> eval a + eval b
-      | SUB (a, b) -> eval a - eval b
-      | DIV (a, b) -> eval a / eval b
-      | MULT (a, b) -> eval a * eval b
-      | MOD (a, b) -> eval a % eval b
-      | EXP (a, b) -> Int.pow (eval a) (eval b)
-      | MIN (a, b) -> min (eval a) (eval b)
-      | MAX (a, b) -> max (eval a) (eval b)
-      | LOG e -> log2 (eval e)
-    in
-    eval t)
+  let exception Eval_error of Eval_error.t in
+  let rec eval : t -> int = function
+    | VAR s ->
+      (match Parameters.find parameters ~parameter_name:s with
+       | Some (Int i) -> i
+       | Some (String _) ->
+         Stdlib.raise_notrace
+           (Eval_error
+              (Type_clash
+                 { message =
+                     Printf.sprintf
+                       "Parameter '%s' is of type string but an int is expected"
+                       s
+                 }))
+       | None ->
+         Stdlib.raise_notrace
+           (Eval_error
+              (Free_variable { name = s; candidates = Parameters.keys parameters })))
+    | CST c -> c
+    | ADD (a, b) -> eval a + eval b
+    | SUB (a, b) -> eval a - eval b
+    | DIV (a, b) -> eval a / eval b
+    | MULT (a, b) -> eval a * eval b
+    | MOD (a, b) -> eval a % eval b
+    | EXP (a, b) -> Int.pow (eval a) (eval b)
+    | MIN (a, b) -> min (eval a) (eval b)
+    | MAX (a, b) -> max (eval a) (eval b)
+    | LOG e -> log2 (eval e)
+  in
+  match eval t with
+  | res -> Ok res
+  | exception Eval_error err -> Error err
 ;;
 
 let pp t =

@@ -13,7 +13,8 @@ let enqueue_01_char_in_line ~line ~dst =
         "Invalid bit array specification", { line : string; pos : int }, (sexp : Sexp.t)]
   in
   let len = String.length line in
-  with_return (fun { return } ->
+  let exception Comment_suffix in
+  try
     String.iteri line ~f:(fun i char ->
       match char with
       | '0' -> Queue.enqueue dst false
@@ -24,9 +25,11 @@ let enqueue_01_char_in_line ~line ~dst =
           error
             ~pos:i
             [%sexp "Comment character '/' is expected to be followed by another '/'"]
-        else return ()
+        else Stdlib.raise_notrace Comment_suffix
       | ' ' | '|' -> ()
-      | c -> error ~pos:i [%sexp { unexpected_char = (c : Char.t) }]))
+      | c -> error ~pos:i [%sexp { unexpected_char = (c : Char.t) }])
+  with
+  | Comment_suffix -> ()
 ;;
 
 let enqueue_01_char ~src ~dst =
@@ -47,12 +50,7 @@ let to_string (t : t) =
 let of_text_file ~path =
   let q = Queue.create () in
   In_channel.with_file (path |> Fpath.to_string) ~f:(fun ic ->
-    with_return (fun { return } ->
-      while true do
-        match In_channel.input_line ic with
-        | None -> return ()
-        | Some line -> enqueue_01_char ~src:line ~dst:q
-      done));
+    In_channel.iter_lines ic ~f:(fun line -> enqueue_01_char ~src:line ~dst:q));
   Queue.to_array q
 ;;
 
