@@ -208,6 +208,6 @@ let emit_c_code ~(circuit : Bopkit_circuit.Circuit.t) ~to_:oc =
     ]
     |> Pp.concat
   in
-  Out_channel.output_string oc (pp |> Pp_extended.to_string);
+  Out_channel.output_string oc (pp |> Pp_extended.render);
   Out_channel.flush oc
 ;;

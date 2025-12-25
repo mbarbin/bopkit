@@ -44,7 +44,7 @@ let process_cmd =
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let program = Visa.Executable.disassemble executable in
-     print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))
+     print_string (Pp_extended.render (Visa_pp.Program.pp program)))
 ;;
 
 let check_cmd =
@@ -78,8 +78,7 @@ let assemble_cmd =
      let program = Parsing_utils.parse_file_exn (module Visa_parser) ~path in
      let executable = Visa_assembler.program_to_executable ~program in
      let machine_code = Visa.Executable.to_machine_code executable in
-     print_string
-       (Pp_extended.to_string (Visa_pp.Executable.Machine_code.pp machine_code)))
+     print_string (Pp_extended.render (Visa_pp.Executable.Machine_code.pp machine_code)))
 ;;
 
 let disassemble_cmd =
@@ -95,7 +94,7 @@ let disassemble_cmd =
      and+ () = Log_cli.set_config () in
      let machine_code = Visa.Machine_code.of_text_file_exn ~path in
      let program = Visa.Executable.Machine_code.disassemble machine_code ~path in
-     print_string (Pp_extended.to_string (Visa_pp.Program.pp program)))
+     print_string (Pp_extended.render (Visa_pp.Program.pp program)))
 ;;
 
 let main =
