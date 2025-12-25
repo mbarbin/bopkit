@@ -38,7 +38,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.17))
+   (>= 0.0.19))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -68,7 +68,7 @@
   (pp
    (>= 2.0.0))
   (pp-extended
-   (>= 0.0.2))
+   (>= 0.0.7))
   (pplumbing-err
    (>= 0.0.16))
   (pplumbing-log-cli
@@ -111,7 +111,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.17))
+   (>= 0.0.19))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -143,7 +143,7 @@
   (pp
    (>= 2.0.0))
   (pp-extended
-   (>= 0.0.2))
+   (>= 0.0.7))
   (pplumbing-err
    (>= 0.0.16))
   (pplumbing-log-cli
@@ -182,7 +182,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.17))
+   (>= 0.0.19))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -214,7 +214,7 @@
   (pp
    (>= 2.0.0))
   (pp-extended
-   (>= 0.0.2))
+   (>= 0.0.7))
   (pplumbing-err
    (>= 0.0.16))
   (pplumbing-log-cli
@@ -257,7 +257,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.17))
+   (>= 0.0.19))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -291,7 +291,7 @@
   (pp
    (>= 2.0.0))
   (pp-extended
-   (>= 0.0.2))
+   (>= 0.0.7))
   (pplumbing-err
    (>= 0.0.16))
   (pplumbing-log-cli
@@ -350,7 +350,7 @@
   (appendable-list
    (>= v0.17))
   (auto-format
-   (>= 0.0.17))
+   (>= 0.0.19))
   (base
    (>= v0.17))
   (base_quickcheck
@@ -386,7 +386,7 @@
   (pp
    (>= 2.0.0))
   (pp-extended
-   (>= 0.0.2))
+   (>= 0.0.7))
   (pplumbing-err
    (>= 0.0.16))
   (pplumbing-log-cli
