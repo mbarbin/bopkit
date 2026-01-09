@@ -1,5 +1,6 @@
 (library
  (name seven_segment_display_test)
+ (package bopkit-tests)
  (flags
   :standard
   -w
