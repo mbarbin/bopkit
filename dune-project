@@ -244,14 +244,10 @@
 
 (package
  (name bopkit-tests)
- (synopsis "Tests for [bopkit]")
+ (synopsis "Tests for bopkit")
  (depends
   (ocaml
-   (>= 5.2))
-  (ocamlformat
-   (and
-    :with-dev-setup
-    (= 0.28.1)))
+   (>= 5.3))
   (ANSITerminal
    (>= 0.8.3))
   (appendable-list
@@ -308,10 +304,6 @@
    (>= v0.17))
   (ppx_here
    (>= v0.17))
-  (ppx_js_style
-   (and
-    :with-dev-setup
-    (>= v0.17)))
   (ppx_let
    (>= v0.17))
   (ppx_sexp_conv
@@ -335,99 +327,28 @@
 
 (package
  (name bopkit-dev)
- (synopsis
-  "Package to regroup dev targets for the bopkit project, documentation, and more")
- (allow_empty) ; The package is attached to mdx stanzas however dune doesn't see it.
+ (synopsis "Package to regroup dev targets, documentation, and more")
+ (allow_empty)
  (depends
   (ocaml
    (>= 5.2))
   (ocamlformat
-   (and
-    :with-dev-setup
-    (= 0.28.1)))
-  (ANSITerminal
-   (>= 0.8.3))
-  (appendable-list
-   (>= v0.17))
-  (auto-format
-   (>= 0.0.19))
-  (base
-   (>= v0.17))
-  (base_quickcheck
-   (>= v0.17))
+   (= 0.28.1))
   (bopkit
    (= :version))
   (bopkit-tests
    (= :version))
-  (cmdlang
-   (>= 0.0.9))
-  (cmdlang-cmdliner-err-runner
-   (>= 0.0.16))
-  (core
-   (>= v0.17))
-  (dune-site
-   (>= 3.20))
-  (expect_test_helpers_core
-   (>= v0.17))
-  (fpath
-   (>= 0.7.3))
-  (fpath-base
-   (>= 0.2.2))
-  (graphics
-   (>= 5.2.0))
-  (loc
-   (>= 0.2.2))
   (mdx
    (>= 2.4))
-  (menhir
-   (>= 20220210))
-  (parsing-utils
-   (>= 0.2.3))
-  (pp
-   (>= 2.0.0))
-  (pp-extended
-   (>= 0.0.7))
-  (pplumbing-err
-   (>= 0.0.16))
-  (pplumbing-log-cli
-   (>= 0.0.16))
-  (ppx_compare
-   (>= v0.17))
-  (ppx_enumerate
-   (>= v0.17))
   (ppx_expect
    (>= v0.17))
-  (ppx_fields_conv
-   (>= v0.17))
-  (ppx_hash
-   (>= v0.17))
-  (ppx_here
-   (>= v0.17))
   (ppx_js_style
-   (and
-    :with-dev-setup
-    (>= v0.17)))
-  (ppx_let
-   (>= v0.17))
-  (ppx_sexp_conv
-   (>= v0.17))
-  (ppx_sexp_value
    (>= v0.17))
   (ppxlib
    (>= 0.33))
-  (stdio
-   (>= v0.17))
-  (stdune
-   (>= 3.20))
   (subleq
    (= :version))
-  (tsdl
-   (>= 1.1.0))
-  (tsdl-image
-   (>= 0.6))
   (visa
    (= :version))
   (sherlodoc
-   (and
-    :with-doc
-    (>= 0.2)))))
+   (>= 0.2))))
