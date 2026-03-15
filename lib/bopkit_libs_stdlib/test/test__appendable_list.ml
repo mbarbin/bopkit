@@ -84,3 +84,16 @@ let%expect_test "iter" =
   [%expect {| 1 2 3 |}];
   ()
 ;;
+
+let%expect_test "iter on nested appends" =
+  let a = Appendable_list.of_list [ 1; 2 ] in
+  let b = Appendable_list.of_list [ 3; 4 ] in
+  let c = Appendable_list.of_list [ 5; 6 ] in
+  Appendable_list.append (Appendable_list.append a b) c
+  |> Appendable_list.iter ~f:(fun x -> Printf.printf "%d " x);
+  [%expect {| 1 2 3 4 5 6 |}];
+  Appendable_list.cons 0 (Appendable_list.append a (Appendable_list.concat [ b; c ]))
+  |> Appendable_list.iter ~f:(fun x -> Printf.printf "%d " x);
+  [%expect {| 0 1 2 3 4 5 6 |}];
+  ()
+;;
