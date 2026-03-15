@@ -8,6 +8,8 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Fpath_base
@@ -20,6 +22,7 @@
  (libraries
   auto-format
   base
+  bopkit_libs_stdlib
   bopkit_process
   bopkit_process_interpreter
   bopkit_process_parser

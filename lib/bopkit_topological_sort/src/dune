@@ -1,8 +1,17 @@
 (library
  (name bopkit_topological_sort)
  (public_name bopkit.topological-sort)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
- (libraries appendable-list base)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Bopkit_libs_stdlib
+  -open
+  Base)
+ (libraries appendable-list base bopkit_libs_stdlib)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

@@ -8,6 +8,8 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Fpath_base
@@ -18,6 +20,7 @@
  (libraries
   appendable-list
   base
+  bopkit_libs_stdlib
   bit_utils
   bopkit
   bopkit_cds_optimizer

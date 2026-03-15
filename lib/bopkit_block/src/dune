@@ -13,12 +13,15 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Stdio
   -open
   Cmdlang)
  (libraries
   base
   bit_utils
+  bopkit_libs_stdlib
   cmdlang
   cmdlang-cmdliner-err-runner
   core

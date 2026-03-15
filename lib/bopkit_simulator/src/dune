@@ -8,6 +8,8 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Pplumbing_err
@@ -18,6 +20,7 @@
  (libraries
   base
   bit_utils
+  bopkit_libs_stdlib
   bopkit
   bopkit_circuit
   bopkit_sites
