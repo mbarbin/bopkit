@@ -19,11 +19,11 @@
   Cmdlang)
  (libraries
   base
-  bopkit_libs_stdlib
   bit_utils
   bopkit
   bopkit_cds_optimizer
   bopkit_circuit
+  bopkit_libs_stdlib
   bopkit_parser
   bopkit_pp
   bopkit_sites

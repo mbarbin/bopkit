@@ -20,9 +20,9 @@
  (libraries
   base
   bit_utils
-  bopkit_libs_stdlib
   bopkit_bdd
   bopkit_block
+  bopkit_libs_stdlib
   cmdlang
   core
   fpath

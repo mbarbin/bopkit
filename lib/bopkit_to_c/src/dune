@@ -16,9 +16,9 @@
  (libraries
   base
   bit_utils
-  bopkit_libs_stdlib
   bopkit_circuit
   bopkit_compiler
+  bopkit_libs_stdlib
   fpath
   loc
   parsing-utils

@@ -19,8 +19,8 @@
   Cmdlang)
  (libraries
   base
-  bopkit_libs_stdlib
   bit_utils
+  bopkit_libs_stdlib
   cmdlang
   comments_parser
   fpath
