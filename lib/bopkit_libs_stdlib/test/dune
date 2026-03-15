@@ -1,0 +1,17 @@
+(library
+ (name bopkit_libs_stdlib_test)
+ (public_name bopkit-tests.bopkit_libs_stdlib_test)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Bopkit_libs_stdlib)
+ (libraries bopkit_libs_stdlib)
+ (inline_tests)
+ (lint
+  (pps ppx_js_style -allow-let-operators -check-doc-comments))
+ (preprocess
+  (pps ppx_expect)))

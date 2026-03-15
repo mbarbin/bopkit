@@ -35,8 +35,6 @@
    (>= 5.2))
   (ANSITerminal
    (>= 0.8.3))
-  (appendable-list
-   (>= v0.17))
   (auto-format
    (>= 0.0.19))
   (base
@@ -108,8 +106,6 @@
    (>= 5.2))
   (ANSITerminal
    (>= 0.8.3))
-  (appendable-list
-   (>= v0.17))
   (auto-format
    (>= 0.0.19))
   (base
@@ -179,8 +175,6 @@
    (>= 5.2))
   (ANSITerminal
    (>= 0.8.3))
-  (appendable-list
-   (>= v0.17))
   (auto-format
    (>= 0.0.19))
   (base
@@ -250,8 +244,6 @@
    (>= 5.3))
   (ANSITerminal
    (>= 0.8.3))
-  (appendable-list
-   (>= v0.17))
   (auto-format
    (>= 0.0.19))
   (base

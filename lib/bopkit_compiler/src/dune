@@ -18,7 +18,6 @@
   -open
   Cmdlang)
  (libraries
-  appendable-list
   base
   bopkit_libs_stdlib
   bit_utils

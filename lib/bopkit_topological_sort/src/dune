@@ -11,7 +11,7 @@
   Bopkit_libs_stdlib
   -open
   Base)
- (libraries appendable-list base bopkit_libs_stdlib)
+ (libraries base bopkit_libs_stdlib)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

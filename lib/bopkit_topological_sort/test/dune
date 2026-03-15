@@ -8,14 +8,16 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Pplumbing_err
   -open
   Expect_test_helpers_base)
  (libraries
-  appendable-list
   base
+  bopkit_libs_stdlib
   bopkit_topological_sort
   expect_test_helpers_core.expect_test_helpers_base
   pplumbing-err)

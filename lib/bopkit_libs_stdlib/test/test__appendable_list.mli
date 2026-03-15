@@ -4,6 +4,4 @@
 (*_  SPDX-License-Identifier: MIT                                                 *)
 (*_********************************************************************************)
 
-(** Extending [Stdlib] for use in the project. *)
-
-module Appendable_list = Appendable_list0
+(*_ This signature is deliberately empty. *)
