@@ -11,7 +11,6 @@ depends: [
   "dune" {>= "3.20"}
   "ocaml" {>= "5.3"}
   "ANSITerminal" {>= "0.8.3"}
-  "appendable-list" {>= "v0.17"}
   "auto-format" {>= "0.0.19"}
   "base" {>= "v0.17"}
   "base_quickcheck" {>= "v0.17"}

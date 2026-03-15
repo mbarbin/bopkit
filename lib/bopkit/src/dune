@@ -8,6 +8,8 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Fpath_base
@@ -16,9 +18,9 @@
   -open
   Cmdlang)
  (libraries
-  appendable-list
   base
   bit_utils
+  bopkit_libs_stdlib
   cmdlang
   comments_parser
   fpath

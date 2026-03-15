@@ -8,6 +8,8 @@
   -warn-error
   +a
   -open
+  Bopkit_libs_stdlib
+  -open
   Base
   -open
   Fpath_base
@@ -20,6 +22,7 @@
   bit_utils
   bopkit_bdd
   bopkit_block
+  bopkit_libs_stdlib
   cmdlang
   core
   fpath

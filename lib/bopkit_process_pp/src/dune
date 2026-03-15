@@ -1,8 +1,17 @@
 (library
  (name bopkit_process_pp)
  (public_name bopkit.process-pp)
- (flags :standard -w +a-4-40-41-42-44-45-48-66 -warn-error +a -open Base)
- (libraries base bopkit_process loc pp)
+ (flags
+  :standard
+  -w
+  +a-4-40-41-42-44-45-48-66
+  -warn-error
+  +a
+  -open
+  Bopkit_libs_stdlib
+  -open
+  Base)
+ (libraries base bopkit_libs_stdlib bopkit_process loc pp)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess
