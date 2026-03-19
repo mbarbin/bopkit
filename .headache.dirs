@@ -79,8 +79,8 @@ stdlib/7-segment/src
 stdlib/7-segment/test
 stdlib/bopboard
 stdlib/bopboard/bin
-stdlib/bopboard/src
 stdlib/bopboard/example
+stdlib/bopboard/src
 stdlib/counter
 stdlib/counter/bin
 stdlib/counter/src
