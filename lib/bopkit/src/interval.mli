@@ -18,7 +18,5 @@ val expand : t -> f:(int -> 'a) -> 'a list
 (** When multiple indexes are used in sequence, the development goes from right
     to left, that is:
 
-    {v
-     a:[2]:[3] --->  a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2]
-    v} *)
+    {v  a:[2]:[3] --->  a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2] v} *)
 val expand_list : t list -> f:(int -> 'a) -> 'a list list

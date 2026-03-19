@@ -122,9 +122,7 @@ type functional_argument =
     When multiple indexes are used in sequence, the development goes from right
     to left, that is:
 
-    {v
-      a:[2]:[3] --->  a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2]
-    v} *)
+    {v   a:[2]:[3] --->  a[0][0], a[0][1], a[0][2], a[1][0], a[1][1], a[1][2] v} *)
 type index =
   | Segment of Arithmetic_expression.t
   | Interval of Arithmetic_expression.t * Arithmetic_expression.t
@@ -179,9 +177,7 @@ type call =
 
     Here is an example of a node with nested inputs:
 
-    {v
-      e = or(and(a, b), xor(c, d));
-    v} *)
+    {v   e = or(and(a, b), xor(c, d)); v} *)
 type nested_inputs =
   | Variables of
       { loc : Loc.t

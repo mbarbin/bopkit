@@ -354,9 +354,7 @@ let fct_rom t ~input ~output ~index =
 (* The arguments of a ram call with address width e and data width s
    are:
 
-   {v
-     output[s] = RAM(read_address[e], write_address[e], enable, data[s])
-   v}
+   {v   output[s] = RAM(read_address[e], write_address[e], enable, data[s]) v}
 *)
 let fct_ram (_ : t) ~(gate : Bopkit_circuit.Gate.t) =
   match gate.gate_kind with

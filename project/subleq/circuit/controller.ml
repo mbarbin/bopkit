@@ -32,12 +32,12 @@ module State = struct
   (* The lifecycle of the state is as follows:
 
      {v
-       STANDBY
-    -> INIT
-    -> Foreach i, LOADING i
-    -> WAITING
-    -> Foreach i, SAVING i
-    -> STANDBY
+        STANDBY
+     -> INIT
+     -> Foreach i, LOADING i
+     -> WAITING
+     -> Foreach i, SAVING i
+     -> STANDBY
      v}
 
      The details meaning for the states are:
