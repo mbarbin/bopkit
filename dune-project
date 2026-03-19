@@ -329,7 +329,7 @@
   (ocaml
    (>= 5.2))
   (ocamlformat
-   (= 0.28.1))
+   (= 0.29.0))
   (bopkit
    (= :version))
   (bopkit-tests
