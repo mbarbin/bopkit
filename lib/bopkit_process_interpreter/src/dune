@@ -20,7 +20,6 @@
   bit_utils
   bopkit_libs_stdlib
   bopkit_process
-  bopkit_process_parser
   loc
   pp
   pplumbing-err

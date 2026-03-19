@@ -26,7 +26,6 @@
   fpath
   fpath-base
   loc
-  parsing-utils
   pp
   pplumbing-err)
  (lint

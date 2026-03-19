@@ -16,11 +16,9 @@
  (libraries
   base
   bit_utils
-  cmdlang
   core ;; For [Core.String_id]
   fpath
   loc
-  parsing-utils
   pp
   pplumbing-err
   stdio)

@@ -12,7 +12,7 @@
   Stdio
   -open
   Cmdlang)
- (libraries base cmdlang cmdlang-cmdliner-err-runner graphics stdio threads)
+ (libraries base cmdlang cmdlang-cmdliner-err-runner stdio)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

@@ -18,8 +18,6 @@
   bopkit_block
   bopkit_sites
   cmdlang
-  core
-  graphics
   stdio
   threads
   tsdl

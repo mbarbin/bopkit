@@ -11,7 +11,7 @@
   Bopkit_libs_stdlib
   -open
   Core)
- (libraries bit_utils bopkit bopkit_circuit bopkit_libs_stdlib core)
+ (libraries bit_utils bopkit_circuit bopkit_libs_stdlib core)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

@@ -32,12 +32,10 @@
   core
   fpath
   fpath-base
-  graphics
   loc
   parsing-utils
   pp
-  pplumbing-err
-  unix)
+  pplumbing-err)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

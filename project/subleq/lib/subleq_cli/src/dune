@@ -18,18 +18,14 @@
  (libraries
   base
   bit_utils
-  bopkit_memory
   cmdlang
   core
   fpath
   fpath-base
-  graphics
   stdio
   subleq_debugger
   subleq_generator
-  subleq_simulator
-  threads
-  unix)
+  subleq_simulator)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

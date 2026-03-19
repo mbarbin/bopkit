@@ -37,16 +37,7 @@
   Stdio
   -open
   Cmdlang)
- (libraries
-  base
-  bit_utils
-  cmdlang
-  bopkit_block
-  core
-  graphics
-  stdio
-  unix
-  threads)
+ (libraries base bit_utils cmdlang bopkit_block core stdio)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

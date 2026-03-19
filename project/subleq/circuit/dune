@@ -18,7 +18,6 @@
   cmdlang
   core
   bopkit_block
-  bopkit_sleeper
   fpath
   graphics
   bopkit_memory

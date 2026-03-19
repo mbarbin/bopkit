@@ -16,7 +16,6 @@
  (libraries
   base
   expect_test_helpers_core.expect_test_helpers_base
-  parsing-utils
   pp
   pp-extended
   pplumbing-err

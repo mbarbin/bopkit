@@ -18,7 +18,6 @@
   bit_utils
   bopkit
   bopkit_libs_stdlib
-  bopkit_sites
   core ;; For [Core.Set_once]
   fpath
   loc
