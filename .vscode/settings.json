@@ -1,4 +1,6 @@
 {
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
     "cSpell.words": [
         "alist",
         "Barbin",
