@@ -360,7 +360,7 @@ let main ?readme t_param =
 let version =
   match Build_info.V1.version () with
   | None -> "n/a"
-  | Some v -> Build_info.V1.Version.to_string v
+  | Some v -> Build_info.V1.Version.to_string v [@coverage off]
 ;;
 
 let run ?readme t_param =
