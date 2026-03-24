@@ -4,9 +4,15 @@
 (*  SPDX-License-Identifier: MIT                                                 *)
 (*********************************************************************************)
 
+let version =
+  match Build_info.V1.version () with
+  | None -> "n/a"
+  | Some v -> Build_info.V1.Version.to_string v
+;;
+
 let () =
   Cmdlang_cmdliner_err_runner.run
     Seven_segment_display.digital_watch_display
     ~name:"digital_watch_display"
-    ~version:"%%VERSION%%"
+    ~version
 ;;

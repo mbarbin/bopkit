@@ -1,6 +1,6 @@
 (executables
  (names counter)
- (libraries bopkit_counter cmdlang-cmdliner-err-runner))
+ (libraries bopkit_counter cmdlang-cmdliner-err-runner dune-build-info))
 
 (install
  (package bopkit)

@@ -25,6 +25,7 @@
   cmdlang
   cmdlang-cmdliner-err-runner
   core
+  dune-build-info
   stdio
   unix)
  (lint

@@ -85,6 +85,10 @@ let gen_dune_cmd =
          Stdlib.print_endline (Sexp.to_string_hum sexp))))
 ;;
 
-let () =
-  Cmdlang_cmdliner_err_runner.run gen_dune_cmd ~name:"gen-dune" ~version:"%%VERSION%%"
+let version =
+  match Build_info.V1.version () with
+  | None -> "n/a"
+  | Some v -> Build_info.V1.Version.to_string v
 ;;
+
+let () = Cmdlang_cmdliner_err_runner.run gen_dune_cmd ~name:"gen-dune" ~version

@@ -12,7 +12,7 @@
   Stdio
   -open
   Cmdlang)
- (libraries base cmdlang cmdlang-cmdliner-err-runner stdio)
+ (libraries base cmdlang cmdlang-cmdliner-err-runner dune-build-info stdio)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

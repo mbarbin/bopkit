@@ -47,6 +47,8 @@
    (>= 0.0.16))
   (core
    (>= v0.17))
+  (dune-build-info
+   (>= 3.20))
   (dune-site
    (>= 3.20))
   (fpath
@@ -120,6 +122,8 @@
    (>= 0.0.16))
   (core
    (>= v0.17))
+  (dune-build-info
+   (>= 3.20))
   (dune-site
    (>= 3.20))
   (fpath
@@ -189,6 +193,8 @@
    (>= 0.0.16))
   (core
    (>= v0.17))
+  (dune-build-info
+   (>= 3.20))
   (dune-site
    (>= 3.20))
   (fpath
@@ -262,6 +268,8 @@
     (< 2.0)))
   (core
    (>= v0.17))
+  (dune-build-info
+   (>= 3.20))
   (dune-site
    (>= 3.20))
   (expect_test_helpers_core

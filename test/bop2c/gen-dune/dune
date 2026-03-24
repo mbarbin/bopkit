@@ -12,7 +12,12 @@
   Fpath_base
   -open
   Cmdlang)
- (libraries base cmdlang cmdlang-cmdliner-err-runner fpath-base)
+ (libraries
+  base
+  cmdlang
+  cmdlang-cmdliner-err-runner
+  dune-build-info
+  fpath-base)
  (lint
   (pps ppx_js_style -allow-let-operators -check-doc-comments))
  (preprocess

@@ -357,9 +357,12 @@ let main ?readme t_param =
        Stdlib.exit 1)
 ;;
 
+let version =
+  match Build_info.V1.version () with
+  | None -> "n/a"
+  | Some v -> Build_info.V1.Version.to_string v
+;;
+
 let run ?readme t_param =
-  Cmdlang_cmdliner_err_runner.run
-    (main ?readme t_param)
-    ~name:"bopkit.block"
-    ~version:"%%VERSION%%"
+  Cmdlang_cmdliner_err_runner.run (main ?readme t_param) ~name:"bopkit.block" ~version
 ;;

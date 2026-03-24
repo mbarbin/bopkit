@@ -1,6 +1,6 @@
 (executables
  (names pulse)
- (libraries bopkit_pulse cmdlang-cmdliner-err-runner))
+ (libraries bopkit_pulse cmdlang-cmdliner-err-runner dune-build-info))
 
 (install
  (package bopkit)
