@@ -15,7 +15,7 @@ depends: [
   "base" {>= "v0.17"}
   "base_quickcheck" {>= "v0.17"}
   "bopkit" {= version}
-  "cmdlang" {>= "0.0.9"}
+  "cmdlang" {>= "0.0.10"}
   "cmdlang-cmdliner-err-runner" {>= "0.0.16"}
   "core" {>= "v0.17"}
   "dune-build-info" {>= "3.20"}

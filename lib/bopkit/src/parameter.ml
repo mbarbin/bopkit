@@ -23,7 +23,7 @@ type t =
 [@@deriving equal, sexp_of]
 
 let param =
-  let parse str =
+  let of_string str =
     match String.lsplit2 str ~on:'=' with
     | None -> Error (`Msg "Invalid parameter argument. Expected 'name=value'.")
     | Some (name, value) ->
@@ -34,8 +34,8 @@ let param =
       in
       Ok { name; value }
   in
-  let print fmt { name; value } =
-    Stdlib.Format.fprintf fmt "%s=%s" name (Value.to_syntax value)
+  let to_string { name; value } =
+    Stdlib.Printf.sprintf "%s=%s" name (Value.to_syntax value)
   in
-  Command.Param.create ~docv:"name=value" ~parse ~print
+  Command.Param.create' ~docv:"name=value" ~of_string ~to_string ()
 ;;
