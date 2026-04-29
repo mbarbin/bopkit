@@ -42,7 +42,7 @@
   (base_quickcheck
    (>= v0.17))
   (cmdlang
-   (>= 0.0.9))
+   (>= 0.0.10))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
   (core
@@ -117,7 +117,7 @@
   (bopkit
    (= :version))
   (cmdlang
-   (>= 0.0.9))
+   (>= 0.0.10))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
   (core
@@ -188,7 +188,7 @@
   (bopkit
    (= :version))
   (cmdlang
-   (>= 0.0.9))
+   (>= 0.0.10))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
   (core
@@ -259,7 +259,7 @@
   (bopkit
    (= :version))
   (cmdlang
-   (>= 0.0.9))
+   (>= 0.0.10))
   (cmdlang-cmdliner-err-runner
    (>= 0.0.16))
   (cmdliner
