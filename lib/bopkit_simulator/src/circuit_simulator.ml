@@ -261,7 +261,7 @@ let quit t =
       ~loc:process.loc
       (lazy [ Pp.textf "Closing external process[%d] = '%s'." i process.command ]);
     match Unix.close_process (process.output_pipe, process.input_pipe) with
-    | WEXITED 0 -> ()
+    | WEXITED (0 | 141) -> ()
     | WSIGNALED s when s = Stdlib.Sys.sigint -> ()
     | process_status ->
       let loc =
