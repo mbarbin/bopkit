@@ -16,6 +16,7 @@ let main =
          ~doc:"Specify the input file."
      and+ () = Log_cli.set_config ()
      and+ bopkit_compiler_config = Bopkit_compiler.Config.arg in
+     let path = Fpath.normalize path in
      let circuit =
        Bopkit_compiler.circuit_of_netlist ~path ~config:bopkit_compiler_config
      in

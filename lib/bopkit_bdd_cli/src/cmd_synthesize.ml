@@ -31,6 +31,7 @@ let main =
          ~docv:"Block_name"
          ~doc:"The desired name for the synthesized block."
      in
+     let path = Fpath.normalize path in
      let len = Int.pow 2 address in
      let pbm = Partial_bit_matrix.of_text_file ~dimx:len ~dimy:word_length ~path in
      let muxtrees = Bopkit_bdd.Muxtree.of_partial_bit_matrix pbm in
