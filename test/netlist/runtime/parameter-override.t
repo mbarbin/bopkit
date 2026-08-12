@@ -11,7 +11,7 @@ Parameters may be overridden from the command line.
   [124]
 
   $ grep Invalid output -A 2
-  bopkit: option --parameter: Invalid parameter argument. Expected
+  bopkit: option '--parameter': Invalid parameter argument. Expected
           'name=value'.
   $ rm output
 
