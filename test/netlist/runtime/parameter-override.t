@@ -11,7 +11,7 @@ Parameters may be overridden from the command line.
   [124]
 
   $ grep Invalid output
-  bopkit: option '--parameter': Invalid parameter argument. Expected
+  bopkit: option --parameter: Invalid parameter argument. Expected
   $ rm output
 
   $ bopkit simu --num-counter-cycles 1 parameter-override.bop --parameter 'N=3'
